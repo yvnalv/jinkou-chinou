@@ -1,0 +1,2 @@
+# jinkou-chinou
+AI Skills
