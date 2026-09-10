@@ -1,0 +1,178 @@
+name: the-architect
+version: 1.3.0
+description: >
+  Planning-first Claude skill for application discovery, requirements,
+  architecture, project documentation, and phased implementation.
+
+workflow:
+  new_project:
+    - discovery
+    - prd_coverage_gate
+    - prd
+    - architecture
+    - implementation_plan
+    - phased_execution
+    - test
+    - verify
+  existing_project:
+    - repository_discovery
+    - project_guide
+    - feature_discovery
+    - prd_coverage_gate
+    - feature_prd
+    - architecture_impact
+    - implementation_plan
+    - phased_execution
+    - test
+    - verify
+  small_change:
+    - targeted_inspection
+    - short_plan_in_chat
+    - implement_with_regression_test
+    - verify
+  migration:
+    - repository_discovery
+    - project_guide
+    - migration_brief
+    - safety_net_characterization_tests
+    - architecture_current_to_target
+    - implementation_plan
+    - incremental_reversible_phases
+    - verify
+
+mode_selection:
+  rule: Pick the lightest mode that safely covers the request.
+  escalate_when:
+    - schema_change
+    - public_contract_change
+    - auth_change
+    - payments
+    - many_modules_affected
+
+stack_profiles: references/stack-profiles.md
+
+discovery:
+  questions_per_round: "3-6"
+  completion_rule: >
+    No known unresolved ambiguity is reasonably likely to cause major
+    product, architecture, security, data, integration, or implementation rework.
+  priority:
+    - business_flow
+    - actors_ownership_permissions
+    - business_rules
+    - data_integrity_state
+    - integrations
+    - authentication_security
+    - hard_constraints
+    - acceptance_behavior
+    - ux_details
+
+existing_project:
+  repository_is_source_of_truth: true
+  require_project_guide: true
+  inspect_before_planning: true
+  contract_cross_check: true
+  large_repo_scoping:
+    always_produce_project_map: true
+    deep_inventory: affected_area_plus_direct_dependencies
+    state_uninspected_areas: true
+    inaccessible_repos: record_as_assumption_or_open_question
+  distinguish:
+    - existing_architecture
+    - observed_issues
+    - possible_improvements
+
+security:
+  allow_secret_values: false
+  redact_token: "[REDACTED]"
+  document_key_names_only: true
+
+planning:
+  preferred_phase_count: "3-5"
+  phase_contract:
+    - objective
+    - current_state
+    - expected_state
+    - reference_files
+    - target_files
+    - existing_patterns
+    - requirements
+    - acceptance_criteria_covered
+    - constraints
+    - deliverables
+    - tests
+    - verification
+    - rollback_recovery
+    - test_evidence
+  acceptance_criteria_coverage_table: required
+
+execution:
+  inspect_before_modify: true
+  minimum_coherent_change: true
+  tests_required: true
+  build_required: true
+  green_build_required: true
+  verification: stack_equivalent_prefer_repository_commands
+  no_test_infrastructure: propose_lightest_setup_else_agree_alternative
+  testing:
+    reference: references/testing-strategy.md
+    baseline_before_changes: true
+    green_means: build_and_full_relevant_suite
+    no_regression_vs_baseline: true
+    acceptance_criteria_ids_required: true
+    every_acceptance_criterion_tested: true
+    see_new_test_fail_first: true
+    new_tests_run_in_ci: true
+    report_evidence:
+      - commands
+      - passed_failed_skipped_vs_baseline
+      - new_tests
+      - acceptance_criteria_covered
+      - not_run_or_unverifiable
+    honest_green_forbidden:
+      - delete_skip_or_disable_tests
+      - weaken_assertions
+      - change_expectations_without_requirement_change
+      - mock_code_under_test
+      - exclude_tests_or_lower_thresholds
+      - bypass_hooks_or_ci
+      - swallow_errors_to_pass
+    flaky_quarantine: explicit_approval_and_tracking_note
+  stop_at_phase_boundary: true
+  continue_automatically: false
+
+version_control:
+  commit_only_when_asked: true
+  ai_coauthor_trailers: false
+  ai_attribution_in_messages: false
+  modify_git_identity: false
+  gitignore:
+    required_before_first_commit: true
+    existing_project_append_only: true
+    must_cover:
+      - dependency_folders
+      - build_output
+      - env_and_secret_files
+      - ide_and_os_files
+      - caches_logs_coverage
+    commit_planning_artifacts: true
+
+artifacts:
+  new_project:
+    - PRD.md
+    - ARCHITECTURE.md
+    - IMPLEMENTATION_PLAN.md
+    - phases/PHASE_01.md
+  existing_project:
+    - PROJECT_GUIDE.md
+    - PRD.md
+    - ARCHITECTURE.md
+    - IMPLEMENTATION_PLAN.md
+    - phases/PHASE_01.md
+  migration:
+    - PROJECT_GUIDE.md
+    - MIGRATION_BRIEF.md
+    - ARCHITECTURE.md
+    - IMPLEMENTATION_PLAN.md
+    - phases/PHASE_01.md
+  small_change: []
