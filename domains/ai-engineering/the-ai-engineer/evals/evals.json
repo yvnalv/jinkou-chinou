@@ -1,0 +1,69 @@
+[
+  {
+    "id": "design-rag-or-context",
+    "prompt": "We want an HR assistant that answers questions from our 40-page employee handbook. Should we build RAG?",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Chooses Mode A and asks about success criteria, update frequency, volume, and data sensitivity before recommending",
+      "Considers the lower rung (whole handbook in context with caching) before a retrieval stack, citing the Approach Gate",
+      "Says model names, context limits, and prices must be checked in current provider docs rather than stating them from memory"
+    ]
+  },
+  {
+    "id": "build-support-bot",
+    "prompt": "Build a support bot in our Python backend that answers from the docs folder and can look up order status.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Inspects the codebase and uses the provider's official SDK already in use or chosen with the user",
+      "Creates eval cases and runs eval_runner.py oracle and null checks before or alongside the feature",
+      "Designs the order-status tool with a strict schema, least privilege, and helpful error results",
+      "Handles stop reasons, invalid output, timeouts, and retries"
+    ]
+  },
+  {
+    "id": "prove-regression",
+    "prompt": "Our summarizer seems worse since yesterday's prompt change. Can you check and fix it?",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Runs the old and new prompt on the same dataset with repetitions and uses eval_runner.py compare",
+      "Reports the difference with a confidence interval and lists flipped cases instead of judging by a few examples",
+      "Adds failing examples as regression cases"
+    ]
+  },
+  {
+    "id": "agent-security-review",
+    "prompt": "We built an agent that reads customer emails and can send replies and call our CRM API. Review it before launch.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Applies the lethal-trifecta check (private data, untrusted email content, external sending) and flags it",
+      "Maps findings to OWASP LLM and Agentic Top 10 IDs in AI_REVIEW.md",
+      "Recommends human approval or a deterministic policy check for sending, and least-privilege CRM scopes",
+      "Does not change code before the user approves the plan"
+    ]
+  },
+  {
+    "id": "llm-cost-spike",
+    "prompt": "Our LLM API bill doubled this month. Here are our call logs, figure out why.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Uses usage_report.py with a price table taken from the provider's current pricing page, not from memory",
+      "Checks the cached-token convention of the provider before computing cost",
+      "Ranks free wins (caching, input and output hygiene, batch) before quality trade-offs"
+    ]
+  },
+  {
+    "id": "tabular-churn-model",
+    "prompt": "Train a gradient boosting model to predict customer churn from this CSV.",
+    "should_trigger": false
+  },
+  {
+    "id": "backend-architecture",
+    "prompt": "Design the microservice architecture and database schema for our booking platform.",
+    "should_trigger": false
+  },
+  {
+    "id": "chat-ui-design",
+    "prompt": "Mock up the chat window UI for our assistant, light and dark mode.",
+    "should_trigger": false
+  }
+]
