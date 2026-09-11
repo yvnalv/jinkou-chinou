@@ -1,0 +1,59 @@
+name: exploratory-data-analysis
+version: 0.1.0
+description: >
+  Systematic profiling of a tabular dataset (structure, data quality,
+  distributions, relationships, leakage) ending in an evidence-backed EDA
+  report and a cleaning plan awaiting approval.
+domain: data-science
+type: specialized
+requires:
+  - python>=3.10
+  - pandas>=2.0
+  - numpy
+  - matplotlib
+  - pyarrow (optional, Parquet)
+  - openpyxl (optional, Excel)
+tags: [eda, profiling, data-quality, statistics, visualization, leakage]
+
+# --- Skill-specific policy ---
+
+workflow:
+  - frame_purpose_grain_target
+  - safe_setup_raw_read_only
+  - mechanical_profile
+  - structure_and_grain
+  - data_quality
+  - univariate
+  - relationships_target_leakage
+  - report_and_reproducible_script
+  - present_and_await_cleaning_approval
+
+framing:
+  max_questions: 3
+  block_when_unknown: false
+
+rules:
+  raw_data_read_only: true
+  cleaning_requires_approval: true
+  evidence_with_denominators: true
+  separate_observation_hypothesis_recommendation: true
+  investigate_outliers_never_auto_delete: true
+  leakage_review_when_target: true
+  mask_personal_data: true
+  state_sampling_method: true
+  reproducible_script_required: true
+  modeling_in_scope: false
+
+sampling:
+  sample_above_rows: 5000000
+  sample_above_bytes: 1000000000
+  method: random_with_seed
+
+severity_levels: [high, medium, low]
+issue_id_format: DQ-001
+
+outputs:
+  - eda/EDA_REPORT.md
+  - eda/profile.json
+  - eda/figures/
+  - eda/eda.py

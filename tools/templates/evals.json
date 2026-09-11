@@ -1,0 +1,23 @@
+[
+  {
+    "id": "typical-request",
+    "prompt": "TODO(skillsmith): a realistic request that should use this skill",
+    "should_trigger": true,
+    "expected_behavior": [
+      "TODO(skillsmith): an observable behavior"
+    ]
+  },
+  {
+    "id": "second-typical-request",
+    "prompt": "TODO(skillsmith): a differently worded request that should use this skill",
+    "should_trigger": true,
+    "expected_behavior": [
+      "TODO(skillsmith): an observable behavior"
+    ]
+  },
+  {
+    "id": "near-miss",
+    "prompt": "TODO(skillsmith): a similar-sounding request that belongs to another skill",
+    "should_trigger": false
+  }
+]

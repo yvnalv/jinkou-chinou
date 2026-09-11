@@ -1,0 +1,52 @@
+[
+  {
+    "id": "new-specialized-skill",
+    "prompt": "Make a new skill for time series forecasting in the data science domain.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Reads SKILL_STANDARD.md and runs tools/skills.py list before proposing anything",
+      "Asks at most four questions per round about triggers, outputs, and expert practices",
+      "Proposes domain data-science, type specialized, and a descriptive name without the- prefix, and waits for confirmation",
+      "Scaffolds with tools/skills.py new and finishes with validate reporting no errors"
+    ]
+  },
+  {
+    "id": "new-domain-core",
+    "prompt": "I want a personal finance domain with a main persona skill for budgeting and investing questions.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Proposes a kebab-case domain name and a core skill named the-<persona>",
+      "Writes the domain README scope paragraph",
+      "Flags finance facts that go stale (tax rules, rates) for verification instead of hard-coding them"
+    ]
+  },
+  {
+    "id": "extend-existing",
+    "prompt": "the-architect should know about Flutter projects too.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Chooses Mode B (a reference or stack-profile addition) instead of creating a new skill",
+      "Bumps the minor version in both SKILL.md and config/skill.yaml and adds a changelog entry"
+    ]
+  },
+  {
+    "id": "audit",
+    "prompt": "Check whether exploratory-data-analysis still meets our skill standard.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Runs tools/skills.py validate exploratory-data-analysis",
+      "Works through references/review-checklist.md",
+      "Reports findings and a plan before changing any file"
+    ]
+  },
+  {
+    "id": "use-a-skill",
+    "prompt": "Profile this CSV for me and tell me what's wrong with it.",
+    "should_trigger": false
+  },
+  {
+    "id": "plan-an-app",
+    "prompt": "Help me plan the architecture for a new booking app.",
+    "should_trigger": false
+  }
+]

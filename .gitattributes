@@ -1,0 +1,9 @@
+# Keep LF line endings in the repository and working tree so skills
+# behave the same in Claude Code, claude.ai uploads, and on every OS.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.zip binary
+*.xlsx binary
+*.parquet binary

@@ -1,0 +1,54 @@
+name: the-skillsmith
+version: 0.1.0
+description: >
+  Repo-local meta skill that creates, extends, changes, audits, and imports
+  skills so the whole collection follows SKILL_STANDARD.md.
+domain: meta
+type: core
+requires:
+  - python>=3.10
+tags: [meta, skill-authoring, validation]
+
+# --- Skill-specific policy ---
+
+authority: SKILL_STANDARD.md
+tooling: tools/skills.py
+
+modes:
+  A_new_skill:
+    - read_standard
+    - list_existing
+    - interview_max_4_questions_per_round
+    - overlap_check
+    - propose_placement_and_confirm
+    - scaffold
+    - write_content
+    - catalog_and_validate
+    - review_checklist
+    - install_and_hand_over
+  B_extend_with_reference:
+    - add_reference_file
+    - list_in_bundled_resources
+    - minor_version_bump
+  C_change:
+    - read_skill
+    - edit
+    - bump_version_both_places
+    - changelog_entry
+    - update_evals
+    - review_extending_skills_if_core
+    - catalog_and_validate
+  D_audit_upgrade_import:
+    - validate
+    - review_checklist
+    - report_before_changing
+    - upgrade_after_approval
+
+rules:
+  standard_wins_over_this_skill: true
+  rule_changes_update_standard_validator_templates_and_skill_together: true
+  domain_skills_self_contained: true
+  test_scripts_for_real: true
+  no_secrets_or_personal_data: true
+  commit_only_when_asked: true
+  ai_attribution_in_commits: false

@@ -1,0 +1,11 @@
+name: {{name}}
+version: 0.1.0
+description: >
+  {{summary}}
+domain: {{domain}}
+type: {{type}}
+{{extends_line}}# requires:
+#   - python>=3.10
+# tags: []
+
+# --- Skill-specific policy (optional, free-form below this line) ---

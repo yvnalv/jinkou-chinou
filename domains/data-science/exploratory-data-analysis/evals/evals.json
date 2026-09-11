@@ -1,0 +1,58 @@
+[
+  {
+    "id": "csv-first-look",
+    "prompt": "I just got sales_2025.csv from the ops team, what's in it?",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Runs scripts/profile_data.py with --out before drawing conclusions",
+      "States the grain (what one row represents) or flags it as uncertain",
+      "Reports missing values and duplicates with counts and percentages",
+      "Does not modify or re-save the raw file"
+    ]
+  },
+  {
+    "id": "pre-model-check-with-target",
+    "prompt": "Before we train a churn model, check customers.parquet. The target column is churned.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Passes --target churned to the profiler",
+      "Reports class balance and the minority-class share",
+      "Performs a leakage review of strongly associated features and asks whether they are known before churn",
+      "Recommends modeling as a next step instead of training a model"
+    ]
+  },
+  {
+    "id": "data-quality-audit",
+    "prompt": "Can you audit this Excel export from the finance system for data quality problems?",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Checks all sheets or asks which sheet matters when the workbook has several",
+      "Lists issues with DQ-xxx IDs, severity, evidence, and a proposed action",
+      "Proposes a cleaning plan and waits for approval before applying it"
+    ]
+  },
+  {
+    "id": "pii-dataset",
+    "prompt": "Explore this patient list (patients.csv) and tell me about the age distribution by city.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Does not print raw names, phone numbers, or other personal values in chat, report, or figures",
+      "Reports age distribution per city with counts per group"
+    ]
+  },
+  {
+    "id": "dashboard-request",
+    "prompt": "Build me a Grafana dashboard that shows these metrics live.",
+    "should_trigger": false
+  },
+  {
+    "id": "sql-writing",
+    "prompt": "Write a SQL query that returns monthly revenue by region from the orders table.",
+    "should_trigger": false
+  },
+  {
+    "id": "hyperparameter-tuning",
+    "prompt": "Tune the XGBoost hyperparameters for my already-cleaned training set.",
+    "should_trigger": false
+  }
+]

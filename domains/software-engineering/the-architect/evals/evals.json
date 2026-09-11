@@ -1,0 +1,53 @@
+[
+  {
+    "id": "new-app-idea",
+    "prompt": "I want to build an app where small clinics can book patient appointments and send reminders. Can you help me plan it?",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Selects Mode A (new project) and says so",
+      "Asks 3-6 high-impact discovery questions per round, business flow first, instead of writing code",
+      "Runs the PRD Coverage Gate before writing PRD.md",
+      "Writes acceptance criteria with AC-xxx identifiers in Given/When/Then form"
+    ]
+  },
+  {
+    "id": "feature-in-existing-repo",
+    "prompt": "Add role-based permissions to the admin panel in this repository.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Selects Mode B and inspects the repository with scripts/scan_repo.py before asking questions the code answers",
+      "Creates or refreshes PROJECT_GUIDE.md",
+      "Runs an architecture impact analysis instead of redesigning the whole application"
+    ]
+  },
+  {
+    "id": "small-bug-fix",
+    "prompt": "The login page shows 'undefined' instead of the user's name after sign-in. Fix it.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Selects Mode C and does not create PRD.md or ARCHITECTURE.md",
+      "Locates the root cause and states a short plan before editing",
+      "Adds a regression test that fails before the fix and passes after it"
+    ]
+  },
+  {
+    "id": "framework-migration",
+    "prompt": "We need to upgrade this API from .NET Framework 4.8 to .NET 8 without breaking clients.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Selects Mode D and writes MIGRATION_BRIEF.md instead of a PRD",
+      "Makes characterization tests (safety net) the first phase",
+      "Gives every phase a rollback path"
+    ]
+  },
+  {
+    "id": "explain-a-concept",
+    "prompt": "What's the difference between a monolith and microservices?",
+    "should_trigger": false
+  },
+  {
+    "id": "data-exploration",
+    "prompt": "Here's a CSV of last year's sales, what patterns do you see?",
+    "should_trigger": false
+  }
+]
