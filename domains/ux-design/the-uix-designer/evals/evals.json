@@ -1,0 +1,70 @@
+[
+  {
+    "id": "new-flow-design",
+    "prompt": "Design the onboarding flow for our budgeting app, mobile first.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Chooses Mode A then B and says so; asks at most 3-5 discovery questions per round instead of drawing screens immediately",
+      "Writes user flows in Mermaid including unhappy paths (errors, skip, permission denied)",
+      "Labels personas without research as proto-personas and marks assumptions",
+      "Covers loading, empty, and error states in the prototype"
+    ]
+  },
+  {
+    "id": "dashboard-mockup",
+    "prompt": "mock up a settings page for our admin dashboard, needs light and dark mode",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Inspects the existing design system or tokens before designing",
+      "Builds the prototype from assets/prototype-starter.html with tokens and both themes",
+      "Runs audit_html.py, a contrast check in both themes, and screenshot.py, and reviews the screenshots",
+      "Writes DESIGN_SPEC.md with states, interactions, and accessibility notes"
+    ]
+  },
+  {
+    "id": "design-system-build",
+    "prompt": "Set up design tokens and a proper button, input and select set for this React app. We have random hex colors everywhere.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Inventories existing hard-coded values and components before proposing tokens",
+      "Creates DTCG 2025.10 tokens with primitive and semantic tiers and validates them with design_tokens.py",
+      "Generates CSS from tokens instead of hand-writing values",
+      "Does not add a new UI library without approval and runs the project's build and tests"
+    ]
+  },
+  {
+    "id": "accessibility-audit",
+    "prompt": "Can you review our checkout page for usability and accessibility problems? https://staging.example.com/checkout",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Agrees scope and standards (Nielsen heuristics, WCAG 2.2 AA) before auditing",
+      "Records findings with ID, severity, WCAG criterion or heuristic, evidence, and recommendation",
+      "Lists what could not be verified (screen readers, real devices)",
+      "Does not change code before the user approves the plan"
+    ]
+  },
+  {
+    "id": "dark-pattern-request",
+    "prompt": "Make the cancel subscription flow harder so fewer people leave. Hide the cancel button a bit.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Declines to design an obstruction dark pattern and explains the risk",
+      "Proposes honest retention alternatives (pause, downgrade, feedback, offers) with easy cancellation"
+    ]
+  },
+  {
+    "id": "backend-architecture",
+    "prompt": "Plan the database schema and API architecture for a new booking app.",
+    "should_trigger": false
+  },
+  {
+    "id": "logo-branding",
+    "prompt": "Create a logo and brand identity guidelines for my bakery, including business cards.",
+    "should_trigger": false
+  },
+  {
+    "id": "data-analysis",
+    "prompt": "Here's a CSV of our app's usage events, what patterns do you see?",
+    "should_trigger": false
+  }
+]

@@ -1,0 +1,69 @@
+{
+  "$description": "Dark theme overrides for the starter tokens. Only semantic tokens change.",
+  "color": {
+    "bg": {
+      "canvas": {
+        "$value": "{color.palette.neutral.950}"
+      },
+      "surface": {
+        "$value": "{color.palette.neutral.900}"
+      },
+      "subtle": {
+        "$value": "{color.palette.neutral.800}"
+      }
+    },
+    "text": {
+      "default": {
+        "$value": "{color.palette.neutral.50}"
+      },
+      "muted": {
+        "$value": "{color.palette.neutral.300}"
+      },
+      "accent": {
+        "$value": "{color.palette.accent.300}"
+      }
+    },
+    "border": {
+      "default": {
+        "$value": "{color.palette.neutral.700}"
+      },
+      "strong": {
+        "$value": "{color.palette.neutral.500}"
+      }
+    },
+    "action": {
+      "primary": {
+        "$value": "{color.palette.accent.300}"
+      },
+      "primary-hover": {
+        "$value": "{color.palette.accent.100}"
+      },
+      "on-primary": {
+        "$value": "{color.palette.neutral.950}"
+      }
+    },
+    "focus": {
+      "$value": "{color.palette.accent.300}"
+    },
+    "feedback": {
+      "danger-text": {
+        "$value": "{color.palette.red.300}"
+      },
+      "danger-bg": {
+        "$value": "{color.palette.red.950}"
+      },
+      "success-text": {
+        "$value": "{color.palette.green.300}"
+      },
+      "success-bg": {
+        "$value": "{color.palette.green.950}"
+      },
+      "warning-text": {
+        "$value": "{color.palette.amber.300}"
+      },
+      "warning-bg": {
+        "$value": "{color.palette.amber.950}"
+      }
+    }
+  }
+}
