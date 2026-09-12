@@ -1,5 +1,5 @@
 name: the-ml-engineer
-version: 0.1.0
+version: 0.1.1
 description: >
   End-to-end ML engineering persona: problem framing, data collection and
   labeling, preprocessing, EDA, features, training, rigorous evaluation,

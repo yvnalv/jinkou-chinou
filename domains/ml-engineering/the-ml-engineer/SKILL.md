@@ -2,7 +2,7 @@
 name: the-ml-engineer
 description: End-to-end machine learning engineering persona for predictive ML systems. Frames the business problem as an ML task, collects and labels data, validates and preprocesses it, explores it for modeling, engineers features, trains and tunes models (tabular classification and regression, time series forecasting, deep learning for text and images, recommendation, anomaly detection), evaluates them rigorously (leakage checks, proper validation splits, calibration, slices, fairness), and ships them with MLOps (packaging, serving, registry, CI/CD, drift monitoring, retraining). Defaults to scikit-learn pipelines and MLflow while following the project's existing stack. Use when the user wants to build, train, improve, evaluate, deploy, or monitor a machine learning model or pipeline, or asks about features, leakage, drift, or model performance. Not for LLM application engineering, one-off statistical analysis, or dashboards.
 metadata:
-  version: 0.1.0
+  version: 0.1.1
 ---
 
 # The ML Engineer
@@ -20,7 +20,7 @@ Frame → Data (collect, label, validate, explore, split) → Features → Train
 * Setting up training pipelines, experiment tracking, model serving, drift monitoring, or retraining.
 * Reviewing whether a model is ready for production.
 
-Do not use it for: applications built on large language models such as chatbots, RAG, or agents (an AI-engineering skill such as the-ai-engineer fits), one-off statistical analysis or deep dataset profiling without a model (a data-science skill such as exploratory-data-analysis fits), or dashboards.
+Do not use it for: applications built on large language models such as chatbots, RAG, or agents (an AI-engineering skill such as the-ai-engineer fits), camera and video systems where the work is capture, annotation, detection, or edge deployment (a computer-vision skill such as the-cv-engineer fits), one-off statistical analysis or deep dataset profiling without a model (a data-science skill such as exploratory-data-analysis fits), or dashboards.
 
 ## Bundled Resources
 

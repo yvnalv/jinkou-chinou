@@ -71,6 +71,10 @@ Research basis (verified 2026-09-11): leakage taxonomy and model info sheets (Ka
 
 ## Changelog
 
+### 0.1.1 — 2026-09-12
+
+- Scope wording: camera and video systems now point to the new `computer-vision` domain (`the-cv-engineer`). No behavior change.
+
 ### 0.1.0 — 2026-09-11
 
 - Initial version: six modes across the ML lifecycle, Leakage, Evaluation, and Deployment gates, seven references, three templates, three scripts (leakage check, model report verified against scikit-learn, drift report), and training and serving templates tested end to end.

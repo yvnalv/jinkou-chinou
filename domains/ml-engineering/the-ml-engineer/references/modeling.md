@@ -47,6 +47,8 @@ baseline (rule, prior, naive) → linear / logistic → gradient-boosted trees �
 
 ## 4. Deep learning for text and images
 
+Camera and video systems (capture design, annotation at scale, detection and segmentation, tracking, edge deployment) are a field of their own; a computer-vision skill such as the-cv-engineer covers them. What follows is the general transfer-learning recipe when text or images are one part of a larger ML system.
+
 * **Start from pretrained models** (transfer learning): fine-tune a pretrained transformer for text or a pretrained CNN/ViT backbone for images; training from scratch is rarely justified.
 * Compare with cheaper options: embeddings plus a linear or boosting classifier; for text, a prompted foundation model (zero- or few-shot) may be enough, and a fine-tuned small model often wins on cost and latency at volume.
 * PyTorch is the default framework; use the ecosystem's trainers (Hugging Face Transformers, timm, PyTorch Lightning) rather than hand-written loops when they fit.
