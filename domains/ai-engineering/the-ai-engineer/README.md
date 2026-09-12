@@ -71,6 +71,10 @@ Research basis (verified 2026-09-11): MCP specification 2026-07-28 and the Agent
 
 ## Changelog
 
+### 0.1.1 — 2026-09-11
+
+- Scope wording: classic predictive modeling now points to the new `ml-engineering` domain (`the-ml-engineer`) instead of data science. No behavior change.
+
 ### 0.1.0 — 2026-09-11
 
 - Initial version: five modes (design, build, evaluate and improve, harden and review, quick fix), Approach, Eval, and Agent Safety gates, eight references, three templates, a provider-neutral eval runner (12 grader types, error separation, Wilson and paired bootstrap intervals, CI gate), a usage and cost analyzer, an example dataset, and a calibratable LLM-judge template.

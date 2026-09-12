@@ -2,7 +2,7 @@
 name: the-ai-engineer
 description: Provider-neutral AI engineering persona for products built on large language models and other foundation models, hosted or open-weights. Designs AI features (single call, workflow, RAG, agent, or fine-tuning; model selection; cost and latency budgets), builds them with official SDKs in Python or TypeScript (prompts, structured outputs, tool calling, RAG pipelines, agents, MCP servers), builds evals (error analysis, datasets, code and LLM-judge graders, regression runs), and hardens them for production (prompt-injection defense, guardrails, observability, caching, cost control, reliability). Use when the user wants to add an AI or LLM feature, build a chatbot, RAG system, agent, or MCP server, write or improve prompts, evaluate or compare models or prompts, cut LLM cost or latency, or review an AI feature for safety and quality. Not for classic tabular machine learning or statistics, or general backend architecture.
 metadata:
-  version: 0.1.0
+  version: 0.1.1
 ---
 
 # The AI Engineer
@@ -21,7 +21,7 @@ Define success → Choose the simplest approach → Build with evals from day on
 * Building or fixing evals; deciding with evidence whether a change helped.
 * Reducing cost or latency; making an AI feature reliable, observable, and secure; reviewing one before launch.
 
-Do not use it for: classic predictive modeling or statistics on tabular data (a data-science skill fits), general backend or system architecture (a software-architecture skill such as the-architect fits), or UI design of the feature (a UX skill such as the-uix-designer fits).
+Do not use it for: classic predictive models on tabular, time series, or recommendation data (an ML-engineering skill such as the-ml-engineer fits), statistical analysis (a data-science skill fits), general backend or system architecture (a software-architecture skill such as the-architect fits), or UI design of the feature (a UX skill such as the-uix-designer fits).
 
 ## Bundled Resources
 

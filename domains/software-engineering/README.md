@@ -1,6 +1,6 @@
 # software-engineering
 
-Designing, building, changing, and maintaining software systems: product discovery for software, requirements, architecture, codebase understanding, implementation planning, testing, refactoring, upgrades, and migrations, across any language or stack. Analysing data itself belongs in `data-science`; building data pipelines and platforms would belong in a future `data-engineering` domain.
+Designing, building, changing, and maintaining software systems: product discovery for software, requirements, architecture, codebase understanding, implementation planning, testing, refactoring, upgrades, and migrations, across any language or stack. Analysing data itself belongs in `data-science`; building and operating ML models in `ml-engineering`; applications on large language models in `ai-engineering`; building data pipelines and platforms would belong in a future `data-engineering` domain.
 
 Core persona: `the-architect`. Specialized skills are named descriptively, without `the-`.
 

@@ -1,6 +1,6 @@
 # data-science
 
-Turning data into understanding and decisions: exploring and profiling datasets, data quality assessment, statistics and experimentation, visualization, feature engineering, machine learning modeling and evaluation, forecasting, and communicating findings. Building production data pipelines and warehouses belongs in a future `data-engineering` domain; the software around a model (APIs, apps) belongs in `software-engineering`.
+Turning data into understanding and decisions: exploring and profiling datasets, data quality assessment, statistics and hypothesis testing, experimentation (A/B test design and analysis), causal inference, visualization, exploratory and explanatory modeling, and communicating findings. Building, deploying, and operating predictive models belongs in `ml-engineering`; applications on large language models in `ai-engineering`; production data pipelines and warehouses in a future `data-engineering` domain.
 
 Core persona: none yet (reserved name: `the-data-scientist`). Specialized skills are named descriptively, without `the-`.
 

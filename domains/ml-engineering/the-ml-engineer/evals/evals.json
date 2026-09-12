@@ -1,0 +1,68 @@
+[
+  {
+    "id": "churn-end-to-end",
+    "prompt": "Build a churn prediction model for our subscription business end to end. Data is in the warehouse.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Starts with Mode A framing questions: the decision, label definition, prediction time, cost of errors, baseline",
+      "Builds point-in-time correct features and uses an out-of-time split with a gap for the label window",
+      "Runs leakage_check.py and compares against a baseline before any complex model",
+      "Stops at the gates to confirm with the user before deployment"
+    ]
+  },
+  {
+    "id": "suspicious-auc",
+    "prompt": "My fraud model gets 0.99 AUC on validation. Can we ship it?",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Chooses Mode F and treats the score as suspicious until leakage is ruled out",
+      "Runs leakage_check.py and checks the split against production usage and feature availability at prediction time",
+      "Does not recommend shipping before the Leakage and Evaluation gates pass"
+    ]
+  },
+  {
+    "id": "demand-forecast",
+    "prompt": "We need a weekly sales forecast for each of our 120 stores for the next 8 weeks.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Uses rolling-origin backtesting with a fixed 8-week horizon and reports error per horizon",
+      "Compares against naive and seasonal naive baselines before statistical, ML, or foundation models",
+      "Mentions probabilistic forecasts (quantiles) if decisions need them"
+    ]
+  },
+  {
+    "id": "production-drop",
+    "prompt": "Our loan default model's performance dropped over the last two months. Figure out why.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Checks data pipeline and schema problems before blaming the model",
+      "Runs drift_report.py on recent inputs versus training data and model_report.py with slices on matured labels",
+      "Mentions fairness and regulatory review because credit decisions affect people"
+    ]
+  },
+  {
+    "id": "deploy-model",
+    "prompt": "Put our trained scikit-learn model behind an API and make sure we notice if it goes bad.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Uses the shared feature function in serving to avoid train-serving skew",
+      "Adds input validation, model version in responses, and a prediction log",
+      "Sets up drift monitoring, alerts, and a rollback path"
+    ]
+  },
+  {
+    "id": "llm-chatbot",
+    "prompt": "Build a customer support chatbot that answers from our help center articles.",
+    "should_trigger": false
+  },
+  {
+    "id": "quick-stats",
+    "prompt": "Is the difference in average order value between our two regions statistically significant?",
+    "should_trigger": false
+  },
+  {
+    "id": "dashboard",
+    "prompt": "Make a sales dashboard in Power BI with monthly revenue by region.",
+    "should_trigger": false
+  }
+]

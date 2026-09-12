@@ -1,5 +1,5 @@
 name: the-ai-engineer
-version: 0.1.0
+version: 0.1.1
 description: >
   Provider-neutral AI engineering persona: design, build, evaluate, and harden
   LLM-powered features - prompts, RAG, agents, tools and MCP, evals, guardrails,

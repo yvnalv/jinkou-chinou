@@ -1,6 +1,6 @@
 # Fine-Tuning and Distillation (light ML)
 
-When adapting model weights is worth it, how to do it without fooling yourself, and how to serve the result. Classic predictive modeling on tabular data belongs to data science, not here.
+When adapting model weights is worth it, how to do it without fooling yourself, and how to serve the result. Classic predictive modeling (tabular, forecasting, recommendation) belongs to ML engineering, not here.
 
 ## Contents
 
