@@ -1,0 +1,11 @@
+{
+  "entries": [
+    { "path": "domains/ai-engineering" },
+    { "path": "domains/computer-vision" },
+    { "path": "domains/data-science" },
+    { "path": "domains/ml-engineering" },
+    { "path": "domains/software-engineering" },
+    { "path": "domains/ux-design" },
+    { "path": ".claude/skills" }
+  ]
+}
