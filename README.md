@@ -6,18 +6,25 @@ Every skill has the same shape, defined in [SKILL_STANDARD.md](SKILL_STANDARD.md
 
 ## Quick start
 
+### For Claude Code & VS Code Extension
 ```text
 # install every domain skill into ~/.claude/skills (linked: repo edits apply immediately)
 python tools/skills.py install --all
 
 # or just one
-python tools/skills.py install exploratory-data-analysis
+python tools/skills.py install the-miner
 
 # build a zip to upload on claude.ai (Settings → Capabilities → Skills)
-python tools/skills.py package exploratory-data-analysis
+python tools/skills.py package the-miner
 ```
 
-Then type `/` in Claude Code or the VS Code extension and pick the skill, or just describe the task and let Claude choose it. New skills show up in new sessions.
+### For Gemini Antigravity (Global across all projects/windows)
+```text
+# install every domain skill into ~/.gemini/config/skills (global across all Antigravity windows)
+python tools/skills.py install --all --target ~/.gemini/config/skills
+```
+
+Then start a **new conversation** in any window and type `/` or describe the task. Repo edits apply immediately because skills are linked.
 
 ## Creating a skill
 
