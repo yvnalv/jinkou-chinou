@@ -1,0 +1,59 @@
+[
+  {
+    "id": "dynamic-ecom-scraper-with-proxies",
+    "prompt": "I need to collect pricing and product specs from a dynamic e-commerce catalog that uses Cloudflare and changes class names frequently. How do I build a resilient scraper that won't get banned?",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Selects Mode A or Mode B of /the-miner",
+      "Recommends the extraction ladder: inspects for internal JSON APIs and JSON-LD before DOM selectors",
+      "Proposes proxy rotation with TLS/JA4 fingerprint alignment (e.g. curl_cffi or Playwright stealth)",
+      "Advises on robots.txt compliance and rate limiting with jitter",
+      "Suggests defining a Pydantic schema with null rate circuit breakers"
+    ]
+  },
+  {
+    "id": "scrape-and-store-sql-server-csv",
+    "prompt": "We need to scrape weekly competitor prices and store them directly into our Microsoft SQL Server database, and also export a CSV backup. How should we configure the pipeline to handle upserts without duplicating rows?",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Selects Mode B of /the-miner",
+      "References references/storage-and-persistence.md for database persistence",
+      "Recommends SQL Server MERGE INTO statement or fast_executemany with primary keys to prevent duplicate rows",
+      "Suggests using scripts/miner_guard.py export for CSV generation",
+      "Enforces the Storage Integrity Gate"
+    ]
+  },
+  {
+    "id": "diagnose-broken-selectors-dom-drift",
+    "prompt": "Our weekly job board scraper failed today because the company redesigned their site. Half the fields are returning null. Can you help me fix the broken selectors and prevent this from happening again?",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Selects Mode C (Drift Audit & Repair) of /the-miner",
+      "Recommends using scripts/miner_guard.py diff-dom to compare baseline and current HTML snapshots",
+      "Proposes multi-candidate fallback selectors prioritizing data-testid and semantic tags over CSS utility classes",
+      "Sets up a schema validation check with max null threshold alerting"
+    ]
+  },
+  {
+    "id": "ethical-data-mining-pipeline",
+    "prompt": "We want to mine public real estate listings for a data science market study. What legal and ethical steps must we take before launching the crawler?",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Audits robots.txt via scripts/miner_guard.py check-robots",
+      "Explains public data precedents under CFAA (hiQ v. LinkedIn, Van Buren)",
+      "Mandates PII redaction (agent contact info, owner names) at the extraction boundary for GDPR/CCPA compliance",
+      "Calculates respectful crawl delays and concurrency caps to prevent server overload",
+      "Prepares an EXTRACTION_SPEC.md document"
+    ]
+  },
+  {
+    "id": "train-predictive-ml-model",
+    "prompt": "Train a gradient boosting model on churn_data.csv to predict which customers will cancel next month.",
+    "should_trigger": false
+  },
+  {
+    "id": "design-landing-page-ui",
+    "prompt": "Create wireframes and an accessible HTML/CSS design system for our analytics dashboard.",
+    "should_trigger": false
+  }
+]
