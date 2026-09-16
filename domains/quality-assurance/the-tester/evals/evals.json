@@ -1,0 +1,27 @@
+[
+  {
+    "id": "write-unit-tests",
+    "prompt": "Write unit tests for the user authentication module.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Detects the language and testing framework",
+      "Creates unit tests following the framework's conventions",
+      "Verifies tests run and fail/pass correctly"
+    ]
+  },
+  {
+    "id": "setup-playwright",
+    "prompt": "Set up Playwright in this project and write an E2E test for the login page.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Uses references/test-stack-detection.md",
+      "Scaffolds Playwright correctly",
+      "Writes an E2E test adhering to best practices (no arbitrary sleeps)"
+    ]
+  },
+  {
+    "id": "refactor-architecture",
+    "prompt": "Restructure the database access layer into a repository pattern.",
+    "should_trigger": false
+  }
+]
