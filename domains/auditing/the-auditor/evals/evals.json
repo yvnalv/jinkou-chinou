@@ -1,0 +1,26 @@
+[
+  {
+    "id": "audit-legacy-codebase",
+    "prompt": "Audit this entire repository for tech debt and code smells. Give me a report.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Analyzes the repository against references/audit-criteria.md",
+      "Identifies code quality and structural issues",
+      "Generates an AUDIT_REPORT.md"
+    ]
+  },
+  {
+    "id": "performance-review",
+    "prompt": "Review the performance of the data processing module. It is currently very slow.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Focuses specifically on algorithmic complexity and resource leaks",
+      "Creates an AUDIT_REPORT.md with the Performance Bottlenecks section filled out"
+    ]
+  },
+  {
+    "id": "fix-bug",
+    "prompt": "Fix the NullReferenceException in the user controller.",
+    "should_trigger": false
+  }
+]

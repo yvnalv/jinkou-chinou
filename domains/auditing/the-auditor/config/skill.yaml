@@ -1,0 +1,9 @@
+name: the-auditor
+version: 0.1.0
+description: >
+  Codebase auditor persona. Evaluates code quality, performance bottlenecks, tech debt, and security vulnerabilities to generate a structured audit report.
+domain: auditing
+type: core
+tags: [audit, code-review, performance, tech-debt, security, architecture-review]
+
+# --- Skill-specific policy (optional, free-form below this line) ---
