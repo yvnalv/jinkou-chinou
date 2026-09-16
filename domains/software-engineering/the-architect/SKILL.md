@@ -31,6 +31,17 @@ Paths are relative to this skill's base directory.
 | `references/codebase-discovery.md` | Inspecting an existing repository (Modes B, D; targeted in C) and writing `PROJECT_GUIDE.md`: step-by-step discovery, scoping, contract checks, and what each guide section must contain. |
 | `references/stack-profiles.md` | Detecting stacks and choosing inventory categories, verification commands, test frameworks, and `.gitignore` entries (web, mobile, desktop, data/ML, infrastructure, library/CLI, systems/embedded, games). |
 | `references/testing-strategy.md` | Planning or writing tests: test levels, acceptance-criteria traceability, good-test rules, test data, external dependencies, baseline and evidence format, flaky and pre-existing failures, CI, coverage, manual checks. |
+| `references/CHANGELOG.template.md` | Keeping track of notable changes to the project over time. |
+| `references/README.template.md` | Writing the main entry point and setup documentation for the project. |
+| `references/docs/API_SPEC.template.md` | Documenting API endpoints, data models, and usage examples. |
+| `references/docs/CODING_STANDARDS.template.md` | Defining the conventions and styles for writing code. |
+| `references/docs/CONTRIBUTING.template.md` | Guiding new developers on how to contribute to the project. |
+| `references/docs/DATABASE.template.md` | Documenting database schemas, migrations, and access patterns. |
+| `references/docs/DEPLOYMENT.template.md` | Documenting how to deploy the application to various environments. |
+| `references/docs/QA_TEST_PLAN.template.md` | Defining the overarching QA and test plan strategies. |
+| `references/docs/ROADMAP.template.md` | Planning future features, milestones, and project direction. |
+| `references/docs/TESTING.template.md` | Detailing testing setup, how to run tests, and test structures. |
+| `references/docs/TROUBLESHOOTING.template.md` | Creating a guide for diagnosing and solving common problems. |
 | `references/PRD.template.md` | Writing a full PRD for a new application. |
 | `references/FEATURE_PRD.template.md` | Writing a feature-scoped PRD for an existing application. |
 | `references/MIGRATION_BRIEF.template.md` | Writing the Mode D brief (replaces the PRD). |
