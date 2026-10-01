@@ -23,16 +23,19 @@ Do not use for Jira, GitHub Projects, general git commits, or backend coding tas
 
 ## Getting Started
 
-### 1. Prerequisites and Setup
-The skill includes a deterministic helper tool to verify or install required browser automation dependencies without modifying personal browser profiles:
+### 1. Prerequisites and One-Click Setup
+You can set up Playwright, verify Microsoft Edge, and configure your PersonID with a single click:
 
-```powershell
-# Diagnostic check
-python domains/workflow-automation/kanban-updater/scripts/setup_environment.py --check
+* **From the Repository Root:** Double-click [`setup-kanban.bat`](../../../setup-kanban.bat) or run `.\setup-kanban.bat`.
+* **From the Skill Directory:** Run `domains\workflow-automation\kanban-updater\scripts\setup.bat`.
+* **Or via Python directly:**
+  ```powershell
+  # Diagnostic health check
+  python domains/workflow-automation/kanban-updater/scripts/setup_environment.py --check
 
-# Automatic installation (installs playwright package and chromium binaries)
-python domains/workflow-automation/kanban-updater/scripts/setup_environment.py --install
-```
+  # Automatic installation
+  python domains/workflow-automation/kanban-updater/scripts/setup_environment.py --install
+  ```
 
 ### 2. Setting Your `<PersonID>`
 Exact Synergy routes personal Kanban boards using the employee's `PersonID`. Each team member has a unique ID:
@@ -86,7 +89,8 @@ kanban-updater/
 ├── config/
 │   └── skill.yaml                    # Machine-readable manifest and operational policy
 ├── scripts/
-│   └── setup_environment.py          # Dependency installer and PersonID configuration tool
+│   ├── setup_environment.py          # Dependency installer and PersonID configuration tool
+│   └── setup.bat                     # Windows batch automation for environment setup
 ├── references/
 │   ├── configuration.md              # PersonID discovery, environment variables, Edge profiles
 │   ├── tickets.md                    # Historical ticket lookup hints and Synergy URL templates
@@ -103,7 +107,7 @@ kanban-updater/
 ### 1.0.0 — 2026-10-01
 
 - Recreated skill under `workflow-automation` domain following `jinkou-chinou` Skill Standard.
-- Added `scripts/setup_environment.py` for automated Playwright diagnostics, installation, and PersonID configuration.
+- Added `scripts/setup_environment.py` and `scripts/setup.bat` for automated Playwright diagnostics, installation, and PersonID configuration.
 - Formulated 5 distinct operational modes with Mode A (Draft-Only) as the safe default.
 - Added comprehensive documentation for PersonID resolution and Edge session isolation.
 - Created `evals/evals.json` trigger test suite.

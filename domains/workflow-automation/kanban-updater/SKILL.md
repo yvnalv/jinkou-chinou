@@ -35,6 +35,7 @@ Paths are relative to this skill's base directory.
 | `references/tickets.md` | Looking up historical ticket mappings, request GUIDs, or Exact Synergy route templates (`HRMResourceCard`, `GLMSysKanbanBoard`, `WflRequest`). |
 | `references/browser-recovery.md` | Diagnosing Playwright connection failures, handling profile locks, managing timeouts, formatting structured error logs, or executing safe write retries. |
 | `scripts/setup_environment.py` | Checking prerequisites or auto-installing Playwright and configuring PersonID: `python <skill-dir>/scripts/setup_environment.py [--check|--install|--set-person-id ID|--json]`. |
+| `scripts/setup.bat` | Interactive Windows batch automation to install Playwright, configure PersonID, and run health diagnostics: `<skill-dir>/scripts/setup.bat`. |
 
 ---
 
@@ -82,7 +83,7 @@ Choose the lightest safe mode covering the user's intent. **Default to Mode A wh
 
 ### Mode E — Environment Setup
 
-1. Execute `python <skill-dir>/scripts/setup_environment.py --check` or `--install`.
+1. Execute `<skill-dir>/scripts/setup.bat` (on Windows) or run `python <skill-dir>/scripts/setup_environment.py --install`.
 2. Configure PersonID if requested via `--set-person-id <ID>`.
 3. Report component readiness (Python, Playwright, Edge, Profile, Synergy connectivity).
 
