@@ -62,7 +62,7 @@ Choose the lightest safe mode covering the user's intent. **Default to Mode A wh
 
 1. **Check Prerequisites**: Ensure Playwright is available via `scripts/setup_environment.py --check`.
 2. **Resolve PersonID**: Check prompt, `SYNERGY_PERSON_ID` env var, `~/.config/kanban-updater/config.json`, or perform live discovery (`references/configuration.md`).
-3. **Connect Session**: Launch Edge persistent context (`channel="msedge"`, `headless=True`, `chromium_sandbox=False`, profile `%USERPROFILE%\.gemini\playwright-edge-profile` or any linked agent directory such as `%USERPROFILE%\.claude\playwright-edge-profile`) or connect via CDP endpoint if available.
+3. **Connect Session**: By default, launch Edge persistent context (`channel="msedge"`, `headless=True`, `chromium_sandbox=False`, profile `%USERPROFILE%\.gemini\playwright-edge-profile` or any linked agent directory such as `%USERPROFILE%\.claude\playwright-edge-profile`). Do not probe or attach via CDP unless explicitly requested in the prompt or configured via `SYNERGY_CDP_ENDPOINT`.
 4. **Locate Ticket**: Navigate to `GLMSysKanbanBoard.aspx?personid=<PersonID>`. Search ticket number/title; extract request link GUID.
 5. **Inspect & Report**: Open `WflRequest.aspx?RequestID=<GUID>`. Read current status, requester, and recent remarks. Close tab and report findings.
 
