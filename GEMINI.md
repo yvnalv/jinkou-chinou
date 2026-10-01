@@ -14,6 +14,7 @@ When the user types a message starting with a slash command matching any skill i
 * `/the-ml-engineer` — Activate the predictive machine learning persona ([`.agents/skills/the-ml-engineer/SKILL.md`](.agents/skills/the-ml-engineer/SKILL.md)).
 * `/the-uix-designer` — Activate the UI/UX design and prototyping persona ([`.agents/skills/the-uix-designer/SKILL.md`](.agents/skills/the-uix-designer/SKILL.md)).
 * `/the-skillsmith` — Activate the repo-local skill authoring and audit persona ([`.agents/skills/the-skillsmith/SKILL.md`](.agents/skills/the-skillsmith/SKILL.md)).
+* `/kanban-updater` — Activate the Exact Synergy Kanban and Git worklog updater skill ([`domains/workflow-automation/kanban-updater/SKILL.md`](domains/workflow-automation/kanban-updater/SKILL.md)).
 
 ### Execution Behavior
 Upon receiving a slash command:

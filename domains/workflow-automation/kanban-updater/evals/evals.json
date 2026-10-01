@@ -1,0 +1,44 @@
+[
+  {
+    "id": "draft-eod-remarks-from-git",
+    "prompt": "Draft my End-of-Day work remarks for ticket #7111 based on the commits I made today and note that I helped Andika with installer debugging.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Selects Mode A (Draft-Only) and does not launch Playwright browser",
+      "Inspects git log and diffs non-destructively",
+      "Formats remarks using Progress, Validation, and Next steps labels per EoD SOP",
+      "Includes user note about Andika without inventing unauthorized root causes"
+    ]
+  },
+  {
+    "id": "synergy-card-submit-transition",
+    "prompt": "Submit my drafted remarks to Synergy ticket #7111, move the card to In-Progress, and verify it saved.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Selects Mode C (Append Remarks & Transition)",
+      "Resolves PersonID and locates the card on the Synergy Kanban board",
+      "Preserves existing historical remarks in the remarks field",
+      "Applies transition and verifies persistence with read reload"
+    ]
+  },
+  {
+    "id": "setup-playwright-environment",
+    "prompt": "Setup my environment for kanban-updater and set my PersonID to 12345.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Selects Mode E (Environment Setup)",
+      "Runs scripts/setup_environment.py to verify or install dependencies",
+      "Stores PersonID into local user configuration"
+    ]
+  },
+  {
+    "id": "jira-sprint-update",
+    "prompt": "Move my Jira issue PROJ-102 to In Progress and update the story points.",
+    "should_trigger": false
+  },
+  {
+    "id": "general-code-refactoring",
+    "prompt": "Refactor the authentication middleware in auth.py to use async/await.",
+    "should_trigger": false
+  }
+]

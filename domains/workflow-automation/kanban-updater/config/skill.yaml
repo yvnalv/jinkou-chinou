@@ -1,0 +1,55 @@
+name: kanban-updater
+version: 1.0.0
+description: >
+  Draft evidence-based technical English work updates from Git and user notes, or update requested Exact Synergy Kanban cards using Playwright.
+domain: workflow-automation
+type: specialized
+requires:
+  - python>=3.10
+  - playwright
+tags: [kanban, synergy, standup, eod-reporting, git, playwright, automation]
+
+# --- Skill-specific policy ---
+
+modes:
+  - id: A
+    name: draft-only
+    safe_default: true
+    requires_browser: false
+  - id: B
+    name: card-inspection
+    requires_browser: true
+    write_enabled: false
+  - id: C
+    name: append-and-transition
+    requires_browser: true
+    write_enabled: true
+  - id: D
+    name: eod-scoring-audit
+    requires_browser: false
+  - id: E
+    name: environment-setup
+    requires_browser: false
+
+browser:
+  channel: msedge
+  headless: true
+  chromium_sandbox: false
+  profile_path: "%USERPROFILE%\\.gemini\\playwright-edge-profile"
+  allow_process_termination: false
+  safe_retry_on_timeout: read_only_verification
+
+person_id_resolution:
+  hierarchy:
+    - prompt_or_args
+    - environment_variable: SYNERGY_PERSON_ID
+    - config_file: ~/.config/kanban-updater/config.json
+    - live_auto_discovery: top_right_name_new_tab
+
+eod_scoring:
+  max_task_score: 5.0
+  consistency_points: 1.0
+  timeliness_points: 1.0
+  quality_points_max: 3.0
+  weekly_bonus: 2.0
+  repetition_penalty: -5.0

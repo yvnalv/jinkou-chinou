@@ -6,6 +6,7 @@
     { "path": "domains/ml-engineering" },
     { "path": "domains/software-engineering" },
     { "path": "domains/ux-design" },
+    { "path": "domains/workflow-automation" },
     { "path": ".claude/skills" }
   ]
 }
