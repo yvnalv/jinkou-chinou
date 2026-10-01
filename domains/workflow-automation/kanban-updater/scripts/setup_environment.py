@@ -26,9 +26,29 @@ import urllib.request
 from pathlib import Path
 
 
+KNOWN_AI_DIRECTORIES: list[tuple[str, str]] = [
+    (".gemini", "Gemini / Antigravity"),
+    (".claude", "Claude Code"),
+    (".copilot", "GitHub Copilot"),
+    (".agents", "OpenAI / Agent Skills (ChatGPT)"),
+    (".codex", "OpenAI Codex"),
+    (".cline", "Cline"),
+    (".cagent", "CAgent"),
+    (".antigravity-ide", "Antigravity IDE"),
+]
+
+
+def get_user_home() -> Path:
+    """Return current user's home directory (resolves %USERPROFILE% on Windows)."""
+    userprofile = os.environ.get("USERPROFILE")
+    if userprofile and userprofile.strip():
+        return Path(userprofile.strip())
+    return Path.home()
+
+
 def get_config_dir() -> Path:
     """Return local user config directory (~/.config/kanban-updater)."""
-    home = Path.home()
+    home = get_user_home()
     config_dir = home / ".config" / "kanban-updater"
     config_dir.mkdir(parents=True, exist_ok=True)
     return config_dir
@@ -40,12 +60,98 @@ def get_config_file() -> Path:
 
 def get_default_profile_dir() -> Path:
     """Return dedicated Edge automation profile directory."""
-    userprofile = os.environ.get("USERPROFILE")
-    if userprofile:
-        base = Path(userprofile)
-    else:
-        base = Path.home()
-    return base / ".gemini" / "playwright-edge-profile"
+    env_profile = os.environ.get("PLAYWRIGHT_EDGE_PROFILE")
+    if env_profile and env_profile.strip():
+        return Path(env_profile.strip())
+    home = get_user_home()
+    return home / ".gemini" / "playwright-edge-profile"
+
+
+def ensure_profile_junctions(master_dir: Path | None = None) -> dict[str, dict]:
+    """Ensure all detected AI agent directories have a directory junction pointing to the master profile.
+
+    On Windows, directory junctions (NTFS reparse points) require NO administrator
+    elevation and allow all AI assistants (.gemini, .claude, .copilot, .agents, .codex, etc.)
+    to share the exact same physical Edge profile and authenticated session.
+    """
+    if master_dir is None:
+        master_dir = get_default_profile_dir()
+    master_dir.mkdir(parents=True, exist_ok=True)
+    master_str = str(master_dir.resolve())
+
+    home = get_user_home()
+    results: dict[str, dict] = {}
+
+    for folder_name, agent_label in KNOWN_AI_DIRECTORIES:
+        agent_dir = home / folder_name
+        if not agent_dir.exists():
+            continue
+
+        target_profile = agent_dir / "playwright-edge-profile"
+        status_info = {
+            "agent": agent_label,
+            "directory": str(agent_dir),
+            "profile_path": str(target_profile),
+            "status": "unknown",
+        }
+
+        # If this is the master folder itself
+        if str(target_profile.absolute()).lower() == str(master_dir.absolute()).lower():
+            status_info["status"] = "master"
+            results[folder_name] = status_info
+            continue
+
+        # Check if junction/symlink already exists
+        if target_profile.exists():
+            try:
+                link_target = os.readlink(str(target_profile))
+                status_info["status"] = "already_linked"
+                status_info["target"] = link_target
+                results[folder_name] = status_info
+                continue
+            except (OSError, ValueError):
+                # Exists as a regular directory
+                if target_profile.is_dir() and not any(target_profile.iterdir()):
+                    try:
+                        target_profile.rmdir()
+                    except OSError:
+                        status_info["status"] = "empty_dir_cannot_rm"
+                        results[folder_name] = status_info
+                        continue
+                else:
+                    status_info["status"] = "existing_folder"
+                    results[folder_name] = status_info
+                    continue
+
+        # Create junction on Windows or symlink on POSIX
+        try:
+            if sys.platform == "win32":
+                created = False
+                try:
+                    import _winapi
+                    _winapi.CreateJunction(master_str, str(target_profile))
+                    created = True
+                except Exception:
+                    pass
+
+                if not created:
+                    cmd_ret = subprocess.run(
+                        ["cmd", "/c", "mklink", "/J", str(target_profile), master_str],
+                        capture_output=True,
+                        text=True,
+                    )
+                    created = (cmd_ret.returncode == 0)
+
+                status_info["status"] = "created" if created else "error"
+            else:
+                target_profile.symlink_to(master_dir, target_is_directory=True)
+                status_info["status"] = "created"
+        except Exception as e:
+            status_info["status"] = f"error: {e}"
+
+        results[folder_name] = status_info
+
+    return results
 
 
 def find_edge_executable() -> str | None:
@@ -120,6 +226,7 @@ def run_diagnostics(person_id_override: str | None = None) -> dict:
                 profile_locked = True
                 break
 
+    ai_links = ensure_profile_junctions(profile_dir)
     synergy_online = check_synergy_connectivity()
     person_id, person_source = resolve_person_id(person_id_override)
 
@@ -144,6 +251,7 @@ def run_diagnostics(person_id_override: str | None = None) -> dict:
             "path": str(profile_dir),
             "exists": profile_exists,
             "locked": profile_locked,
+            "ai_links": ai_links,
         },
         "synergy": {
             "portal_host": "synergy.glmsystems.com",
@@ -177,7 +285,7 @@ def set_person_id(new_id: str) -> dict:
 
 
 def install_dependencies() -> dict:
-    """Install playwright and ensure profile directory exists."""
+    """Install playwright and ensure profile directory exists across all AI agent folders."""
     results = {}
     # 1. pip install playwright
     print("Installing playwright via pip...")
@@ -201,12 +309,15 @@ def install_dependencies() -> dict:
         "stdout": proc_pw.stdout[-500:] if proc_pw.stdout else "",
     }
 
-    # 3. Create profile directory
+    # 3. Create profile directory and link to all AI folders
+    print("Preparing shared Edge profile and linking across all AI agent folders...")
     profile_dir = get_default_profile_dir()
     profile_dir.mkdir(parents=True, exist_ok=True)
+    junctions = ensure_profile_junctions(profile_dir)
     results["profile_dir"] = {
         "path": str(profile_dir),
         "created": profile_dir.is_dir(),
+        "junctions": junctions,
     }
 
     results["status"] = "success"
@@ -218,7 +329,8 @@ def main() -> int:
         description="Environment setup and diagnostic tool for kanban-updater."
     )
     parser.add_argument("--check", action="store_true", help="Run environment diagnostics (default)")
-    parser.add_argument("--install", action="store_true", help="Install playwright package and browsers")
+    parser.add_argument("--install", action="store_true", help="Install playwright package, browsers, and link profiles")
+    parser.add_argument("--link-profiles", action="store_true", help="Create or verify profile junctions across all AI folders")
     parser.add_argument("--set-person-id", metavar="ID", help="Save PersonID to local config")
     parser.add_argument("--get-person-id", action="store_true", help="Display resolved PersonID")
     parser.add_argument("--json", action="store_true", help="Output machine-readable JSON")
@@ -246,6 +358,26 @@ def main() -> int:
             print(f"PersonID: {person_id or '<not set>'} (source: {source})")
         return 0 if person_id else 1
 
+    if args.link_profiles:
+        profile_dir = get_default_profile_dir()
+        links = ensure_profile_junctions(profile_dir)
+        if args.json:
+            print(json.dumps({"master": str(profile_dir), "ai_profiles": links}, indent=2))
+        else:
+            print(f"Master Profile: {profile_dir}")
+            print("\nShared AI Agent Profiles:")
+            for folder, info in links.items():
+                st = info.get("status", "unknown")
+                ag = info.get("agent", folder)
+                pth = info.get("profile_path", "")
+                if st == "master":
+                    print(f"  [MASTER]       {ag:32} -> {pth}")
+                elif st in ("already_linked", "created"):
+                    print(f"  [LINKED]       {ag:32} -> {pth}")
+                else:
+                    print(f"  [{st.upper():12}] {ag:32} -> {pth}")
+        return 0
+
     if args.install:
         res = install_dependencies()
         diag = run_diagnostics()
@@ -270,6 +402,17 @@ def main() -> int:
         print(f"Playwright: {'Installed (' + str(diag['playwright']['version']) + ')' if diag['playwright']['installed'] else 'NOT INSTALLED'}")
         print(f"Edge Channel: {'Found at ' + str(diag['edge']['path']) if diag['edge']['found'] else 'NOT FOUND'}")
         print(f"Automation Profile: {diag['profile']['path']} (exists: {diag['profile']['exists']}, locked: {diag['profile']['locked']})")
+        if "ai_links" in diag["profile"] and diag["profile"]["ai_links"]:
+            print("  Shared AI Agent Profiles:")
+            for folder, info in diag["profile"]["ai_links"].items():
+                st = info.get("status", "unknown")
+                ag = info.get("agent", folder)
+                if st == "master":
+                    print(f"    - {ag:32} [MASTER PROFILE]")
+                elif st in ("already_linked", "created"):
+                    print(f"    - {ag:32} [LINKED]")
+                else:
+                    print(f"    - {ag:32} [{st.upper()}]")
         print(f"Synergy Connectivity: {'Online' if diag['synergy']['reachable'] else 'Unreachable / Timeout'}")
         print(f"PersonID: {diag['person_id']['value'] or '<not set>'} (source: {diag['person_id']['source']})")
         if diag['status'] != "ready":

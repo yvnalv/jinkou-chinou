@@ -123,13 +123,19 @@ def resolve_default_targets() -> dict[str, Path]:
     codex_home = os.environ.get("CODEX_HOME")
     legacy_codex = Path(codex_home) / "skills" if codex_home else home / ".codex" / "skills"
 
-    return {
+    targets = {
         "Gemini / Antigravity": home / ".gemini" / "config" / "skills",
         "Claude Code": home / ".claude" / "skills",
         "GitHub Copilot": home / ".copilot" / "skills",
         "OpenAI / Agent Skills (ChatGPT)": home / ".agents" / "skills",
         "OpenAI Codex": legacy_codex,
     }
+    if (home / ".cline").is_dir():
+        targets["Cline"] = home / ".cline" / "skills"
+    if (home / ".cagent").is_dir():
+        targets["CAgent"] = home / ".cagent" / "skills"
+
+    return targets
 
 
 def sync_skill_to_destination(

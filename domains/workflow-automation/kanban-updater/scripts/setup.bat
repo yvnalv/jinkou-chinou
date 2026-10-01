@@ -30,6 +30,11 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b 1
 )
 
+:: 2b. Ensure shared profile junctions across all AI folders
+echo.
+echo [*] Linking shared Edge profile across all local AI agent folders...
+python "%~dp0setup_environment.py" --link-profiles
+
 :: 3. Optional PersonID configuration
 echo.
 echo ----------------------------------------------------------------

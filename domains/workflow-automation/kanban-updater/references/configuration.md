@@ -73,15 +73,39 @@ If no config or variable is set, the skill connects to your active Synergy sessi
 
 ---
 
-## 4. Browser Profiles and Session Isolation
+## 4. Browser Profiles and Unified Multi-AI Session Sharing
 
 ### Dedicated Automation Profile
-To avoid session conflicts with your daily Microsoft Edge browsing, the skill defaults to an isolated user data directory:
+To avoid session conflicts with your daily personal Microsoft Edge browsing, the skill uses an isolated automation profile directory:
 ```text
 %USERPROFILE%\.gemini\playwright-edge-profile
 ```
-* **First-time Login**: If headless mode fails due to missing SSO/cookies in this profile, launch the setup script or Edge once interactively with this profile to complete login.
-* **Non-Destructive Guarantee**: The automation **never** kills existing Edge processes (`taskkill`, `Stop-Process`). If the profile is locked, it reports an error and falls back to safe read/draft mode.
+
+### Unified Multi-AI Profile Sharing (Zero-Duplication Auth)
+All local AI assistants share this identical underlying profile via Windows NTFS Directory Junctions (`mklink /J` or `setup_environment.py --link-profiles`):
+* **Gemini / Antigravity**: `%USERPROFILE%\.gemini\playwright-edge-profile` (Master)
+* **Claude Code**: `%USERPROFILE%\.claude\playwright-edge-profile` (Linked Junction)
+* **GitHub Copilot**: `%USERPROFILE%\.copilot\playwright-edge-profile` (Linked Junction)
+* **OpenAI / Agent Skills (ChatGPT)**: `%USERPROFILE%\.agents\playwright-edge-profile` (Linked Junction)
+* **OpenAI Codex**: `%USERPROFILE%\.codex\playwright-edge-profile` (Linked Junction)
+* **Cline**: `%USERPROFILE%\.cline\playwright-edge-profile` (Linked Junction)
+* **CAgent**: `%USERPROFILE%\.cagent\playwright-edge-profile` (Linked Junction)
+* **Antigravity IDE**: `%USERPROFILE%\.antigravity-ide\playwright-edge-profile` (Linked Junction)
+
+#### Benefits:
+* **Authenticate ONCE**: Completing authentication in Edge once persists the session token in the master profile, instantly authenticating **every** AI agent simultaneously.
+* **Zero Disk Duplication**: Directory junctions are transparent NTFS reparse points; they consume 0 extra disk space.
+* **Zero Admin Elevation**: Creating directory junctions in Windows requires standard user permissions (no Administrator prompt or Developer Mode needed).
+
+### One-Time Headless Authentication
+Because `synergy.glmsystems.com` uses Windows Security (NTLM/Kerberos), headless Chromium cannot automatically answer OS-level modal credential dialogs on a blank profile. Authenticate it once interactively:
+```cmd
+start msedge.exe --user-data-dir="%USERPROFILE%\.gemini\playwright-edge-profile" "https://synergy.glmsystems.com"
+```
+1. Enter your corporate credentials into the Windows Security dialog and click **OK**.
+2. Once the Synergy portal loads, close the Edge window.
+3. Windows saves your authenticated session into `playwright-edge-profile`.
+4. From then on, headless runs across Claude, Antigravity, Copilot, and other agents will run silently without prompting.
 
 ### Attaching via Chrome DevTools Protocol (CDP)
 If you already have a running Edge session with Synergy open, you can start Edge with a remote debugging port:
@@ -93,3 +117,6 @@ And pass CDP connection in the prompt or environment:
 $env:SYNERGY_CDP_ENDPOINT = "http://localhost:9222"
 ```
 Playwright will connect via `connect_over_cdp()`, reusing your live authenticated session without creating lock conflicts.
+
+### Non-Destructive Process Safety Guarantee
+The automation **never** kills existing Edge processes (`taskkill`, `Stop-Process`). If the profile is locked by an open Edge process, it fails gracefully and provides recovery instructions (`references/browser-recovery.md`).
