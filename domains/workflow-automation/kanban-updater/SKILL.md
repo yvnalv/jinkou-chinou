@@ -62,14 +62,14 @@ Choose the lightest safe mode covering the user's intent. **Default to Mode A wh
 
 1. **Check Prerequisites**: Ensure Playwright is available via `scripts/setup_environment.py --check`.
 2. **Resolve PersonID**: Check prompt, `SYNERGY_PERSON_ID` env var, `~/.config/kanban-updater/config.json`, or perform live discovery (`references/configuration.md`).
-3. **Connect Session**: By default, launch Edge persistent context (`channel="msedge"`, `headless=True`, `chromium_sandbox=False`, profile `%USERPROFILE%\.gemini\playwright-edge-profile` or any linked agent directory such as `%USERPROFILE%\.claude\playwright-edge-profile`). Do not probe or attach via CDP unless explicitly requested in the prompt or configured via `SYNERGY_CDP_ENDPOINT`.
-4. **Locate Ticket**: Navigate to `GLMSysKanbanBoard.aspx?personid=<PersonID>`. Search ticket number/title; extract request link GUID.
-5. **Inspect & Report**: Open `WflRequest.aspx?RequestID=<GUID>`. Read current status, requester, and recent remarks. Close tab and report findings.
+3. **Connect Session**: Launch Edge persistent context (`channel="msedge"`, `headless=True`, `chromium_sandbox=False`, profile `%USERPROFILE%\.claude\playwright-edge-profile` or `%USERPROFILE%\.gemini\playwright-edge-profile`). Pass `http_credentials=resolve_credentials()` from `scripts/setup_environment.py` to authenticate HTTP 401 challenges automatically in headless mode.
+4. **Locate Ticket**: Navigate to `GLMSysKanbanBoard.aspx?personid=<PersonID>`. Locate the card matching `<TicketNumber>`, click it to open the request dialog or extract the iframe URL `WflRequest.aspx?BCAction=1&ID={GUID}`.
+5. **Inspect & Report**: Open or inspect the request card. Read current status, requester, DevOps status, and recent remarks history. Close context and report findings.
 
 ### Mode C — Append Remarks & Transition
 
 1. **Verify Draft & Target**: Confirm exact remarks and target card GUID before writing.
-2. **Open Request**: Open `WflRequest.aspx?RequestID=<GUID>` in the authenticated context.
+2. **Open Request**: Open `WflRequest.aspx?BCAction=1&ID={GUID}` in the authenticated persistent context (passing `http_credentials=resolve_credentials()`).
 3. **Preserve History**: Inspect `#txtRemarks`. If editable history exists, read the entire existing string and append the new remark separated by two newlines (`\n\n`). If Synergy auto-stamps remarks, enter only the new content.
 4. **Apply Transition (Optional)**: If status transition was requested (e.g. Open to In-Progress), verify available action buttons (`#btnApprove`, `#btnSave`) and click the verified control.
 5. **Verify Persistence**: Re-navigate to the request URL. Confirm new remark is visible, prior remarks remain intact, and status matches the requested state.
