@@ -213,6 +213,48 @@ def resolve_person_id(override: str | None = None) -> tuple[str | None, str]:
     return None, "none"
 
 
+def resolve_credentials() -> dict[str, str] | None:
+    """Resolve Synergy HTTP credentials from env vars or ~/.config/kanban-updater/config.json.
+
+    These credentials are used by Playwright's http_credentials parameter to automatically
+    answer HTTP 401 Basic/NTLM authentication challenges in headless mode.
+    """
+    user = os.environ.get("SYNERGY_USERNAME")
+    pwd = os.environ.get("SYNERGY_PASSWORD")
+    if user and pwd:
+        return {"username": user.strip(), "password": pwd.strip()}
+    config_file = get_config_file()
+    if config_file.is_file():
+        try:
+            with open(config_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                u = data.get("username")
+                p = data.get("password")
+                if u and p:
+                    return {"username": str(u).strip(), "password": str(p).strip()}
+        except Exception:
+            pass
+    return None
+
+
+def set_credentials(username: str, password: str) -> dict:
+    """Store Synergy HTTP credentials in ~/.config/kanban-updater/config.json."""
+    config_file = get_config_file()
+    data = {}
+    if config_file.is_file():
+        try:
+            with open(config_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except Exception:
+            pass
+    data["username"] = username.strip()
+    data["password"] = password.strip()
+    data["credentials_updated_at"] = dt.datetime.now(dt.timezone.utc).isoformat()
+    with open(config_file, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+    return {"status": "success", "username": username.strip(), "config_file": str(config_file)}
+
+
 def check_synergy_connectivity(host: str = "synergy.glmsystems.com", timeout: float = 3.0) -> bool:
     """Check if Synergy portal host is reachable."""
     try:
@@ -358,9 +400,23 @@ def main() -> int:
     parser.add_argument("--link-profiles", action="store_true", help="Create or verify profile junctions across all AI folders")
     parser.add_argument("--set-person-id", metavar="ID", help="Save PersonID to local config")
     parser.add_argument("--get-person-id", action="store_true", help="Display resolved PersonID")
+    parser.add_argument("--set-credentials", nargs=2, metavar=("USER", "PASS"), help="Save Synergy HTTP credentials (username password) to local config")
     parser.add_argument("--json", action="store_true", help="Output machine-readable JSON")
 
     args = parser.parse_args()
+
+    if args.set_credentials:
+        u, p = args.set_credentials
+        try:
+            res = set_credentials(u, p)
+            if args.json:
+                print(json.dumps(res, indent=2))
+            else:
+                print(f"[OK] Synergy HTTP credentials saved for '{res['username']}' in {res['config_file']}")
+            return 0
+        except Exception as e:
+            print(f"[ERROR] Failed to save credentials: {e}", file=sys.stderr)
+            return 1
 
     if args.set_person_id:
         try:
