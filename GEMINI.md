@@ -13,6 +13,9 @@ When the user types a message starting with a slash command matching any skill i
 * `/the-cv-engineer` — Activate the computer vision engineering persona ([`.agents/skills/the-cv-engineer/SKILL.md`](.agents/skills/the-cv-engineer/SKILL.md)).
 * `/the-ml-engineer` — Activate the predictive machine learning persona ([`.agents/skills/the-ml-engineer/SKILL.md`](.agents/skills/the-ml-engineer/SKILL.md)).
 * `/the-uix-designer` — Activate the UI/UX design and prototyping persona ([`.agents/skills/the-uix-designer/SKILL.md`](.agents/skills/the-uix-designer/SKILL.md)).
+* `/the-tester` — Activate the language-agnostic QA and testing persona ([`domains/quality-assurance/the-tester/SKILL.md`](domains/quality-assurance/the-tester/SKILL.md)).
+* `/ui-ux-testing` — Activate the automated UI/UX, visual regression, accessibility, and responsive test suite persona ([`domains/quality-assurance/ui-ux-testing/SKILL.md`](domains/quality-assurance/ui-ux-testing/SKILL.md)).
+* `/the-auditor` — Activate the codebase quality, architecture, and security audit persona ([`domains/auditing/the-auditor/SKILL.md`](domains/auditing/the-auditor/SKILL.md)).
 * `/the-skillsmith` — Activate the repo-local skill authoring and audit persona ([`.agents/skills/the-skillsmith/SKILL.md`](.agents/skills/the-skillsmith/SKILL.md)).
 * `/kanban-updater` — Activate the Exact Synergy Kanban and Git worklog updater skill ([`domains/workflow-automation/kanban-updater/SKILL.md`](domains/workflow-automation/kanban-updater/SKILL.md)).
 

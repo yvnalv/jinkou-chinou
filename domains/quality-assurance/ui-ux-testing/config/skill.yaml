@@ -1,0 +1,34 @@
+name: ui-ux-testing
+version: 0.1.0
+description: >
+  Automated UI/UX, visual regression, accessibility (WCAG), and responsive test suite engineer using Playwright and Selenium.
+domain: quality-assurance
+type: specialized
+extends: the-tester
+requires:
+  - python>=3.10
+tags: [ui-testing, ux-testing, playwright, selenium, visual-regression, accessibility, axe-core, e2e, responsive-design, authentication, storage-state, dotenv]
+
+# --- Skill-specific policy ---
+policy:
+  primary_engine: playwright
+  secondary_engine: selenium
+  flakiness_zero_tolerance:
+    disallow_hardcoded_sleep: true
+    require_web_first_assertions: true
+    require_animation_freezing: true
+  accessibility:
+    default_standard: wcag21aa
+    scan_interactive_states: true
+  visual_regression:
+    default_max_diff_pixel_ratio: 0.01
+    require_dynamic_masking: true
+  authentication:
+    prompt_on_unexpected_login_wall: true
+    require_env_file_for_credentials: true
+    ensure_gitignore_for_secrets: true
+    reuse_session_via_storage_state: true
+  reporting:
+    standardized_chat_table: true
+    require_user_confirmation_before_file_creation: true
+    default_report_path: "docs/testing/UI_UX_TEST_REPORT.md"

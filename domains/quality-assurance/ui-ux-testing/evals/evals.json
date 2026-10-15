@@ -1,0 +1,56 @@
+[
+  {
+    "id": "e2e-checkout-visual-a11y",
+    "prompt": "Write an automated Playwright test suite for our checkout page with visual regression snapshots, axe-core accessibility checks, and dynamic masking for order numbers.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Uses resilient user-facing locators (getByRole, getByLabel) instead of brittle CSS or XPath",
+      "Configures toHaveScreenshot with animation freezing and masks dynamic order IDs",
+      "Injects axe-core to assert zero WCAG 2.1/2.2 Level AA violations on interactive states",
+      "Formats chat output using the standardized execution metrics table",
+      "Asks the user where to save the dedicated test report Markdown file before creating it"
+    ]
+  },
+  {
+    "id": "protected-dashboard-auth-login",
+    "prompt": "I tried running our Playwright UI test on https://app.example.com/analytics, but it redirected to a login screen and failed.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Detects authentication wall redirect to login screen",
+      "Asks the user where to provide or create a .env.test file for test credentials",
+      "Ensures .env* and playwright/.auth/ are added to .gitignore",
+      "Configures Playwright auth.setup.ts to save storageState and reuse session across tests"
+    ]
+  },
+  {
+    "id": "responsive-mobile-viewport-audit",
+    "prompt": "Test our web app landing page across mobile iPhone 14, Android 360px, and desktop 1280px viewports to verify no horizontal scrollbar overflow and touch targets meet 44px minimum.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Sets up multi-viewport emulation matrix covering desktop, tablet, and mobile",
+      "Asserts that document.documentElement.scrollWidth does not exceed window.innerWidth",
+      "Verifies interactive mobile touch targets meet minimum sizing standards",
+      "Outputs responsive test findings in a clean table"
+    ]
+  },
+  {
+    "id": "repair-flaky-selenium-playwright",
+    "prompt": "Our E2E browser tests keep failing randomly on CI with timeout errors. Here is our test script that uses sleep(5) and /html/body/div[3]/button.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Diagnoses flakiness caused by hardcoded sleeps and brittle XPath selectors",
+      "Replaces hardcoded delays with web-first auto-waiting assertions",
+      "Climbs the Resilient Locator Ladder to accessible role and label locators"
+    ]
+  },
+  {
+    "id": "backend-unit-testing",
+    "prompt": "Write unit tests for our Python SQLAlchemy models and order tax calculation functions using pytest.",
+    "should_trigger": false
+  },
+  {
+    "id": "figma-wireframe-design",
+    "prompt": "Design wireframes and user journey maps in Figma for a new telemedicine appointment app.",
+    "should_trigger": false
+  }
+]

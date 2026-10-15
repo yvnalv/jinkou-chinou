@@ -1,8 +1,8 @@
-# auditing
+# Auditing
 
-TODO(skillsmith): one paragraph — what this field of expertise covers, and what belongs in a neighbouring domain instead.
+Auditing covers the systematic evaluation of codebases for code quality, architectural integrity, technical debt, performance bottlenecks, and security vulnerabilities. It focuses on diagnostic assessment, static analysis, and actionable remediation planning. Hands-on feature implementation and software design belong in `software-engineering`, and automated test suite creation belongs in `quality-assurance`.
 
-Core persona: the domain's `the-<persona>` skill, if one exists. Specialized skills are named descriptively, without `the-`.
+Core persona: `/the-auditor`. Specialized skills are named descriptively, without `the-`.
 
 ## Skills
 
