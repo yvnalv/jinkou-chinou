@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""Validate a Remotion project or component file for determinism, version parity, and safe-zone compliance.
+"""Validate a Remotion project or component file for determinism, version parity, and UIX anti-AI craft rules.
 
 Checks performed:
   1. Banned non-deterministic CSS animations (`transition:`, `@keyframes`, Tailwind `animate-*`).
   2. Banned non-deterministic JS timers (`setTimeout`, `setInterval`, `requestAnimationFrame`).
   3. Raw HTML `<img` or `<video` tags inside `.tsx`/`.jsx` files instead of `<Img`, `<Video`, `<OffthreadVideo`, or `@remotion/media`.
   4. Unclamped `interpolate(...)` calls missing `extrapolateLeft` or `extrapolateRight`.
-  5. `package.json` Remotion package version parity (`remotion` and all `@remotion/*` packages must match exact versions without `^` or `~` drift).
+  5. Banned CSS gradients (`linear-gradient`, `radial-gradient`, `conic-gradient`, `WebkitBackgroundClip`) and blurry glow orbs (`filter: 'blur(...)'`).
+  6. Banned AI copywriting/punctuation slop (`—` em-dash, ` // ` label slashes, `→` arrow glyph, or `✓`/`✨`/`🚀`/`⚡` emoji dingbats) in `.tsx`/`.jsx`.
+  7. `package.json` Remotion package version parity (`remotion` and all `@remotion/*` packages must match exact versions without `^` or `~` drift).
 
 Usage:
   python validate_remotion_project.py --path ./my-remotion-video
@@ -47,6 +49,12 @@ RAW_IMG_TAG_RE = re.compile(r"<img\b")
 RAW_VIDEO_TAG_RE = re.compile(r"<video\b")
 INTERPOLATE_CALL_RE = re.compile(r"\binterpolate\s*\(\s*[^)\s]")
 
+CSS_GRADIENT_RE = re.compile(
+    r"(?:linear-gradient\s*\(|radial-gradient\s*\(|conic-gradient\s*\(|WebkitBackgroundClip)"
+)
+BLUR_FILTER_RE = re.compile(r"filter\s*:\s*['\"]blur\(")
+AI_SLOP_COPY_RE = re.compile(r"(?:\u2014|\s//\s|\u2192|[\u2713\u2714\u2728\U0001F680\u26A1\U0001F525\U0001F4AC\u2764])")
+
 SKIP_DIRS = {"node_modules", ".git", "dist", "build", ".next", "out", "coverage"}
 CODE_EXTENSIONS = {".tsx", ".ts", ".jsx", ".js", ".css"}
 
@@ -73,7 +81,12 @@ def scan_code_file(path: Path, root: Path) -> List[Finding]:
 
     for idx, line in enumerate(lines, start=1):
         stripped = line.strip()
-        if stripped.startswith("//") or stripped.startswith("/*") or stripped.startswith("*"):
+        if (
+            stripped.startswith("//")
+            or stripped.startswith("/*")
+            or stripped.startswith("*")
+            or stripped.startswith("{/*")
+        ):
             continue
 
         if CSS_TRANSITION_RE.search(line):
@@ -106,6 +119,28 @@ def scan_code_file(path: Path, root: Path) -> List[Finding]:
                     file=rel_path,
                     line=idx,
                     message="Tailwind animate-* classes rely on CSS keyframes and break frame-accurate rendering.",
+                )
+            )
+
+        if CSS_GRADIENT_RE.search(line):
+            findings.append(
+                Finding(
+                    severity="ERROR",
+                    rule="no-css-gradient",
+                    file=rel_path,
+                    line=idx,
+                    message="CSS gradients and gradient text are banned by the anti-AI craft standard. Use flat, solid semantic color tokens instead.",
+                )
+            )
+
+        if BLUR_FILTER_RE.search(line):
+            findings.append(
+                Finding(
+                    severity="ERROR",
+                    rule="no-blur-glow-orb",
+                    file=rel_path,
+                    line=idx,
+                    message="Blurry glow filters (filter: 'blur(...)') look generic/AI-generated. Use solid surface elevation and crisp 1px/2px borders.",
                 )
             )
 
@@ -142,6 +177,16 @@ def scan_code_file(path: Path, root: Path) -> List[Finding]:
                         message="Raw <video> tag detected. Use <OffthreadVideo> from 'remotion' or <Video> from '@remotion/media'.",
                     )
                 )
+            if AI_SLOP_COPY_RE.search(line):
+                findings.append(
+                    Finding(
+                        severity="ERROR",
+                        rule="no-ai-punctuation-or-emoji-slop",
+                        file=rel_path,
+                        line=idx,
+                        message="AI copy/icon tell detected (em-dash '—', ' // ' slash label, '→' arrow, or emoji/dingbat icon). Use sentence case, plain punctuation, and inline <svg> icons.",
+                    )
+                )
 
     # Check multi-line interpolate(...) calls for extrapolateRight / extrapolateLeft
     if ext in {".tsx", ".ts", ".jsx", ".js"}:
@@ -151,7 +196,6 @@ def scan_code_file(path: Path, root: Path) -> List[Finding]:
             line_str = lines[line_num - 1].strip() if line_num <= len(lines) else ""
             if line_str.startswith("//") or line_str.startswith("/*") or line_str.startswith("*"):
                 continue
-            # Inspect a window of 450 characters after `interpolate(`
             window = content[start_pos : start_pos + 450]
             if "extrapolateRight" not in window and "extrapolateLeft" not in window:
                 findings.append(
@@ -265,7 +309,7 @@ def validate_target(target_path: Path) -> List[Finding]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Validate Remotion components and projects for deterministic rendering and version parity."
+        description="Validate Remotion components and projects for deterministic rendering, version parity, and anti-AI craft rules."
     )
     parser.add_argument(
         "--path",

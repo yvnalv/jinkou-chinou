@@ -48,3 +48,22 @@ Never use raw linear interpolation (`interpolate(frame, [0, 30], [0, 100])`) for
 2. **Overlapping Action (Follow-Through)**: Never animate `opacity`, `translateY`, and `scale` of a card, its title, its subtitle, and its CTA button on the exact same frame. Stagger them by `3–5` frames (`card: 0f`, `title: 4f`, `subtitle: 8f`, `cta: 12f`).
 3. **Exit Before Transition**: Keep elements stable for at least `20–30` frames (`~0.7–1.0s`) after their entrance finishes so the viewer's eye can read them before the next `<TransitionSeries.Transition>` begins.
 
+---
+
+## 4. Anti-AI Visual & Copy Craft Rules (`the-uix-designer` Standard)
+
+To prevent generated videos from looking generic or "AI-generated", strictly enforce these craft rules derived from `the-uix-designer`:
+
+1. **Solid Flat Semantic Colors Only (Zero Gradients & Zero Blurry Orbs)**:
+   * **Never use `linear-gradient`, `radial-gradient`, `conic-gradient`, gradient text (`WebkitBackgroundClip: 'text'`), or blurry background glow orbs (`filter: 'blur(...)'`).**
+   * Build hierarchy through **solid surface elevation**: a dark slate canvas (`#0B0F17`), a lighter solid surface card (`#131B2E`), a crisp `1px` solid border (`#1E293B`), high-contrast primary text (`#F8FAFC`), muted secondary text (`#94A3B8`), and 1–2 solid accent colors (`#0EA5E9`, `#10B981`) that pass WCAG 2.2 AA contrast.
+2. **Center-Locked Main Container + Fixed Top-Left / Top-Right Header**:
+   * Anchor the **Brand Logo / Wordmark at top-left** and the **Scene Icon / Step Indicator at top-right** in a fixed header bar inside the safe zone.
+   * Keep the **main content container vertically and horizontally centered** (`left === right`, `display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'`).
+3. **Human UX Writing & Sentence Case (Zero AI Punctuation Slop)**:
+   * **Sentence case** for all headings, badges, labels, and captions (`"10x faster query speed"`, not `"HIGHLIGHT 01 // VECTORIZED ENGINE"`).
+   * **Banned punctuation & symbols**: Never use em-dashes (`—`), double-slash coder labels (`//`), arrow characters (`→`), middle-dot chains (`·`), or emoji/dingbat icons (`✓`, `✨`, `🚀`, `⚡`, `🔥`).
+   * **Geometric SVG Icons Only**: When an icon is needed (such as the top-right header icon or status check), render a clean inline `<svg>` path (`width={20} height={20} strokeWidth={2} fill="none"`) on a `4px` grid.
+4. **4px / 8px Spacing Scale & Tabular Numbers**:
+   * Use spacing tokens strictly from `4, 8, 12, 16, 24, 32, 48, 64px` and always set `fontVariantNumeric: 'tabular-nums'` on animated numbers.
+

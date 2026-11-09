@@ -30,36 +30,40 @@ Every composition created by `the-motion-designer` must select a **Platform Pres
 
 ---
 
-## 2. Visual Map of `9:16` (`1080 × 1920`) Platform UI Dead Zones
+## 2. Visual Map of `9:16` (`1080 × 1920`) Center-Locked Safe Stage & Fixed Header
+
+> **Critical Center-Lock Rule**: Never use asymmetric left/right container margins (like `left: 60, right: 192`) for your main content container—that shifts the visual center to `X = 474px` and makes the layout look off-center! Instead, use **symmetric horizontal margins (`left = 160px, right = 160px`, width `760px`, center `X = 540px`)** so the main content and Closed Captions are **100% horizontally and vertically centered** while clearing the right-side UI button stack.
 
 ```text
 +--------------------------------------------------+  Y = 0 px
 |  [TOP UI DEAD ZONE: Y = 0 to 288 px]             |
 |  - OS Status Bar, Notch / Dynamic Island         |
-|  - IG Story progress bars, Avatar, Close (X)     |
-|  - TikTok "Following | For You" & Search icon    |
-|  - YouTube Shorts Search & Camera/Menu icons     |
-+-----------------------------------------+--------+  Y = 285–288 px (Top of IG 4:5 Feed Crop)
-|  Left                                   |        |
-|  Margin   ✅ SAFE CONTENT & HOOK ZONE   |        |
-|  60 px       (X: 60 to 888 px)          | RIGHT  |
-|              (Y: 288 to 1040 px)        | ACTION |
-|                                         | STACK  |
-|   Place main headlines, UI mockups,     | DEAD   |
-|   charts, and speaker faces here.       | ZONE   |
-|                                         | (Width |
-|  - - - - - - - - - - - - - - - - - - -  | 120 to |  Y = 1040 px
-|   💬 SUBTITLE / CLOSED CAPTION (CC)     | 192px) |  <- CC Safe Band: Y = 1040 to 1220 px
-|      SAFE BAND (X: 60..888, Y: 1040..   |        |     Never covered by bottom caption,
-|      1220 px — 100% visible everywhere) | ❤️ Like|     right-side buttons, or 4:5 feed crop!
-+-----------------------------------------+ 💬 Comm+  Y = 1248 px (Bottom of IG 4:5 Feed Crop)
-|  [BOTTOM UI DEAD ZONE: Y = 1248..1920]  | 🔁 Rep |
-|  - @username + Follow / Subscribe pill  | 🔖 Save|
-|  - 2–4 lines of expandable post caption | 🎵 Disc|
-|  - Shop / Sponsored CTA banner          |        |
-|  - Scrolling audio marquee + scrubber   |        |
-+-----------------------------------------+--------+  Y = 1920 px
-X = 0                                   X = 888  X = 1080 px
+|  - IG 4:5 Home Feed Top Crop (Y = 285 px)        |
++--------------------------------------------------+  Y = 288 px
+|        [FIXED TOP HEADER: Y = 288..344 px]       |
+|        [Logo: Top-Left]        [Icon: Top-Right] |
+|        (X = 160 px)                 (X = 920 px) |
+|  +------------------------------------+          |  Y = 360 px
+|  |                                    |  RIGHT   |
+|  |   CENTER-LOCKED MAIN CONTENT       |  UI      |
+|  |   CONTAINER (X: 160 to 920 px)     |  ACTION  |
+|  |   (Width: 760 px, Center: X=540)   |  STACK   |
+|  |   (Y: 360 to 1060 px, Centered)    |  DEAD    |
+|  |                                    |  ZONE    |
+|  |   Vertically & Horizontally        |  (X: 920 |
+|  |   Centered Cards, Charts & Copy    |  to 1080)|
+|  +------------------------------------+  Like    |  Y = 1060 px
+|  +------------------------------------+  Comment |  Y = 1080 px
+|  |   CENTERED CLOSED CAPTIONS (CC)    |  Repost  |
+|  |   (X: 160..920 px, Y: 1080..1220)  |  Save    |
+|  +------------------------------------+  Share   |  Y = 1220 px
++--------------------------------------------------+  Y = 1248 px (Bottom of IG 4:5 Feed Crop)
+|  [BOTTOM UI DEAD ZONE: Y = 1248..1920]           |
+|  - @username + Follow / Subscribe pill           |
+|  - 2–4 lines of expandable post caption          |
+|  - Scrolling audio marquee + progress scrubber   |
++--------------------------------------------------+  Y = 1920 px
+X = 0    X = 160                        X = 920    X = 1080 px
 ```
 
 ---
@@ -83,13 +87,20 @@ All measurements are in pixels relative to the target canvas (`top`, `bottom`, `
 
 ---
 
-## 4. Rules for Placing Closed Captions (CC) & Lower-Thirds
+## 4. Rules for Center-Locked Layout, Fixed Header & Closed Captions (CC)
 
-1. **Never Place Subtitles at the Very Bottom of `9:16` Videos**:
-   * On desktop `16:9` videos, subtitles traditionally sit near the bottom (`~85%` down). On `9:16` mobile feeds (Instagram Reels, TikTok, Shorts), the bottom **35% (`Y = 1248 to 1920 px`)** is covered by the post caption, username, and audio ticker!
-   * Always place `9:16` subtitles inside **`Y = 1040 to 1220 px`** (roughly `55% to 63%` from the top) and horizontally constrained between **`X = 60 px` and `X = 888 px`** (shifted slightly left of dead-center if the right action column is heavy, or centered with `paddingRight: 180, paddingLeft: 60`).
-2. **High-Contrast Readability Pill / Stroke**:
-   * Always give subtitles either a high-contrast pill background (`rgba(0, 0, 0, 0.78)` with `borderRadius: 12`, `padding: '10px 20px'`) or a `textShadow` / `-webkit-text-stroke` so captions remain legible over bright UI mockups.
-3. **Always Include `<SafeZoneOverlay />` in Studio Preview**:
-   * Render `<SafeZoneOverlay platform={platform} enabled={showSafeZoneGuide} />` as the top-most layer in your composition (`assets/SafeZoneOverlay.starter.tsx`). It automatically checks `useRemotionEnvironment().isRendering` so the guide is visible in `npx remotion studio` and invisible in the final exported video.
+1. **Always Center the Main Content Container Horizontally and Vertically**:
+   * Never apply asymmetric left/right container bounds (such as `left: 60px, right: 192px`) to the main content stage, as that shifts the layout off-center.
+   * Instead, use **symmetric horizontal margins (`left = right = max(leftDeadZone, rightDeadZone)`)**, such as `left: 160px, right: 160px` (`width: 760px`, centered at `X = 540px` on `1080×1920`), and center the main stage container both horizontally and vertically (`display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'`).
+2. **Fixed Top-Left Logo & Top-Right Icon/Status Header**:
+   * Place a persistent top header row anchored at the top of the safe zone (`top: 288px` on `9:16`, `left: 160px`, `right: 160px`, `display: 'flex', justifyContent: 'space-between', alignItems: 'center'`):
+     * **Top-Left**: Brand logo or wordmark in a fixed position.
+     * **Top-Right**: Geometric `<svg>` icon or compact scene indicator (`01 / 04`) in a fixed position.
+3. **Horizontally Centered Subtitles / Closed Captions (CC)**:
+   * On `9:16` mobile feeds (Instagram Reels, TikTok, Shorts), the bottom **35% (`Y = 1248 to 1920 px`)** is covered by the post caption, username, and audio ticker.
+   * Place `9:16` subtitles inside **`Y = 1080 to 1220 px`** and horizontally centered on the canvas (`left: 160px, right: 160px, width: 760px, display: 'flex', justifyContent: 'center'`).
+4. **Solid High-Contrast Readability Pill**:
+   * Give subtitles a solid dark/light surface pill (`#111827` with a `1px` or `2px` solid border `#1E293B`, `borderRadius: 12`, `padding: '12px 24px'`) so captions remain crisp and legible.
+5. **Always Include `<SafeZoneOverlay />` in Studio Preview**:
+   * Render `<SafeZoneOverlay platform={platform} enabled={showSafeZoneGuide} />` as the top-most layer in your composition (`assets/SafeZoneOverlay.starter.tsx`).
 

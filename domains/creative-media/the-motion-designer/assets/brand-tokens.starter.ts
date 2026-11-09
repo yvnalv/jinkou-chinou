@@ -2,6 +2,11 @@
  * Brand Token System, Spring Presets & Social Media Platform Safe Zones for Remotion.
  * Keep each brand in its own isolated file (e.g. glm.brand.ts, databro.brand.ts)
  * implementing `BrandTheme` so brand styles never contaminate each other.
+ *
+ * Enforces `the-uix-designer` craft rules:
+ *  - Solid flat semantic color tokens (zero gradients, zero blurry glow orbs)
+ *  - Symmetric horizontal insets (`left === right`) so the main content container
+ *    and Closed Captions (CC) are always horizontally centered at X = Width / 2
  */
 
 import type { SpringConfig } from 'remotion';
@@ -95,6 +100,11 @@ export interface PlatformSafeZone {
   };
 }
 
+/**
+ * All presets use symmetric horizontal insets (`left === right`) equal to the
+ * strictest side dead zone so the main container is 100% horizontally centered
+ * while clearing right-side platform action icons.
+ */
 export const SAFE_ZONES: Record<PlatformPresetId, PlatformSafeZone> = {
   'instagram-reels': {
     id: 'instagram-reels',
@@ -103,8 +113,8 @@ export const SAFE_ZONES: Record<PlatformPresetId, PlatformSafeZone> = {
     width: 1080,
     height: 1920,
     defaultFps: 30,
-    insets: { top: 285, bottom: 672, left: 60, right: 120 },
-    ccBand: { top: 1050, bottom: 1220, left: 60, right: 120 },
+    insets: { top: 285, bottom: 672, left: 120, right: 120 },
+    ccBand: { top: 1080, bottom: 1220, left: 120, right: 120 },
     feedCrop4x5: { top: 285, bottom: 285 },
   },
   'instagram-stories': {
@@ -114,8 +124,8 @@ export const SAFE_ZONES: Record<PlatformPresetId, PlatformSafeZone> = {
     width: 1080,
     height: 1920,
     defaultFps: 30,
-    insets: { top: 250, bottom: 340, left: 60, right: 60 },
-    ccBand: { top: 1360, bottom: 1520, left: 60, right: 60 },
+    insets: { top: 250, bottom: 340, left: 80, right: 80 },
+    ccBand: { top: 1360, bottom: 1520, left: 80, right: 80 },
   },
   tiktok: {
     id: 'tiktok',
@@ -124,8 +134,8 @@ export const SAFE_ZONES: Record<PlatformPresetId, PlatformSafeZone> = {
     width: 1080,
     height: 1920,
     defaultFps: 30,
-    insets: { top: 240, bottom: 660, left: 60, right: 180 },
-    ccBand: { top: 1040, bottom: 1210, left: 60, right: 180 },
+    insets: { top: 240, bottom: 660, left: 160, right: 160 },
+    ccBand: { top: 1080, bottom: 1220, left: 160, right: 160 },
   },
   'youtube-shorts': {
     id: 'youtube-shorts',
@@ -134,8 +144,8 @@ export const SAFE_ZONES: Record<PlatformPresetId, PlatformSafeZone> = {
     width: 1080,
     height: 1920,
     defaultFps: 30,
-    insets: { top: 288, bottom: 672, left: 48, right: 192 },
-    ccBand: { top: 1040, bottom: 1200, left: 48, right: 192 },
+    insets: { top: 288, bottom: 672, left: 160, right: 160 },
+    ccBand: { top: 1080, bottom: 1220, left: 160, right: 160 },
   },
   'facebook-reels': {
     id: 'facebook-reels',
@@ -144,8 +154,8 @@ export const SAFE_ZONES: Record<PlatformPresetId, PlatformSafeZone> = {
     width: 1080,
     height: 1920,
     defaultFps: 30,
-    insets: { top: 260, bottom: 650, left: 60, right: 160 },
-    ccBand: { top: 1050, bottom: 1220, left: 60, right: 160 },
+    insets: { top: 260, bottom: 650, left: 160, right: 160 },
+    ccBand: { top: 1080, bottom: 1220, left: 160, right: 160 },
   },
   'universal-vertical': {
     id: 'universal-vertical',
@@ -154,8 +164,8 @@ export const SAFE_ZONES: Record<PlatformPresetId, PlatformSafeZone> = {
     width: 1080,
     height: 1920,
     defaultFps: 30,
-    insets: { top: 288, bottom: 672, left: 60, right: 192 },
-    ccBand: { top: 1040, bottom: 1200, left: 60, right: 192 },
+    insets: { top: 288, bottom: 672, left: 160, right: 160 },
+    ccBand: { top: 1080, bottom: 1220, left: 160, right: 160 },
     feedCrop4x5: { top: 285, bottom: 285 },
   },
   'feed-portrait-4-5': {
@@ -165,8 +175,8 @@ export const SAFE_ZONES: Record<PlatformPresetId, PlatformSafeZone> = {
     width: 1080,
     height: 1350,
     defaultFps: 30,
-    insets: { top: 90, bottom: 160, left: 60, right: 90 },
-    ccBand: { top: 1020, bottom: 1160, left: 60, right: 90 },
+    insets: { top: 96, bottom: 160, left: 96, right: 96 },
+    ccBand: { top: 1020, bottom: 1160, left: 96, right: 96 },
   },
   'feed-square-1-1': {
     id: 'feed-square-1-1',
@@ -175,8 +185,8 @@ export const SAFE_ZONES: Record<PlatformPresetId, PlatformSafeZone> = {
     width: 1080,
     height: 1080,
     defaultFps: 30,
-    insets: { top: 80, bottom: 140, left: 60, right: 80 },
-    ccBand: { top: 810, bottom: 920, left: 60, right: 80 },
+    insets: { top: 80, bottom: 140, left: 80, right: 80 },
+    ccBand: { top: 810, bottom: 920, left: 80, right: 80 },
   },
   'youtube-16-9': {
     id: 'youtube-16-9',
@@ -185,8 +195,8 @@ export const SAFE_ZONES: Record<PlatformPresetId, PlatformSafeZone> = {
     width: 1920,
     height: 1080,
     defaultFps: 60,
-    insets: { top: 90, bottom: 160, left: 120, right: 120 },
-    ccBand: { top: 790, bottom: 900, left: 180, right: 180 },
+    insets: { top: 96, bottom: 160, left: 140, right: 140 },
+    ccBand: { top: 790, bottom: 900, left: 200, right: 200 },
   },
   'web-clean': {
     id: 'web-clean',
@@ -195,8 +205,8 @@ export const SAFE_ZONES: Record<PlatformPresetId, PlatformSafeZone> = {
     width: 1920,
     height: 1080,
     defaultFps: 60,
-    insets: { top: 60, bottom: 80, left: 80, right: 80 },
-    ccBand: { top: 860, bottom: 970, left: 140, right: 140 },
+    insets: { top: 64, bottom: 80, left: 96, right: 96 },
+    ccBand: { top: 860, bottom: 970, left: 160, right: 160 },
   },
 };
 
@@ -206,15 +216,15 @@ export const DEFAULT_NEUTRAL_BRAND: BrandTheme = {
   tagline: 'Programmatic Motion Graphics',
   website: 'example.com',
   colors: {
-    backgroundPrimary: '#0B0F19',
+    backgroundPrimary: '#0B0F17',
     backgroundSecondary: '#111827',
-    surfaceCard: 'rgba(30, 41, 59, 0.82)',
-    surfaceBorder: 'rgba(148, 163, 184, 0.22)',
+    surfaceCard: '#131B2E',
+    surfaceBorder: '#1E293B',
     textPrimary: '#F8FAFC',
-    textSecondary: '#CBD5E1',
+    textSecondary: '#94A3B8',
     textMuted: '#64748B',
-    accentPrimary: '#3B82F6',
-    accentSecondary: '#38BDF8',
+    accentPrimary: '#0EA5E9',
+    accentSecondary: '#10B981',
     statusSuccess: '#10B981',
     statusWarning: '#F59E0B',
     statusDanger: '#EF4444',
@@ -223,8 +233,8 @@ export const DEFAULT_NEUTRAL_BRAND: BrandTheme = {
     headingFontFamily: 'Inter, system-ui, sans-serif',
     bodyFontFamily: 'Inter, system-ui, sans-serif',
     monoFontFamily: 'JetBrains Mono, monospace',
-    headingWeight: 800,
-    letterSpacingHeading: '-0.03em',
+    headingWeight: 700,
+    letterSpacingHeading: '-0.025em',
   },
   assets: {
     logoLightPath: 'brands/neutral/logo-light.svg',
@@ -232,13 +242,12 @@ export const DEFAULT_NEUTRAL_BRAND: BrandTheme = {
   },
   motion: {
     defaultSpring: 'snappy',
-    cardBorderRadius: 20,
+    cardBorderRadius: 16,
   },
   captions: {
-    backgroundColor: 'rgba(15, 23, 42, 0.86)',
+    backgroundColor: '#131B2E',
     textColor: '#F8FAFC',
-    activeWordColor: '#38BDF8',
-    borderRadius: 14,
+    activeWordColor: '#0EA5E9',
+    borderRadius: 12,
   },
 };
-

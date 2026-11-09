@@ -1,0 +1,26 @@
+[
+  {
+    "id": "trigger-databro-tiktok-reel",
+    "prompt": "/databro-brand-motion Create a 15-second TikTok & Instagram Reels video for Databro Cloud 2.0 using Databro Studio's brand style.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Uses #111111 matte charcoal background, #BFFF72 lime green, and #F2EBE1 warm cream circle tokens from DATABRO_BRAND",
+      "Places the circular Databro avatar + 'Databro / Belajar Data Science' lockup at fixed top-left with no top-right box",
+      "Renders cardless 2-to-4 word ALL-CAPS ExtraBold #FFFFFF Closed Captions centered at Y: 1180-1260px"
+    ]
+  },
+  {
+    "id": "trigger-databro-ollama-tutorial-motion",
+    "prompt": "Generate a Databro tutorial reel showing how to run a local LLM in Command Prompt with Databro's signature lime green text and red callout boxes.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Applies Archetype A (Warm Cream #F2EBE1 circle + #BFFF72 giant lime keyword + block cursor typewriter title) for the hook",
+      "Applies Archetype B (Centered Command Prompt window + typewriter CLI command + 3px solid #D92D20 red callout box) for the steps"
+    ]
+  },
+  {
+    "id": "non-trigger-other-brand-video",
+    "prompt": "Create a corporate explainer video using the GLM brand guidelines.",
+    "should_trigger": false
+  }
+]

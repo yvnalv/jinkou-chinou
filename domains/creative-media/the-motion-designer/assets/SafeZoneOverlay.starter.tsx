@@ -4,7 +4,7 @@
  * place their native UI buttons, captions, and 4:5 feed crops.
  *
  * Automatically hides itself when `useRemotionEnvironment().isRendering === true`
- * so the guide NEVER appears in exported MP4/MOV/GIF files!
+ * so the guide never appears in exported MP4/MOV/GIF files.
  */
 
 import React from 'react';
@@ -22,7 +22,6 @@ export const SafeZoneOverlay: React.FC<SafeZoneOverlayProps> = ({
 }) => {
   const { isRendering } = useRemotionEnvironment();
 
-  // Never render guide overlays into exported video/still files
   if (isRendering || !enabled) {
     return null;
   }
@@ -51,7 +50,7 @@ export const SafeZoneOverlay: React.FC<SafeZoneOverlayProps> = ({
           fontWeight: 700,
         }}
       >
-        TOP UI DEAD ZONE ({top}px) — Status Bar / Header / Tabs
+        TOP UI DEAD ZONE ({top}px): Status Bar / Header / 4:5 Crop
       </div>
 
       {/* Bottom Platform Caption / Scrubber Dead Zone */}
@@ -72,7 +71,7 @@ export const SafeZoneOverlay: React.FC<SafeZoneOverlayProps> = ({
           fontWeight: 700,
         }}
       >
-        BOTTOM UI DEAD ZONE ({bottom}px) — @Handle / Caption / Audio / Scrubber
+        BOTTOM UI DEAD ZONE ({bottom}px): Handle / Caption / Audio / Scrubber
       </div>
 
       {/* Right Engagement Icons Stack Dead Zone */}
@@ -94,10 +93,10 @@ export const SafeZoneOverlay: React.FC<SafeZoneOverlayProps> = ({
           fontWeight: 700,
         }}
       >
-        RIGHT UI STACK ({right}px) — Like / Comment / Repost / Share
+        RIGHT UI STACK ({right}px): Like / Comment / Repost / Share
       </div>
 
-      {/* Left Margin */}
+      {/* Symmetric Left Margin */}
       <div
         style={{
           position: 'absolute',
@@ -130,7 +129,7 @@ export const SafeZoneOverlay: React.FC<SafeZoneOverlayProps> = ({
           fontWeight: 700,
         }}
       >
-        CC / SUBTITLE SAFE BAND (Y: {zone.ccBand.top}–{zone.ccBand.bottom}px)
+        CC / SUBTITLE SAFE BAND (Y: {zone.ccBand.top} to {zone.ccBand.bottom}px)
       </div>
 
       {/* Optional 4:5 Instagram Home Feed Crop Indicator */}
@@ -150,4 +149,3 @@ export const SafeZoneOverlay: React.FC<SafeZoneOverlayProps> = ({
     </AbsoluteFill>
   );
 };
-

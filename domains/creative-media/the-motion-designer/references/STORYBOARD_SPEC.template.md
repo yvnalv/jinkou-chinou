@@ -20,15 +20,16 @@
 
 ---
 
-## 2. Platform UI Safe-Zone Configuration
+## 2. Platform UI Safe-Zone & Center-Locked Layout Configuration
 
 * **Canvas Resolution**: `[Width] × [Height] px`
 * **Protected Dead Zones**:
-  * **Top Inset**: `[e.g. 285 px]` *(Clear of status bar / platform header)*
+  * **Top Inset**: `[e.g. 288 px]` *(Clear of status bar / platform header / 4:5 crop)*
   * **Bottom Inset**: `[e.g. 672 px]` *(Clear of username, caption, audio marquee, scrubber)*
-  * **Left / Right Insets**: `Left [60 px]` / `Right [120–192 px]` *(Clear of Like/Comment/Repost/Share buttons)*
-* **Safe Content Bounding Box**: `X: [60..888 px]`, `Y: [288..1040 px]`
-* **Closed Caption (CC) Safe Band**: `X: [60..888 px]`, `Y: [1040..1220 px]` *(Guaranteed visible in 9:16 and 4:5 feed crop)*
+  * **Symmetric Left / Right Insets**: `Left [160 px]` / `Right [160 px]` *(Equal margins so content is 100% horizontally centered at X = Width/2 while clearing right-side platform buttons)*
+* **Fixed Header Bar**: Top-Left Logo (`X: 160 px, Y: 288 px`) + Top-Right Icon/Counter (`X: 920 px, Y: 288 px`)
+* **Center-Locked Main Content Stage**: `X: [160..920 px]` (`760 px` wide), `Y: [356..1060 px]`, `alignItems: 'center', justifyContent: 'center'`
+* **Horizontally Centered Closed Caption (CC) Safe Band**: `X: [160..920 px]`, `Y: [1080..1220 px]` *(Guaranteed centered and visible in 9:16 and 4:5 feed crop)*
 
 ---
 

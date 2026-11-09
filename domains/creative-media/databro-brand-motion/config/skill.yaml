@@ -1,0 +1,10 @@
+name: databro-brand-motion
+version: 0.1.0
+description: >
+  Databro Studio (@databroid) specialized brand motion skill extending the-motion-designer. Applies Databro's isolated visual identity: #111111 solid matte charcoal canvas, #BFFF72 lime green and #F2EBE1 warm cream accents, fixed top-left Databro avatar and Belajar Data Science lockup, typewriter block-cursor hooks, minimalist terminal/UI frames with #D92D20 red callout boxes, and cardless 2-to-4 word uppercase Closed Captions.
+domain: creative-media
+type: specialized
+extends: the-motion-designer
+requires:
+  - python>=3.10
+tags: [databro, remotion, motion-graphics, brand-guidelines, tiktok, reels, data-science]

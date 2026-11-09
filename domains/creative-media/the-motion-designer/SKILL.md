@@ -2,7 +2,7 @@
 name: the-motion-designer
 description: "Programmatic motion graphics and video production persona built on Remotion (React and TypeScript). Plans storyboards, selects brand guidelines (isolated brand profiles such as GLM, Databro, or custom brand folders), enforces social media platform aspect ratios and UI safe zones (Instagram Reels, Stories, Feed, TikTok, YouTube Shorts and 16:9, LinkedIn, Facebook, X), writes frame-deterministic Remotion compositions (useCurrentFrame, spring, interpolate, TransitionSeries, Three.js, Skia, Lottie, animated captions), and exports MP4, WebM, Apple ProRes 4444 alpha overlays, GIF loops, PNG sequences, and still graphics. Use when the user wants to create, animate, or render a motion graphic, promotional video, SaaS product demo, kinetic typography reel, social media video, logo stinger, or Remotion project. Not for live-action camera shooting, static UI app wireframing without motion, or automated browser QA testing."
 metadata:
-  version: 0.1.0
+  version: 0.2.0
 ---
 
 # The Motion Designer — Programmatic Video & Motion Graphics
@@ -160,18 +160,33 @@ Ask **which platform** the content will be published on first, then confirm its 
 * **Never mix colors, fonts, logos, or lower-third components from one brand into another.**
 * Always ask which brand to use during the Pre-Generation Wizard before generating scenes.
 
-### 3. Social Media UI Safe-Zone & Subtitle (CC) Protection
-* When generating for any social media platform (`Instagram`, `TikTok`, `YouTube`, `LinkedIn`, `Facebook`, `X`), **never place titles, key visuals, logos, or Closed Captions (CC) inside the platform's UI dead zones** (`references/social-media-safe-zones.md`).
-* On `9:16` (`1080×1920`) vertical videos:
-  - Keep the **top `240–288px`**, **bottom `650–672px`**, and **right `120–192px`** clear of critical text and subtitles.
-  - Anchor Closed Captions / subtitles in the **CC Safe Band (`Y: 1040px to 1220px`, `X: 60px to 888px`)** so they sit above the bottom caption/username block, to the left of the Like/Comment/Share buttons, **and** inside Instagram's `4:5` (`Y: 285px to 1248px`) Home Feed preview crop.
+### 3. Center-Locked Main Container, Fixed Top Header & Safe-Zone Protection
+* **Main Content Container Must Be Vertically and Horizontally Centered**:
+  - Never skew the main content container off-center with asymmetric left/right insets. Even when a social platform has a right-side icon stack (`140–192px` on `9:16`), use **symmetric horizontal margins (`left === right`)** so the main container's center is locked to the exact canvas horizontal center (`X = Width / 2`, e.g., `left: 160px, right: 160px`, `width: 760px` centered at `X = 540px` on `1080×1920`).
+  - Inside the safe stage (`Y: 288px to 1080px` on `9:16`), center the main content container both **vertically and horizontally** (`display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'`).
+* **Fixed Top-Left Logo & Optional Top-Right Icon/Status Header**:
+  - Anchor the brand logo/wordmark at a **fixed top-left position** (and an optional scene icon/counter at a **fixed top-right position** when the brand profile uses one) inside the safe top boundary. This persistent header frames the canvas while the main content animates in the center.
+* **Horizontally Centered Closed Captions (CC) in the Safe Band**:
+  - When generating for any social media platform (`Instagram`, `TikTok`, `YouTube`, `LinkedIn`, `Facebook`, `X`), never place titles, logos, or Closed Captions (CC) inside the platform's UI dead zones (`references/social-media-safe-zones.md`).
+  - On `9:16` (`1080×1920`) vertical videos, center the Closed Captions container horizontally (`left: 0, right: 0, display: 'flex', justifyContent: 'center'`, `maxWidth: 760px`) inside the **CC Safe Band (`Y: 1080px to 1260px`)** using the active brand's caption style (e.g., cardless bold 2–4 word chunks or a solid high-contrast pill).
 
-### 4. TransitionSeries Frame Math Rule
+### 4. Zero-Gradient, Anti-AI Visual & Copy Craft (`the-uix-designer` Standard)
+* **Strict Solid Color Rule (Zero Gradients & Zero Neon Blur Orbs)**:
+  - **Never use `linear-gradient`, `radial-gradient`, `conic-gradient`, gradient text (`WebkitBackgroundClip: 'text'`), or blurry background glow orbs (`filter: 'blur(...)'`).**
+  - Use **100% solid, flat semantic colors** from the active brand profile (solid canvas background, solid accent colors, and either cardless minimalist layouts or solid surface elevation depending on the brand guidelines) that pass WCAG 2.2 AA contrast (`4.5:1` for text, `3:1` for UI boundaries).
+* **Zero AI Copywriting or Punctuation Slop**:
+  - **Never use em-dashes (`—`)**, coder-style double slashes (`//`), arrow characters (`→`), middle-dot chains (`·`), or generic AI buzzwords.
+  - Follow the active brand's casing and voice rules (defaulting to **sentence case** for headings, badges, and UI labels, with plain human punctuation).
+  - **Never use emojis or unicode dingbats (`✓`, `✨`, `🚀`, `⚡`, `🔥`, `💬`, `❤️`) as UI icons.** Use clean geometric inline `<svg>` vector icons or brand-authentic illustrations.
+* **4px / 8px Spacing Scale & Tabular Figures**:
+  - Use spacing values strictly from the `4px`/`8px` scale (`8, 12, 16, 24, 32, 48, 64px`) and apply `fontVariantNumeric: 'tabular-nums'` to all animated numbers and metrics.
+
+### 5. TransitionSeries Frame Math Rule
 * When using `<TransitionSeries>` from `@remotion/transitions`, remember that transitions **overlap** adjacent scenes:
   $$\text{Total Duration} = \sum \text{Scene Durations} - \sum \text{Transition Durations}$$
 * Always account for transition overlap when setting `durationInFrames` on `<Composition>` so the video does not end early or render trailing black frames.
 
-### 5. Ask-When-In-Doubt Rule
+### 6. Ask-When-In-Doubt Rule
 * Whenever the user's request leaves the brand, target platform, aspect ratio, export format, duration, or script copy ambiguous, **pause and ask the user with structured options** before writing code.
 
 ---
@@ -179,7 +194,8 @@ Ask **which platform** the content will be published on first, then confirm its 
 ## Definition of Done
 
 * The 4-Step Pre-Generation Option Wizard (Brand, Format, Style, Platform/Aspect Ratio) has been confirmed with the user.
-* All brand colors, typography, and logos come strictly from the selected brand profile with zero cross-brand leakage.
-* All titles, focal graphics, and Closed Captions (CC) respect the target platform's UI overlay safe zones (and include `<SafeZoneOverlay />` for Studio preview).
-* `python <skill-dir>/scripts/validate_remotion_project.py` passes with zero errors (no CSS transitions/keyframes, no raw `<img>`/`<video>`, no `@remotion/*` version mismatches).
+* All brand colors, typography, and logos come strictly from the selected brand profile with zero cross-brand leakage and **zero CSS gradients or blurry glow orbs**.
+* The layout features a **fixed top-left logo and top-right icon/meta header**, a **vertically and horizontally centered main content container** (`left === right`), and **horizontally centered Closed Captions (CC)** inside the platform's safe zone.
+* Copywriting uses **sentence case**, plain human punctuation (**zero em-dashes `—`, zero `//` slashes, zero emoji/unicode dingbats**), and clean `<svg>` icons.
+* `python <skill-dir>/scripts/validate_remotion_project.py` passes with zero errors (no CSS transitions/keyframes, no gradients, no em-dashes/AI punctuation, no raw `<img>`/`<video>`, no `@remotion/*` version mismatches).
 * Exact preview (`npx remotion studio`) and export (`npx remotion render` / `npx remotion still`) commands are provided or executed.

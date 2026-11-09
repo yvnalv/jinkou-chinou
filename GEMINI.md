@@ -19,6 +19,7 @@ When the user types a message starting with a slash command matching any skill i
 * `/the-skillsmith` — Activate the repo-local skill authoring and audit persona ([`.agents/skills/the-skillsmith/SKILL.md`](.agents/skills/the-skillsmith/SKILL.md)).
 * `/kanban-updater` — Activate the Exact Synergy Kanban and Git worklog updater skill ([`domains/workflow-automation/kanban-updater/SKILL.md`](domains/workflow-automation/kanban-updater/SKILL.md)).
 * `/the-motion-designer` — Activate the Remotion programmatic motion graphics, social media safe-zone, and multi-brand video production persona ([`domains/creative-media/the-motion-designer/SKILL.md`](domains/creative-media/the-motion-designer/SKILL.md)).
+* `/databro-brand-motion` — Activate the isolated Databro Studio (`@databroid`) brand motion profile extending `the-motion-designer` ([`domains/creative-media/databro-brand-motion/SKILL.md`](domains/creative-media/databro-brand-motion/SKILL.md)).
 
 ### Execution Behavior
 Upon receiving a slash command:

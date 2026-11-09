@@ -8,7 +8,7 @@ Programmatic motion graphics, social media video, kinetic typography, animated i
 | --- | --- |
 | Domain | `creative-media` |
 | Type | `core` |
-| Version | `0.1.0` |
+| Version | `0.2.0` |
 | Owner | `@yvnalv` |
 | Tags | `creative-media`, `remotion`, `motion-graphics`, `video-production`, `animation`, `social-media`, `react` |
 
@@ -48,6 +48,13 @@ the-motion-designer/
 ```
 
 ## Changelog
+
+### 0.2.0 — 2026-11-09
+
+- Enforced symmetric horizontal and vertical centering (`left === right`) for the main content container and Closed Captions (CC) so layouts are always dead-center on the canvas while clearing right-side social UI buttons.
+- Added persistent fixed Top-Left Brand Logo and Top-Right Icon/Status Header bar rule across compositions.
+- Adopted `the-uix-designer` anti-AI craft standards: banned all CSS gradients (`linear-gradient`, `radial-gradient`, gradient text) and blurry glow orbs in favor of flat, solid WCAG AA semantic color tokens; banned em-dashes (`—`), `//` badge prefixes, arrow/dingbat characters, and emoji icons in favor of sentence-case copy and geometric `<svg>` icons.
+- Upgraded `scripts/validate_remotion_project.py` to automatically flag CSS gradients, blurry glow filters, em-dashes, `//` label prefixes, and emoji/dingbat icons.
 
 ### 0.1.0 — 2026-11-09
 
