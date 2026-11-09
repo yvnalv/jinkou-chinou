@@ -417,7 +417,17 @@ def check_skill(skill: Skill, index: dict[str, Skill]) -> list[tuple[str, str]]:
             if rel not in skill.skill_text:
                 err(f"{rel} is not listed in SKILL.md (add it to Bundled Resources)")
     scan_text = skill.skill_text.replace("<skill-dir>/", "")
-    for ref in sorted(set(BUNDLED_REF_RE.findall(scan_text))):
+    backtick_candidates = re.findall(r"`((?:references|scripts|assets)/[^`\r\n]+)`", scan_text)
+    backtick_refs = []
+    for cand in backtick_candidates:
+        if (skill.path / cand).exists():
+            backtick_refs.append(cand)
+        else:
+            first_word = cand.split()[0]
+            backtick_refs.append(first_word)
+    plain_refs = BUNDLED_REF_RE.findall(scan_text)
+    all_refs = sorted(set(backtick_refs + [r for r in plain_refs if not any(r in b for b in backtick_refs)]))
+    for ref in all_refs:
         ref = ref.rstrip(".,:;)")
         if not ref or ref.endswith("/") and (skill.path / ref).is_dir():
             continue

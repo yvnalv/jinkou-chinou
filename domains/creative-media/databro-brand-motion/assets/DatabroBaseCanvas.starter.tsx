@@ -23,8 +23,15 @@ export interface DatabroBaseCanvasProps {
   enableBgm?: boolean;
   bgmSrc?: string;
   bgmVolume?: number;
-  /** Optional voiceover audio path inside public/ */
+  /** Optional single voiceover audio path inside public/ */
   voiceoverSrc?: string;
+  /** Optional per-scene voiceover audio segments synced to scene start frames */
+  voiceoverCues?: {
+    frame: number;
+    src: string;
+    durationInFrames?: number;
+    volume?: number;
+  }[];
   /** Avatar image path inside public/ */
   avatarSrc?: string;
   /** Center-stage <TransitionSeries> scenes */
@@ -52,8 +59,9 @@ export const DatabroBaseCanvas: React.FC<DatabroBaseCanvasProps> = ({
   soundCues = [],
   enableBgm = true,
   bgmSrc = 'brand-kit/audio/bgm/bgm-ambient.wav',
-  bgmVolume = 0.14,
+  bgmVolume = 0.08,
   voiceoverSrc,
+  voiceoverCues = [],
   avatarSrc = 'brand-kit/logos/databro-avatar.jpg',
   children,
 }) => {
@@ -100,6 +108,15 @@ export const DatabroBaseCanvas: React.FC<DatabroBaseCanvasProps> = ({
         <Audio src={staticFile(bgmSrc)} volume={bgmVolume} loop />
       )}
       {voiceoverSrc && <Audio src={staticFile(voiceoverSrc)} volume={1.0} />}
+      {voiceoverCues.map((vo, index) => (
+        <Sequence
+          key={`vo-${vo.frame}-${index}`}
+          from={vo.frame}
+          durationInFrames={vo.durationInFrames}
+        >
+          <Audio src={staticFile(vo.src)} volume={vo.volume ?? 1.0} />
+        </Sequence>
+      ))}
       {soundCues.map((cue, index) => {
         const resolvedPath = cue.sfx.includes('/')
           ? cue.sfx

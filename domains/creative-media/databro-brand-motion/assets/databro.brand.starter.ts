@@ -187,6 +187,78 @@ export function customizeDatabroCanvas(
   };
 }
 
+export type DatabroArchetypeKey =
+  | 'code-walkthrough'
+  | 'concept-theory'
+  | 'opinion-editorial'
+  | 'launch-showcase';
+
+export type DatabroOpeningStyleKey =
+  | 'paradox-headline'
+  | 'code-shock'
+  | 'visual-data'
+  | 'step-roadmap';
+
+export interface DatabroArchetypeSpec {
+  id: DatabroArchetypeKey;
+  label: string;
+  recommendedDuration: '30s' | '45s' | '60s';
+  recommendedOpening: DatabroOpeningStyleKey;
+  visualStageLayout: string;
+  recommendedAssets: string[];
+}
+
+export const DATABRO_ARCHETYPES: Record<DatabroArchetypeKey, DatabroArchetypeSpec> = {
+  'code-walkthrough': {
+    id: 'code-walkthrough',
+    label: 'Hands-on Code & Practical Tool Walkthrough',
+    recommendedDuration: '60s',
+    recommendedOpening: 'code-shock',
+    visualStageLayout: 'IDE Card + Dataframe Table + Terminal Command + Step Badges (1, 2, 3)',
+    recommendedAssets: [
+      'assets/brand-kit/graphics/1.png',
+      'assets/brand-kit/graphics/2.png',
+      'assets/brand-kit/graphics/3.png',
+      'assets/brand-kit/graphics/Table.png',
+      'assets/brand-kit/graphics/output.png',
+      'assets/brand-kit/graphics/Untitled design.png', // Python Logo
+    ],
+  },
+  'concept-theory': {
+    id: 'concept-theory',
+    label: 'Conceptual, Mental Model & Abstract AI Theory (aibutsimple synthesis)',
+    recommendedDuration: '45s',
+    recommendedOpening: 'paradox-headline',
+    visualStageLayout: '2D Vector Diagram + Scatter Plot Trendline + Kinetic Keywords (#BFFF72)',
+    recommendedAssets: [
+      'assets/brand-kit/graphics/Untitled design (1).png', // Scatter plot + trendline
+      'assets/brand-kit/logos/DATABRO-01-rev-yvnalv-(Circle).png',
+    ],
+  },
+  'opinion-editorial': {
+    id: 'opinion-editorial',
+    label: 'Tech Opinion, Industry Debate & Career Advice',
+    recommendedDuration: '30s',
+    recommendedOpening: 'paradox-headline',
+    visualStageLayout: 'Kinetic Typography + High-Contrast Metric Cards + Quote Callouts',
+    recommendedAssets: [
+      'assets/brand-kit/logos/DATABRO-01-rev-yvnalv-(White)-Landscape.png',
+      'assets/brand-kit/logos/DATABRO-01-rev-yvnalv-(Circle).png',
+    ],
+  },
+  'launch-showcase': {
+    id: 'launch-showcase',
+    label: 'Product, Cloud Feature & Template Drop Showcase',
+    recommendedDuration: '30s',
+    recommendedOpening: 'step-roadmap',
+    visualStageLayout: '3D UI Perspective Card + Ambient Glow + Metric Speedometer',
+    recommendedAssets: [
+      'assets/brand-kit/logos/DATABRO-01-rev-yvnalv-(White).png',
+      'assets/databro-avatar.jpg',
+    ],
+  },
+};
+
 export interface DatabroBrandTheme {
   id: 'databro';
   name: 'Databro';
@@ -206,6 +278,15 @@ export interface DatabroBrandTheme {
     semanticWarning: string;
     semanticDanger: string;
     borderSubtle: string;
+    // Sampled Authentic Brand Tokens
+    dataTeal: string;
+    warmCreamTan: string;
+    cardDark: string;
+    cardBorder: string;
+    tableDark: string;
+    tableHeader: string;
+    tableBorder: string;
+    tableText: string;
   };
   typography: {
     fontDisplay: string;
@@ -232,15 +313,24 @@ export const databroBrand: DatabroBrandTheme = {
     terminalChrome: '#1F1F1F',
     textPrimary: '#FFFFFF',
     textSecondary: '#B3B3B3',
-    accentPrimary: '#BFFF72',
-    accentSecondary: '#F2EBE1',
-    emblemCircle: '#F2EBE1',
+    accentPrimary: '#BFFF72', // Signature Electric Lime
+    accentSecondary: '#F2EBE1', // Warm Cream
+    emblemCircle: '#F0ECE2',
     emblemInk: '#111111',
-    calloutRed: '#D92D20',
+    calloutRed: '#D92D20', // Error & Gotcha Warning Box
     semanticSuccess: '#BFFF72',
     semanticWarning: '#F59E0B',
     semanticDanger: '#D92D20',
     borderSubtle: '#2E2E2E',
+    // Exact sampled tokens from authentic Databro graphics
+    dataTeal: '#03DAC6', // Linear regression / scatter plot data points
+    warmCreamTan: '#E6DBCF', // Step badge 1.png, 2.png, 3.png cream tint
+    cardDark: '#191A1B', // Jupyter / IDE Code Card surface
+    cardBorder: '#2C2D2E', // IDE Code Card subtle stroke
+    tableDark: '#1F1F1E', // Dataframe table body background
+    tableHeader: '#262624', // Dataframe table header background
+    tableBorder: '#3B3B39', // Table row separator line
+    tableText: '#FAF9F5', // High-contrast table data off-white
   },
   typography: {
     fontDisplay: 'Plus Jakarta Sans, Inter, system-ui, sans-serif',

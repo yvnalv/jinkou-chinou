@@ -16,20 +16,39 @@
 ---
 
 ## 3. Tone of Voice & Language Rules (Indonesian + English Code-Switching)
-1. **Conversational Indonesian + Natural English Tech Terms**:
-   - Speak natural everyday Indonesian (*"Bro"*, *"kalian"*, *"kamu"*, *"nah"*, *"yuk"*, *"simpelnya"*), while keeping technical terms in English (`LLM Engineer`, `Prompt Engineering`, `RAG`, `Fine-Tuning`, `Vector Database`, `API`, `Guardrails`, `Latency`, `Python`).
-   - Never over-translate standard engineering terms into awkward formal Indonesian (say `"model LLM"` or `"pipeline RAG"`, not *"rekayasa model bahasa besar"*).
-2. **Signature Opening Hooks (`00:00–00:06`)**:
-   - *"Bro, tahu nggak sih..."*
-   - *"Bro, sering denger istilah [Topik], tapi bingung bedanya apa?"*
-   - *"Sebenarnya kerjaan seorang [Role] itu ngapain aja sih?"*
-3. **Signature Transitions (`Body`)**:
-   - *"Simpelnya gini..."*
-   - *"Yang pertama..."*, *"Kedua..."*, *"Ketiga..."*
-   - *"Kalau kita lihat di terminal..."*
-4. **Signature Sign-Off / CTA (`Outro`)**:
-   - *"Gimana, tertarik jadi [Role]? Save video ini dan follow Databro buat belajar Data Science & AI bareng, bro!"*
-   - *"Semoga bermanfaat, bro!"*
+
+### A. Strict Pronoun & Address Guardrails (Non-Negotiable)
+* **FORBIDDEN**: **NEVER use `"Lo"` / `"Lu"` / `"Loe"` or `"Gue"`**. They are strictly prohibited. They sound overly informal and conflict with Databro's respected educational identity.
+* **REQUIRED Second-Person Address**:
+  - **`"Kamu"`** (Default): Warm, friendly, approachable tech mentor speaking directly to a learner (*"laptop kamu"*, *"model ML kamu"*, *"supaya kamu gak bingung"*).
+  - **`"Anda"`** (Formal / Enterprise): Use when discussing enterprise SLAs, enterprise architecture, or formal business scenarios.
+  - **`"Kalian"` / `"Teman-teman"`** (Plural): When addressing the wider audience or community (*"buat kalian yang mau belajar"*).
+* **First-Person Address**:
+  - **`"Kita"`** (Inclusive & Collaborative): Default for tutorials (*"Yuk kita coba setup"*, *"Sekarang kita cek di terminal"*).
+  - **`"Saya"` / `"Databro"`**: For official announcements or brand sign-offs.
+* **The "Bro" Salutation**:
+  - The word **`"Bro"`** is preserved as an energetic brand greeting and closing punctuation (*"Bro, pernah gak..."*, *"Belajar bareng Databro!"*, *"Simpelnya gini, bro."*).
+  - However, **never confuse `"Bro"` with the pronoun `"Lo"`**: Always pair with `"kamu"` (e.g., *"Bro, model ML kamu..."*, NEVER *"Bro, model ML lo..."*).
+
+### B. Natural Everyday Indonesian + English Tech Terms
+* Speak natural, engaging Indonesian (*"Bro"*, *"kamu"*, *"kalian"*, *"nah"*, *"yuk"*, *"simpelnya"*, *"ngapain aja"*), while keeping official engineering terms in English (`LLM Engineer`, `Prompt Engineering`, `RAG`, `Fine-Tuning`, `Vector Database`, `API`, `Guardrails`, `Latency`, `Python`, `Train-Test-Split`, `Overfitting`, `Scikit-Learn`).
+* Never over-translate standard engineering terms into awkward formal Indonesian (say `"model LLM"` or `"pipeline RAG"`, not *"rekayasa model bahasa besar"*).
+
+### C. Signature Opening Hooks (`00:00–00:06`)
+* *"Bro, tahu nggak sih kalau kamu bisa..."*
+* *"Bro, sering denger istilah [Topik], tapi bingung bedanya apa?"*
+* *"Pernah gak model machine learning kamu akurasinya tinggi pas latihan, tapi pas di-deploy langsung jeblok?"*
+* *"Sebenarnya kerjaan seorang [Role] itu ngapain aja sih?"*
+
+### D. Signature Transitions (`Body`)
+* *"Simpelnya gini, bro..."*
+* *"Langkah pertama, kita..."*, *"Kedua..."*, *"Ketiga..."*
+* *"Kalau kita lihat di terminal..."*
+* *"Nah, ini pro-tip penting buat kamu:"*
+
+### E. Signature Sign-Off / CTA (`Outro`)
+* *"Save video ini biar kamu gak lupa, dan follow Databro buat belajar Data Science bareng, bro!"*
+* *"Semoga bermanfaat buat kamu, bro!"*
 
 ---
 
