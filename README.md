@@ -6,11 +6,13 @@ Every skill has the same shape, defined in [SKILL_STANDARD.md](SKILL_STANDARD.md
 
 ## Quick start
 
-### One-Click Multi-Agent Sync (Windows)
-Double-click [`sync-skills.bat`](sync-skills.bat) in the repository root, or run:
+### One-Click Multi-Agent Sync (Windows — Zero Dependencies)
+Double-click [`sync-skills.bat`](sync-skills.bat) in the repository root, or run from Command Prompt / PowerShell:
 ```cmd
 .\sync-skills.bat
 ```
+*(If Python is not installed on the machine, `sync-skills.bat` automatically falls back to the native PowerShell engine [`tools/sync_skills.ps1`](tools/sync_skills.ps1) with zero external dependencies. You can also double-click [`sync-skills-powershell.bat`](sync-skills-powershell.bat) or pass `--powershell` to explicitly run the PowerShell engine.)*
+
 This automatically scans and synchronizes all domain skills across all your installed AI agents with smart SHA-256 change detection:
 * **Gemini / Antigravity**: `%USERPROFILE%\.gemini\config\skills`
 * **Claude Code**: `%USERPROFILE%\.claude\skills`
