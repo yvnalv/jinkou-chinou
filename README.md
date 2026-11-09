@@ -16,6 +16,7 @@ Double-click [`sync-skills.bat`](sync-skills.bat) in the repository root, or run
 This automatically scans and synchronizes all domain skills across all your installed AI agents with smart SHA-256 change detection:
 * **Gemini / Antigravity**: `%USERPROFILE%\.gemini\config\skills`
 * **Claude Code**: `%USERPROFILE%\.claude\skills`
+* **Cursor IDE**: `%USERPROFILE%\.cursor\skills`
 * **GitHub Copilot**: `%USERPROFILE%\.copilot\skills`
 * **OpenAI / ChatGPT Agent Skills**: `%USERPROFILE%\.agents\skills`
 * **OpenAI Codex**: `%USERPROFILE%\.codex\skills`

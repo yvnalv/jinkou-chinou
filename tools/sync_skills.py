@@ -4,6 +4,7 @@
 Dynamically scans domain skills and syncs them to local AI agent skill folders:
   - Gemini / Antigravity            : %USERPROFILE%/.gemini/config/skills
   - Claude Code                     : %USERPROFILE%/.claude/skills
+  - Cursor IDE                      : %USERPROFILE%/.cursor/skills
   - GitHub Copilot                  : %USERPROFILE%/.copilot/skills
   - OpenAI / Agent Skills (ChatGPT) : %USERPROFILE%/.agents/skills
   - OpenAI Codex                    : %USERPROFILE%/.codex/skills
@@ -230,6 +231,7 @@ def resolve_default_targets() -> dict[str, Path]:
     targets = {
         "Gemini / Antigravity": home / ".gemini" / "config" / "skills",
         "Claude Code": home / ".claude" / "skills",
+        "Cursor IDE": home / ".cursor" / "skills",
         "GitHub Copilot": home / ".copilot" / "skills",
         "OpenAI / Agent Skills (ChatGPT)": home / ".agents" / "skills",
         "OpenAI Codex": legacy_codex,
@@ -519,12 +521,18 @@ def main() -> int:
                 active_targets["Gemini / Antigravity"] = default_targets["Gemini / Antigravity"]
             elif "claude" in k:
                 active_targets["Claude Code"] = default_targets["Claude Code"]
+            elif "cursor" in k:
+                active_targets["Cursor IDE"] = default_targets["Cursor IDE"]
             elif "copilot" in k or "github" in k:
                 active_targets["GitHub Copilot"] = default_targets["GitHub Copilot"]
             elif "chatgpt" in k or "agents" in k or "openai" in k:
                 active_targets["OpenAI / Agent Skills (ChatGPT)"] = default_targets["OpenAI / Agent Skills (ChatGPT)"]
             elif "codex" in k:
                 active_targets["OpenAI Codex"] = default_targets["OpenAI Codex"]
+            elif "cline" in k and "Cline" in default_targets:
+                active_targets["Cline"] = default_targets["Cline"]
+            elif "cagent" in k and "CAgent" in default_targets:
+                active_targets["CAgent"] = default_targets["CAgent"]
             else:
                 p = Path(k).expanduser().resolve()
                 active_targets[f"Custom ({p.name})"] = p

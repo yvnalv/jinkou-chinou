@@ -7,6 +7,7 @@
     Dynamically scans domain skills and syncs them to local AI agent skill folders:
       - Gemini / Antigravity             : %USERPROFILE%\.gemini\config\skills
       - Claude Code                      : %USERPROFILE%\.claude\skills
+      - Cursor IDE                       : %USERPROFILE%\.cursor\skills
       - GitHub Copilot                   : %USERPROFILE%\.copilot\skills
       - OpenAI / Agent Skills (ChatGPT)  : %USERPROFILE%\.agents\skills
       - OpenAI Codex                     : %USERPROFILE%\.codex\skills
@@ -274,6 +275,7 @@ function Resolve-DefaultTargets {
     $targets = [ordered]@{
         "Gemini / Antigravity"            = Join-Path (Join-Path (Join-Path $userHome ".gemini") "config") "skills"
         "Claude Code"                     = Join-Path (Join-Path $userHome ".claude") "skills"
+        "Cursor IDE"                      = Join-Path (Join-Path $userHome ".cursor") "skills"
         "GitHub Copilot"                  = Join-Path (Join-Path $userHome ".copilot") "skills"
         "OpenAI / Agent Skills (ChatGPT)" = Join-Path (Join-Path $userHome ".agents") "skills"
         "OpenAI Codex"                    = $legacyCodex
@@ -524,12 +526,18 @@ if ($TargetsArg) {
             $activeTargets["Gemini / Antigravity"] = $defaultTargets["Gemini / Antigravity"]
         } elseif ($kLower -match "claude") {
             $activeTargets["Claude Code"] = $defaultTargets["Claude Code"]
+        } elseif ($kLower -match "cursor") {
+            $activeTargets["Cursor IDE"] = $defaultTargets["Cursor IDE"]
         } elseif ($kLower -match "copilot|github") {
             $activeTargets["GitHub Copilot"] = $defaultTargets["GitHub Copilot"]
         } elseif ($kLower -match "chatgpt|agents|openai") {
             $activeTargets["OpenAI / Agent Skills (ChatGPT)"] = $defaultTargets["OpenAI / Agent Skills (ChatGPT)"]
         } elseif ($kLower -match "codex") {
             $activeTargets["OpenAI Codex"] = $defaultTargets["OpenAI Codex"]
+        } elseif (($kLower -match "cline") -and $defaultTargets.Contains("Cline")) {
+            $activeTargets["Cline"] = $defaultTargets["Cline"]
+        } elseif (($kLower -match "cagent") -and $defaultTargets.Contains("CAgent")) {
+            $activeTargets["CAgent"] = $defaultTargets["CAgent"]
         } else {
             $fullCustom = [System.IO.Path]::GetFullPath($k)
             $leafName = Split-Path -Leaf $fullCustom
