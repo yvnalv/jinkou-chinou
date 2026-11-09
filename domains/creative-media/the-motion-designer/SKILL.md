@@ -2,7 +2,7 @@
 name: the-motion-designer
 description: "Programmatic motion graphics and video production persona built on Remotion (React and TypeScript). Plans storyboards, selects brand guidelines (isolated brand profiles such as GLM, Databro, or custom brand folders), enforces social media platform aspect ratios and UI safe zones (Instagram Reels, Stories, Feed, TikTok, YouTube Shorts and 16:9, LinkedIn, Facebook, X), writes frame-deterministic Remotion compositions (useCurrentFrame, spring, interpolate, TransitionSeries, Three.js, Skia, Lottie, animated captions), and exports MP4, WebM, Apple ProRes 4444 alpha overlays, GIF loops, PNG sequences, and still graphics. Use when the user wants to create, animate, or render a motion graphic, promotional video, SaaS product demo, kinetic typography reel, social media video, logo stinger, or Remotion project. Not for live-action camera shooting, static UI app wireframing without motion, or automated browser QA testing."
 metadata:
-  version: 0.2.0
+  version: 0.3.0
 ---
 
 # The Motion Designer — Programmatic Video & Motion Graphics
@@ -38,11 +38,17 @@ Paths are relative to this skill's base directory.
 | `references/export-formats-and-codecs.md` | Rendering final deliverables: exact CLI flags and `renderMedia()` / `renderStill()` configs for MP4, WebM Alpha, ProRes 4444, GIF, PNG sequences, and PDF/WebP stills. |
 | `references/motion-styles-and-choreography.md` | Designing visual pacing and choreography: spring physics presets (`snappy`, `smooth`, `bouncy`, `heavy`), stagger timing, camera pan/zoom rigs, and kinetic typography rules. |
 | `references/brand-system-architecture.md` | Isolating brand guidelines (`brand.ts` / `brand.json`) or scaffolding dedicated brand-specific specialized skills (such as `glm-brand-motion` or `databro-brand-motion`) that extend this skill. |
+| `references/base-canvas-and-layout-architecture.md` | Using or customizing the **Standard Base Content Canvas** (`9:16`, `4:5`, `1:1`, `16:9` presets, persistent root layers vs. `<TransitionSeries>` stage) and the standardized `<brand>/assets/brand-kit/` directory structure. |
+| `references/voiceover-cc-and-sfx-guide.md` | Recording talent voice samples, generating cloned voiceovers with word-level timestamps, locking Closed Captions at a fixed Y coordinate, and adding TikTok/CapCut sound effects and transitions. |
+| `references/prompting-and-workflow-guide.md` | Prompting and content-generation guide with copy-pasteable prompt templates for tutorials, product launches, explainers, and multi-aspect-ratio exports. |
 | `references/STORYBOARD_SPEC.template.md` | Mode A: Creating the scene-by-scene storyboard, frame budget, safe-zone check, and brand token mapping (`STORYBOARD_SPEC.md`) before writing code. |
 | `assets/brand-tokens.starter.ts` | Starting or typing an isolated brand profile: `BrandTheme` TypeScript interface, spring presets, and platform safe-zone constants (`SAFE_ZONES`). |
+| `assets/canvas-presets.starter.ts` | Standard Base Content Canvas geometry presets (`'9:16'`, `'4:5'`, `'1:1'`, `'16:9'`) and `customizeCanvasPreset()` helper for modifying or duplicating layouts across platforms. |
+| `assets/BaseContentCanvas.starter.tsx` | Master 5-layer reusable canvas shell: renders persistent backdrop, persistent top-left brand logo (animates only on `frame 0..12`), fixed-Y Closed Captions, `<TransitionSeries>` center stage, and frame-accurate `<Audio>` SFX/VO cues. |
 | `assets/SafeZoneOverlay.starter.tsx` | Drop-in Remotion studio guide component: draws semi-transparent platform UI dead zones (Like/Comment/Share stack, bottom caption area, 4:5 crop lines, and CC safe band) in preview and auto-hides during final render. |
 | `assets/Root.starter.tsx` | Registering Remotion `<Composition>` and `<Still>` entries with Zod prop schemas and multi-platform aspect ratio presets. |
 | `assets/SceneTemplate.starter.tsx` | Writing a deterministic Remotion scene: demonstrates `useCurrentFrame()`, clamped `interpolate()`, `spring()`, brand tokens, and CC safe-zone placement. |
+| `scripts/generate_default_sfx.py` | Synthesizing the default royalty-free TikTok/CapCut `.wav` SFX & BGM pack (`keyboard-typing`, `pop-up`, `whoosh-transition`, `mouse-click`, `progress-ticks`, `callout-ding`, `bgm-ambient`) into any brand's `<brand>/assets/brand-kit/audio/` folder. |
 | `scripts/validate_remotion_project.py` | Auditing a Remotion project or generated file for anti-hallucination compliance and version parity: `python <skill-dir>/scripts/validate_remotion_project.py --path <project-or-file> [--json]`. |
 
 ---
@@ -160,15 +166,18 @@ Ask **which platform** the content will be published on first, then confirm its 
 * **Never mix colors, fonts, logos, or lower-third components from one brand into another.**
 * Always ask which brand to use during the Pre-Generation Wizard before generating scenes.
 
-### 3. Center-Locked Main Container, Fixed Top Header & Safe-Zone Protection
-* **Main Content Container Must Be Vertically and Horizontally Centered**:
-  - Never skew the main content container off-center with asymmetric left/right insets. Even when a social platform has a right-side icon stack (`140–192px` on `9:16`), use **symmetric horizontal margins (`left === right`)** so the main container's center is locked to the exact canvas horizontal center (`X = Width / 2`, e.g., `left: 160px, right: 160px`, `width: 760px` centered at `X = 540px` on `1080×1920`).
-  - Inside the safe stage (`Y: 288px to 1080px` on `9:16`), center the main content container both **vertically and horizontally** (`display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'`).
-* **Fixed Top-Left Logo & Optional Top-Right Icon/Status Header**:
-  - Anchor the brand logo/wordmark at a **fixed top-left position** (and an optional scene icon/counter at a **fixed top-right position** when the brand profile uses one) inside the safe top boundary. This persistent header frames the canvas while the main content animates in the center.
-* **Horizontally Centered Closed Captions (CC) in the Safe Band**:
-  - When generating for any social media platform (`Instagram`, `TikTok`, `YouTube`, `LinkedIn`, `Facebook`, `X`), never place titles, logos, or Closed Captions (CC) inside the platform's UI dead zones (`references/social-media-safe-zones.md`).
-  - On `9:16` (`1080×1920`) vertical videos, center the Closed Captions container horizontally (`left: 0, right: 0, display: 'flex', justifyContent: 'center'`, `maxWidth: 760px`) inside the **CC Safe Band (`Y: 1080px to 1260px`)** using the active brand's caption style (e.g., cardless bold 2–4 word chunks or a solid high-contrast pill).
+### 3. Standard Base Content Canvas, Persistent Chrome & Fixed Closed Captions
+* **Always Build on the 5-Layer `BaseContentCanvas` (`assets/BaseContentCanvas.starter.tsx` + `assets/canvas-presets.starter.ts`)**:
+  - Separate **Persistent Root Chrome** (background color, top-left brand logo, fixed Closed Captions, and audio/SFX tracks) from the **Transitioning Center Stage** (`<TransitionSeries>`).
+  - Never place the brand logo or Closed Captions inside individual transitioning scenes (`references/base-canvas-and-layout-architecture.md`).
+* **Persistent Top-Left Logo (Animates Only on Beginning `frame 0..12`)**:
+  - Anchor the brand logo/wordmark at the preset's fixed top-left coordinate (e.g., `top: 108px, left: 100px` on `9:16`). It springs in **only once at `frame 0..12`** of the video and stays **100% stationary** across all slide transitions so scene changes look completely seamless.
+* **Symmetric Center-Locked Stage & CapCut Smooth Transitions**:
+  - Inside the safe stage (`left === right`), center the main content container both **vertically and horizontally** (`display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'`).
+  - Use CapCut/TikTok smooth transitions (`pop-scale`, `camera-zoom-pan`, `whip-slide`, `implode-out`) inside `<TransitionSeries>` paired with frame-accurate TikTok SFX cues (`keyboard-typing`, `pop-up`, `whoosh-transition`, `mouse-click`, `progress-ticks`, `callout-ding` — see `references/voiceover-cc-and-sfx-guide.md`).
+* **Fixed-Coordinate Closed Captions (CC) with Zero Vertical Movement**:
+  - Lock Closed Captions at the preset's exact fixed `Y` coordinate (`Y = 1480px` on `9:16` `1080×1920`, `Y = 1140px` on `4:5`, `Y = 910px` on `1:1`, `Y = 920px` on `16:9`).
+  - Display short 2-to-4 word chunks that switch via a `3-frame` opacity cross-fade with **zero vertical bounce or position shift**.
 
 ### 4. Zero-Gradient, Anti-AI Visual & Copy Craft (`the-uix-designer` Standard)
 * **Strict Solid Color Rule (Zero Gradients & Zero Neon Blur Orbs)**:

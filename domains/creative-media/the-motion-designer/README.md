@@ -8,7 +8,7 @@ Programmatic motion graphics, social media video, kinetic typography, animated i
 | --- | --- |
 | Domain | `creative-media` |
 | Type | `core` |
-| Version | `0.2.0` |
+| Version | `0.3.0` |
 | Owner | `@yvnalv` |
 | Tags | `creative-media`, `remotion`, `motion-graphics`, `video-production`, `animation`, `social-media`, `react` |
 
@@ -48,6 +48,12 @@ the-motion-designer/
 ```
 
 ## Changelog
+
+### 0.3.0 — 2026-11-09
+
+- Added the **Standard Base Content Canvas** (`assets/BaseContentCanvas.starter.tsx` + `assets/canvas-presets.starter.ts`) across `'9:16'`, `'4:5'`, `'1:1'`, and `'16:9'` aspect ratios, separating persistent root layers (background, fixed top-left logo that animates only at `frame 0..12`, fixed-coordinate Closed Captions at `Y = 1480px` on `9:16`, and audio/SFX tracks) from the `<TransitionSeries>` center stage.
+- Added comprehensive guides in `references/base-canvas-and-layout-architecture.md`, `references/voiceover-cc-and-sfx-guide.md`, and `references/prompting-and-workflow-guide.md` covering talent voice recording & AI voice cloning, fixed CC alignment, CapCut transitions, and TikTok SFX.
+- Added `scripts/generate_default_sfx.py` to synthesize the default 6-SFX + BGM `.wav` pack (`keyboard-typing`, `pop-up`, `whoosh-transition`, `mouse-click`, `progress-ticks`, `callout-ding`, `bgm-ambient`) into any brand's `assets/brand-kit/audio/` directory.
 
 ### 0.2.0 — 2026-11-09
 

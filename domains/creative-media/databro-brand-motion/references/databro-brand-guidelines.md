@@ -1,60 +1,73 @@
-# Databro Studio (`@databroid`) Brand Motion Guidelines
+# Databro Studio (`@databroid`) — Brand Motion Guidelines & Base Canvas Spec
 
-Extracted from Databro Studio's official TikTok (`@databroid` / *"Help people to make the right data-driven decision"*). Keep this brand completely isolated from `the-motion-designer` core defaults and other brand skills.
-
----
-
-## 1. Brand Identity & Fixed Top-Left Lockup
-
-* **Brand Name**: `Databro`
-* **Sub-label**: `Belajar Data Science`
-* **Avatar Mark**: `assets/databro-avatar.jpg` — Circular warm cream (`#F2EBE1`) badge featuring the black-and-cream illustrated Databro creator portrait.
-* **Header Placement (`1080 × 1920` Vertical Canvas)**:
-  * **Position**: Fixed at `left: 88px`, `top: 220px` (sits cleanly below the OS status bar and remains visible in both `9:16` full-screen and `4:5` feed preview).
-  * **Layout**: Horizontal flex row (`gap: 18px`, `alignItems: 'center'`):
-    * Avatar: `68 × 68 px` circle (`borderRadius: '50%'`).
-    * Text Stack:
-      * Line 1: `Databro` (`fontSize: 38px`, `fontWeight: 700`, `color: '#FFFFFF'`, `lineHeight: 1.05`).
-      * Line 2: `Belajar Data Science` (`fontSize: 19px`, `fontWeight: 400`, `color: '#B3B3B3'`, `lineHeight: 1.2`).
-  * **Top-Right Rule**: Leave the top-right corner completely empty. Do not add step counters or grid icons.
+> **Source Reference**: Extracted from [`@databroid` TikTok (`https://www.tiktok.com/@databroid/video/7633480140214897927`)](https://www.tiktok.com/@databroid/video/7633480140214897927) — *"Databro / Belajar Data Science"*.
+> **Brand Isolation Rule**: These tokens, components, and layout rules apply **exclusively** when the user selects the **Databro** brand in `the-motion-designer` or invokes `/databro-brand-motion`. Never mix these tokens into `the-motion-designer` or other brands.
 
 ---
 
-## 2. Color Palette (100% Solid Flat Hex Tokens)
+## 1. Color Palette (100% Solid Flat Colors — Zero Gradients)
 
-| Role | Hex | Usage |
-|---|---|---|
-| **Canvas Background** | `#111111` | Full-bleed matte charcoal-black canvas across all scenes. Never use gradients or glow orbs. |
-| **Primary Accent (Databro Lime)** | `#BFFF72` | Hero display keywords (`Ollama`, `Databro 2.0`), highlighted action words in instruction headers (`Ketik "Download Ollama"`). |
-| **Emblem Circle / Badge Cream** | `#F2EBE1` | Central `400×400px` circular emblem badge in hook/outro scenes; matches the avatar background. |
-| **Primary Text** | `#FFFFFF` | Hook titles, instruction prefixes, terminal text, and bottom ALL-CAPS Closed Captions. |
-| **Secondary Sub-label Text** | `#B3B3B3` | `Belajar Data Science` subtitle and terminal prompt metadata. |
-| **Callout Highlight Box** | `#D92D20` | Solid `3px` red rectangular border highlighting key terminal outputs or UI buttons. |
-| **Terminal Chrome** | `#1F1F1F` / `#0A0A0A` | Windows Terminal / Command Prompt tab bar (`#1F1F1F`) and console body (`#0A0A0A`). |
-
----
-
-## 3. Typography & Hierarchy
-
-* **Display & UI Font**: `"Plus Jakarta Sans"`, `"Poppins"`, or `"Inter"` (clean geometric sans-serif).
-* **Terminal / Code Font**: `"JetBrains Mono"` or `"Consolas"`, `monospace`.
-* **Size Scale (`1080 × 1920` Canvas)**:
-  * **Hero Lime Display Word**: `104px – 120px`, `fontWeight: 800`, `color: '#BFFF72'`, `letterSpacing: '-0.03em'`.
-  * **Opening Hook Title**: `50px – 56px`, `fontWeight: 600`, `color: '#FFFFFF'`, `lineHeight: 1.22`, centered, with a solid white block cursor (`width: 24px, height: 52px, backgroundColor: '#FFFFFF'`) during the typewriter reveal.
-  * **Scene Instruction Header**: `40px – 44px`, `fontWeight: 700`, centered above the terminal/window (`#FFFFFF` verb + `#BFFF72` highlighted target).
-  * **Closed Captions (CC)**: `36px – 40px`, `fontWeight: 800`, `textTransform: 'uppercase'`, `color: '#FFFFFF'`, `letterSpacing: '0.01em'`, centered at `Y: 1180–1260px` with **no background box**.
+| Token Name | Hex Code | Usage in `@databroid` Videos |
+| :--- | :--- | :--- |
+| **`backgroundPrimary`** | `#111111` | Full-bleed solid matte charcoal canvas (`RGB(17, 17, 17)`). No gradients, no grid lines, no glow orbs. |
+| **`backgroundElevated`** | `#0C0C0C` | Pure terminal window interior background (`Command Prompt` body). |
+| **`terminalChrome`** | `#1F1F1F` | Windows Terminal top tab bar (`Command Prompt` tab header). |
+| **`textPrimary`** | `#FFFFFF` | Primary headline text, `Databro` brand title, and Closed Captions (CC). |
+| **`textSecondary`** | `#B3B3B3` | Sub-label (`Belajar Data Science`) and muted terminal metadata. |
+| **`accentPrimary` (Databro Lime)** | `#BFFF72` | Signature Databro lime green (`RGB(191, 255, 114)`). Used for giant display keywords (`Ollama`, `Databro`) and highlighted action terms (`Ketik "Download Ollama"`). |
+| **`accentSecondary` (Warm Cream)** | `#F2EBE1` | Signature warm cream circle (`RGB(242, 235, 225)`) used for the avatar circle and central hero emblem circles. |
+| **`emblemInk`** | `#111111` | Bold black line-art icon and uppercase label inside the `#F2EBE1` warm cream circle. |
+| **`calloutRed`** | `#D92D20` | Solid `3px` red rectangular callout border (`borderRadius: 6px`) highlighting key terminal output or buttons. |
 
 ---
 
-## 4. Scene Choreography Patterns
+## 2. Standard Databro Base Content Canvas (`DatabroBaseCanvas`)
 
-1. **Hook / Emblem Scene**:
-   * Frames `0–25`: Opening title types in at the top of the center stage (`Y ≈ 480px`) with a white block cursor (`█`).
-   * Frame `18`: Central `#F2EBE1` Warm Cream Circle (`400 × 400 px`) + giant `#BFFF72` Lime Green keyword below it pop in with a snappy spring, accompanied by small decorative 4-point star/dot accents on the right edge of the circle.
-2. **Terminal / Action Step Scene**:
-   * Top of center stage (`Y ≈ 500px`): Instruction line (`#FFFFFF` + `#BFFF72`).
-   * Center of stage (`Y ≈ 580–1060px`): Centered Windows Terminal (`Command Prompt`) window (`width: 820px`, centered at `X = 540px`).
-   * Command types in (`C:\Users\databro> ...`), output appears, and a crisp **`3px solid #D92D20` red rectangle** springs in around the key output line to direct viewer attention.
-3. **Closed Captions (CC)**:
-   * Positioned at `Y: 1180px` (`X = 540px` centered). Displays 2–4 words at a time in bold uppercase white text (`#FFFFFF`) without any pill or card background.
+Every Databro video is built on [`assets/DatabroBaseCanvas.starter.tsx`](../assets/DatabroBaseCanvas.starter.tsx) and [`assets/databro.brand.starter.ts`](../assets/databro.brand.starter.ts) (`DATABRO_CANVAS_PRESETS`).
 
+### Persistent Root Layers vs. Transitioning Stage
+
+| Layer | Component / Element | Position on `9:16` (`1080×1920`) | Transition Rule |
+| :--- | :--- | :--- | :--- |
+| **Layer 0: Canvas** | `#111111` Matte Charcoal | `0, 0, 1080×1920` | **Persistent** — never transitions. |
+| **Layer 1: Center Stage** | `<TransitionSeries>` host | `top: 250, bottom: 490, left: 90, right: 90` | **Transitioning** — ONLY this layer runs CapCut smooth transitions (`pop-scale`, `camera-zoom-pan`, `whip-slide`, `implode-out`). |
+| **Layer 2: Top-Left Lockup** | [`DatabroLogoLockup`](../assets/DatabroLogoLockup.starter.tsx) | **`top: 108px, left: 100px`** (`64×64px` avatar) | **Persistent** — animates in **only once at `frame 0..12`** of the video, then stays **100% stationary** across all slide transitions. |
+| **Layer 3: Closed Captions** | [`DatabroCaptions`](../assets/DatabroCaptions.starter.tsx) | Locked at **`Y = 1480px`** (`left: 110, right: 110`) | **Persistent** — locked at `Y = 1480px` throughout the entire video (`3-frame` opacity cross-fade, **zero vertical movement**). |
+| **Layer 4: Audio & SFX** | `<Audio />` + `<Sequence>` | Root audio bus | Plays `bgm-ambient.wav` (`volume: 0.14`), `voiceover.wav`, and frame-accurate TikTok SFX cues. |
+
+### Multi-Platform Aspect Ratio Presets (`DATABRO_CANVAS_PRESETS`)
+
+To duplicate or adapt a Databro video to another platform, pass `aspectRatio="4:5" | "1:1" | "16:9"` to `<DatabroBaseCanvas />` or call `customizeDatabroCanvas()`:
+
+| Aspect Ratio | Resolution | Top-Left Logo `(left, top)` | Centered Stage `(top, bottom, left, right)` | Fixed Closed Caption `Y` |
+| :--- | :--- | :--- | :--- | :--- |
+| **`9:16`** (TikTok / Reels / Shorts) | `1080×1920` | `(100px, 108px)` | `top: 250, bottom: 490, left: 90, right: 90` | **`Y = 1480px`** (`38px` ExtraBold) |
+| **`4:5`** (IG / LinkedIn Portrait) | `1080×1350` | `(84px, 72px)` | `top: 180, bottom: 260, left: 84, right: 84` | **`Y = 1140px`** (`34px` ExtraBold) |
+| **`1:1`** (Square Feed) | `1080×1080` | `(72px, 56px)` | `top: 150, bottom: 210, left: 72, right: 72` | **`Y = 910px`** (`32px` ExtraBold) |
+| **`16:9`** (YouTube / Landscape) | `1920×1080` | `(96px, 64px)` | `top: 160, bottom: 200, left: 140, right: 140` | **`Y = 920px`** (`36px` ExtraBold) |
+
+---
+
+## 3. Authentic `@databroid` Scene Archetypes & Choreography
+
+### Archetype A — Typewriter + Warm Cream Emblem Hook (`00:00–00:08`)
+1. **Beat 1 (`frame 0..24`)**: Only the persistent top-left `Databro` lockup, centered white typewriter text with solid block cursor (`█`) + `sfx: 'keyboard-typing'`, and bottom caption at `Y = 1480px` are visible.
+2. **Beat 2 (`frame 24..90`)**: Center `#F2EBE1` warm cream circle (`380–400px`) springs in (`scale: 0 -> 1` with `bouncy` spring + `sfx: 'pop-up'`) with 4-point white sparkle burst on the right, followed `4 frames` later by the giant `#BFFF72` lime green keyword (`108–124px` ExtraBold) popping in above `Y = 1480px`.
+
+### Archetype B — Terminal / Browser Step with Camera Zoom & Red Callout
+1. **Action Instruction Header**: Centered above the window, `44–50px` Bold `#FFFFFF`, with quoted action keywords in `#BFFF72` lime green (e.g., `Ketik "Download Ollama"` or `1. Run SQL Queries "10x Faster"`).
+2. **Window Entry & Camera Zoom**: Window pops in (`sfx: 'pop-up'`), commands type in with `sfx: 'keyboard-typing'`, progress bar fills with `sfx: 'progress-ticks'`, and the camera smoothly zooms (`scale: 1 -> 1.18`) toward the `#D92D20` red callout rectangle (`sfx: 'callout-ding'`).
+
+---
+
+## 4. Brand Kit Storage (`assets/brand-kit/`)
+
+All Databro brand files live in [`assets/brand-kit/README.md`](../assets/brand-kit/README.md):
+- Token JSON: [`assets/brand-kit/guidelines/databro.tokens.json`](../assets/brand-kit/guidelines/databro.tokens.json)
+- PDF Guidelines: [`assets/brand-kit/guidelines/pdfs/README.md`](../assets/brand-kit/guidelines/pdfs/README.md)
+- Fonts: [`assets/brand-kit/fonts/README.md`](../assets/brand-kit/fonts/README.md)
+- Logos & Avatar: [`assets/brand-kit/logos/databro-avatar.jpg`](../assets/brand-kit/logos/databro-avatar.jpg) and [`assets/brand-kit/logos/README.md`](../assets/brand-kit/logos/README.md)
+- Graphics (Emblems, UI Frames, Overlays): [`assets/brand-kit/graphics/README.md`](../assets/brand-kit/graphics/README.md)
+- Reference Videos & Designs: [`assets/brand-kit/references/README.md`](../assets/brand-kit/references/README.md)
+- TikTok SFX (`keyboard-typing.wav`, `pop-up.wav`, `whoosh-transition.wav`, `mouse-click.wav`, `progress-ticks.wav`, `callout-ding.wav`) & BGM (`bgm-ambient.wav`): `assets/brand-kit/audio/sfx/` and `assets/brand-kit/audio/bgm/`
+- Talent Voice Recording Guide & Generated Voiceovers: [`assets/brand-kit/audio/voiceover/talent-samples/VOICE_RECORDING_GUIDE.md`](../assets/brand-kit/audio/voiceover/talent-samples/VOICE_RECORDING_GUIDE.md) and [`assets/brand-kit/audio/voiceover/generated/README.md`](../assets/brand-kit/audio/voiceover/generated/README.md)

@@ -1,73 +1,83 @@
 import React from 'react';
 import { interpolate, useCurrentFrame } from 'remotion';
-import { DATABRO_BRAND, DatabroBrandTheme } from './databro.brand.starter';
+import {
+  DATABRO_CANVAS_PRESETS,
+  DatabroAspectRatioKey,
+  DatabroCanvasPreset,
+  DatabroCaptionCue,
+  databroBrand,
+} from './databro.brand.starter';
 
 export interface DatabroCaptionsProps {
-  phrases: string[];
-  brand?: DatabroBrandTheme;
-  startFrame?: number;
-  endFrame?: number;
+  captions: DatabroCaptionCue[];
+  aspectRatio?: DatabroAspectRatioKey;
+  presetOverride?: DatabroCanvasPreset;
 }
 
 /**
- * Authentic Databro Studio (@databroid) Closed Captions:
- *  - Cardless (zero background pill or border)
- *  - Short 2-to-4 word chunks in ALL-CAPS ExtraBold #FFFFFF
- *  - Horizontally centered at X = 540px, Y = 1180px
+ * Authentic @databroid Cardless Uppercase White Closed Captions (CC).
+ *
+ * Locked at the exact reference TikTok vertical coordinate (`Y = 1480px` on 1080x1920)
+ * at the Root Composition level so captions never bounce vertically or slide away
+ * when scenes transition.
  */
 export const DatabroCaptions: React.FC<DatabroCaptionsProps> = ({
-  phrases,
-  brand = DATABRO_BRAND,
-  startFrame = 4,
-  endFrame = 88,
+  captions,
+  aspectRatio = '9:16',
+  presetOverride,
 }) => {
   const frame = useCurrentFrame();
+  const preset = presetOverride ?? DATABRO_CANVAS_PRESETS[aspectRatio];
 
-  if (phrases.length === 0 || frame < startFrame || frame > endFrame) {
+  const active = captions.find(
+    (c) => frame >= c.startFrame && frame < c.endFrame
+  );
+  if (!active) {
     return null;
   }
 
-  const indexFloat = interpolate(
+  // 3-frame opacity cross-fade at the exact fixed Y coordinate (zero vertical movement)
+  const fade = interpolate(
     frame,
-    [startFrame, endFrame],
-    [0, phrases.length - 0.01],
-    {
-      extrapolateLeft: 'clamp',
-      extrapolateRight: 'clamp',
-    }
+    [
+      active.startFrame,
+      active.startFrame + 3,
+      active.endFrame - 3,
+      active.endFrame,
+    ],
+    [0.25, 1, 1, 0.25],
+    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
   );
-  const activeIndex = Math.floor(indexFloat);
-  const currentPhrase = phrases[activeIndex] ?? '';
 
   return (
     <div
       style={{
         position: 'absolute',
-        top: brand.layout.ccTop,
-        left: brand.layout.stageLeft,
-        right: brand.layout.stageRight,
+        top: preset.closedCaption.y,
+        left: preset.closedCaption.left,
+        right: preset.closedCaption.right,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
         pointerEvents: 'none',
-        zIndex: 55,
+        opacity: fade,
+        zIndex: 30,
       }}
     >
       <span
         style={{
-          fontFamily: brand.typography.sans,
-          fontSize: 38,
+          fontFamily: databroBrand.typography.fontDisplay,
+          fontSize: preset.closedCaption.fontSize,
           fontWeight: 800,
-          color: brand.colors.white,
+          letterSpacing: '0.02em',
+          lineHeight: 1.2,
+          color: databroBrand.colors.textPrimary,
           textTransform: 'uppercase',
-          letterSpacing: '0.01em',
-          lineHeight: 1.25,
         }}
       >
-        {currentPhrase}
+        {active.text}
       </span>
     </div>
   );
 };
-

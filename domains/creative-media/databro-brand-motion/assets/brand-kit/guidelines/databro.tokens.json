@@ -1,0 +1,78 @@
+{
+  "brandId": "databro",
+  "brandName": "Databro Studio (@databroid)",
+  "tagline": "Belajar Data Science",
+  "version": "0.2.0",
+  "colors": {
+    "backgroundPrimary": "#111111",
+    "backgroundElevated": "#0C0C0C",
+    "terminalChrome": "#1F1F1F",
+    "textPrimary": "#FFFFFF",
+    "textSecondary": "#B3B3B3",
+    "accentPrimary": "#BFFF72",
+    "accentSecondary": "#F2EBE1",
+    "emblemCircleFill": "#F2EBE1",
+    "emblemCircleInk": "#111111",
+    "calloutRedBorder": "#D92D20",
+    "semanticSuccess": "#BFFF72",
+    "semanticWarning": "#F59E0B",
+    "semanticDanger": "#D92D20",
+    "borderSubtle": "#2E2E2E"
+  },
+  "typography": {
+    "fontDisplay": "Plus Jakarta Sans, Inter, system-ui, sans-serif",
+    "fontBody": "Inter, Plus Jakarta Sans, system-ui, sans-serif",
+    "fontMono": "Consolas, JetBrains Mono, monospace"
+  },
+  "baseCanvasPresets": {
+    "9:16": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "logoTopLeft": { "top": 108, "left": 100, "avatarSize": 64 },
+      "logoTopRight": { "enabled": false, "top": 108, "right": 100 },
+      "contentStage": { "top": 250, "bottom": 490, "left": 90, "right": 90 },
+      "closedCaption": { "y": 1480, "left": 110, "right": 110, "fontSize": 38, "maxWordsPerChunk": 4, "uppercase": true, "cardless": true }
+    },
+    "4:5": {
+      "width": 1080,
+      "height": 1350,
+      "fps": 30,
+      "logoTopLeft": { "top": 72, "left": 84, "avatarSize": 56 },
+      "logoTopRight": { "enabled": false, "top": 72, "right": 84 },
+      "contentStage": { "top": 180, "bottom": 260, "left": 84, "right": 84 },
+      "closedCaption": { "y": 1140, "left": 96, "right": 96, "fontSize": 34, "maxWordsPerChunk": 4, "uppercase": true, "cardless": true }
+    },
+    "1:1": {
+      "width": 1080,
+      "height": 1080,
+      "fps": 30,
+      "logoTopLeft": { "top": 56, "left": 72, "avatarSize": 52 },
+      "logoTopRight": { "enabled": false, "top": 56, "right": 72 },
+      "contentStage": { "top": 150, "bottom": 210, "left": 72, "right": 72 },
+      "closedCaption": { "y": 910, "left": 84, "right": 84, "fontSize": 32, "maxWordsPerChunk": 4, "uppercase": true, "cardless": true }
+    },
+    "16:9": {
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "logoTopLeft": { "top": 64, "left": 96, "avatarSize": 56 },
+      "logoTopRight": { "enabled": false, "top": 64, "right": 96 },
+      "contentStage": { "top": 160, "bottom": 200, "left": 140, "right": 140 },
+      "closedCaption": { "y": 920, "left": 240, "right": 240, "fontSize": 36, "maxWordsPerChunk": 6, "uppercase": true, "cardless": true }
+    }
+  },
+  "audio": {
+    "bgmDefault": "brand-kit/audio/bgm/bgm-ambient.wav",
+    "bgmVolume": 0.14,
+    "sfx": {
+      "keyboard-typing": "brand-kit/audio/sfx/keyboard-typing.wav",
+      "pop-up": "brand-kit/audio/sfx/pop-up.wav",
+      "whoosh-transition": "brand-kit/audio/sfx/whoosh-transition.wav",
+      "mouse-click": "brand-kit/audio/sfx/mouse-click.wav",
+      "progress-ticks": "brand-kit/audio/sfx/progress-ticks.wav",
+      "callout-ding": "brand-kit/audio/sfx/callout-ding.wav"
+    }
+  }
+}
+
