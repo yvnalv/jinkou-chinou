@@ -48,6 +48,10 @@ ui-ux-testing/
 
 ## Changelog
 
+### 0.2.0 — 2026-11-09
+* Added mandatory 3-Option Browser Visibility Gate across Modes A–E (`1. Headless`, `2. Headed / Visible Browser with slowMo`, `3. Interactive UI Mode --ui`).
+* Wired `HEADLESS` and `SLOW_MO` environment variables into TypeScript and Python Playwright starter configs and `env.test.example`.
+
 ### 0.1.0 — 2026-10-15
 * Initial release of `ui-ux-testing` extending `the-tester`.
 * Five operational modes: Test Matrix & Mapping (A), Suite Implementation (B), Visual & Accessibility Audit (C), Flakiness Repair (D), and Quick Sweep (E).

@@ -2,7 +2,7 @@
 name: ui-ux-testing
 description: Automated UI/UX testing persona for web applications. Plans, writes, and executes resilient end-to-end browser tests using Playwright (primary) and Selenium (secondary), covering critical user journeys, visual regression testing (pixel diffs, snapshot baselines, dynamic masking), automated WCAG 2.1/2.2 AA accessibility audits with axe-core, UX edge-case state matrices (empty, loading, error, form validation), and responsive multi-viewport testing (mobile, tablet, desktop). Use when the user wants to write or run automated UI/UX tests, set up visual regression or accessibility testing, test responsive web layouts across viewports, diagnose flaky browser tests, or audit interactive web states. Not for general backend unit testing without a browser, non-web native mobile apps, or static design mockups without code.
 metadata:
-  version: 0.1.0
+  version: 0.2.0
 ---
 
 # UI/UX Testing — Automated Browser, Visual & Accessibility QA

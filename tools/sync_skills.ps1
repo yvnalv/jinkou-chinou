@@ -15,8 +15,8 @@
       - Zero external dependencies (works out of the box on Windows 10/11 without Python).
       - SHA-256 content hashing via .NET to scan first and only copy/overwrite changed files.
       - Safe pruning of deleted files and empty directories.
-      - BOM-free UTF-8 installation marker (.installed-by-jinkou-chinou.json) compatible with sync_skills.py.
-      - Supports both GNU-style flags (--dry-run, --force, --targets, --json) and PowerShell parameters.
+      - Per-skill version tracking (vX.Y.Z, vOld -> vNew, vX.Y.Z (modified), NEW (vX.Y.Z)).
+      - Installed Skills & Version Catalog + Remote GitHub (origin/main) update check.
 #>
 
 $ErrorActionPreference = "Stop"
@@ -35,7 +35,7 @@ for ($i = 0; $i -lt $args.Count; $i++) {
         '^(-{1,2}force)$' { $Force = $true }
         '^(-{1,2}no-?pause|/no-?pause)$' { $NoPause = $true }
         '^(-{1,2}json)$' { $JsonOutput = $true }
-        '^(-{1,2}use-?ps1|-{1,2}powershell)$' { } # consumed silently if forwarded from .bat
+        '^(-{1,2}use-?ps1|-{1,2}powershell)$' { }
         '^(-{1,2}targets?)(=(.*))?$' {
             if ($Matches[3]) {
                 $TargetsArg = $Matches[3]
@@ -73,6 +73,112 @@ function Get-Sha256Hex {
         $stream.Dispose()
         $sha256.Dispose()
     }
+}
+
+function Get-SkillVersion {
+    param([string]$SkillDir)
+    $yamlPath = Join-Path (Join-Path $SkillDir "config") "skill.yaml"
+    if (Test-Path -LiteralPath $yamlPath -PathType Leaf) {
+        try {
+            $content = [System.IO.File]::ReadAllText($yamlPath)
+            if ($content -match '(?m)^\s*version\s*:\s*["'']?([^"''\s#]+)["'']?') {
+                return $Matches[1].Trim()
+            }
+        } catch {}
+    }
+
+    $mdPath = Join-Path $SkillDir "SKILL.md"
+    if (Test-Path -LiteralPath $mdPath -PathType Leaf) {
+        try {
+            $content = [System.IO.File]::ReadAllText($mdPath)
+            if ($content -match '(?m)^\s*version\s*:\s*["'']?([^"''\s#]+)["'']?') {
+                return $Matches[1].Trim()
+            }
+        } catch {}
+    }
+    return "0.1.0"
+}
+
+function Read-InstallMarker {
+    param([string]$SkillDest)
+    $markerPath = Join-Path $SkillDest $InstallMarker
+    $result = @{}
+    if (Test-Path -LiteralPath $markerPath -PathType Leaf) {
+        try {
+            $raw = [System.IO.File]::ReadAllText($markerPath)
+            $obj = $raw | ConvertFrom-Json
+            foreach ($prop in $obj.PSObject.Properties) {
+                if ($null -ne $prop.Value) {
+                    $result[$prop.Name] = [string]$prop.Value
+                }
+            }
+        } catch {}
+    }
+    return $result
+}
+
+function Write-InstallMarker {
+    param(
+        [string]$SkillDest,
+        [string]$SkillName,
+        [string]$DomainName,
+        [string]$VersionStr,
+        [string]$SourcePath,
+        [string]$InstalledAt,
+        [string]$UpdatedAt
+    )
+    $markerPath = Join-Path $SkillDest $InstallMarker
+    $escSkill = $SkillName.Replace('\', '\\').Replace('"', '\"')
+    $escDomain = $DomainName.Replace('\', '\\').Replace('"', '\"')
+    $escVer = $VersionStr.Replace('\', '\\').Replace('"', '\"')
+    $escSource = $SourcePath.Replace('\', '\\').Replace('"', '\"')
+    $jsonText = "{`n  `"skill`": `"$escSkill`",`n  `"domain`": `"$escDomain`",`n  `"version`": `"$escVer`",`n  `"source`": `"$escSource`",`n  `"installed_at`": `"$InstalledAt`",`n  `"updated_at`": `"$UpdatedAt`",`n  `"synced_at`": `"$UpdatedAt`"`n}"
+    $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+    [System.IO.File]::WriteAllText($markerPath, $jsonText, $utf8NoBom)
+}
+
+function Get-FallbackIso {
+    param([string]$SkillDest)
+    $targetFile = Join-Path $SkillDest "SKILL.md"
+    if (-not (Test-Path -LiteralPath $targetFile)) {
+        $targetFile = $SkillDest
+    }
+    try {
+        $item = Get-Item -LiteralPath $targetFile -Force
+        return $item.LastWriteTimeUtc.ToString("yyyy-MM-ddTHH:mm:ss.ffffff+00:00")
+    } catch {
+        return (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.ffffff+00:00")
+    }
+}
+
+function Get-FolderCreatedIso {
+    param([string]$SkillDest)
+    try {
+        $item = Get-Item -LiteralPath $SkillDest -Force
+        return $item.CreationTimeUtc.ToString("yyyy-MM-ddTHH:mm:ss.ffffff+00:00")
+    } catch {
+        return Get-FallbackIso -SkillDest $SkillDest
+    }
+}
+
+function ConvertFrom-IsoToLocal {
+    param([string]$IsoStr)
+    if ($IsoStr) {
+        try {
+            return ([DateTimeOffset]::Parse($IsoStr)).LocalDateTime
+        } catch {}
+    }
+    return (Get-Date)
+}
+
+function Format-DateShort {
+    param([string]$IsoStr)
+    return (ConvertFrom-IsoToLocal -IsoStr $IsoStr).ToString("yyyy-MM-dd")
+}
+
+function Format-DateTimeMin {
+    param([string]$IsoStr)
+    return (ConvertFrom-IsoToLocal -IsoStr $IsoStr).ToString("yyyy-MM-dd HH:mm")
 }
 
 function Scan-SkillFolder {
@@ -140,11 +246,13 @@ function Discover-DomainSkills {
             $skillMd = Join-Path $skillDir.FullName "SKILL.md"
             if (Test-Path -LiteralPath $skillMd -PathType Leaf) {
                 $files = Scan-SkillFolder -FolderPath $skillDir.FullName
+                $ver = Get-SkillVersion -SkillDir $skillDir.FullName
                 $skills += [PSCustomObject]@{
-                    Name   = $skillDir.Name
-                    Domain = $domainDir.Name
-                    Path   = $skillDir.FullName
-                    Files  = $files
+                    Name    = $skillDir.Name
+                    Domain  = $domainDir.Name
+                    Version = $ver
+                    Path    = $skillDir.FullName
+                    Files   = $files
                 }
             }
         }
@@ -183,19 +291,25 @@ function Resolve-DefaultTargets {
     return $targets
 }
 
-function Write-InstallMarker {
-    param(
-        [string]$SkillDest,
-        [string]$SourcePath,
-        [string]$DomainName
-    )
-    $markerPath = Join-Path $SkillDest $InstallMarker
-    $utcNow = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.ffffff+00:00")
-    $escapedSource = $SourcePath.Replace('\', '\\').Replace('"', '\"')
-    $escapedDomain = $DomainName.Replace('\', '\\').Replace('"', '\"')
-    $jsonText = "{`n  `"source`": `"$escapedSource`",`n  `"domain`": `"$escapedDomain`",`n  `"synced_at`": `"$utcNow`"`n}"
-    $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
-    [System.IO.File]::WriteAllText($markerPath, $jsonText, $utf8NoBom)
+function Format-VersionDisplay {
+    param([PSCustomObject]$Meta)
+    if ($Meta.Status -eq "installed") {
+        return "NEW (v$($Meta.CurrVersion))"
+    }
+    if ($Meta.Status -eq "updated") {
+        if ($Meta.PrevVersion -and ($Meta.PrevVersion -ne $Meta.CurrVersion)) {
+            return "v$($Meta.PrevVersion) -> v$($Meta.CurrVersion)"
+        }
+        return "v$($Meta.CurrVersion) (modified)"
+    }
+    return "v$($Meta.CurrVersion)"
+}
+
+function Format-StatusDisplay {
+    param([PSCustomObject]$Meta)
+    if ($Meta.Status -eq "installed") { return "[+] INSTALLED" }
+    if ($Meta.Status -eq "updated") { return "[~] UPDATED" }
+    return "[=] CURRENT"
 }
 
 function Sync-SkillToDestination {
@@ -211,6 +325,7 @@ function Sync-SkillToDestination {
         modified = @()
         removed  = @()
     }
+    $nowIso = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.ffffff+00:00")
 
     if (-not (Test-Path -LiteralPath $skillDest)) {
         $diff.added = @($Skill.Files.Keys | Sort-Object)
@@ -225,10 +340,28 @@ function Sync-SkillToDestination {
                 }
                 Copy-Item -LiteralPath $srcFile -Destination $dstFile -Force
             }
-            Write-InstallMarker -SkillDest $skillDest -SourcePath $Skill.Path -DomainName $Skill.Domain
+            Write-InstallMarker -SkillDest $skillDest -SkillName $Skill.Name -DomainName $Skill.Domain -VersionStr $Skill.Version -SourcePath $Skill.Path -InstalledAt $nowIso -UpdatedAt $nowIso
         }
-        return @{ Status = "installed"; Diff = $diff }
+        $meta = [PSCustomObject]@{
+            Name           = $Skill.Name
+            Domain         = $Skill.Domain
+            Status         = "installed"
+            PrevVersion    = $null
+            CurrVersion    = $Skill.Version
+            InstalledAt    = $nowIso
+            UpdatedAt      = $nowIso
+            ChangedThisRun = $true
+        }
+        return @{ Status = "installed"; Diff = $diff; Meta = $meta }
     }
+
+    $oldMarker = Read-InstallMarker -SkillDest $skillDest
+    $prevVersion = if ($oldMarker.ContainsKey("version") -and $oldMarker["version"]) { $oldMarker["version"] } else { Get-SkillVersion -SkillDir $skillDest }
+    $fallbackIso = if ($oldMarker.ContainsKey("synced_at") -and $oldMarker["synced_at"]) { $oldMarker["synced_at"] } else { Get-FallbackIso -SkillDest $skillDest }
+    $createdIso = Get-FolderCreatedIso -SkillDest $skillDest
+    $rawInstalled = if ($oldMarker.ContainsKey("installed_at") -and $oldMarker["installed_at"]) { $oldMarker["installed_at"] } else { $createdIso }
+    $installedAt = if ((ConvertFrom-IsoToLocal -IsoStr $createdIso) -lt (ConvertFrom-IsoToLocal -IsoStr $rawInstalled)) { $createdIso } else { $rawInstalled }
+    $prevUpdatedAt = if ($oldMarker.ContainsKey("updated_at") -and $oldMarker["updated_at"]) { $oldMarker["updated_at"] } else { $fallbackIso }
 
     $destFiles = Scan-SkillFolder -FolderPath $skillDest
 
@@ -246,9 +379,19 @@ function Sync-SkillToDestination {
                 }
                 Copy-Item -LiteralPath $srcFile -Destination $dstFile -Force
             }
-            Write-InstallMarker -SkillDest $skillDest -SourcePath $Skill.Path -DomainName $Skill.Domain
+            Write-InstallMarker -SkillDest $skillDest -SkillName $Skill.Name -DomainName $Skill.Domain -VersionStr $Skill.Version -SourcePath $Skill.Path -InstalledAt $installedAt -UpdatedAt $nowIso
         }
-        return @{ Status = "updated"; Diff = $diff }
+        $meta = [PSCustomObject]@{
+            Name           = $Skill.Name
+            Domain         = $Skill.Domain
+            Status         = "updated"
+            PrevVersion    = $prevVersion
+            CurrVersion    = $Skill.Version
+            InstalledAt    = $installedAt
+            UpdatedAt      = $nowIso
+            ChangedThisRun = $true
+        }
+        return @{ Status = "updated"; Diff = $diff; Meta = $meta }
     }
 
     $addedList = @()
@@ -276,7 +419,20 @@ function Sync-SkillToDestination {
 
     $hasChanges = ($addedList.Count -gt 0) -or ($modifiedList.Count -gt 0) -or ($removedList.Count -gt 0)
     if (-not $hasChanges) {
-        return @{ Status = "up-to-date"; Diff = $diff }
+        if (-not $IsDryRun -and (-not $oldMarker.ContainsKey("version") -or -not $oldMarker.ContainsKey("installed_at") -or -not $oldMarker.ContainsKey("updated_at") -or ($oldMarker["installed_at"] -ne $installedAt))) {
+            Write-InstallMarker -SkillDest $skillDest -SkillName $Skill.Name -DomainName $Skill.Domain -VersionStr $Skill.Version -SourcePath $Skill.Path -InstalledAt $installedAt -UpdatedAt $prevUpdatedAt
+        }
+        $meta = [PSCustomObject]@{
+            Name           = $Skill.Name
+            Domain         = $Skill.Domain
+            Status         = "up-to-date"
+            PrevVersion    = $prevVersion
+            CurrVersion    = $Skill.Version
+            InstalledAt    = $installedAt
+            UpdatedAt      = $prevUpdatedAt
+            ChangedThisRun = $false
+        }
+        return @{ Status = "up-to-date"; Diff = $diff; Meta = $meta }
     }
 
     if (-not $IsDryRun) {
@@ -308,10 +464,52 @@ function Sync-SkillToDestination {
             }
         }
 
-        Write-InstallMarker -SkillDest $skillDest -SourcePath $Skill.Path -DomainName $Skill.Domain
+        Write-InstallMarker -SkillDest $skillDest -SkillName $Skill.Name -DomainName $Skill.Domain -VersionStr $Skill.Version -SourcePath $Skill.Path -InstalledAt $installedAt -UpdatedAt $nowIso
     }
 
-    return @{ Status = "updated"; Diff = $diff }
+    $meta = [PSCustomObject]@{
+        Name           = $Skill.Name
+        Domain         = $Skill.Domain
+        Status         = "updated"
+        PrevVersion    = $prevVersion
+        CurrVersion    = $Skill.Version
+        InstalledAt    = $installedAt
+        UpdatedAt      = $nowIso
+        ChangedThisRun = $true
+    }
+    return @{ Status = "updated"; Diff = $diff; Meta = $meta }
+}
+
+function Test-RemoteRepoUpdates {
+    $gitDir = Join-Path $RootDir ".git"
+    if (-not (Test-Path -LiteralPath $gitDir)) {
+        return @{ State = "skipped"; Ahead = 0; Subject = "" }
+    }
+    try {
+        $oldEap = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
+        Push-Location -LiteralPath $RootDir
+        try {
+            $null = & git fetch origin main --quiet 2>$null
+            $logOut = @(& git log "HEAD..origin/main" --oneline 2>$null)
+            if ($LASTEXITCODE -ne 0) {
+                return @{ State = "skipped"; Ahead = 0; Subject = "" }
+            }
+            $lines = @($logOut | Where-Object { $_ -and ([string]$_).Trim() -ne "" })
+            if ($lines.Count -eq 0) {
+                return @{ State = "up-to-date"; Ahead = 0; Subject = "" }
+            }
+            $firstLine = ([string]$lines[0]).Trim()
+            $spaceIdx = $firstLine.IndexOf(" ")
+            $subj = if ($spaceIdx -gt 0) { $firstLine.Substring($spaceIdx + 1) } else { $firstLine }
+            return @{ State = "behind"; Ahead = $lines.Count; Subject = $subj }
+        } finally {
+            Pop-Location
+            $ErrorActionPreference = $oldEap
+        }
+    } catch {
+        return @{ State = "skipped"; Ahead = 0; Subject = "" }
+    }
 }
 
 # Main execution
@@ -347,20 +545,20 @@ $userHome = [Environment]::GetFolderPath("UserProfile")
 if (-not $userHome) { $userHome = $HOME }
 
 if (-not $JsonOutput) {
-    Write-Host ("=" * 64)
-    Write-Host "   jinkou-chinou AI Skills Smart Synchronizer (PowerShell)"
-    Write-Host ("=" * 64)
+    Write-Host ("=" * 76)
+    Write-Host "         jinkou-chinou AI Skills Smart Synchronizer (PowerShell)"
+    Write-Host ("=" * 76)
     Write-Host ("Current User Home : {0}" -f $userHome)
     Write-Host ("Discovered Skills : {0} domain skills" -f $skills.Count)
     if ($DryRun) {
         Write-Host "[DRY RUN MODE] No files will be modified on disk."
     }
-    Write-Host ("-" * 64)
+    Write-Host ("-" * 76)
     Write-Host "Sync Destinations:"
     foreach ($name in $activeTargets.Keys) {
-        Write-Host ("  * {0,-22} -> {1}" -f $name, $activeTargets[$name])
+        Write-Host ("  * {0,-32} -> {1}" -f $name, $activeTargets[$name])
     }
-    Write-Host ("=" * 64)
+    Write-Host ("=" * 76)
     Write-Host ""
 }
 
@@ -380,6 +578,7 @@ foreach ($targetName in $activeTargets.Keys) {
         UpToDateSkills  = @()
         FailedSkills    = @{}
         FileChanges     = @{}
+        SkillMeta       = @{}
         SkippedReason   = $null
     }
 
@@ -402,24 +601,27 @@ foreach ($targetName in $activeTargets.Keys) {
             $syncOut = Sync-SkillToDestination -Skill $skill -DestDir $targetPath -IsDryRun $DryRun -IsForce $Force
             $status = $syncOut.Status
             $diff = $syncOut.Diff
+            $meta = $syncOut.Meta
+            $res.SkillMeta[$skill.Name] = $meta
+            $verLabel = Format-VersionDisplay -Meta $meta
 
             if ($status -eq "installed") {
                 $res.InstalledSkills += $skill.Name
                 $res.FileChanges[$skill.Name] = $diff
                 if (-not $JsonOutput) {
-                    Write-Host ("  [+] INSTALLED   : {0} ({1} files)" -f $skill.Name, $diff.added.Count)
+                    Write-Host ("  [+] INSTALLED   : {0,-26} {1,-18} ({2} files)" -f $skill.Name, $verLabel, $diff.added.Count)
                 }
             } elseif ($status -eq "updated") {
                 $res.UpdatedSkills += $skill.Name
                 $res.FileChanges[$skill.Name] = $diff
                 $totalChanges = $diff.added.Count + $diff.modified.Count + $diff.removed.Count
                 if (-not $JsonOutput) {
-                    Write-Host ("  [~] UPDATED     : {0} ({1} files changed)" -f $skill.Name, $totalChanges)
+                    Write-Host ("  [~] UPDATED     : {0,-26} {1,-18} ({2} files changed)" -f $skill.Name, $verLabel, $totalChanges)
                 }
             } else {
                 $res.UpToDateSkills += $skill.Name
                 if (-not $JsonOutput) {
-                    Write-Host ("  [=] UP TO DATE  : {0}" -f $skill.Name)
+                    Write-Host ("  [=] CURRENT     : {0,-26} {1}" -f $skill.Name, $verLabel)
                 }
             }
         } catch {
@@ -436,12 +638,64 @@ foreach ($targetName in $activeTargets.Keys) {
     }
 }
 
+# Aggregate per-skill catalog metadata
+$catalogMeta = @()
+$validResults = @($targetResults | Where-Object { -not $_.SkippedReason })
+foreach ($skill in $skills) {
+    $chosen = $null
+    foreach ($r in $validResults) {
+        $m = $r.SkillMeta[$skill.Name]
+        if (-not $m) { continue }
+        if ($null -eq $chosen) {
+            $chosen = $m
+        } elseif (($m.Status -eq "installed") -and ($chosen.Status -ne "installed")) {
+            $chosen = $m
+        } elseif (($m.Status -eq "updated") -and ($chosen.Status -eq "up-to-date")) {
+            $chosen = $m
+        }
+    }
+    if ($null -eq $chosen) {
+        $nowIso = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.ffffff+00:00")
+        $chosen = [PSCustomObject]@{
+            Name           = $skill.Name
+            Domain         = $skill.Domain
+            Status         = "up-to-date"
+            PrevVersion    = $skill.Version
+            CurrVersion    = $skill.Version
+            InstalledAt    = $nowIso
+            UpdatedAt      = $nowIso
+            ChangedThisRun = $false
+        }
+    }
+    $catalogMeta += $chosen
+}
+
+$remoteInfo = Test-RemoteRepoUpdates
+
 if ($JsonOutput) {
     $payload = [ordered]@{
-        timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.ffffff+00:00")
-        engine    = "powershell"
-        dry_run   = $DryRun
-        targets   = @(
+        timestamp    = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.ffffff+00:00")
+        engine       = "powershell"
+        dry_run      = $DryRun
+        remote_check = [ordered]@{
+            state          = $remoteInfo.State
+            commits_ahead  = $remoteInfo.Ahead
+            latest_subject = $remoteInfo.Subject
+        }
+        skills       = @(
+            foreach ($m in $catalogMeta) {
+                [ordered]@{
+                    name         = $m.Name
+                    domain       = $m.Domain
+                    status       = $m.Status
+                    prev_version = $m.PrevVersion
+                    version      = $m.CurrVersion
+                    installed_at = $m.InstalledAt
+                    updated_at   = $m.UpdatedAt
+                }
+            }
+        )
+        targets      = @(
             foreach ($r in $targetResults) {
                 [ordered]@{
                     name           = $r.TargetName
@@ -460,83 +714,114 @@ if ($JsonOutput) {
     exit 0
 }
 
-Write-Host ("=" * 64)
-Write-Host "                 DETAILED CHANGE LOG"
-Write-Host ("=" * 64)
-
 $anyChanges = $false
 foreach ($r in $targetResults) {
-    Write-Host ("Destination: {0} [{1}]" -f $r.TargetName, $r.TargetPath)
-    if ($r.SkippedReason) {
-        Write-Host ("  [SKIPPED] {0}" -f $r.SkippedReason)
-        Write-Host ""
-        continue
+    if (($r.InstalledSkills.Count + $r.UpdatedSkills.Count) -gt 0) {
+        $anyChanges = $true
+        break
     }
+}
 
-    $installedOrUpdated = $r.InstalledSkills.Count + $r.UpdatedSkills.Count
-    if (($installedOrUpdated -eq 0) -and ($r.FailedSkills.Count -eq 0)) {
-        Write-Host "  (No changes detected -- all skills are already up to date.)"
-    } else {
-        if ($installedOrUpdated -gt 0) {
-            $anyChanges = $true
+if ($anyChanges) {
+    Write-Host ("=" * 76)
+    Write-Host "                         DETAILED CHANGE LOG"
+    Write-Host ("=" * 76)
+    foreach ($r in $targetResults) {
+        if ($r.SkippedReason -or (($r.InstalledSkills.Count + $r.UpdatedSkills.Count + $r.FailedSkills.Count) -eq 0)) {
+            continue
         }
+        Write-Host ("Destination: {0} [{1}]" -f $r.TargetName, $r.TargetPath)
         foreach ($name in $r.InstalledSkills) {
-            Write-Host ("  * [NEW SKILL] {0}" -f $name)
+            $m = $r.SkillMeta[$name]
+            $vStr = if ($m) { Format-VersionDisplay -Meta $m } else { "" }
+            Write-Host ("  * [NEW SKILL] {0} ({1})" -f $name, $vStr)
             $addedFiles = $r.FileChanges[$name].added
-            $limit = [Math]::Min(8, $addedFiles.Count)
+            $limit = [Math]::Min(6, $addedFiles.Count)
             for ($idx = 0; $idx -lt $limit; $idx++) {
                 Write-Host ("      + {0}" -f $addedFiles[$idx])
             }
-            if ($addedFiles.Count -gt 8) {
-                Write-Host ("      + ... and {0} more files" -f ($addedFiles.Count - 8))
+            if ($addedFiles.Count -gt 6) {
+                Write-Host ("      + ... and {0} more files" -f ($addedFiles.Count - 6))
             }
         }
-
         foreach ($name in $r.UpdatedSkills) {
+            $m = $r.SkillMeta[$name]
+            $vStr = if ($m) { Format-VersionDisplay -Meta $m } else { "" }
             $diff = $r.FileChanges[$name]
-            Write-Host ("  * [MODIFIED]  {0}" -f $name)
-            foreach ($f in $diff.added) {
-                Write-Host ("      + added:    {0}" -f $f)
-            }
-            foreach ($f in $diff.modified) {
-                Write-Host ("      ~ updated:  {0}" -f $f)
-            }
-            foreach ($f in $diff.removed) {
-                Write-Host ("      - removed:  {0}" -f $f)
-            }
+            Write-Host ("  * [MODIFIED]  {0} ({1})" -f $name, $vStr)
+            foreach ($f in $diff.added) { Write-Host ("      + added:    {0}" -f $f) }
+            foreach ($f in $diff.modified) { Write-Host ("      ~ updated:  {0}" -f $f) }
+            foreach ($f in $diff.removed) { Write-Host ("      - removed:  {0}" -f $f) }
         }
-
         foreach ($name in $r.FailedSkills.Keys) {
             Write-Host ("  * [FAILED]    {0}: {1}" -f $name, $r.FailedSkills[$name])
         }
+        Write-Host ""
     }
-    Write-Host ""
 }
 
-Write-Host ("=" * 64)
-Write-Host "                    SYNC SUMMARY"
-Write-Host ("=" * 64)
+Write-Host ("=" * 76)
+Write-Host "                     INSTALLED SKILLS & VERSION CATALOG"
+Write-Host ("=" * 76)
+Write-Host ("{0,-28} {1,-20} {2,-15} {3}" -f "Skill Name", "Version", "Status", "Last Synced")
+Write-Host ("-" * 76)
+foreach ($m in $catalogMeta) {
+    $verCol = Format-VersionDisplay -Meta $m
+    $stCol = Format-StatusDisplay -Meta $m
+    $dateCol = (Format-DateShort -IsoStr $m.UpdatedAt) + $(if ($m.ChangedThisRun) { " *" } else { "" })
+    Write-Host ("{0,-28} {1,-20} {2,-15} {3}" -f $m.Name, $verCol, $stCol, $dateCol)
+}
+Write-Host ("-" * 76)
+
+if ($catalogMeta.Count -gt 0) {
+    $latestUpdated = ($catalogMeta | Sort-Object { ConvertFrom-IsoToLocal -IsoStr $_.UpdatedAt } -Descending)[0]
+    $latestAdded = ($catalogMeta | Sort-Object { ConvertFrom-IsoToLocal -IsoStr $_.InstalledAt } -Descending)[0]
+    $luVer = if (($latestUpdated.Status -eq "updated") -and $latestUpdated.PrevVersion -and ($latestUpdated.PrevVersion -ne $latestUpdated.CurrVersion)) {
+        "v$($latestUpdated.PrevVersion) -> v$($latestUpdated.CurrVersion)"
+    } else {
+        "v$($latestUpdated.CurrVersion)"
+    }
+    Write-Host ("Latest Updated : {0} ({1}) on {2}" -f $latestUpdated.Name, $luVer, (Format-DateTimeMin -IsoStr $latestUpdated.UpdatedAt))
+    Write-Host ("Latest Added   : {0} (v{1}) on {2}" -f $latestAdded.Name, $latestAdded.CurrVersion, (Format-DateTimeMin -IsoStr $latestAdded.InstalledAt))
+}
+
+Write-Host ("=" * 76)
+Write-Host "                           AGENT SYNC SUMMARY"
+Write-Host ("=" * 76)
 foreach ($r in $targetResults) {
     if ($r.SkippedReason) {
-        Write-Host ("{0,-30} : SKIPPED ({1})" -f $r.TargetName, $r.SkippedReason)
+        Write-Host ("{0,-31} : SKIPPED ({1})" -f $r.TargetName, $r.SkippedReason)
     } else {
         $failNote = if ($r.FailedSkills.Count -gt 0) { ", $($r.FailedSkills.Count) error(s)" } else { "" }
-        Write-Host ("{0,-30} : {1} installed, {2} updated, {3} up-to-date{4}" -f $r.TargetName, $r.InstalledSkills.Count, $r.UpdatedSkills.Count, $r.UpToDateSkills.Count, $failNote)
+        Write-Host ("{0,-31} : {1} new, {2} updated, {3} current{4}" -f $r.TargetName, $r.InstalledSkills.Count, $r.UpdatedSkills.Count, $r.UpToDateSkills.Count, $failNote)
     }
 }
-Write-Host ("-" * 64)
+Write-Host ("-" * 76)
+
+if ($remoteInfo.State -eq "behind") {
+    $subj = if ($remoteInfo.Subject.Length -gt 58) { $remoteInfo.Subject.Substring(0, 58) } else { $remoteInfo.Subject }
+    Write-Host ("Remote Check   : [!] UPDATE AVAILABLE ON GITHUB (origin/main is {0} commit(s) ahead:" -f $remoteInfo.Ahead)
+    Write-Host ("                 `"{0}`")" -f $subj)
+    Write-Host "                 -> Run 'git pull' then re-run sync-skills.bat to update!"
+} elseif ($remoteInfo.State -eq "up-to-date") {
+    Write-Host "Remote Check   : [OK] Up to date with GitHub (origin/main)"
+} else {
+    Write-Host "Remote Check   : [-] Offline / skipped (using local repository state)"
+}
 
 if ($anyChanges) {
+    $maxNew = ($targetResults | ForEach-Object { $_.InstalledSkills.Count } | Measure-Object -Maximum).Maximum
+    $maxUpd = ($targetResults | ForEach-Object { $_.UpdatedSkills.Count } | Measure-Object -Maximum).Maximum
     if ($DryRun) {
-        Write-Host "DRY RUN COMPLETE: The changes above would be applied."
+        Write-Host ("Overall Status : DRY RUN -- {0} new, {1} updated would be applied." -f $maxNew, $maxUpd)
     } else {
-        Write-Host "SUCCESS: All skills synchronized with your local AI agents!"
+        Write-Host ("Overall Status : SUCCESS -- {0} installed, {1} updated across {2} AI agents!" -f $maxNew, $maxUpd, $targetResults.Count)
     }
 } else {
-    Write-Host "ALL SKILLS ARE CURRENT: No updates were needed."
+    Write-Host ("Overall Status : ALL {0} SKILLS ARE CURRENT (No local updates needed)" -f $skills.Count)
 }
 
-Write-Host ("=" * 64)
+Write-Host ("=" * 76)
 if (-not $NoPause -and -not $JsonOutput) {
     Write-Host ""
     [void](Read-Host "Press Enter to close this window")

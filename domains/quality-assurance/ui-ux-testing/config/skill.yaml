@@ -1,5 +1,5 @@
 name: ui-ux-testing
-version: 0.1.0
+version: 0.2.0
 description: >
   Automated UI/UX, visual regression, accessibility (WCAG), and responsive test suite engineer using Playwright and Selenium.
 domain: quality-assurance

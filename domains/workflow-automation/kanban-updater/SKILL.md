@@ -2,7 +2,7 @@
 name: kanban-updater
 description: Drafts evidence-based technical English work updates and End-of-Day (EoD) remarks from local Git repositories and user notes, or inspects and updates Exact Synergy Kanban cards using isolated Playwright automation. Use when drafting standup or EoD reports, checking ticket status in Synergy, appending remarks, or transitioning card status. Not for Jira, GitHub Projects, or non-Synergy issue tracking.
 metadata:
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Kanban Updater

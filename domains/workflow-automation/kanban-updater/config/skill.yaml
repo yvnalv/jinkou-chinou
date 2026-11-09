@@ -1,5 +1,5 @@
 name: kanban-updater
-version: 1.0.0
+version: 1.1.0
 description: >
   Draft evidence-based technical English work updates from Git and user notes, or update requested Exact Synergy Kanban cards using Playwright.
 domain: workflow-automation

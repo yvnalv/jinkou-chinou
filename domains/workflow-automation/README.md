@@ -9,5 +9,5 @@ Core persona: the domain's `the-<persona>` skill, if one exists. Specialized ski
 <!-- skills:start -->
 | Skill | Type | Version | Summary |
 |---|---|---|---|
-| [`/kanban-updater`](kanban-updater/) | specialized | 1.0.0 | Draft evidence-based technical English work updates from Git and user notes, or update requested Exact Synergy Kanban cards using Playwright. |
+| [`/kanban-updater`](kanban-updater/) | specialized | 1.1.0 | Draft evidence-based technical English work updates from Git and user notes, or update requested Exact Synergy Kanban cards using Playwright. |
 <!-- skills:end -->

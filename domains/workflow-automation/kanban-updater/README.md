@@ -2,7 +2,7 @@
 
 Draft evidence-based technical English work updates from Git and user notes, or update requested Exact Synergy Kanban cards using isolated Playwright automation.
 
-Domain: `workflow-automation` · Type: `specialized` · Version: `1.0.0`
+Domain: `workflow-automation` · Type: `specialized` · Version: `1.1.0`
 
 ---
 
@@ -103,6 +103,12 @@ kanban-updater/
 ---
 
 ## Changelog
+
+### 1.1.0 — 2026-11-09
+
+- Updated work log synthesis to enforce a cohesive 5–8 sentence human narrative prose paragraph instead of bullet-point lists.
+- Enforced rule omitting the current ticket/work item number from remark text (only mentioning external dependency work item IDs).
+- Added gold-standard narrative reference example and updated EoD Quality scoring rubric.
 
 ### 1.0.0 — 2026-10-01
 
