@@ -1,6 +1,15 @@
 /**
- * Databro Studio (@databroid — "Belajar Data Science") Isolated Brand Tokens
- * & Standard Base Content Canvas Presets across Social Media Aspect Ratios.
+ * Databro Studio (@databroid / @databro.id : "Belajar Data Science") Isolated Brand Tokens
+ * and Standard Base Content Canvas Presets across Social Media Aspect Ratios.
+ *
+ * Source of Truth for Visual Design:
+ * - Color Palette: Pure matte charcoal (#121212), Warm Cream (#FAF9F5), Databro Lime (#BFFF72 / #BEF96E),
+ *   Lavender Question Headline (#B487EC), High-Performance Cyan (#02DAC5), Validation Violet (#B684F3),
+ *   Warning Coral Red (#E95F62), and Dark Slate Code Card (#24292D).
+ * - Vector Icons: React Icons (react-icons/lu, react-icons/tb, react-icons/fi, react-icons/fa6).
+ *   Strictly ban generic AI emojis or clipart.
+ * - Punctuation Rule: Never use em-dashes ( : ) in writing or Closed Captions. Use colons, hyphens, or arrows.
+ * - Voice Tone: Deep, warm baritone (measured F0 ~86-90 Hz), conversational Indonesian ("Kamu/Kita", never "Lo/Gue").
  */
 
 export type DatabroAspectRatioKey = '9:16' | '4:5' | '1:1' | '16:9';
@@ -42,7 +51,14 @@ export interface DatabroCanvasPreset {
     left: number;
     avatarSize: number;
   };
-  /** Symmetric horizontally & vertically centered stage where <TransitionSeries> slides live */
+  /** Persistent top-right social media handle (@databro.id) */
+  socialHandleTopRight: {
+    top: number;
+    right: number;
+    text: string;
+    color: string;
+  };
+  /** Symmetric horizontally and vertically centered stage where <TransitionSeries> slides live */
   contentStage: {
     top: number;
     bottom: number;
@@ -74,6 +90,12 @@ export const DATABRO_CANVAS_PRESETS: Record<
       left: 100,
       avatarSize: 64,
     },
+    socialHandleTopRight: {
+      top: 108,
+      right: 100,
+      text: '@databro.id',
+      color: '#A3A3A3',
+    },
     contentStage: {
       top: 250,
       bottom: 490,
@@ -99,6 +121,12 @@ export const DATABRO_CANVAS_PRESETS: Record<
       left: 84,
       avatarSize: 56,
     },
+    socialHandleTopRight: {
+      top: 72,
+      right: 84,
+      text: '@databro.id',
+      color: '#A3A3A3',
+    },
     contentStage: {
       top: 180,
       bottom: 260,
@@ -115,7 +143,7 @@ export const DATABRO_CANVAS_PRESETS: Record<
   },
   '1:1': {
     id: '1:1',
-    label: 'Square Feed (1080x1080)',
+    label: 'Instagram / LinkedIn Square Feed (1080x1080)',
     width: 1080,
     height: 1080,
     fps: 30,
@@ -123,6 +151,12 @@ export const DATABRO_CANVAS_PRESETS: Record<
       top: 56,
       left: 72,
       avatarSize: 52,
+    },
+    socialHandleTopRight: {
+      top: 56,
+      right: 72,
+      text: '@databro.id',
+      color: '#A3A3A3',
     },
     contentStage: {
       top: 150,
@@ -149,6 +183,12 @@ export const DATABRO_CANVAS_PRESETS: Record<
       left: 96,
       avatarSize: 56,
     },
+    socialHandleTopRight: {
+      top: 64,
+      right: 96,
+      text: '@databro.id',
+      color: '#A3A3A3',
+    },
     contentStage: {
       top: 160,
       bottom: 200,
@@ -173,6 +213,7 @@ export function customizeDatabroCanvas(
   overrides: Partial<{
     fps: number;
     logoTopLeft: Partial<DatabroCanvasPreset['logoTopLeft']>;
+    socialHandleTopRight: Partial<DatabroCanvasPreset['socialHandleTopRight']>;
     contentStage: Partial<DatabroCanvasPreset['contentStage']>;
     closedCaption: Partial<DatabroCanvasPreset['closedCaption']>;
   }>
@@ -182,6 +223,7 @@ export function customizeDatabroCanvas(
     ...base,
     fps: overrides.fps ?? base.fps,
     logoTopLeft: { ...base.logoTopLeft, ...overrides.logoTopLeft },
+    socialHandleTopRight: { ...base.socialHandleTopRight, ...overrides.socialHandleTopRight },
     contentStage: { ...base.contentStage, ...overrides.contentStage },
     closedCaption: { ...base.closedCaption, ...overrides.closedCaption },
   };
@@ -211,7 +253,7 @@ export interface DatabroArchetypeSpec {
 export const DATABRO_ARCHETYPES: Record<DatabroArchetypeKey, DatabroArchetypeSpec> = {
   'code-walkthrough': {
     id: 'code-walkthrough',
-    label: 'Hands-on Code & Practical Tool Walkthrough',
+    label: 'Hands-on Code and Practical Tool Walkthrough',
     recommendedDuration: '60s',
     recommendedOpening: 'code-shock',
     visualStageLayout: 'IDE Card + Dataframe Table + Terminal Command + Step Badges (1, 2, 3)',
@@ -226,10 +268,10 @@ export const DATABRO_ARCHETYPES: Record<DatabroArchetypeKey, DatabroArchetypeSpe
   },
   'concept-theory': {
     id: 'concept-theory',
-    label: 'Conceptual, Mental Model & Abstract AI Theory (aibutsimple synthesis)',
+    label: 'Conceptual, Mental Model and Abstract AI Theory (aibutsimple synthesis)',
     recommendedDuration: '45s',
     recommendedOpening: 'paradox-headline',
-    visualStageLayout: '2D Vector Diagram + Scatter Plot Trendline + Kinetic Keywords (#BFFF72)',
+    visualStageLayout: '2D Vector Diagram + React Icons + Highlight Cards (#02DAC5 / #B487EC / #BFFF72)',
     recommendedAssets: [
       'assets/brand-kit/graphics/Untitled design (1).png', // Scatter plot + trendline
       'assets/brand-kit/logos/DATABRO-01-rev-yvnalv-(Circle).png',
@@ -237,7 +279,7 @@ export const DATABRO_ARCHETYPES: Record<DatabroArchetypeKey, DatabroArchetypeSpe
   },
   'opinion-editorial': {
     id: 'opinion-editorial',
-    label: 'Tech Opinion, Industry Debate & Career Advice',
+    label: 'Tech Opinion, Industry Debate and Career Advice',
     recommendedDuration: '30s',
     recommendedOpening: 'paradox-headline',
     visualStageLayout: 'Kinetic Typography + High-Contrast Metric Cards + Quote Callouts',
@@ -248,7 +290,7 @@ export const DATABRO_ARCHETYPES: Record<DatabroArchetypeKey, DatabroArchetypeSpe
   },
   'launch-showcase': {
     id: 'launch-showcase',
-    label: 'Product, Cloud Feature & Template Drop Showcase',
+    label: 'Product, Cloud Feature and Template Drop Showcase',
     recommendedDuration: '30s',
     recommendedOpening: 'step-roadmap',
     visualStageLayout: '3D UI Perspective Card + Ambient Glow + Metric Speedometer',
@@ -263,14 +305,22 @@ export interface DatabroBrandTheme {
   id: 'databro';
   name: 'Databro';
   tagline: 'Belajar Data Science';
+  socialHandle: '@databro.id';
   colors: {
     backgroundPrimary: string;
     backgroundElevated: string;
+    backgroundSurface: string;
+    backgroundCodeCard: string;
     terminalChrome: string;
     textPrimary: string;
     textSecondary: string;
     accentPrimary: string;
     accentSecondary: string;
+    accentLavender: string;
+    accentCyan: string;
+    accentLime: string;
+    accentViolet: string;
+    accentCoralRed: string;
     emblemCircle: string;
     emblemInk: string;
     calloutRed: string;
@@ -278,15 +328,20 @@ export interface DatabroBrandTheme {
     semanticWarning: string;
     semanticDanger: string;
     borderSubtle: string;
-    // Sampled Authentic Brand Tokens
-    dataTeal: string;
-    warmCreamTan: string;
-    cardDark: string;
-    cardBorder: string;
-    tableDark: string;
-    tableHeader: string;
-    tableBorder: string;
-    tableText: string;
+    borderWhite: string;
+    syntax: {
+      keyword: string;
+      argument: string;
+      number: string;
+      comment: string;
+      variable: string;
+      function: string;
+    };
+  };
+  icons: {
+    sourceOfTruth: 'react-icons';
+    allowedPackages: string[];
+    banned: string[];
   };
   typography: {
     fontDisplay: string;
@@ -298,7 +353,7 @@ export interface DatabroBrandTheme {
       snappy: { damping: number; stiffness: number; mass: number };
       smooth: { damping: number; stiffness: number; mass: number };
       bouncy: { damping: number; stiffness: number; mass: number };
-      heavy: { damping: number; stiffness: number; mass: number };
+      gentle: { damping: number; stiffness: number; mass: number };
     };
   };
 }
@@ -307,30 +362,43 @@ export const databroBrand: DatabroBrandTheme = {
   id: 'databro',
   name: 'Databro',
   tagline: 'Belajar Data Science',
+  socialHandle: '@databro.id',
   colors: {
-    backgroundPrimary: '#111111',
-    backgroundElevated: '#0C0C0C',
+    backgroundPrimary: '#121212', // Pure matte charcoal black
+    backgroundElevated: '#1E1E1E',
+    backgroundSurface: '#1E1E1E',
+    backgroundCodeCard: '#24292D', // Authentic code card dark surface
     terminalChrome: '#1F1F1F',
-    textPrimary: '#FFFFFF',
-    textSecondary: '#B3B3B3',
-    accentPrimary: '#BFFF72', // Signature Electric Lime
-    accentSecondary: '#F2EBE1', // Warm Cream
+    textPrimary: '#FAF9F5', // Warm cream text
+    textSecondary: '#A3A3A3', // Muted off-white/gray
+    accentPrimary: '#BFFF72', // Signature Databro lime
+    accentSecondary: '#F0ECE2', // Warm cream circle fill
+    accentLavender: '#B487EC', // Signature headline question purple
+    accentCyan: '#02DAC5', // Training 70%, accuracy 98%, table header cyan
+    accentLime: '#BEF96E', // 15% test bar & brain circuit icon lime
+    accentViolet: '#B684F3', // 15% validation bar violet
+    accentCoralRed: '#E95F62', // Real-world error 62% & warning coral
     emblemCircle: '#F0ECE2',
-    emblemInk: '#111111',
-    calloutRed: '#D92D20', // Error & Gotcha Warning Box
-    semanticSuccess: '#BFFF72',
+    emblemInk: '#121212',
+    calloutRed: '#D92D20',
+    semanticSuccess: '#02DAC5',
     semanticWarning: '#F59E0B',
-    semanticDanger: '#D92D20',
+    semanticDanger: '#E95F62',
     borderSubtle: '#2E2E2E',
-    // Exact sampled tokens from authentic Databro graphics
-    dataTeal: '#03DAC6', // Linear regression / scatter plot data points
-    warmCreamTan: '#E6DBCF', // Step badge 1.png, 2.png, 3.png cream tint
-    cardDark: '#191A1B', // Jupyter / IDE Code Card surface
-    cardBorder: '#2C2D2E', // IDE Code Card subtle stroke
-    tableDark: '#1F1F1E', // Dataframe table body background
-    tableHeader: '#262624', // Dataframe table header background
-    tableBorder: '#3B3B39', // Table row separator line
-    tableText: '#FAF9F5', // High-contrast table data off-white
+    borderWhite: '#FFFFFF',
+    syntax: {
+      keyword: '#C27182',
+      argument: '#D28251',
+      number: '#D28251',
+      comment: '#62676C',
+      variable: '#FAF9F5',
+      function: '#FFFFFF',
+    },
+  },
+  icons: {
+    sourceOfTruth: 'react-icons',
+    allowedPackages: ['react-icons/lu', 'react-icons/tb', 'react-icons/fi', 'react-icons/fa6'],
+    banned: ['ai-generated-emojis', 'generic-ai-clipart'],
   },
   typography: {
     fontDisplay: 'Plus Jakarta Sans, Inter, system-ui, sans-serif',
@@ -339,28 +407,21 @@ export const databroBrand: DatabroBrandTheme = {
   },
   motion: {
     springs: {
-      snappy: { damping: 18, stiffness: 220, mass: 0.9 },
-      smooth: { damping: 24, stiffness: 140, mass: 1.0 },
-      bouncy: { damping: 15, stiffness: 240, mass: 0.8 },
-      heavy: { damping: 28, stiffness: 90, mass: 1.4 },
+      snappy: { damping: 16, stiffness: 180, mass: 0.8 },
+      smooth: { damping: 20, stiffness: 120, mass: 1 },
+      bouncy: { damping: 12, stiffness: 150, mass: 0.9 },
+      gentle: { damping: 24, stiffness: 90, mass: 1 },
     },
   },
 };
 
 /**
- * Standard Audio-Visual Transition Timing & Breathing Room Tokens:
- * Ensures voiceover never skips, gets cut off, or collides with slide transitions.
+ * Standard transition timing buffer rules for Databro videos:
+ * Enforces smooth visual settling and clear audio playback without clipping.
  */
 export const DATABRO_TRANSITION_TIMING = {
-  /** Standard CapCut slide/zoom transition overlap in frames */
-  transitionDuration: 12,
-  /** Breathing room AFTER transition finishes before talent speaks */
-  headDelay: 10,
-  /** Silence buffer AFTER talent stops speaking before next transition starts */
-  tailDelay: 14,
-  /** Video start breathing room */
-  firstSceneDelay: 12,
-  /** Hold on final screen after outro speech ends before video finishes */
-  outroHold: 24,
+  transitionDurationFrames: 12,
+  headDelayFrames: 10, // Settle delay after transition completes before speech starts
+  tailDelayFrames: 14, // Speech tail silence buffer before next transition begins
+  outroHoldFrames: 24, // Outro hold before video ends
 };
-

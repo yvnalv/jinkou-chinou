@@ -1,4 +1,4 @@
-# Databro Studio (`@databroid`) — Content Generation, Voiceover, CC & Prompting Guide
+# Databro Studio (`@databroid`)  :  Content Generation, Voiceover, CC & Prompting Guide
 
 This guide documents how to plan, script, voice, prompt, and customize Databro Studio (`@databroid`) videos using `/databro-brand-motion`.
 
@@ -8,8 +8,8 @@ This guide documents how to plan, script, voice, prompt, and customize Databro S
 
 Whenever `/databro-brand-motion` is invoked without a complete topic and step breakdown, ask the user:
 1. **What Content Archetype are we making?**
-   - **A. Step-by-Step Technical Tutorial** (e.g., *"Cara Install Lokal LLM Menggunakan Ollama"* — Hook Emblem -> Tool Card -> Browser/Installer/Terminal steps with `#D92D20` red callouts -> Live Demo).
-   - **B. Product / Feature Launch Reel** (e.g., *"Databro Cloud 2.0"* — Hook Emblem -> 3 Benchmark/CLI Highlights -> Emblem CTA).
+   - **A. Step-by-Step Technical Tutorial** (e.g., *"Cara Install Lokal LLM Menggunakan Ollama"*  :  Hook Emblem -> Tool Card -> Browser/Installer/Terminal steps with `#D92D20` red callouts -> Live Demo).
+   - **B. Product / Feature Launch Reel** (e.g., *"Databro Cloud 2.0"*  :  Hook Emblem -> 3 Benchmark/CLI Highlights -> Emblem CTA).
    - **C. Data Science / AI Concept Explainer** (e.g., *"RAG vs Fine-Tuning dalam 60 Detik"*).
    - **D. Tool / Library Listicle** (e.g., *"3 Python Library Wajib Buat Data Engineer"*).
 2. **What is the Topic & Target Duration?** (`15s`, `30s`, `60s`, or `90s`).
@@ -65,13 +65,13 @@ To prevent voiceover cutoffs or collisions during `<TransitionSeries.Transition>
 
 1. **Audio Drives Sequence Duration (Never Clamp Speech)**:
    $$\text{SequenceDuration} = \text{HeadDelay} + \text{AudioDuration} + \text{TailDelay}$$
-2. **Head Delay (`10–12 frames`, ~0.35s)**:
-   - Always enforce a `10–12 frame` breathing room *after* the transition settles before the talent starts speaking.
+2. **Head Delay (`10-12 frames`, ~0.35s)**:
+   - Always enforce a `10-12 frame` breathing room *after* the transition settles before the talent starts speaking.
    - Allows the incoming title/badge to visually settle and lets the `whoosh-transition` SFX decay without muffling speech.
-3. **Tail Delay (`12–14 frames`, ~0.40s)**:
-   - Always enforce a `12–14 frame` silence buffer *after* speech ends before the next transition begins.
+3. **Tail Delay (`12-14 frames`, ~0.40s)**:
+   - Always enforce a `12-14 frame` silence buffer *after* speech ends before the next transition begins.
    - Transitions must **never** cut into active speech.
-4. **Outro Hold (`20–24 frames`, ~0.80s)**:
+4. **Outro Hold (`20-24 frames`, ~0.80s)**:
    - Hold on the final screen after speech ends so the CTA and Databro landscape logo resonate.
 5. **Captions Bounding**:
    - Closed Captions must strictly live within `[vo_start, vo_end]`, never bleeding into transition overlap regions.
@@ -116,17 +116,17 @@ The skill intelligently selects the motion, stage layout, and graphic assets bas
 
 Never use the exact same opening layout consecutively. Rotate between 4 distinct visual hooks:
 
-1. **Variant 1 — The Paradox Headline (`paradox-headline`)**:
+1. **Variant 1  :  The Paradox Headline (`paradox-headline`)**:
    - Giant bold question scales in at center (`damping: 14, stiffness: 140`).
    - Signature keyword lights up in `#BFFF72` Lime.
    - Ideal for conceptual AI and myth-busting topics.
-2. **Variant 2 — The Code Shock / Diagnostic Error (`code-shock`)**:
+2. **Variant 2  :  The Code Shock / Diagnostic Error (`code-shock`)**:
    - Starts with a dark IDE card showing a high score (e.g. `Accuracy: 99%`) immediately flashing a `#D92D20` red border (`DEPLOY ERROR: OVERFITTING`).
    - Drives instant curiosity for debugging tutorials.
-3. **Variant 3 — The Visual Data Spring (`visual-data`)**:
+3. **Variant 3  :  The Visual Data Spring (`visual-data`)**:
    - Begins directly with a styled dataframe (`Table.png`) or scatter plot (`Untitled design (1).png`) springing into the center stage.
    - Ideal for data wrangling, EDA, and statistical modeling reels.
-4. **Variant 4 — The 3-Step Roadmap Card (`step-roadmap`)**:
+4. **Variant 4  :  The 3-Step Roadmap Card (`step-roadmap`)**:
    - Displays the numbered badges (`1.png`, `2.png`, `3.png`) in a clean horizontal roadmap before zooming into step 1.
    - Ideal for structured tutorials and actionable checklists.
 

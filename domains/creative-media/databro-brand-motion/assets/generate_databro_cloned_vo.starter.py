@@ -6,8 +6,10 @@ Supports:
 1. Online Instant Voice Cloning (ElevenLabs / Cartesia) using master calibration audio:
    assets/brand-kit/audio/voiceover/talent-samples/databro-talent-master-calibration.mp3
 2. Offline Calibrated Fallback (edge-tts id-ID-ArdiNeural) tuned to the talent's measured
-   speed (130-140 WPM, rate="+0%"), conversational tone, and Indonesian ML phonetics.
+   fundamental frequency (F0 = 86 Hz, pitch="-4Hz", rate="-2%"), normal cadence (130-140 WPM),
+   and conversational Indonesian phrasing.
 3. Word-boundary synchronization for locked Closed Captions at Y = 1480px.
+4. Strict ban on em-dashes across all spoken scripts and captions.
 """
 
 import asyncio
@@ -25,25 +27,41 @@ PHONETIC_REPLACEMENTS = {
     r"\bdata leakage\b": "deta likej",
     r"\boverfitting\b": "over-fiting",
     r"\bmachine learning\b": "mesin lerning",
-    r"\bML\b": "em el",
-    r"\bAI\b": "e-ai",
-    r"\bLLM\b": "el el em",
-    r"\bAPI\b": "e pi ai",
+    r"\bAgentic AI\b": "Ejen-tik E-Ai",
+    r"\bagentic AI\b": "ejen-tik e-ai",
+    r"\bAI Agent\b": "E-Ai Ejen",
+    r"\bAI Agents\b": "E-Ai Ejens",
+    r"\bTools\b": "Tuls",
+    r"\bTool\b": "Tul",
+    r"\bSkills\b": "Skils",
+    r"\bSkill\b": "Skil",
+    r"\bSOP\b": "Es-O-Pe",
+    r"\bLLM\b": "El-El-Em",
+    r"\bAPI\b": "E-Pi-Ai",
+    r"\bDefinition of Done\b": "Definisi of Dan",
+    r"\bQuality Gates\b": "Kwaliti Geits",
     r"\bdataset\b": "dataset",
     r"\bfeature\b": "fitur",
     r"\btarget\b": "target",
 }
 
-def apply_phonetics(text: str) -> str:
-    cleaned = text
+def sanitize_text(text: str) -> str:
+    # Strictly remove em-dashes and en-dashes
+    cleaned = text.replace("—", " : ").replace("–", "-")
     for pattern, repl in PHONETIC_REPLACEMENTS.items():
         cleaned = re.sub(pattern, repl, cleaned, flags=re.IGNORECASE)
     return cleaned
 
 async def generate_offline_calibrated(text: str, output_path: Path):
     import edge_tts
-    phonetic_text = apply_phonetics(text)
-    communicate = edge_tts.Communicate(phonetic_text, voice="id-ID-ArdiNeural", rate="+0%", pitch="+0Hz")
+    phonetic_text = sanitize_text(text)
+    # Measured talent baritone calibration: pitch="-4Hz", rate="-2%"
+    communicate = edge_tts.Communicate(
+        phonetic_text,
+        voice="id-ID-ArdiNeural",
+        rate="-2%",
+        pitch="-4Hz"
+    )
     await communicate.save(str(output_path))
     print(f"Generated calibrated voiceover at: {output_path}")
 
@@ -55,7 +73,7 @@ async def generate_elevenlabs_cloned(text: str, output_path: Path, api_key: str,
     }
     # Voice settings calibrated for Databro Talent
     payload = {
-        "text": text,
+        "text": sanitize_text(text),
         "model_id": "eleven_multilingual_v2",
         "voice_settings": {
             "stability": 0.60,
@@ -64,8 +82,7 @@ async def generate_elevenlabs_cloned(text: str, output_path: Path, api_key: str,
             "use_speaker_boost": True
         }
     }
-    # Check if custom voice exists or synthesize with default multilingual
-    voice_id = os.environ.get("DATABRO_VOICE_ID", "pNInz6obpgDQGcFmaJgB") # default or cloned
+    voice_id = os.environ.get("DATABRO_VOICE_ID", "pNInz6obpgDQGcFmaJgB")
     url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
     res = requests.post(url, json=payload, headers=headers)
     if res.status_code == 200:
@@ -86,9 +103,9 @@ async def synthesize(text: str, output_path: Path, sample_audio_path: Path = Non
 
 if __name__ == "__main__":
     sample_text = (
-        "Pernah gak model mesin lerning kamu akurasinya 99 persen pas latihan, tapi pas di-deploy langsung jeblok? "
-        "Itu karena kamu salah cara tren tes split!"
+        "Pernah ngga model machine learning kamu akurasinya sembilan puluh delapan persen, "
+        "tapi pas dicoba di data baru langsung jelek? Nah, ini yang namanya overfitting, bro!"
     )
-    out = Path("assets/brand-kit/audio/voiceover/generated/sample_test.mp3")
-    calib = Path("assets/brand-kit/audio/voiceover/talent-samples/databro-talent-master-calibration.mp3")
+    out = Path("public/audio/voiceover/sample_test.mp3")
+    calib = Path("../../jinkou-chinou/domains/creative-media/databro-brand-motion/assets/brand-kit/audio/voiceover/talent-samples/databro-talent-master-calibration.mp3")
     asyncio.run(synthesize(sample_text, out, calib))

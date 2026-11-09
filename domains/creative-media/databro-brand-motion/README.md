@@ -49,6 +49,14 @@ databro-brand-motion/
 
 ## Changelog
 
+### 0.3.0 (2026-11-09)
+
+- Mandated React Icons (`react-icons/lu`, `tb`, `fi`, `fa6`) as strict source of truth for vector icons, banning AI clipart and emojis.
+- Implemented absolute ban on em-dashes across all writing, video text, and Closed Captions.
+- Calibrated baritone voiceover matching authentic human talent master audio (measured F0 = 86 Hz, pitch: -4Hz, rate: -2%).
+- Extracted exact brand color hex codes from authentic Databro carousel slides: `#121212` matte charcoal, `#FAF9F5` warm cream, `#B487EC` lavender question headers, `#02DAC5` cyan, and `#24292D` code card.
+- Added persistent top-right `@databro.id` handle to the Standard Base Content Canvas.
+
 ### 0.2.0 — 2026-11-09
 
 - Added the standardized `assets/brand-kit/` folder hierarchy (`guidelines/`, `fonts/`, `logos/`, `graphics/`, `references/`, `audio/sfx/`, `audio/bgm/`, `audio/voiceover/talent-samples/`, `audio/voiceover/generated/`) with pre-populated TikTok `.wav` SFX (`keyboard-typing`, `pop-up`, `whoosh-transition`, `mouse-click`, `progress-ticks`, `callout-ding`) and ambient BGM.

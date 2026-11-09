@@ -2,27 +2,61 @@
   "brandId": "databro",
   "brandName": "Databro Studio (@databroid)",
   "tagline": "Belajar Data Science",
-  "version": "0.2.0",
+  "socialHandle": "@databro.id",
+  "version": "0.3.0",
   "colors": {
-    "backgroundPrimary": "#111111",
-    "backgroundElevated": "#0C0C0C",
+    "backgroundPrimary": "#121212",
+    "backgroundElevated": "#1E1E1E",
+    "backgroundCodeCard": "#24292D",
     "terminalChrome": "#1F1F1F",
-    "textPrimary": "#FFFFFF",
-    "textSecondary": "#B3B3B3",
+    "textPrimary": "#FAF9F5",
+    "textSecondary": "#A3A3A3",
     "accentPrimary": "#BFFF72",
-    "accentSecondary": "#F2EBE1",
-    "emblemCircleFill": "#F2EBE1",
-    "emblemCircleInk": "#111111",
+    "accentSecondary": "#F0ECE2",
+    "accentLavender": "#B487EC",
+    "accentCyan": "#02DAC5",
+    "accentLime": "#BEF96E",
+    "accentViolet": "#B684F3",
+    "accentCoralRed": "#E95F62",
+    "emblemCircleFill": "#F0ECE2",
+    "emblemCircleInk": "#121212",
     "calloutRedBorder": "#D92D20",
-    "semanticSuccess": "#BFFF72",
+    "semanticSuccess": "#02DAC5",
     "semanticWarning": "#F59E0B",
-    "semanticDanger": "#D92D20",
-    "borderSubtle": "#2E2E2E"
+    "semanticDanger": "#E95F62",
+    "borderSubtle": "#2E2E2E",
+    "borderWhite": "#FFFFFF",
+    "syntax": {
+      "keyword": "#C27182",
+      "argument": "#D28251",
+      "number": "#D28251",
+      "comment": "#62676C",
+      "variable": "#FAF9F5",
+      "function": "#FFFFFF"
+    }
   },
   "typography": {
     "fontDisplay": "Plus Jakarta Sans, Inter, system-ui, sans-serif",
     "fontBody": "Inter, Plus Jakarta Sans, system-ui, sans-serif",
     "fontMono": "Consolas, JetBrains Mono, monospace"
+  },
+  "icons": {
+    "sourceOfTruth": "react-icons",
+    "preferredPacks": ["react-icons/lu", "react-icons/tb", "react-icons/fi", "react-icons/fa6"],
+    "banned": ["ai-generated-emojis", "generic-ai-clipart"]
+  },
+  "voiceover": {
+    "persona": "Databro Senior Tech Mentor",
+    "pronouns": {
+      "secondPerson": "Kamu",
+      "firstPerson": "Kita",
+      "banned": ["Lo", "Gue"]
+    },
+    "measuredCadence": "130-140 WPM",
+    "measuredPitchF0": "86-90 Hz",
+    "offlineTtsVoice": "id-ID-ArdiNeural",
+    "offlineTtsPitch": "-4Hz",
+    "offlineTtsRate": "-2%"
   },
   "baseCanvasPresets": {
     "9:16": {
@@ -30,7 +64,7 @@
       "height": 1920,
       "fps": 30,
       "logoTopLeft": { "top": 108, "left": 100, "avatarSize": 64 },
-      "logoTopRight": { "enabled": false, "top": 108, "right": 100 },
+      "socialHandleTopRight": { "top": 108, "right": 100, "text": "@databro.id", "color": "#A3A3A3" },
       "contentStage": { "top": 250, "bottom": 490, "left": 90, "right": 90 },
       "closedCaption": { "y": 1480, "left": 110, "right": 110, "fontSize": 38, "maxWordsPerChunk": 4, "uppercase": true, "cardless": true }
     },
@@ -39,7 +73,7 @@
       "height": 1350,
       "fps": 30,
       "logoTopLeft": { "top": 72, "left": 84, "avatarSize": 56 },
-      "logoTopRight": { "enabled": false, "top": 72, "right": 84 },
+      "socialHandleTopRight": { "top": 72, "right": 84, "text": "@databro.id", "color": "#A3A3A3" },
       "contentStage": { "top": 180, "bottom": 260, "left": 84, "right": 84 },
       "closedCaption": { "y": 1140, "left": 96, "right": 96, "fontSize": 34, "maxWordsPerChunk": 4, "uppercase": true, "cardless": true }
     },
@@ -48,7 +82,7 @@
       "height": 1080,
       "fps": 30,
       "logoTopLeft": { "top": 56, "left": 72, "avatarSize": 52 },
-      "logoTopRight": { "enabled": false, "top": 56, "right": 72 },
+      "socialHandleTopRight": { "top": 56, "right": 72, "text": "@databro.id", "color": "#A3A3A3" },
       "contentStage": { "top": 150, "bottom": 210, "left": 72, "right": 72 },
       "closedCaption": { "y": 910, "left": 84, "right": 84, "fontSize": 32, "maxWordsPerChunk": 4, "uppercase": true, "cardless": true }
     },
@@ -57,7 +91,7 @@
       "height": 1080,
       "fps": 30,
       "logoTopLeft": { "top": 64, "left": 96, "avatarSize": 56 },
-      "logoTopRight": { "enabled": false, "top": 64, "right": 96 },
+      "socialHandleTopRight": { "top": 64, "right": 96, "text": "@databro.id", "color": "#A3A3A3" },
       "contentStage": { "top": 160, "bottom": 200, "left": 140, "right": 140 },
       "closedCaption": { "y": 920, "left": 240, "right": 240, "fontSize": 36, "maxWordsPerChunk": 6, "uppercase": true, "cardless": true }
     }
@@ -75,4 +109,3 @@
     }
   }
 }
-

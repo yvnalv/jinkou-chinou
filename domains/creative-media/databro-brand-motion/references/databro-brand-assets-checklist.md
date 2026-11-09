@@ -1,4 +1,4 @@
-# Databro Studio (`@databroid`) — Brand Assets & Guidelines Checklist
+# Databro Studio (`@databroid`)  :  Brand Assets & Guidelines Checklist
 
 Use this interactive checklist to audit, track, and update all Databro brand assets. Click on any file link to open or edit it directly, or click on folder links to drop new files.
 

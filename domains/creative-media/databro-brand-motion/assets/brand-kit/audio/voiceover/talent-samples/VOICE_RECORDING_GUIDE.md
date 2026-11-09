@@ -13,9 +13,9 @@
 | **Sample Rate** | **`48,000 Hz`** (or `44,100 Hz`) | `48 kHz` |
 | **Bit Depth** | **`24-bit`** (or `16-bit`) | `24-bit PCM` |
 | **Channels** | **Mono** (`1 channel`) | Mono (if recorded in stereo, export as mono) |
-| **Peak Level** | **`-6 dBFS` to `-3 dBFS`** | Leave `3–6 dB` of headroom, never clip (`0 dBFS`) |
+| **Peak Level** | **`-6 dBFS` to `-3 dBFS`** | Leave `3-6 dB` of headroom, never clip (`0 dBFS`) |
 | **Noise Floor** | Below **`-55 dBFS`** | Quiet bedroom/studio, AC/fan turned off, curtains closed |
-| **Mic Distance** | **`15–20 cm`** from mouth | Slightly off-axis (45°) with a pop filter to prevent plosives (*P, B, T*) |
+| **Mic Distance** | **`15-20 cm`** from mouth | Slightly off-axis (45°) with a pop filter to prevent plosives (*P, B, T*) |
 | **Audio Processing** | **100% DRY VOCAL** | **No BGM, no reverb, no heavy noise reduction, no compressor** |
 
 ---
@@ -24,7 +24,7 @@
 
 * **Pronoun Guardrail**: **ALWAYS use `"Kamu"` (or `"Anda"` for enterprise) and `"Kita"` / `"Kalian"`. NEVER use `"Lo"` / `"Lu"` / `"Gue"`.**
 * **Energy Level**: Friendly, energetic, knowledgeable senior tech mentor talking to a smart friend at a coffee shop. Not stiff like a Wikipedia article, but not chaotic or screaming.
-* **Speed**: **Normal conversational pace (~130–145 words per minute)**. Clear articulation, not rushed.
+* **Speed**: **Normal conversational pace (~130-145 words per minute)**. Clear articulation, not rushed.
 * **English Tech Terms**: Pronounce technical words with standard global developer phonetics (`Python`, `Scikit-Learn`, `API`, `RAG`, `Pipeline`, `Vector Database`, `Docker`, `Uptime SLA`, `Overfitting`, `JSON`), smoothly integrated into natural Indonesian.
 
 ---
@@ -33,19 +33,19 @@
 
 Read each block below with natural conversational energy. Pause for **1.5 seconds** between blocks:
 
-### Block 1 — Energetic Hook & Opening (`~20s` — save as `databro-talent-ref-hook.wav`)
+### Block 1  :  Energetic Hook & Opening (`~20s`  :  save as `databro-talent-ref-hook.wav`)
 > *"Bro, tahu nggak sih kalau kamu bisa install dan jalanin model AI canggih langsung di laptop kamu sendiri tanpa ribet? Nah, di video ini kita bakal setup semuanya dari nol dalam waktu kurang dari dua menit. Yuk, kita mulai!"*
 
-### Block 2 — Tutorial & Instructional Walkthrough (`~30s` — save as `databro-talent-ref-tutorial.wav`)
+### Block 2  :  Tutorial & Instructional Walkthrough (`~30s`  :  save as `databro-talent-ref-tutorial.wav`)
 > *"Langkah pertama, buka browser kamu lalu cari halaman download resmi di website-nya. Kemudian klik tombol Download for Windows, lalu tunggu prosesnya selesai. Setelah itu, buka file dot exe yang sudah kamu download, lalu klik Install dan tunggu sampai progress barnya penuh."*
 
-### Block 3 — Technical Python Code & Data Science (`~35s` — save as `databro-talent-ref-code.wav`)
+### Block 3  :  Technical Python Code & Data Science (`~35s`  :  save as `databro-talent-ref-code.wav`)
 > *"Sekarang kita masuk ke Python. Pertama, pisahkan fitur X dan target y menggunakan Pandas. Kemudian panggil fungsi train test split dari Scikit-Learn. Set test size nol koma dua, dan wajib pasang random state empat puluh dua biar hasil split data kamu selalu konsisten dan reproducible."*
 
-### Block 4 — Metrics, Numbers & Enterprise SLA (`~30s` — save as `databro-talent-ref-metrics.wav`)
+### Block 4  :  Metrics, Numbers & Enterprise SLA (`~30s`  :  save as `databro-talent-ref-metrics.wav`)
 > *"Kalau kita cek performanya di terminal, kecepatan query database naik sepuluh kali lipat dari empat koma dua detik jadi nol koma empat dua detik. Ditambah lagi, ada jaminan sembilan puluh sembilan koma sembilan sembilan persen Uptime SLA untuk PostgreSQL, BigQuery, dan model Llama tiga."*
 
-### Block 5 — Outro, Community Advice & CTA (`~20s` — save as `databro-talent-ref-outro.wav`)
+### Block 5  :  Outro, Community Advice & CTA (`~20s`  :  save as `databro-talent-ref-outro.wav`)
 > *"Dengan tiga langkah tadi, model machine learning kamu dijamin jauh lebih valid di production dan bebas data leakage. Save video ini biar kamu gak lupa, dan follow Databro buat belajar Data Science bareng, bro!"*
 
 ---
@@ -54,9 +54,9 @@ Read each block below with natural conversational energy. Pause for **1.5 second
 
 Once recorded, save your files directly into this directory:
 
-1. **`databro-talent-ref-30s.wav`** *(30–45 seconds: combined Block 1 + Block 3)*  
+1. **`databro-talent-ref-30s.wav`** *(30-45 seconds: combined Block 1 + Block 3)*  
    👉 Used for fast zero-shot local voice cloning (`F5-TTS`, `CosyVoice 2`, `Fish Speech`).
-2. **`databro-talent-full-calibration.wav`** *(90–150 seconds: all 5 blocks)*  
+2. **`databro-talent-full-calibration.wav`** *(90-150 seconds: all 5 blocks)*  
    👉 Used for ElevenLabs Instant Voice Cloning (IVC) or Cartesia neural model training.
 
 ---
