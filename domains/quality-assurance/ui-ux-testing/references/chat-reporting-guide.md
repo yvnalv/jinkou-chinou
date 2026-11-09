@@ -1,6 +1,17 @@
 # Chat Reporting Guide & Standard Output Formatting
 
-Whenever `/ui-ux-testing` executes tests, evaluates results, or completes a mode, it must format its response in the chat using this consistent, structured, table-driven layout.
+Whenever `/ui-ux-testing` executes tests, evaluates results, or completes a mode, it must first confirm the user's preferred **Browser Visibility Mode** (using the 3-option prompt below) and then format its response in the chat using this consistent, structured, table-driven layout.
+
+---
+
+## 0. Pre-Execution Browser Visibility Prompt (Always Ask User First)
+
+Before running any browser tests, present these 3 options (via `ask_question` / `AskUserQuestion` or directly in chat):
+
+> **How would you like to run the browser tests?**
+> 1. **Headless Mode (Invisible / Background)** — Fast, silent execution in the background (`HEADLESS=true` / `npx playwright test`). Recommended for full regression sweeps and pixel-perfect snapshot baselines.
+> 2. **Headed / Visible Browser (Watch Live on Screen)** — Opens a real browser window with 300ms action pacing (`HEADLESS=false` + `SLOW_MO=300` / `npx playwright test --headed`) so you can watch every click, form fill, and navigation live.
+> 3. **Interactive UI Mode (Time-Travel Debugger)** — Launches Playwright's interactive visual runner (`npx playwright test --ui`) with live browser preview, action timeline, and DOM snapshots.
 
 ---
 
@@ -25,6 +36,7 @@ Every chat report consists of 6 structured sections:
 
 * **Target URL / Scope**: `https://staging.example.com/checkout` (or local dev server)
 * **Testing Engine**: Playwright (`@playwright/test` v1.48+ / Chromium, Firefox, WebKit)
+* **Browser Visibility Mode**: `Headless (Background)` | `Headed / Visible (Live, slowMo=300ms)` | `Interactive UI Mode (--ui)`
 * **Viewports Tested**: Desktop (`1280x800`), Tablet (`768x1024`), Mobile (`390x844`)
 * **Execution Time**: `14.2s`
 * **Overall Verdict**: **`PASS WITH A11Y WARNINGS`** (or `PASSED` / `FAILED - REGRESSION DETECTED`)

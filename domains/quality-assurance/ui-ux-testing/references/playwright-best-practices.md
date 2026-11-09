@@ -151,3 +151,18 @@ View captured traces using:
 ```bash
 npx playwright show-trace test-results/failed-test/trace.zip
 ```
+
+---
+
+## 6. Headless vs. Headed (Visible Browser) Execution Modes
+
+Always ask the user which execution visibility mode they prefer before running the suite:
+
+| Mode | Command / Config | Best For | Trade-offs |
+| :--- | :--- | :--- | :--- |
+| **Headless (Background)** | `npx playwright test` (`HEADLESS=true`) | Fast full-suite runs, multi-viewport sweeps, deterministic `toHaveScreenshot()` baselines | Runs invisibly in background (relies on screenshots/video/trace on failure) |
+| **Headed (Watch Live)** | `npx playwright test --headed` (`HEADLESS=false`, `SLOW_MO=300`) | Watching real-time clicks/navigation, live demos, debugging interactive flows, manual SSO/MFA login steps | Slower execution; opens visible browser windows that take screen focus |
+| **Interactive UI Mode** | `npx playwright test --ui` | Step-by-step time-travel debugging, inspecting DOM snapshots, and watching live locators | Interactive developer session rather than automated batch run |
+
+### Slowing Down Headed Runs (`slowMo`)
+When running in **Headed** mode (`HEADLESS=false`), Playwright executes clicks and form fills in milliseconds—often too fast for the human eye to follow. Set `SLOW_MO=250` or `SLOW_MO=500` in `.env.test` (configured in `assets/playwright.config.starter.ts` and `assets/playwright.config.starter.py`) to add a 250ms–500ms pause between browser actions so the user can comfortably watch every step.

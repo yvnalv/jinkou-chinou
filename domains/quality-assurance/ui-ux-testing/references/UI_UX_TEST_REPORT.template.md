@@ -2,6 +2,7 @@
 
 **Execution Timestamp:** [YYYY-MM-DD HH:MM:SS UTC]  
 **Test Runner:** Playwright [or Selenium]  
+**Browser Visibility Mode:** [1. Headless (Background) / 2. Headed (Visible, slowMo=300ms) / 3. Interactive UI Mode (--ui)]  
 **Target Environment:** [e.g. Staging / Localhost / Production URL]  
 **Report Location:** [Path confirmed by user]  
 **Overall Verdict:** [PASSED / PASSED WITH WARNINGS / FAILED - REGRESSION DETECTED]  

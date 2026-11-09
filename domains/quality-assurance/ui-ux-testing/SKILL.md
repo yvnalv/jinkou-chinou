@@ -66,25 +66,28 @@ Pick the lightest mode that covers the task safely. Escalate to Mode A whenever 
 
 ### Mode A — Test Matrix & Journey Mapping
 1. **Discover Journeys & Auth Requirements**: Identify primary user personas, critical flows, and whether target views are protected behind authentication (`references/auth-and-credentials.md`).
-2. **Define Viewport Breakpoints**: Select target tiers from `references/responsive-viewport-matrix.md` (Desktop 1280px, Tablet 768px, Mobile 390px/360px).
-3. **Map UX States & a11y Checkpoints**: Identify empty states, loading skeletons, error scenarios, and interactive modal dialogs from `references/ux-scenario-matrix.md`.
-4. **Draft Test Plan**: Write `UI_UX_TEST_PLAN.md` from `references/UI_UX_TEST_PLAN.template.md` and confirm alignment with the user before coding.
+2. **Ask Browser Visibility Option**: Present the 3 Browser Execution Mode Options (**1. Headless**, **2. Headed / Visible with `slowMo`**, **3. Interactive UI Mode `--ui`**) and ask the user which mode they want as their primary execution workflow.
+3. **Define Viewport Breakpoints**: Select target tiers from `references/responsive-viewport-matrix.md` (Desktop 1280px, Tablet 768px, Mobile 390px/360px).
+4. **Map UX States & a11y Checkpoints**: Identify empty states, loading skeletons, error scenarios, and interactive modal dialogs from `references/ux-scenario-matrix.md`.
+5. **Draft Test Plan**: Write `UI_UX_TEST_PLAN.md` from `references/UI_UX_TEST_PLAN.template.md` and confirm alignment with the user before coding.
 
 ### Mode B — Suite Implementation & POM
 1. **Detect / Initialize Stack**: Detect TypeScript or Python ecosystem. If starting fresh, scaffold from `assets/playwright.config.starter.ts` (or `.py`). Validate configuration using `scripts/ui_test_helper.py validate-config`.
-2. **Handle Authentication (If Protected)**:
+2. **Ask Browser Visibility Option (Mandatory 3-Option Gate)**: Present the 3 Browser Execution Mode Options (**1. Headless**, **2. Headed / Visible Browser (Watch Live)**, **3. Interactive UI Mode (`--ui`)**) and wait for the user's choice before running tests.
+3. **Handle Authentication (If Protected)**:
    - Ask user for `.env` location (`.env.test`).
    - Verify `.env*` and `playwright/.auth/` are in `.gitignore`.
    - Scaffold one-time login setup (`assets/auth.setup.starter.ts`) and configure `storageState`.
-3. **Build Page Objects**: Encapsulate pages using Page Object Models (`assets/sample-pom.starter.ts`). Use Level 1 and 2 locators (`getByRole`, `getByLabel`).
-4. **Integrate Accessibility Fixture**: Bind `AxeBuilder` fixture (`assets/axe-fixture.starter.ts`) to audit WCAG compliance.
-5. **Implement User Flows**: Write test cases asserting functional correctness, form validation, and state transitions.
+4. **Build Page Objects**: Encapsulate pages using Page Object Models (`assets/sample-pom.starter.ts`). Use Level 1 and 2 locators (`getByRole`, `getByLabel`).
+5. **Integrate Accessibility Fixture**: Bind `AxeBuilder` fixture (`assets/axe-fixture.starter.ts`) to audit WCAG compliance.
+6. **Implement User Flows**: Write test cases asserting functional correctness, form validation, and state transitions, then execute using the user's chosen visibility mode.
 
 ### Mode C — Visual & Accessibility Audit
-1. **Freeze Motion**: Ensure global CSS disables animations (`prefers-reduced-motion: reduce`) to eliminate false visual diffs (`references/visual-regression.md`).
-2. **Execute Snapshot Comparisons**: Run visual regression checks with `expect(locator).toHaveScreenshot()` with dynamic masks on volatile timestamps or user avatars.
-3. **Scan Interactive DOM States**: Trigger user interactions (open modals, expand drawers, trigger validation errors) and execute Axe-core scans on the resulting DOM.
-4. **Deliver Report**:
+1. **Ask Browser Visibility Option (Mandatory 3-Option Gate)**: Present the 3 Browser Execution Mode Options (**1. Headless**, **2. Headed / Visible Browser (Watch Live)**, **3. Interactive UI Mode (`--ui`)**) and wait for the user's selection before running the audit.
+2. **Freeze Motion**: Ensure global CSS disables animations (`prefers-reduced-motion: reduce`) to eliminate false visual diffs (`references/visual-regression.md`).
+3. **Execute Snapshot Comparisons**: Run visual regression checks with `expect(locator).toHaveScreenshot()` with dynamic masks on volatile timestamps or user avatars.
+4. **Scan Interactive DOM States**: Trigger user interactions (open modals, expand drawers, trigger validation errors) and execute Axe-core scans on the resulting DOM.
+5. **Deliver Report**:
    - First, present the standardized summary table in chat (`references/chat-reporting-guide.md`).
    - Second, **ask the user where to save the dedicated `.md` report** before writing `UI_UX_TEST_REPORT.md` to disk.
 
@@ -92,14 +95,15 @@ Pick the lightest mode that covers the task safely. Escalate to Mode A whenever 
 1. **Inspect Failure Artifacts**: Check Playwright trace files (`npx playwright show-trace`), failure screenshots, and console logs.
 2. **Eliminate Arbitrary Delays**: Remove all instances of `page.waitForTimeout()` or `time.sleep()`. Replace with web-first auto-waiting (`expect(locator).toBeVisible()`).
 3. **Climb Locator Ladder**: Replace brittle CSS class hashes (`.btn-3xz9`) or XPaths with accessible role/name locators (`page.getByRole('button', { name: 'Submit' })`).
-4. **Run Verification Loop**: Execute the repaired test 5 times consecutively to prove zero flakiness.
+4. **Ask Browser Visibility Option & Run Verification Loop**: Present the 3 Browser Execution Mode Options (**1. Headless**, **2. Headed / Visible Browser (Watch Live)**, **3. Interactive UI Mode (`--ui`)**), then execute the repaired test 5 times consecutively to prove zero flakiness.
 
 ### Mode E — Quick Component / URL Sweep
-1. Rapidly test a single rendered URL or component.
-2. **Detect Auth Wall**: If initial try encounters a redirect to `/login` or HTTP 401/403, pause and prompt the user for credentials and `.env` setup.
-3. Evaluate responsive horizontal overflow (`scrollWidth <= innerWidth`) on mobile.
-4. Run a baseline snapshot and an Axe-core accessibility scan.
-5. Format results directly in chat using the standardized summary table.
+1. **Ask Browser Visibility Option (Mandatory 3-Option Gate)**: Present the 3 Browser Execution Mode Options (**1. Headless**, **2. Headed / Visible Browser (Watch Live)**, **3. Interactive UI Mode (`--ui`)**) and wait for the user's selection before launching the browser.
+2. Rapidly test a single rendered URL or component using the selected visibility mode.
+3. **Detect Auth Wall**: If initial try encounters a redirect to `/login` or HTTP 401/403, pause and prompt the user for credentials and `.env` setup.
+4. Evaluate responsive horizontal overflow (`scrollWidth <= innerWidth`) on mobile.
+5. Run a baseline snapshot and an Axe-core accessibility scan.
+6. Format results directly in chat using the standardized summary table.
 
 ## Rules
 
@@ -146,8 +150,18 @@ Pick the lightest mode that covers the task safely. Escalate to Mode A whenever 
 * **Strict Git Safety**: If git is used in the repository, inspect `.gitignore`. Ensure `.env*`, `*.env`, and `playwright/.auth/` are explicitly ignored before storing or reading credentials. Never hardcode credentials in code.
 * **One-Time Auth Reuse (`storageState`)**: Always use Playwright's `storageState` pattern (`assets/auth.setup.starter.ts`) so login runs once in setup and is reused across all tests, avoiding slow and brittle per-test logins.
 
+### 8. Browser Visibility Execution Gate (Always Present the 3 Options)
+* > [!IMPORTANT]
+  > **Always ask the user to choose one of the 3 Browser Execution Modes BEFORE launching browser tests** (unless the user already explicitly stated their choice in the prompt). Use an interactive question tool (such as `ask_question` / `AskUserQuestion`) if available, or present the following 3 options clearly in chat and wait for their reply:
+  >
+  > **How would you like to run the browser tests?**
+  > 1. **Headless Mode (Invisible / Background)** — `HEADLESS=true` (`npx playwright test`). Fastest execution, zero screen interruption, and deterministic pixel rendering for `toHaveScreenshot()` visual baselines.
+  > 2. **Headed / Visible Browser (Watch Live on Screen)** — `HEADLESS=false` + `SLOW_MO=300` (`npx playwright test --headed`). Opens a real browser window on your screen with 300ms action pacing so you can watch every click, form fill, modal interaction, and navigation live.
+  > 3. **Interactive UI Mode (Time-Travel Debugger)** — `npx playwright test --ui`. Opens Playwright's visual dashboard with live browser preview, step-by-step action timeline, DOM inspector, and network waterfall.
+
 ## Definition of Done
 
+* Browser execution visibility (Headless vs. Headed / Visible with optional `slowMo` or `--ui` mode) has been confirmed with the user.
 * Test suites are implemented using resilient, accessible locators with zero hardcoded sleeps.
 * Visual regression baselines are captured with animation freezing and dynamic token masking.
 * Automated accessibility scans pass with zero Critical or Serious WCAG violations on interactive states.

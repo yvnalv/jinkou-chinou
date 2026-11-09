@@ -4,7 +4,19 @@ Use this file as `conftest.py` in your tests directory when testing with Python.
 Provides multi-viewport device fixtures and global animation freezing.
 """
 
+import os
 import pytest
+
+@pytest.fixture(scope="session")
+def browser_type_launch_args(browser_type_launch_args):
+    """Configure headless vs. headed (visible) mode and optional slow_mo from env vars."""
+    headless = os.getenv("HEADLESS", "true").lower() != "false"
+    slow_mo = int(os.getenv("SLOW_MO", "0"))
+    return {
+        **browser_type_launch_args,
+        "headless": headless,
+        "slow_mo": slow_mo,
+    }
 
 @pytest.fixture(scope="session")
 def browser_context_args(browser_context_args):

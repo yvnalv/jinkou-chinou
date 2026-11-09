@@ -4,6 +4,7 @@
     "prompt": "Write an automated Playwright test suite for our checkout page with visual regression snapshots, axe-core accessibility checks, and dynamic masking for order numbers.",
     "should_trigger": true,
     "expected_behavior": [
+      "Asks the user whether to run tests in Headless (background) or Headed (visible browser) mode",
       "Uses resilient user-facing locators (getByRole, getByLabel) instead of brittle CSS or XPath",
       "Configures toHaveScreenshot with animation freezing and masks dynamic order IDs",
       "Injects axe-core to assert zero WCAG 2.1/2.2 Level AA violations on interactive states",

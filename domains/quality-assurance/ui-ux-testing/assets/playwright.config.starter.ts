@@ -34,6 +34,12 @@ export default defineConfig({
   ],
   use: {
     baseURL: process.env.BASE_URL || 'http://localhost:3000',
+    // Set HEADLESS=false in .env.test (or pass --headed) to watch the browser live
+    headless: process.env.HEADLESS !== 'false',
+    launchOptions: {
+      // Optional slowMo (in ms, e.g. SLOW_MO=300) so human eyes can follow headed actions
+      slowMo: process.env.SLOW_MO ? Number(process.env.SLOW_MO) : 0,
+    },
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',

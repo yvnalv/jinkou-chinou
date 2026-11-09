@@ -72,5 +72,8 @@
 ## 6. Deliverables & Execution Commands
 * Test Specs: `tests/e2e/[feature].spec.ts`
 * Page Objects: `tests/e2e/pages/[Feature]Page.ts`
-* Run Command: `npx playwright test tests/e2e/[feature].spec.ts`
+* **Browser Execution Mode Options**:
+  1. **Headless (Background)**: `npx playwright test tests/e2e/[feature].spec.ts` (`HEADLESS=true`)
+  2. **Headed / Visible (Watch Live)**: `HEADLESS=false SLOW_MO=300 npx playwright test tests/e2e/[feature].spec.ts --headed`
+  3. **Interactive UI Mode (Time-Travel)**: `npx playwright test tests/e2e/[feature].spec.ts --ui`
 * Update Snapshots: `npx playwright test tests/e2e/[feature].spec.ts --update-snapshots`

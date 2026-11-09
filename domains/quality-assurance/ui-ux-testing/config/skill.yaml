@@ -13,6 +13,10 @@ tags: [ui-testing, ux-testing, playwright, selenium, visual-regression, accessib
 policy:
   primary_engine: playwright
   secondary_engine: selenium
+  execution_visibility:
+    ask_user_before_run: true
+    supported_modes: [headless, headed, ui]
+    allow_slow_mo_in_headed: true
   flakiness_zero_tolerance:
     disallow_hardcoded_sleep: true
     require_web_first_assertions: true
