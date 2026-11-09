@@ -1,0 +1,42 @@
+[
+  {
+    "id": "trigger-instagram-reels-product-promo",
+    "prompt": "I want to generate a 15-second Instagram Reels promo video for our new analytics launch with voiceover subtitles so the captions aren't blocked by Instagram's Like/Share buttons or 4:5 feed crop. Let's set it up in Remotion.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Runs the 4-Step Pre-Generation Discovery Wizard (or confirms missing options such as Brand Profile and Motion Style) before writing Remotion code",
+      "Applies the Instagram Reels 9:16 (1080x1920) safe-zone insets (top >= 285px, bottom >= 420px, right >= 165px) and keeps Closed Captions inside Y: 1040px-1200px",
+      "Uses deterministic useCurrentFrame() + spring()/interpolate() animations without CSS transitions or @keyframes"
+    ]
+  },
+  {
+    "id": "trigger-transparent-lower-third-overlay",
+    "prompt": "/the-motion-designer create a reusable transparent animated speaker lower-third overlay that our video editor can drop into Premiere Pro.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Asks which Brand Profile / guidelines to load via the Pre-Generation Discovery Wizard",
+      "Configures the composition background as transparent and provides the exact Apple ProRes 4444 alpha CLI command (--codec=prores --prores-profile=4444 --image-format=png --pixel-format=yuva444p10le)",
+      "Drives entrance and exit animations via useCurrentFrame() and spring()"
+    ]
+  },
+  {
+    "id": "trigger-fix-flickering-remotion-render",
+    "prompt": "My Remotion video looks fine in the browser preview, but when I run npx remotion render to MP4, the images flicker and my Tailwind animate-bounce / CSS transitions jump randomly across frames. Help me fix it.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Identifies non-deterministic CSS transitions/Tailwind animate-* classes and raw <img> tags as the root cause of headless frame-render flickering",
+      "Replaces CSS transitions and Tailwind animations with useCurrentFrame() + spring()/interpolate(..., { extrapolateRight: 'clamp' })",
+      "Replaces raw <img> tags with <Img> from 'remotion' and checks @remotion/* package version parity"
+    ]
+  },
+  {
+    "id": "non-trigger-static-dashboard-ui-wireframe",
+    "prompt": "Design a responsive web dashboard wireframe and Figma component tokens for our B2B billing portal with WCAG 2.2 AA contrast.",
+    "should_trigger": false
+  },
+  {
+    "id": "non-trigger-playwright-e2e-video-recording",
+    "prompt": "Write a Playwright end-to-end browser test suite for our checkout flow and enable test failure video recording in playwright.config.ts.",
+    "should_trigger": false
+  }
+]

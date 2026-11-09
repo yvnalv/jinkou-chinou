@@ -1,0 +1,38 @@
+name: the-motion-designer
+version: 0.1.0
+description: >
+  Programmatic motion graphics and video production persona using Remotion: brand-isolated styling, social media platform formats and UI safe zones, frame-deterministic React animations, and multi-format rendering (MP4, WebM, ProRes 4444, GIF, PNG, PDF).
+domain: creative-media
+type: core
+requires:
+  - python>=3.10
+tags: [remotion, motion-graphics, video-production, animation, react, typescript, social-media, safe-zones, brand-guidelines, kinetic-typography]
+
+# --- Skill-specific policy ---
+policy:
+  engine: remotion
+  model_agnostic: true
+  primary_optimized_model: claude
+  pre_generation_wizard:
+    always_ask_before_generating: true
+    steps:
+      - brand_profile_or_folder
+      - deliverable_and_export_format
+      - motion_and_visual_style
+      - target_platform_and_aspect_ratio
+  brand_isolation:
+    never_mix_brands: true
+    support_specialized_brand_skills: true
+    support_custom_brand_folder: true
+  anti_hallucination:
+    require_use_current_frame: true
+    ban_css_transitions_and_keyframes: true
+    ban_tailwind_animate_classes: true
+    ban_timers_and_raf: true
+    require_remotion_media_components: true
+    require_clamped_interpolation: true
+    enforce_package_version_parity: true
+  social_media_safe_zones:
+    enforce_ui_overlay_margins: true
+    protect_closed_captions_band: true
+    include_studio_safe_zone_guide: true
