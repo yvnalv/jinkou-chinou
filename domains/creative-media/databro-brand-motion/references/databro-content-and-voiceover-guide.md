@@ -59,7 +59,26 @@ Every Databro composition passes a `soundCues: DatabroSoundCue[]` array to `<Dat
 
 ---
 
-## 5. Modifying or Duplicating the Databro Base Content Canvas
+## 5. Audio-Visual Transition Alignment & Breathing Room Rules (Preventing Voice Skipping)
+
+To prevent voiceover cutoffs or collisions during `<TransitionSeries.Transition>` changes:
+
+1. **Audio Drives Sequence Duration (Never Clamp Speech)**:
+   $$\text{SequenceDuration} = \text{HeadDelay} + \text{AudioDuration} + \text{TailDelay}$$
+2. **Head Delay (`10–12 frames`, ~0.35s)**:
+   - Always enforce a `10–12 frame` breathing room *after* the transition settles before the talent starts speaking.
+   - Allows the incoming title/badge to visually settle and lets the `whoosh-transition` SFX decay without muffling speech.
+3. **Tail Delay (`12–14 frames`, ~0.40s)**:
+   - Always enforce a `12–14 frame` silence buffer *after* speech ends before the next transition begins.
+   - Transitions must **never** cut into active speech.
+4. **Outro Hold (`20–24 frames`, ~0.80s)**:
+   - Hold on the final screen after speech ends so the CTA and Databro landscape logo resonate.
+5. **Captions Bounding**:
+   - Closed Captions must strictly live within `[vo_start, vo_end]`, never bleeding into transition overlap regions.
+
+---
+
+## 6. Modifying or Duplicating the Databro Base Content Canvas
 
 Because background color, top-left logo lockup, centered stage, and fixed Closed Captions are defined once in [`assets/databro.brand.starter.ts`](../assets/databro.brand.starter.ts) and [`assets/DatabroBaseCanvas.starter.tsx`](../assets/DatabroBaseCanvas.starter.tsx):
 

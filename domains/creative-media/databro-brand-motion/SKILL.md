@@ -140,6 +140,20 @@ Paths are relative to this skill's base directory.
   - Online IVC: Upload `databro-talent-master-calibration.mp3` or `.wav` via ElevenLabs/Cartesia.
   - Offline Fallback: `edge-tts` (`id-ID-ArdiNeural`) calibrated at normal speaking speed (`rate="+0%"`, ~135 WPM), pitch `+0Hz`, with phonetic pre-processing for English ML terminology.
 
+### 9. Audio-Visual Transition Alignment & Breathing Room Rules (Zero Skipping & Smooth Delay)
+* **Never truncate or clamp audio to fit arbitrary scene lengths**: The actual duration of the synthesized voiceover must dictate the sequence duration:
+  $$\text{Sequence Duration} = \text{HeadDelay} + \text{AudioDuration} + \text{TailDelay}$$
+* **Post-Transition Settle Buffer (Head Delay = `10–12 frames`)**:
+  - Always enforce a `10–12 frame` (~0.35s) visual stillness buffer *after* a `<TransitionSeries.Transition>` completes before the incoming voiceover begins.
+  - This allows the incoming slide to settle visually and lets the transition `whoosh-transition` SFX decay cleanly so the talent's words are never muffled or skipped.
+* **Pre-Transition Speech Silence Buffer (Tail Delay = `12–14 frames`)**:
+  - Always enforce `12–14 frames` (~0.40s) of speech silence *after* the voiceover finishes before the next `<TransitionSeries.Transition>` begins.
+  - Transitions must **never** cut into active speech.
+* **Outro Tail Hold**:
+  - Minimum `20–24 frames` (0.80s) hold after the outro speech stops before the video ends to let the CTA and Databro landscape logo resonate.
+* **Closed Captions Boundary Isolation**:
+  - Closed Captions must be strictly bounded within the active voiceover window (`[vo_start, vo_end]`), never bleeding into transition overlap regions.
+
 ---
 
 ## Definition of Done

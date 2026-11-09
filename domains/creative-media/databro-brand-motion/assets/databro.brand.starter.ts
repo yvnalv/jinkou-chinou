@@ -346,3 +346,21 @@ export const databroBrand: DatabroBrandTheme = {
     },
   },
 };
+
+/**
+ * Standard Audio-Visual Transition Timing & Breathing Room Tokens:
+ * Ensures voiceover never skips, gets cut off, or collides with slide transitions.
+ */
+export const DATABRO_TRANSITION_TIMING = {
+  /** Standard CapCut slide/zoom transition overlap in frames */
+  transitionDuration: 12,
+  /** Breathing room AFTER transition finishes before talent speaks */
+  headDelay: 10,
+  /** Silence buffer AFTER talent stops speaking before next transition starts */
+  tailDelay: 14,
+  /** Video start breathing room */
+  firstSceneDelay: 12,
+  /** Hold on final screen after outro speech ends before video finishes */
+  outroHold: 24,
+};
+
