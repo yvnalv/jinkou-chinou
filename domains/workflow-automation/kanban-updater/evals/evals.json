@@ -6,8 +6,8 @@
     "expected_behavior": [
       "Selects Mode A (Draft-Only) and does not launch Playwright browser",
       "Inspects git log and diffs non-destructively",
-      "Formats remarks using Progress, Validation, and Next steps labels per EoD SOP",
-      "Includes user note about Andika without inventing unauthorized root causes"
+      "Writes a cohesive 5-8 sentence human narrative paragraph instead of bullet points, covering problem, approach, chosen solution, obstacles, validation, and next step",
+      "Omits the current ticket number (#7111) from the remark text while including the user note about Andika without inventing unauthorized root causes"
     ]
   },
   {

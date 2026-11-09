@@ -55,8 +55,18 @@ Choose the lightest safe mode covering the user's intent. **Default to Mode A wh
 
 1. **Establish Scope**: Identify target repository, active branch, reporting period (default: current day in user's timezone), and user notes.
 2. **Extract Git Evidence**: Run non-destructive Git commands (`git status --short`, `git log --since=...`, `git diff --stat`, `git diff`, `git diff --cached`). Never commit, stash, or reset working trees.
-3. **Synthesize Remarks**: Combine Git evidence with notes using the EoD SOP format (`references/eod-scoring.md`). Every claim must map to a patch, commit, or note. Do not invent collaborators, root causes, tests, or deployments.
-4. **Present Draft**: Output the formatted remarks. Stop here without launching a browser unless submission was explicitly commanded.
+3. **Synthesize Remarks (5–8 Sentence Human Narrative Paragraph)**:
+   - Write the work update as **one cohesive, natural human prose paragraph of 5 to 8 sentences** (`references/eod-scoring.md`) — **never** as a list of bullet points (`- Progress:`, `- Validation:`, etc.).
+   - Follow the natural engineering story arc from sentence to sentence:
+     1. **Problem & Goal ("Why")**: State what is being built or fixed and why the previous behavior fell short.
+     2. **Existing Behavior & Chosen Solution ("How & What")**: Explain what the system already did versus the approach/solution chosen and business rules applied.
+     3. **Edge Cases, States, & Refinements**: Describe specific states handled, UX/code details, or adjustments made after review/testing.
+     4. **Obstacles / Challenges & Resolution**: Honestly narrate any build failures, environment issues, tricky bugs, or blockers encountered and how they were traced and resolved.
+     5. **Verification & Supporting Work**: State what builds, tests, or checks passed (and any artifacts/screenshots produced).
+     6. **Next Progress in the Plan**: Close with a sentence stating the immediate next concrete step (remaining test cases, dependency to clear, or PR creation).
+   - **No Self-Ticket Numbers**: Never mention the current work item/ticket number inside the remark text. Only mention a ticket/work item ID when referencing an **external dependency or blocker on another work item** (e.g., *"until #7412 is deployed"*).
+   - **Plain Human Engineering Tone**: Avoid robotic AI buzzwords (*"leveraged"*, *"spearheaded"*, *"seamlessly orchestrated"*). Every claim must map to a real commit, diff, or user note.
+4. **Present Draft**: Output the formatted narrative paragraph. Stop here without launching a browser unless submission was explicitly commanded.
 
 ### Mode B — Card Inspection
 
@@ -92,6 +102,8 @@ Choose the lightest safe mode covering the user's intent. **Default to Mode A wh
 ## Rules
 
 * **Default to Draft**: Never access Synergy or execute browser writes when the user asks for wording, drafts, or summaries. Submission requires unambiguous user intent.
+* **Cohesive 5–8 Sentence Narrative Style (No Bullet Lists)**: Always write work remarks as a single, connected human prose paragraph of 5 to 8 sentences walking through the problem, approach and chosen solution, refinements/edge cases, obstacles hit and resolved, validation performed, and next step in the implementation plan. Do not use bullet-point lists (`- Progress:`, `- Validation:`, etc.).
+* **No Self-Work-Item Number**: Never include the current ticket/work item number in the remark prose. Only mention a work item number when referring to another ticket that this work depends on or is blocked by.
 * **Non-Destructive Browser Operations**: Never use `taskkill`, `Stop-Process`, or force-close user browsers. If the automation profile is locked, report the condition and instruct the user to close the conflicting tab or use CDP.
 * **Top-Right Profile New-Tab Rule**: When auto-discovering `PersonID` in Synergy, always open the top-right name link in a new tab. Clicking inside the portal traps navigation in an iframe without exposing the URL parameter.
 * **Preserve History**: Never overwrite existing remarks in `#txtRemarks`. Always append new entries to existing text.

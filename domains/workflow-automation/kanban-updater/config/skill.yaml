@@ -53,3 +53,17 @@ eod_scoring:
   quality_points_max: 3.0
   weekly_bonus: 2.0
   repetition_penalty: -5.0
+
+writing_style:
+  format: single_cohesive_paragraph
+  sentence_count_range: [5, 8]
+  disallow_bullet_points: true
+  omit_self_work_item_id: true
+  allow_external_dependency_work_item_id: true
+  narrative_arc:
+    - problem_and_why
+    - existing_behavior_and_chosen_solution
+    - edge_cases_and_refinements
+    - obstacles_and_resolution
+    - verification_and_tests
+    - next_step_in_plan
