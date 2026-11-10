@@ -1,0 +1,87 @@
+{
+  "brandId": "glm",
+  "brandName": "GLM Systems",
+  "tagline": "Intelligent Enterprise Automation",
+  "website": "glmsystems.com",
+  "version": "0.1.0",
+  "colors": {
+    "backgroundPrimary": "#F1F0FA",
+    "backgroundSecondary": "#003A40",
+    "backgroundCard": "#FFFFFF",
+    "surfaceEmerald": "#003A40",
+    "surfaceLime": "#CDFF70",
+    "textPrimary": "#111827",
+    "textSecondary": "#4B5563",
+    "textOnDark": "#F1F0FA",
+    "accentPrimary": "#CDFF70",
+    "accentSecondary": "#003A40",
+    "accentLime": "#CDFF70",
+    "accentEmerald": "#003A40",
+    "borderSubtle": "#E5E7EB",
+    "borderEmerald": "#003A40",
+    "borderLime": "#CDFF70",
+    "semanticSuccess": "#10B981",
+    "semanticWarning": "#F59E0B",
+    "semanticDanger": "#EF4444"
+  },
+  "typography": {
+    "fontDisplay": "Poppins, system-ui, sans-serif",
+    "fontBody": "Poppins, Inter, system-ui, sans-serif",
+    "fontMono": "JetBrains Mono, Consolas, monospace"
+  },
+  "icons": {
+    "sourceOfTruth": "react-icons",
+    "preferredPacks": ["react-icons/lu", "react-icons/tb", "react-icons/fi"],
+    "banned": ["ai-generated-emojis", "generic-ai-clipart"]
+  },
+  "baseCanvasPresets": {
+    "16:9": {
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "logoTopLeft": { "top": 54, "left": 72, "width": 160 },
+      "websiteTopRight": { "top": 54, "right": 72, "text": "glmsystems.com", "color": "#003A40" },
+      "contentStage": { "top": 140, "bottom": 160, "left": 100, "right": 100 },
+      "closedCaption": { "y": 920, "left": 200, "right": 200, "fontSize": 34, "maxWordsPerChunk": 6 }
+    },
+    "4:5": {
+      "width": 1080,
+      "height": 1350,
+      "fps": 30,
+      "logoTopLeft": { "top": 64, "left": 72, "width": 140 },
+      "websiteTopRight": { "top": 64, "right": 72, "text": "glmsystems.com", "color": "#003A40" },
+      "contentStage": { "top": 160, "bottom": 240, "left": 72, "right": 72 },
+      "closedCaption": { "y": 1140, "left": 84, "right": 84, "fontSize": 32, "maxWordsPerChunk": 4 }
+    },
+    "9:16": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "logoTopLeft": { "top": 96, "left": 84, "width": 150 },
+      "websiteTopRight": { "top": 96, "right": 84, "text": "glmsystems.com", "color": "#003A40" },
+      "contentStage": { "top": 220, "bottom": 440, "left": 84, "right": 84 },
+      "closedCaption": { "y": 1480, "left": 96, "right": 96, "fontSize": 36, "maxWordsPerChunk": 4 }
+    },
+    "1:1": {
+      "width": 1080,
+      "height": 1080,
+      "fps": 30,
+      "logoTopLeft": { "top": 48, "left": 60, "width": 130 },
+      "websiteTopRight": { "top": 48, "right": 60, "text": "glmsystems.com", "color": "#003A40" },
+      "contentStage": { "top": 130, "bottom": 180, "left": 60, "right": 60 },
+      "closedCaption": { "y": 910, "left": 72, "right": 72, "fontSize": 30, "maxWordsPerChunk": 4 }
+    }
+  },
+  "audio": {
+    "bgmDefault": "brand-kit/audio/bgm/bgm-ambient.wav",
+    "bgmVolume": 0.12,
+    "sfx": {
+      "keyboard-typing": "brand-kit/audio/sfx/keyboard-typing.wav",
+      "pop-up": "brand-kit/audio/sfx/pop-up.wav",
+      "whoosh-transition": "brand-kit/audio/sfx/whoosh-transition.wav",
+      "mouse-click": "brand-kit/audio/sfx/mouse-click.wav",
+      "progress-ticks": "brand-kit/audio/sfx/progress-ticks.wav",
+      "callout-ding": "brand-kit/audio/sfx/callout-ding.wav"
+    }
+  }
+}

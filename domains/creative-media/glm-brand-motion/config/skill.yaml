@@ -1,0 +1,12 @@
+name: glm-brand-motion
+version: 0.1.0
+description: >
+  GLM Systems brand motion graphics and video production skill extending the-motion-designer with official Emerald (#003A40) and Lime (#CDFF70) tokens, Poppins typography, and Remotion templates.
+domain: creative-media
+type: specialized
+extends: the-motion-designer
+# requires:
+#   - python>=3.10
+# tags: []
+
+# --- Skill-specific policy (optional, free-form below this line) ---
