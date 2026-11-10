@@ -8,6 +8,14 @@ venv/
 .ruff_cache/
 .ipynb_checkpoints/
 
+# Node & Remotion
+node_modules/
+.remotion/
+out/
+renders/
+*.mp4
+*.webm
+
 # Build output (claude.ai skill packages)
 dist/
 
