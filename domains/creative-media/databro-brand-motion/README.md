@@ -8,7 +8,7 @@ Specialized brand motion skill for **Databro Studio (`@databroid` — "Belajar D
 | --- | --- |
 | Domain | `creative-media` |
 | Type | `specialized` (`extends: the-motion-designer`) |
-| Version | `0.4.0` |
+| Version | `0.4.1` |
 | Owner | `@yvnalv` |
 | Tags | `databro`, `remotion`, `motion-graphics`, `brand-guidelines`, `tiktok`, `reels`, `data-science` |
 
@@ -51,6 +51,10 @@ databro-brand-motion/
 ```
 
 ## Changelog
+
+### 0.4.1 - 2026-11-10
+
+- Voiceover generator: a sentence-ending word after a full 4-word caption chunk now borrows the previous chunk's last word instead of joining the next sentence (fixes chunks like `SKILL. SIMPELNYA GINI, BRO`). Only sentence endings (`.?!`) block the borrow; breath commas do not. Found while producing the "Apa itu Skill dalam Agentic AI?" video.
 
 ### 0.4.0 - 2026-11-10
 

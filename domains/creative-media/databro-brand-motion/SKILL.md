@@ -2,7 +2,7 @@
 name: databro-brand-motion
 description: "Databro Studio (@databroid / @databro.id) specialized brand motion skill extending the-motion-designer. Applies Databro's isolated visual identity and Standard Base Content Canvas (DatabroBaseCanvas) for Remotion videos across 9:16, 4:5, 1:1, and 16:9: #121212 matte charcoal canvas, white body text, #BB86FC lavender question headlines, #03DAC6 teal and #C1FF72 lime accents, left-aligned slide layouts, React Icons (react-icons/lu) as strict vector source of truth, persistent top-left Databro avatar lockup and top-right @databro.id, fixed Closed Captions locked at Y=1480px, absolute ban on em-dashes, CapCut smooth transitions with 10-frame settle delay, and calibrated baritone voiceover with synced caption timings. Covers tutorials, concept explainers, tool listicles, launch reels, and career opinion videos. Use when the user selects the Databro brand in the-motion-designer or invokes /databro-brand-motion. Never mix with GLM or other brands."
 metadata:
-  version: 0.4.0
+  version: 0.4.1
 ---
 
 # Databro Brand Motion : `@databroid` Visual Identity and Base Content Canvas

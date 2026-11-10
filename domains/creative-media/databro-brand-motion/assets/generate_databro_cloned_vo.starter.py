@@ -81,10 +81,17 @@ def caption_chunks(text: str) -> list[str]:
     for word in text.split():
         current.append(word)
         ends_clause = word[-1] in ".,?!:;"
-        if ends_clause and len(current) == 1 and chunks and len(chunks[-1].split()) < MAX_WORDS_PER_CAPTION:
-            # A lone clause-ending word ("bro.") joins the previous chunk instead of the next sentence.
-            chunks[-1] += " " + current.pop()
-            continue
+        if ends_clause and len(current) == 1 and chunks:
+            # A lone clause-ending word ("bro.") stays with its own sentence, never the next one.
+            prev = chunks[-1].split()
+            if len(prev) < MAX_WORDS_PER_CAPTION:
+                chunks[-1] += " " + current.pop()
+                continue
+            if prev[-1][-1] not in ".?!":  # commas (breath pauses) may be borrowed across
+                # Previous chunk is full: borrow its last word ("Nah, yang kurang | itu skill.").
+                chunks[-1] = " ".join(prev[:-1])
+                chunks.append(" ".join([prev[-1], current.pop()]))
+                continue
         if len(current) >= MAX_WORDS_PER_CAPTION or (ends_clause and len(current) >= 2):
             chunks.append(" ".join(current))
             current = []
