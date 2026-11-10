@@ -218,3 +218,4 @@ To faithfully reproduce this exact animation quality, the following reusable bui
 4. `<GlmChip>` (The asymmetric prompt pill).
 5. `<GlmFlippy>` (The animated SVG bird with physics-driven wing flapping, flight banking, and waypoint engine).
 6. `<GlmSpeechBalloon>` (The rounded speech bubble with pointer).
+

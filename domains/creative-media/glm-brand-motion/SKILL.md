@@ -257,6 +257,16 @@ Paths are relative to this skill's base directory.
 * Reference [`references/products/ai-plus-agent-globeplus.md`](references/products/ai-plus-agent-globeplus.md) for Exact Globe+ features: Role 501 permissions, 5 layout modes, 10 feature pillars (stock depletion horizon, screen reader, recode, transaction confirmation, Excel import).
 * Reference [`references/products/ai-plus-agent-synergy.md`](references/products/ai-plus-agent-synergy.md) for Exact Synergy features: Request automation (leave, tasks, approvals), CRM accounts, colleague search, quotation lines, document summarization, voice input, slash commands.
 
+### 10. Dedicated Video Creation Folders & Reproducibility Standard
+* **Strict Rule**: Every video creation project must reside in its own dedicated project directory (e.g., `remotion-demos/<project-slug>/`).
+* Every project folder must contain:
+  1. `brief.md`: Project goals, target audience, aspect ratio, duration, feature scope, and visual constraints.
+  2. `storyboard.md`: Complete scene-by-scene script, exact second and frame timestamps, on-screen text, visual staging, voiceover copy, and SFX cues.
+  3. **Dual Compositions in `Root.tsx`**: Must always provide two runnable compositions:
+     - `*-VO`: Voiceover narration + background music + SFX.
+     - `*-Muziek`: Background music + SFX + text-only (100% understandable on mute).
+  4. Reproducible asset bundles (`public/`) and Remotion scripts.
+
 ---
 
 ## Definition of Done

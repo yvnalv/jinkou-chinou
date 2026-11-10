@@ -6,12 +6,18 @@
 
 ---
 
-## 1. Script-First Production Gate ("Eerst het script, dan pas bouwen")
+## 1. Script-First Production Gate & Dedicated Project Folders
 
-Rendering takes time; rewriting scripts in code is inefficient. Always present the complete scene-by-scene script before building:
-1. **Scene Breakdown**: Exact on-screen text, visual motion description in one line, and scene start/end timings.
-2. **Reading Pace Verification**: Minimum 0.4s per word, minimum 2.0s per text card, 2.0s post-motion stillness buffer.
-3. **User Approval Required**: Await explicit user approval on the script before writing Remotion code.
+Rendering takes time; rewriting scripts in code is inefficient. Always follow the project encapsulation and sign-off standard:
+1. **Dedicated Project Directory**: Every video creation must reside in its own dedicated project folder (e.g. `remotion-demos/<project-slug>/`).
+2. **Required Project Files**:
+   - `brief.md`: Goals, audience, format, feature checklist, tone, and duration.
+   - `storyboard.md`: Scene-by-scene script, exact second and frame timestamps, on-screen text, visual staging, voiceover copy, and SFX cues.
+3. **Dual Composition Requirement**: Every project must output two compositions in `Root.tsx`:
+   - `*-VO`: Full voiceover narration + background music + SFX.
+   - `*-Muziek`: Background music + SFX + text-only (100% understandable on mute).
+4. **Reading Pace Verification**: Minimum 0.4s per word, minimum 2.0s per text card, 2.0s post-motion stillness buffer.
+5. **User Approval Required**: Await explicit user approval on the script and storyboard before writing Remotion code.
 
 ---
 
