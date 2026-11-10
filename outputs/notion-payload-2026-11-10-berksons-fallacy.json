@@ -63,7 +63,7 @@
           {
             "type": "text",
             "text": {
-              "content": "Pernah denger mitos 'orang ganteng biasanya judes'? Di data science dan machine learning, ilusi statistik ini dinamakan Berkson's Fallacy atau Collider Bias!"
+              "content": "Pernah bertanya-tanya kenapa restoran dengan makanan terlezat sering berada di lokasi tersembunyi? Di data science, ilusi ini dinamakan Berkson's Fallacy atau Collider Bias!"
             }
           }
         ]
@@ -77,7 +77,7 @@
           {
             "type": "text",
             "text": {
-              "content": "Bro, pernah gak kamu memfilter dataset user aktif atau kandidat kerja sebelum training model machine learning, terus tiba-tiba nemu korelasi negatif yang aneh banget? Misalnya, developer yang skill kodingnya dewa ternyata skor komunikasinya rendah, padahal di dunia nyata dua hal itu independen. Hati-hati bro, model kamu bisa salah belajar pola karena terkena jebakan Berkson's Fallacy!"
+              "content": "Bro, pernah gak kamu memperhatikan kenapa kedai kuliner dengan rasa paling istimewa sering kali berada di gang tersembunyi, sementara restoran di lokasi paling strategis rasanya cenderung biasa saja? Apakah lokasi bagus menurunkan kualitas makanan? Tentu tidak. Restoran yang makanannya biasa dan lokasinya buruk sudah tutup sejak awal, sehingga tidak pernah masuk ke daftar kunjungan kita. Ketika kita hanya mengamati 'restoran yang bertahan', tercipta korelasi negatif semu antara rasa dan lokasi. Di machine learning, bias seleksi serupa sering mengacaukan model kamu tanpa disadari!"
             }
           }
         ]
@@ -175,7 +175,7 @@
           {
             "type": "text",
             "text": {
-              "content": "import numpy as np\nimport pandas as pd\n\n# 1. Generate 10.000 data populasi independen (Skill Koding vs Komunikasi)\nnp.random.seed(42)\ncoding_skill = np.random.normal(70, 10, 10000)\ncommunication = np.random.normal(70, 10, 10000)\n\npop_df = pd.DataFrame({'coding': coding_skill, 'comm': communication})\nr_pop = pop_df['coding'].corr(pop_df['comm'])\nprint(f\"Korelasi di populasi umum: {r_pop:.3f} (Murni independen)\")\n\n# 2. Filter seleksi: Perusahaan hanya menerima jika Total Skor > 155 (Collider C)\nselected_df = pop_df[(pop_df['coding'] + pop_df['comm']) > 155]\nr_selected = selected_df['coding'].corr(selected_df['comm'])\nprint(f\"Korelasi pada kandidat terpilih: {r_selected:.3f} (Korelasi negatif palsu!)\")"
+              "content": "import numpy as np\nimport pandas as pd\n\n# 1. Generate 10.000 data populasi independen (Rasa Makanan vs Lokasi Strategis)\nnp.random.seed(42)\nfood_quality = np.random.normal(70, 10, 10000)\nlocation_score = np.random.normal(70, 10, 10000)\n\npop_df = pd.DataFrame({'food': food_quality, 'location': location_score})\nr_pop = pop_df['food'].corr(pop_df['location'])\nprint(f\"Korelasi di populasi umum: {r_pop:.3f} (Murni independen)\")\n\n# 2. Filter seleksi: Restoran hanya bertahan jika Total Skor > 155 (Collider C)\nsurvived_df = pop_df[(pop_df['food'] + pop_df['location']) > 155]\nr_survived = survived_df['food'].corr(survived_df['location'])\nprint(f\"Korelasi pada restoran bertahan: {r_survived:.3f} (Korelasi negatif palsu!)\")"
             }
           }
         ],

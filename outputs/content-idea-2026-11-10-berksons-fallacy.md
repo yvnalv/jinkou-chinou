@@ -1,6 +1,6 @@
 # [Instagram Carousel] Berkson's Fallacy: Jebakan Seleksi Data yang Bikin Fitur Independen Tampak Berkorelasi
 
-> Pernah denger mitos 'orang ganteng biasanya judes'? Di data science dan machine learning, ilusi statistik ini dinamakan Berkson's Fallacy atau Collider Bias!
+> Pernah bertanya-tanya kenapa restoran dengan makanan terlezat sering berada di lokasi tersembunyi? Di data science, ilusi ini dinamakan Berkson's Fallacy atau Collider Bias!
 
 **Category**: Pure Math & Statistics Fundamentals  
 **Target Platform**: Instagram Carousel  
@@ -15,10 +15,10 @@
 Berkson's Fallacy: Jebakan Seleksi Data yang Bikin Fitur Independen Tampak Berkorelasi
 
 ## 2. Subtitle / Framing Question
-Pernah denger mitos 'orang ganteng biasanya judes'? Di data science dan machine learning, ilusi statistik ini dinamakan Berkson's Fallacy atau Collider Bias!
+Pernah bertanya-tanya kenapa restoran dengan makanan terlezat sering berada di lokasi tersembunyi? Di data science, ilusi ini dinamakan Berkson's Fallacy atau Collider Bias!
 
 ## 3. Background & Relatable Friction (Hook)
-Bro, pernah gak kamu memfilter dataset user aktif atau kandidat kerja sebelum training model machine learning, terus tiba-tiba nemu korelasi negatif yang aneh banget? Misalnya, developer yang skill kodingnya dewa ternyata skor komunikasinya rendah, padahal di dunia nyata dua hal itu independen. Hati-hati bro, model kamu bisa salah belajar pola karena terkena jebakan Berkson's Fallacy!
+Bro, pernah gak kamu memperhatikan kenapa kedai kuliner dengan rasa paling istimewa sering kali berada di gang tersembunyi, sementara restoran di lokasi paling strategis rasanya cenderung biasa saja? Apakah lokasi bagus menurunkan kualitas makanan? Tentu tidak. Restoran yang makanannya biasa dan lokasinya buruk sudah tutup sejak awal, sehingga tidak pernah masuk ke daftar kunjungan kita. Ketika kita hanya mengamati 'restoran yang bertahan', tercipta korelasi negatif semu antara rasa dan lokasi. Di machine learning, bias seleksi serupa sering mengacaukan model kamu tanpa disadari!
 
 ## 4. Bridging Explanation & Core Concept
 Berkson's Paradox (Collider Bias) terjadi ketika kita mengkondisikan atau memfilter data berdasarkan variabel ketiga (C) yang dipengaruhi oleh dua variabel independen (X dan Y). Ketika X -> C <- Y, memfilter sampel hanya pada kondisi C = True membuka jalur semu (spurious path) yang menciptakan korelasi negatif palsu antara X dan Y.
@@ -26,8 +26,8 @@ Berkson's Paradox (Collider Bias) terjadi ketika kita mengkondisikan atau memfil
 | Element | Cara Kerja | Catatan |
 |---|---|---|
 | Populasi Lengkap (Tanpa Filter) | Data mencakup seluruh spektrum (X tinggi, Y tinggi, hingga keduanya rendah) | Korelasi Pearson r = 0.00 (Variabel murni independen). |
-| Sampel Terfilter (Kondisi C = True) | Observasi dengan X rendah dan Y rendah otomatis terbuang dari sampel | Muncul korelasi negatif palsu (r < 0). Nilai X tinggi 'menjelaskan' lolosnya seleksi. |
-| Analisis Kausal (Judea Pearl DAG) | Variabel C bertindak sebagai collider (tanda panah X dan Y sama-sama mengarah ke C) | Mengkondisikan collider membuka blokade kausal dan menciptakan dependensi semu. |
+| Sampel Terfilter (Kondisi C = True) | Observasi dengan X rendah dan Y rendah otomatis tereliminasi dari sampel | Muncul korelasi negatif palsu (r < 0). Nilai X tinggi 'menjelaskan' lolosnya seleksi. |
+| Analisis Kausal (Judea Pearl DAG) | Variabel C bertindak sebagai collider (panah X dan Y sama-sama mengarah ke C) | Mengkondisikan collider membuka blokade kausal dan menciptakan dependensi semu. |
 
 ## 5. Real-World Case Study & Benchmark Numbers
 Fenomena ini pertama kali diungkap oleh statistikawan Joseph Berkson (1946) di data rumah sakit. Pasien diabetes kelihatannya punya risiko lebih rendah menderita batu empedu (cholecystitis), sehingga dokter sempat menduga diabetes mencegah batu empedu! Padahal, orang dirawat di rumah sakit jika punya penyakit A ATAU penyakit B. Orang yang sehat dari keduanya tidak masuk rumah sakit, sehingga di antara pasien rawat inap muncul korelasi negatif semu. Di machine learning modern, jika startup memfilter resume hanya yang punya (GPA > 3.5 ATAU Pengalaman > 3 Tahun), model klasifikasi kamu akan belajar bahwa GPA tinggi 'mengurangi' pengalaman kerja (explaining-away effect), padahal itu murni artifact dari proses filtering data!
@@ -39,19 +39,19 @@ Buktikan sendiri ilusi statistik ini di Python dengan 15 baris kode berikut, dan
 import numpy as np
 import pandas as pd
 
-# 1. Generate 10.000 data populasi independen (Skill Koding vs Komunikasi)
+# 1. Generate 10.000 data populasi independen (Rasa Makanan vs Lokasi Strategis)
 np.random.seed(42)
-coding_skill = np.random.normal(70, 10, 10000)
-communication = np.random.normal(70, 10, 10000)
+food_quality = np.random.normal(70, 10, 10000)
+location_score = np.random.normal(70, 10, 10000)
 
-pop_df = pd.DataFrame({'coding': coding_skill, 'comm': communication})
-r_pop = pop_df['coding'].corr(pop_df['comm'])
+pop_df = pd.DataFrame({'food': food_quality, 'location': location_score})
+r_pop = pop_df['food'].corr(pop_df['location'])
 print(f"Korelasi di populasi umum: {r_pop:.3f} (Murni independen)")
 
-# 2. Filter seleksi: Perusahaan hanya menerima jika Total Skor > 155 (Collider C)
-selected_df = pop_df[(pop_df['coding'] + pop_df['comm']) > 155]
-r_selected = selected_df['coding'].corr(selected_df['comm'])
-print(f"Korelasi pada kandidat terpilih: {r_selected:.3f} (Korelasi negatif palsu!)")
+# 2. Filter seleksi: Restoran hanya bertahan jika Total Skor > 155 (Collider C)
+survived_df = pop_df[(pop_df['food'] + pop_df['location']) > 155]
+r_survived = survived_df['food'].corr(survived_df['location'])
+print(f"Korelasi pada restoran bertahan: {r_survived:.3f} (Korelasi negatif palsu!)")
 ```
 
 ## 7. Summary Pull-Quote
