@@ -4,6 +4,7 @@ import { GlmCaptions } from './GlmCaptions.starter';
 import { GlmLogoLockup } from './GlmLogoLockup.starter';
 import {
   GLM_CANVAS_PRESETS,
+  GLM_MOTION_PREFERENCES,
   GlmAspectRatioKey,
   GlmCanvasPreset,
   GlmCaptionCue,
@@ -15,6 +16,9 @@ export interface GlmBaseCanvasProps {
   aspectRatio?: GlmAspectRatioKey;
   presetOverride?: GlmCanvasPreset;
   theme?: 'cool-white' | 'emerald';
+  enableCornerChevrons?: boolean;
+  chevronScale?: number;
+  showPersistentLogo?: boolean;
   captions?: GlmCaptionCue[];
   soundCues?: GlmSoundCue[];
   enableBgm?: boolean;
@@ -36,8 +40,9 @@ export interface GlmBaseCanvasProps {
  *
  * Persistent vs. Transitioning Layers:
  *  - Layer 0: Solid Cool White (#F2F0FA) or Emerald (#003A40) background.
+ *  - Layer 0B: Official GLM Corner Chevrons (Emerald Top-Left, Lime Bottom-Right).
  *  - Layer 1: Symmetric centered stage (`contentStage`) hosting <TransitionSeries>.
- *  - Layer 2A: Fixed Top-Left GLM Logo Lockup (animates ONLY at frame 0..12).
+ *  - Layer 2A: Fixed Top-Left GLM Logo Lockup (optional when Corner Chevrons active).
  *  - Layer 2B: Fixed Top-Right glmsystems.com website mark.
  *  - Layer 3: Fixed Closed Captions (locked at fixed Y with zero vertical movement).
  *  - Layer 4: Frame-accurate SFX, BGM, and Voiceover audio bus.
@@ -46,6 +51,9 @@ export const GlmBaseCanvas: React.FC<GlmBaseCanvasProps> = ({
   aspectRatio = '16:9',
   presetOverride,
   theme = 'cool-white',
+  enableCornerChevrons = true,
+  chevronScale = GLM_MOTION_PREFERENCES.chevrons.scaleContent,
+  showPersistentLogo = false,
   captions = [],
   soundCues = [],
   enableBgm = true,
@@ -70,6 +78,38 @@ export const GlmBaseCanvas: React.FC<GlmBaseCanvasProps> = ({
 
   return (
     <AbsoluteFill style={{ backgroundColor: bgColor }}>
+      {/* LAYER 0B: Authentic GLM Corner Chevrons */}
+      {enableCornerChevrons && (
+        <>
+          {/* Top-Left Emerald Chevron */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              pointerEvents: 'none',
+              backgroundColor: glmBrand.colors.backgroundSecondary,
+              clipPath: GLM_MOTION_PREFERENCES.chevrons.topLeftEmerald.clipPath,
+              transformOrigin: '0 0',
+              transform: `scale(${chevronScale})`,
+              zIndex: 2,
+            }}
+          />
+          {/* Bottom-Right Lime Chevron */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              pointerEvents: 'none',
+              backgroundColor: glmBrand.colors.accentPrimary,
+              clipPath: GLM_MOTION_PREFERENCES.chevrons.bottomRightLime.clipPath,
+              transformOrigin: '1920px 1080px',
+              transform: `scale(${chevronScale})`,
+              zIndex: 2,
+            }}
+          />
+        </>
+      )}
+
       {/* LAYER 1: Centered Content Stage (<TransitionSeries>) */}
       <div
         style={{
@@ -83,20 +123,23 @@ export const GlmBaseCanvas: React.FC<GlmBaseCanvasProps> = ({
           alignItems: 'center',
           justifyContent: 'center',
           overflow: 'hidden',
+          zIndex: 10,
         }}
       >
         {children}
       </div>
 
       {/* LAYER 2A: Persistent Top-Left GLM Lockup */}
-      <GlmLogoLockup
-        aspectRatio={aspectRatio}
-        presetOverride={preset}
-        logoSrc={logoSrc ?? defaultLogo}
-      />
+      {showPersistentLogo && (
+        <GlmLogoLockup
+          aspectRatio={aspectRatio}
+          presetOverride={preset}
+          logoSrc={logoSrc ?? defaultLogo}
+        />
+      )}
 
       {/* LAYER 2B: Persistent Top-Right Website Handle */}
-      {preset.websiteTopRight && (
+      {showPersistentLogo && preset.websiteTopRight && (
         <div
           style={{
             position: 'absolute',

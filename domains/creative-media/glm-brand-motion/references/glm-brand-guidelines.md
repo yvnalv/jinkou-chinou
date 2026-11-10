@@ -40,11 +40,28 @@ Sampled directly from authentic GLM Systems brand standards:
 ## 2. Visual Language & Geometric Staging
 
 * **Spacious Whitespace**: Generous margins, clean paddings, and uncluttered typography.
-* **Geometric Diagonal Planes**: Subtle diagonal cuts in Emerald and Lime framing corners on Cool White backdrops, matching GLM's visual branding.
+* **Architectural Corner Chevrons**: Subtle diagonal cuts in Emerald (`#003A40`, top-left) and Lime (`#CDFF70`, bottom-right) framing the 1920x1080 canvas:
+  - Top-Left: `clip-path: polygon(0 0, 160px 0, 356px 190px, 0 563px)`
+  - Bottom-Right: `clip-path: polygon(1920px 741px, 1528px 1012px, 1572px 1080px, 1920px 1080px)`
+  - Dynamic scaling: `0.55x` during content scenes for maximum stage breathing room; `1.0x` on the final Outro End Card.
+* **Editorial Highlighter Underlay (`.hl`)**: Strategic keywords in headlines feature an electric Lime underlay bar rendered behind letter descenders:
+  ```css
+  background: linear-gradient(transparent 58%, #CDFF70 58%, #CDFF70 92%, transparent 92%);
+  padding: 0 0.08em;
+  ```
+* **Double-Shadow Card Elevation**: UI software mockups and demo cards float with crisp definition:
+  - Outline: `0 2px 0 3px #003A40` (solid Emerald perimeter border)
+  - Diffusion: `0 40px 80px rgba(0, 37, 41, 0.22)` (soft deep elevation)
+* **Asymmetric Prompt Chips**: Prompt showcase pills use a modern speech-tag silhouette with tightened bottom-right corner (`border-radius: 46px 46px 10px 46px`), filled in `#CDFF70` Lime with `#100E0D` dark typography.
 * **Typography Hierarchy**:
-  - Headings & Titles: **Poppins** (Google Fonts, Bold / SemiBold).
-  - Wordmark Typography: **Geist** (two-line uppercase brandmark).
-  - Body & UI Metadata: **Poppins** or **Inter** (Regular / Medium).
+  - Hero Numbers, Big Headlines & Eyebrows: **Geist** (`font-weight: 700 / 800`, letter-spacing `-0.03em`).
+  - Eyebrow Badges: **Geist 700**, uppercase, `letter-spacing: 0.16em`, with 16px circular badge (Lime core, 3px Emerald outline).
+  - Body, Subtitles & ERP Metadata: **Poppins** (`font-weight: 400 / 500 / 600`).
+* **Living Mascot Dynamics (Flippy)**:
+  - Vector SVG mascot with independent wing group pivoting around `(245, 281)`.
+  - Flight physics: 4.5 Hz fast wing flap cycle with vertical banking tilt proportional to velocity (`clamp(vy / 60, -14, 14)`).
+  - Idle stance: 0.6 Hz gentle breathing wave with periodic casual flap.
+  - Interactive choreography: Flippy swoops into frame, moves to the bottom corner during UI demonstrations, and physically delivers prompt chips.
 * **Audio-Independent Comprehension**: LinkedIn feeds play videos without sound by default. Every beat, question, and takeaway must be 100% readable from on-screen graphics alone.
 * **Verified Citations**: When citing performance metrics, time savings, or financial counts, always include verified source captions in-scene.
 
@@ -116,9 +133,10 @@ Every GLM video is built on `GlmBaseCanvas.starter.tsx` and `GLM_CANVAS_PRESETS`
 | Layer | Component / Element | Position on `16:9` (`1920x1080`) | Transition Rule |
 | :--- | :--- | :--- | :--- |
 | **Layer 0: Canvas** | `#F2F0FA` Cool White (or `#003A40` Emerald) | `0, 0, 1920x1080` | **Persistent** : never transitions. |
+| **Layer 0B: Corner Chevrons** | `GLM_MOTION_PREFERENCES.chevrons` | Top-Left Emerald + Bottom-Right Lime | **Persistent Architectural Framing** : scales to `0.55x` in content, `1.0x` on end card. |
 | **Layer 1: Center Stage** | `<TransitionSeries>` host | `top: 140, bottom: 160, left: 100, right: 100` | **Transitioning** : hosts scene slides with smooth transitions. |
-| **Layer 2A: Top-Left Lockup** | `GlmLogoLockup` | **`top: 54px, left: 72px`** (`160px` width) | **Persistent** : animates in once at `frame 0..12`, stays stationary. |
-| **Layer 2B: Top-Right Website** | `glmsystems.com` | **`top: 54px, right: 72px`** (`#003A40`, `22px` Bold) | **Persistent** : subtle, anchored brand URL. |
+| **Layer 2A: Top-Left Lockup** | `GlmLogoLockup` | `top: 54px, left: 72px` (`160px` width) | **Optional** : used for static formats; omitted when Corner Chevrons + Flippy Mascot are active. |
+| **Layer 2B: Top-Right Website** | `glmsystems.com` | `top: 54px, right: 72px` (`#003A40`, `22px` Bold) | **Optional** : subtle anchored brand URL on static slides. |
 | **Layer 3: Closed Captions** | `GlmCaptions` | Locked at **`Y = 920px`** (`left: 200, right: 200`) | **Persistent** : locked at Y = 920px with zero vertical bounce. |
 | **Layer 4: Audio and SFX** | `<Audio />` + `<Sequence>` | Root audio bus | Plays ambient BGM (`bgm-ambient.wav`) and synced SFX cues. |
 

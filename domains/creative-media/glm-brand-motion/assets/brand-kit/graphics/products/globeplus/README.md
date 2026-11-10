@@ -69,3 +69,4 @@
 65. `65-help-exact-documentation-links.webp` : Linking to official Exact documentation pages.
 66. `66-help-exact-website-result.webp` : Web result cards for how-to questions.
 67. `67-help-quick-reference-card.webp` : Quick reference cheatsheet table.
+

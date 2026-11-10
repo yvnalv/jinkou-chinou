@@ -24,13 +24,14 @@ glm-brand-motion/
 ├── SKILL.md                                        # Master skill instructions, modes, and signature rules
 ├── README.md                                       # Overview, structure, and changelog
 ├── config/
-│   └── skill.yaml                                  # Manifest extending the-motion-designer (v0.3.1)
+│   └── skill.yaml                                  # Manifest extending the-motion-designer (v0.3.2)
 ├── evals/
 │   └── evals.json                                  # Triggering and regression test cases
 ├── references/
 │   ├── glm-brand-assets-checklist.md               # Actionable asset verification checklist
 │   ├── glm-brand-guidelines.md                     # Visual identity spec, colors, typography, React Icons
 │   ├── glm-content-and-voiceover-guide.md          # Content archetypes, pacing, and Closed Captions
+│   ├── glm-motion-reference-analysis.md            # Forensic analysis of reference video & animation preferences
 │   └── products/
 │       ├── README.md                               # Product knowledge directory overview
 │       ├── ai-plus-agent-globeplus.md              # Deep spec for Flippy in Exact Globe+ (67 screenshots linked)
@@ -77,6 +78,18 @@ glm-brand-motion/
 ```
 
 ## Changelog
+
+### 0.3.2 - 2026-11-10
+
+- Conducted comprehensive forensic motion analysis of the authentic GLM production video (`glm-flippy-muziek.mp4`, 1920x1080 @ 30fps, 66s) and codified all motion preferences:
+  - Architectural corner chevrons (`#tri` Emerald top-left, `#lime` Lime bottom-right) scaling from `0.55x` in content to `1.0x` on the Outro End Card.
+  - Editorial highlighter underlays (`.hl`) in Lime `#CDFF70` behind key phrases.
+  - Double-shadow floating UI cards (`0 2px 0 3px #003A40, 0 40px 80px rgba(0,37,41,.22)`).
+  - Asymmetric prompt chips (`border-radius: 46px 46px 10px 46px`) filled in Lime `#CDFF70`.
+  - Flippy Mascot flight mechanics: 4.5Hz wing flap physics, banking tilt curves, and an 11-waypoint flight choreography schedule.
+  - UI micro-animations: mouse cursor with click ripple, data table inset unroll, 1.32x camera zoom into chat, Send button pulsing focus ring, and 14-ray radial sunburst explosion.
+- Authored master reference specification: `references/glm-motion-reference-analysis.md`.
+- Updated `assets/glm.brand.starter.ts` and `assets/GlmBaseCanvas.starter.tsx` to support the corner chevrons, double-shadow styling, and motion constants.
 
 ### 0.3.1 - 2026-11-10
 

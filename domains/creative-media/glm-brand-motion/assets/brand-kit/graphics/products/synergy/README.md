@@ -22,3 +22,4 @@
 18. `18-slash-commands-select-suggestion.webp` : Selecting auto-suggested record or action.
 19. `19-data-sorting-result.webp` : Sorting query results by date dynamically.
 20. `20-data-filtering-result.webp` : Filtering results by status (e.g. Open only).
+

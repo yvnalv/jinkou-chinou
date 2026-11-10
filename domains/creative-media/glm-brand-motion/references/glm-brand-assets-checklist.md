@@ -55,3 +55,12 @@ Actionable tracking checklist for all GLM Systems (`glmsystems.com`) brand motio
 | [`README.md`](products/README.md) | [x] COMPLETE | MD | Product knowledge directory index |
 | [`ai-plus-agent-globeplus.md`](products/ai-plus-agent-globeplus.md) | [x] COMPLETE | MD | Full specification for Flippy inside Exact Globe+ |
 | [`ai-plus-agent-synergy.md`](products/ai-plus-agent-synergy.md) | [x] COMPLETE | MD | Full specification for Flippy inside Exact Synergy |
+
+---
+
+## 6. Motion Animation References (`references/` and `assets/brand-kit/references/`)
+
+| Reference File | Status | Format | Verified Role |
+| :--- | :--- | :--- | :--- |
+| [`glm-motion-reference-analysis.md`](glm-motion-reference-analysis.md) | [x] COMPLETE | MD | Forensic analysis of `glm-flippy-muziek.mp4`: corner chevrons, `.hl` underlays, double-shadow cards, Flippy 4.5Hz physics, and 11-waypoint choreography |
+| [`flippy-video-script.md`](../assets/brand-kit/references/flippy-video-script.md) | [x] COMPLETE | MD | Authentic 66s launch video production script and storyboard |

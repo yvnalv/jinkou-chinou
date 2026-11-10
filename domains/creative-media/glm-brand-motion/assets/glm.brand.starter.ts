@@ -264,6 +264,7 @@ export interface GlmBrandTheme {
   };
   typography: {
     fontDisplay: string;
+    fontDisplayGeist: string;
     fontBody: string;
     fontMono: string;
   };
@@ -315,6 +316,7 @@ export const glmBrand: GlmBrandTheme = {
   },
   typography: {
     fontDisplay: 'Poppins, system-ui, sans-serif',
+    fontDisplayGeist: 'Geist, system-ui, sans-serif',
     fontBody: 'Poppins, Inter, system-ui, sans-serif',
     fontMono: 'JetBrains Mono, Consolas, monospace',
   },
@@ -333,4 +335,63 @@ export const GLM_TRANSITION_TIMING = {
   headDelayFrames: 10,
   tailDelayFrames: 14,
   outroHoldFrames: 24,
+};
+
+/**
+ * Authentic GLM Geometric Architecture & Motion Preferences
+ * Extracted directly from production video glm-flippy-muziek.mp4.
+ */
+export const GLM_MOTION_PREFERENCES = {
+  /** Corner chevron clip paths framing the 1920x1080 canvas */
+  chevrons: {
+    topLeftEmerald: {
+      clipPath: 'polygon(0 0, 160px 0, 356px 190px, 0 563px)',
+      transformOrigin: '0 0',
+      backgroundColor: '#003A40',
+    },
+    bottomRightLime: {
+      clipPath: 'polygon(1920px 741px, 1528px 1012px, 1572px 1080px, 1920px 1080px)',
+      transformOrigin: '1920px 1080px',
+      backgroundColor: '#CDFF70',
+    },
+    scaleContent: 0.55,
+    scaleEndCard: 1.0,
+  },
+  /** Text highlighter underlay bar behind key phrases */
+  highlighter: {
+    background: 'linear-gradient(transparent 58%, #CDFF70 58%, #CDFF70 92%, transparent 92%)',
+    padding: '0 0.08em',
+  },
+  /** Double shadow elevation for UI demo cards */
+  cardShadow: '0 2px 0 3px #003A40, 0 40px 80px rgba(0, 37, 41, 0.22)',
+  /** Asymmetric prompt chip with tightened bottom-right corner */
+  chip: {
+    height: 92,
+    borderRadius: '46px 46px 10px 46px',
+    backgroundColor: '#CDFF70',
+    color: '#100E0D',
+    boxShadow: '0 2px 0 3px #003A40, 0 20px 40px rgba(0, 37, 41, 0.18)',
+  },
+  /** Flippy Mascot vector hinge and flight constants */
+  flippy: {
+    viewBox: '0 20 500 460',
+    wingPivot: { x: 245, y: 281 },
+    flightFlapFreqHz: 4.5,
+    flightBobAmpPx: 6,
+    maxBankingTiltDeg: 14,
+  },
+  /** 11 Waypoints schedule across 66s video */
+  waypoints: [
+    { t0: 0, t1: 0, x: 2250, y: 160, s: 1.0, face: 1 },
+    { t0: 6.0, t1: 7.9, x: 1420, y: 600, s: 1.0, face: 1, arc: -150 },
+    { t0: 17.0, t1: 18.3, x: 300, y: 905, s: 0.5, face: 1, arc: -140 },
+    { t0: 41.5, t1: 42.45, x: 790, y: 346, s: 0.42, face: -1, arc: 90 },
+    { t0: 43.25, t1: 44.05, x: 790, y: 476, s: 0.42, face: -1, arc: -70 },
+    { t0: 44.85, t1: 45.65, x: 790, y: 606, s: 0.42, face: -1, arc: -70 },
+    { t0: 46.45, t1: 47.25, x: 790, y: 736, s: 0.42, face: -1, arc: -70 },
+    { t0: 48.05, t1: 48.85, x: 790, y: 866, s: 0.42, face: -1, arc: -70 },
+    { t0: 51.6, t1: 52.7, x: 1500, y: 560, s: 0.8, face: -1, after: 1, arc: -160 },
+    { t0: 56.0, t1: 57.0, x: 1380, y: 560, s: 1.5, face: 1, arc: -90 },
+    { t0: 61.7, t1: 62.6, x: 2300, y: -150, s: 1.1, face: -1, arc: -80 },
+  ],
 };

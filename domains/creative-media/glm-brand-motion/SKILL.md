@@ -2,7 +2,7 @@
 name: glm-brand-motion
 description: "GLM Systems (glmsystems.com) specialized brand motion skill extending the-motion-designer. Applies GLM's isolated visual identity and Standard Base Content Canvas (GlmBaseCanvas) for Remotion videos across 16:9, 4:5, 9:16, and 1:1: Lime #CDFF70, Emerald #003A40, Stone Grey #444547, and Cool White #F2F0FA, Poppins typography, official GLM Bird logo lockups and Flippy mascot animations, fixed Closed Captions, and enterprise B2B SaaS Remotion compositions. Use when the user selects the GLM brand in the-motion-designer or invokes /glm-brand-motion. Never mix with Databro or other brands."
 metadata:
-  version: 0.3.1
+  version: 0.3.2
 ---
 
 # GLM Brand Motion : GLM Systems (`glmsystems.com`) Visual Identity and Base Content Canvas
@@ -149,8 +149,9 @@ Paths are relative to this skill's base directory.
 | `references/glm-brand-assets-checklist.md` | Actionable tracking checklist for all GLM brand kit assets. |
 | `references/glm-brand-guidelines.md` | Visual identity spec, color palette, typography, and React Icons rules. |
 | `references/glm-content-and-voiceover-guide.md` | Content archetypes, pacing standards, and voiceover guidelines. |
-| `references/products/ai-plus-agent-globeplus.md` | Directory overview for Exact Globe+ screenshots. |
-| `references/products/ai-plus-agent-synergy.md` | Directory overview for Exact Synergy screenshots. |
+| `references/glm-motion-reference-analysis.md` | Forensic analysis of reference video: corner chevrons, .hl underlays, double-shadow cards, Flippy 4.5Hz physics, and 11-waypoint choreography. |
+| `references/products/ai-plus-agent-globeplus.md` | Deep specification for Flippy inside Exact Globe+ with 67 screenshots. |
+| `references/products/ai-plus-agent-synergy.md` | Deep specification for Flippy inside Exact Synergy with 20 screenshots. |
 | `references/products/README.md` | Directory documentation for products. |
 
 ## Workflow
