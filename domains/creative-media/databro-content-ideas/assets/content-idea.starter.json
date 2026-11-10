@@ -1,0 +1,38 @@
+{
+  "title": "Apa itu Agentic AI?",
+  "subtitle": "Kenapa LLM biasa aja gak cukup buat otomatisasi kompleks?",
+  "category": "AI News & Emerging Trends",
+  "platform": "Instagram Carousel",
+  "formatType": "Carousel (8-part)",
+  "date": "2026-11-10",
+  "status": "Idea 💡",
+  "backgroundHook": "Pernah gak lu minta ChatGPT bikin rencana, tapi pas disuruh eksekusi dia malah nyerah? Itu karena LLM biasa gak punya tools buat bertindak di dunia nyata.",
+  "bridgingExplanation": {
+    "summary": "Agentic AI adalah sistem LLM yang dilengkapi kemampuan reasoning, memory, dan tool calling untuk menyelesaikan tugas multi-step secara mandiri.",
+    "comparison": [
+      {
+        "element": "Standard LLM",
+        "howItWorks": "Single-turn prompt and response",
+        "limitation": "Pasif, gak bisa akses external tools"
+      },
+      {
+        "element": "Agentic AI",
+        "howItWorks": "Perceive -> Reason -> Act -> Evaluate loop",
+        "limitation": "Aktif, bisa eksekusi script dan API"
+      }
+    ]
+  },
+  "realWorldCase": "Perusahaan seperti GitHub Copilot Workspace menggunakan workflow agentic untuk membaca issue, generate plan, edit kode di repo, dan jalankan unit tests otomatis.",
+  "actionableSolution": {
+    "description": "3 langkah mulai coba Agentic AI di Python menggunakan function calling:",
+    "code": "import openai\n\n# Definisikan tool schema dan passing ke model\ntools = [{'type': 'function', 'function': {'name': 'get_stock_price', 'parameters': {...}}}]\nresponse = openai.chat.completions.create(model='gpt-4o', messages=messages, tools=tools)"
+  },
+  "summaryPullQuote": "LLM adalah otaknya, tapi Agentic AI adalah tangan dan kakinya yang beneran gerak.",
+  "closingCta": "Save dulu buat dipelajari nanti, dan share ke temen-temen lu yang lagi kepo soal AI ya bro!",
+  "evidenceSources": [
+    {
+      "title": "Anthropic: Building Effective Agents Research Report",
+      "url": "https://www.anthropic.com/research/building-effective-agents"
+    }
+  ]
+}

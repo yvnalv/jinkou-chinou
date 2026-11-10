@@ -1,0 +1,47 @@
+name: databro-content-ideas
+version: 0.1.0
+description: >
+  Researches, validates, and structures evidence-backed Databro content ideas (carousels, short-form video scripts, articles, threads) in casual Bahasa Indonesia with mandatory source citations and content planner sync.
+domain: creative-media
+type: specialized
+requires:
+  - python>=3.10
+tags: [databro, content-ideas, editorial-planner, data-science, ai-trends, carousels, notion-sync]
+
+# --- Skill-specific policy ---
+
+intake_gate:
+  mandatory_questions:
+    - topic_angle
+    - platform_format
+    - output_destination
+
+narrative_arc:
+  total_parts: 8
+  parts:
+    - id: 1
+      name: title_headline
+    - id: 2
+      name: subtitle_framing_question
+    - id: 3
+      name: background_relatable_friction
+    - id: 4
+      name: bridging_explanation_core_concept
+    - id: 5
+      name: real_world_case_study
+    - id: 6
+      name: actionable_solution_future_knowledge
+    - id: 7
+      name: summary_pull_quote
+    - id: 8
+      name: closing_cta
+
+notion_sync:
+  database_id: "23e15afd-b3c1-81b6-8bdc-000bba4d54c4"
+  default_assignee: "9021b873-2895-42d9-b8ec-44eb292dbae1"
+  default_status: "Idea 💡"
+
+rules:
+  ban_em_dash: true
+  mandatory_evidence_sources: true
+  casual_indonesian_bro_tone: true

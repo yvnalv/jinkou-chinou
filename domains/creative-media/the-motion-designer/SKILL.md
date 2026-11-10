@@ -134,7 +134,7 @@ Ask **which platform** the content will be published on first, then confirm its 
 1. **Verify Project Readiness**: Run `scripts/validate_remotion_project.py` to confirm zero banned CSS animations or package version mismatches.
 2. **Select Codec & Flags**: Match the user's chosen format from `references/export-formats-and-codecs.md` (e.g., `--codec=h264`, `--codec=prores --prores-profile=4444` for alpha overlays, `--codec=gif`, or `npx remotion still --image-format=png|webp|pdf`).
 3. **Execute or Provide Render Command**: Run the render command (or launch `npx remotion studio` if the user wants to preview interactively first) and report the output file path, resolution, duration, and codec.
-4. **Editable NLE & Canvas Export Package (CapCut & Canva)**: When the user requests export for CapCut, Canva, or ongoing timeline editing, do not merely render flat video pages. Assemble and export a complete 5-layer editable bundle per `references/export-formats-and-codecs.md#3-editable-nle--canvas-export-package-capcut--canva`:
+4. **Editable NLE & Canvas Export Package (CapCut & Canva)**: When the user requests export for CapCut, Canva, or ongoing timeline editing, do not merely render flat video pages. Assemble and export a complete 5-layer editable bundle per `references/export-formats-and-codecs.md`:
    - `subtitles/captions.srt`: Standard SubRip subtitles for editable font, size, and styling in CapCut/Canva.
    - `vector-assets/`: Native scalable SVGs (`.svg`) with semantic fills and strokes (<=5 colors, zero embedded bitmaps) so Canva displays its live top-toolbar color swatches.
    - `audio-stems/`: Isolated unmixed audio tracks (`voiceover-stem.wav`, `music-bed-stem.wav`, `sfx-stem.wav`).

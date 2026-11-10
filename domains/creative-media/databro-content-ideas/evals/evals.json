@@ -1,0 +1,34 @@
+[
+  {
+    "id": "databro-carousel-idea-agentic-ai",
+    "prompt": "Bro, bikinin ide konten Databro hari ini tentang tren Agentic AI buat carousel Instagram",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Prompts user upfront to confirm topic angle, platform format, and destination",
+      "Researches authentic papers and announcements with verified links",
+      "Structures the idea into Databro's 8-part narrative arc in casual Indonesian bro tone",
+      "Contains zero em-dashes across all text"
+    ]
+  },
+  {
+    "id": "databro-stats-tutorial-idea",
+    "prompt": "Cariin ide konten statistik dan probabilitas dasar buat postingan edukasi Databro",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Asks upfront for target format and concept depth",
+      "Drafts a relatable friction hook and crystal-clear comparison table",
+      "Provides actionable takeaway with code or step-by-step workflow",
+      "Outputs formatted markdown and compiles Notion planner payload"
+    ]
+  },
+  {
+    "id": "near-miss-motion-rendering",
+    "prompt": "Tolong render video 9:16 Remotion buat reels Databro pakai DatabroBaseCanvas",
+    "should_trigger": false
+  },
+  {
+    "id": "near-miss-tabular-eda",
+    "prompt": "Tolong lakukan EDA lengkap untuk dataset customer_churn.csv",
+    "should_trigger": false
+  }
+]
