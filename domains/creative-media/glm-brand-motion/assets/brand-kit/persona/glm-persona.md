@@ -31,7 +31,8 @@
 
 ## 3. Visual & Aesthetic Guardrails
 
-* **Background**: Clean, crisp **Cool White (`#F1F0FA`)** or deep **Emerald (`#003A40`)**. Never muddy gray or chaotic gradients.
+* **Background**: Clean, crisp **Cool White (`#F2F0FA`)** or deep **Emerald (`#003A40`)**. Never muddy gray or chaotic gradients.
+* **Typography & Palette**: Lime (`#CDFF70`), Emerald (`#003A40`), Stone Grey (`#444547`), Cool White (`#F2F0FA`). Headings in Poppins, wordmark in Geist.
 * **Accent Highlights**: Vibrant **Lime (`#CDFF70`)** on Emerald or Dark text.
 * **Pacing Standard**:
   - Minimum `0.4 seconds` per word for reading comprehension.

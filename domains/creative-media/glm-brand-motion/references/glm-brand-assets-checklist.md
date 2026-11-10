@@ -28,7 +28,7 @@ Actionable tracking checklist for all GLM Systems (`glmsystems.com`) brand motio
 
 | Asset File | Status | Format | Verified Role |
 | :--- | :--- | :--- | :--- |
-| [`glm.tokens.json`](../assets/brand-kit/guidelines/glm.tokens.json) | [x] COMPLETE | JSON | Hex tokens (`#003A40`, `#CDFF70`, `#F1F0FA`, `#111827`) |
+| [`glm.tokens.json`](../assets/brand-kit/guidelines/glm.tokens.json) | [x] COMPLETE | JSON | Official hex & RGB tokens: Lime `#CDFF70` (205, 255, 112), Emerald `#003A40` (0, 58, 64), Stone Grey `#444547` (68, 69, 71), Cool White `#F2F0FA` (242, 240, 250) |
 | `Poppins` | [x] VERIFIED | Google Font | Primary typography for display, headlines, and captions |
 | `Geist` | [x] VERIFIED | Brand Font | Wordmark typography in official GLM logo lockups |
 

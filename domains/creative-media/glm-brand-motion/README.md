@@ -1,6 +1,6 @@
 # glm-brand-motion
 
-GLM Systems (`glmsystems.com`) specialized brand motion graphics and video production skill extending `the-motion-designer` with official Emerald (`#003A40`) and Lime (`#CDFF70`) tokens, Poppins typography, Flippy AI Agent narrative assets, product knowledge for AI Plus Agent (Globe+ and Synergy), and the `GlmBaseCanvas` 5-layer Remotion architecture.
+GLM Systems (`glmsystems.com`) specialized brand motion graphics and video production skill extending `the-motion-designer` with official Lime (`#CDFF70`), Emerald (`#003A40`), Stone Grey (`#444547`), and Cool White (`#F2F0FA`) tokens, Poppins typography, Flippy AI Agent narrative assets, product knowledge for AI Plus Agent (Globe+ and Synergy), and the `GlmBaseCanvas` 5-layer Remotion architecture.
 
 Domain: `creative-media` · Type: `specialized` · Extends: `the-motion-designer`
 
@@ -13,7 +13,7 @@ Invoke with `/glm-brand-motion`, or let Claude activate it automatically when yo
 - Producing YouTube product walk-throughs or feature release stingers with GLM brand styling.
 - Converting ERP, workflow automation, or Synergy Kanban procedures into clean, high-contrast B2B motion sequences.
 - Explaining specific AI Plus Agent features: Stock Depletion Forecasts, Screen-to-Stock verification, Recode master data renaming, Excel bulk mapping, or Role 501 security.
-- Auditing or refactoring Remotion projects to adhere to GLM brand tokens, safe-zones, audio identity, and breathing room pacing.
+- Auditing or refactoring Remotion projects to adhere to official GLM brand tokens (Lime `#CDFF70`, Emerald `#003A40`, Stone Grey `#444547`, Cool White `#F2F0FA`), safe-zones, audio identity, and breathing room pacing.
 
 Do not use this skill for Databro Studio (`@databroid`) projects (use `databro-brand-motion`) or generic, brand-agnostic motion design (use `the-motion-designer`).
 
@@ -24,7 +24,7 @@ glm-brand-motion/
 ├── SKILL.md                                        # Master skill instructions, modes, and signature rules
 ├── README.md                                       # Overview, structure, and changelog
 ├── config/
-│   └── skill.yaml                                  # Manifest extending the-motion-designer (v0.2.0)
+│   └── skill.yaml                                  # Manifest extending the-motion-designer (v0.3.0)
 ├── evals/
 │   └── evals.json                                  # Triggering and regression test cases
 ├── references/
@@ -57,7 +57,7 @@ glm-brand-motion/
         │   ├── email.png                           # Flippy drafted email popup screenshot
         │   ├── menu.png                            # Exact Globe+ purchase/sales menu screenshot
         │   ├── sales.png                           # Exact Globe+ sales orders table screenshot
-        │   └── stock.png                           # Exact Globe+ stock verification screenshot
+        │   └── stock.png                           # Exact Globe+ warehouse stock verification screenshot
         ├── guidelines/
         │   └── glm.tokens.json                     # Machine-readable color and layout tokens
         ├── logos/
@@ -74,6 +74,11 @@ glm-brand-motion/
 
 ## Changelog
 
+### 0.3.0 — 2026-11-10
+
+- Updated exact official GLM brand color codes and RGB values: Lime `#CDFF70` (RGB: 205, 255, 112), Emerald `#003A40` (RGB: 0, 58, 64), Stone Grey `#444547` (RGB: 68, 69, 71), and Cool White `#F2F0FA` (RGB: 242, 240, 250).
+- Calibrated primary typography and text tokens to Stone Grey (`#444547`) across all Remotion components, captions, and token sets.
+
 ### 0.2.0 — 2026-11-10
 
 - Integrated authentic GLM brand assets and guidelines from `C:\Users\yvnal\Downloads\glm-video-skill`.
@@ -84,7 +89,7 @@ glm-brand-motion/
 ### 0.1.0 — 2026-11-10
 
 - Initial release of `glm-brand-motion` extending `the-motion-designer`.
-- Isolated GLM Systems brand tokens: Emerald (`#003A40`), Lime (`#CDFF70`), Cool White (`#F1F0FA`), and Charcoal (`#111827`).
+- Isolated GLM Systems brand tokens: Emerald (`#003A40`), Lime (`#CDFF70`), Cool White (`#F2F0FA`), and Stone Grey (`#444547`).
 - Bundled official vector SVG brandmarks (`GLM-BIRD-Color.svg`, `GLM-black-Text-Color-Bird.svg`) and UI screenshots (`menu.png`, `sales.png`, `stock.png`, `email.png`).
 - Standardized `GlmBaseCanvas.starter.tsx` across `16:9`, `4:5`, `9:16`, and `1:1` aspect ratios with persistent chrome and fixed Y Closed Captions.
 - Enforced React Icons (`react-icons/lu`) as vector source of truth, absolute ban on em-dashes (`—`), and calibrated reading time (0.4s/word, min 2.0s per card, 10-frame settle buffer).

@@ -61,7 +61,7 @@ Rendering takes time; rewriting scripts in code is inefficient. Always present t
   - React Icons: `LuWorkflow`, `LuCalendar`, `LuCheckCircle`.
 * **Beat 3 : CRM & Colleague Visibility (`00:20–00:32`)**:
   - Prompt: *"Show resource info for John Tan"* / *"List my open opportunities"*
-  - Card: Clean White card on `#F1F0FA` Cool White displaying employee status or sales pipeline.
+  - Card: Clean White card on `#F2F0FA` Cool White displaying employee status or sales pipeline.
 * **Beat 4 : Endcard (`00:32–00:40+`)**:
   - Headline: *"AI assistance directly inside Exact Synergy."*
   - CTA: *"glmsystems.com"*. Minimum `2.5 seconds` hold.

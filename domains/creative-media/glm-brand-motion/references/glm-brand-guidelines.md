@@ -1,7 +1,13 @@
 # GLM Systems (glmsystems.com) : Brand Motion Guidelines and Base Canvas Spec
 
+> **Official Brand Colors (Source of Truth)**:
+> - **Lime (Primary)**: `#CDFF70` | RGB: `205, 255, 112`
+> - **Emerald**: `#003A40` | RGB: `0, 58, 64`
+> - **Stone Grey**: `#444547` | RGB: `68, 69, 71`
+> - **Cool White**: `#F2F0FA` | RGB: `242, 240, 250`
+> 
 > **Source References**: 
-> 1. Official GLM Systems Brand Refresh (*"GLM's new logo and colour scheme"*, 1 Oct 2026).
+> 1. Official GLM Systems Brand Color Codes & Guidelines.
 > 2. GLM Corporate Website (`glmsystems.com`) and B2B LinkedIn campaign assets.
 > 3. Official Vector SVG Brandmarks (`GLM-BIRD-Color.svg`, `GLM-black-Text-Color-Bird.svg`).
 > 4. GLM Audio Branding & Synthesized Sound System (`muziek-profiel.md`, `muziek-kennis.md`).
@@ -11,24 +17,23 @@
 
 ---
 
-## 1. Full Color Palette (100% Solid Flat Colors : Zero Gradients)
+## 1. Official Color Palette (100% Solid Flat Colors : Zero Gradients)
 
-Sampled directly from authentic GLM Systems brand assets:
+Sampled directly from authentic GLM Systems brand standards:
 
-| Token Name | Hex Code | Visual Role and Usage in GLM Assets |
-| :--- | :--- | :--- |
-| **`backgroundPrimary`** | `#F1F0FA` | **Cool White** : Clean, spacious lilac-white canvas (`RGB(241, 240, 250)`). Primary background for clean enterprise motion. |
-| **`backgroundSecondary`** | `#003A40` | **Emerald** : Deep, technological blue-green (`RGB(0, 58, 64)`). Represents trust and software architecture; used for high-contrast cards and full-bleed hero scenes. |
-| **`backgroundCard`** | `#FFFFFF` | **Pure White** : Elevated card surface on `#F1F0FA` backdrop (`borderRadius: 16px to 20px`). |
-| **`accentPrimary` / `accentLime`** | `#CDFF70` | **Signature GLM Lime** : Electric lime green (`RGB(205, 255, 112)`). Represents energy and AI innovation; fills the GLM dual birds and highlights interactive keywords. |
-| **`accentSecondary` / `accentEmerald`**| `#003A40` | **Signature GLM Emerald** : High-contrast partner to Lime. Used for text, badges, and dark callout blocks. |
-| **`textPrimary`** | `#111827` | **Dark Charcoal** : Primary headline and body text on Cool White surfaces. |
-| **`textSecondary`** | `#4B5563` | **Muted Slate Gray** : Secondary descriptions and ERP metadata. |
-| **`textOnDark`** | `#F1F0FA` | **Cool White Text** : High-contrast text on `#003A40` Emerald backgrounds. |
-| **`borderSubtle`** | `#E5E7EB` | Subtle 1.5px card border on Cool White backgrounds. |
-| **`semanticSuccess`** | `#10B981` | Emerald green for verified data entries and automated tasks. |
-| **`semanticWarning`** | `#F59E0B` | Amber for review requests and pending approvals. |
-| **`semanticDanger`** | `#EF4444` | Red for inventory stockout warnings and validation errors. |
+| Token Name | Hex Code | RGB | Visual Role and Usage in GLM Assets |
+| :--- | :--- | :--- | :--- |
+| **`accentPrimary` / `lime`** | **`#CDFF70`** | `205, 255, 112` | **Signature GLM Lime (Primary)** : Electric lime green representing energy, motion, and AI innovation; fills the GLM dual birds and highlights interactive keywords. |
+| **`backgroundSecondary` / `emerald`** | **`#003A40`** | `0, 58, 64` | **Signature GLM Emerald** : Deep, technological blue-green representing enterprise trust and software architecture; used for high-contrast cards and hero scenes. |
+| **`textPrimary` / `stoneGrey`** | **`#444547`** | `68, 69, 71` | **Official Stone Grey** : Primary headline and body typography on Cool White surfaces; also used for subtle structural elements. |
+| **`backgroundPrimary` / `coolWhite`** | **`#F2F0FA`** | `242, 240, 250` | **Official Cool White** : Spacious, clean lilac-white canvas backdrop for enterprise motion graphics. |
+| **`backgroundCard`** | `#FFFFFF` | `255, 255, 255` | **Pure White** : Elevated card surface on `#F2F0FA` backdrop (`borderRadius: 16px to 20px`). |
+| **`textSecondary`** | `#666666` | `102, 102, 102` | **Muted Grey** : Secondary descriptions, timestamps, and ERP metadata. |
+| **`textOnDark`** | `#F2F0FA` | `242, 240, 250` | **Cool White Text** : High-contrast text on `#003A40` Emerald backgrounds. |
+| **`borderSubtle`** | `#E5E7EB` | `229, 231, 235` | Subtle 1.5px card border on Cool White backgrounds. |
+| **`semanticSuccess`** | `#10B981` | `16, 185, 129` | Emerald green for verified data entries and automated tasks. |
+| **`semanticWarning`** | `#F59E0B` | `245, 158, 11` | Amber for review requests and pending approvals. |
+| **`semanticDanger`** | `#EF4444` | `239, 68, 68` | Red for inventory stockout warnings and validation errors. |
 
 ---
 
@@ -52,7 +57,7 @@ Sampled directly from authentic GLM Systems brand assets:
   - **`react-icons/lu` (Lucide Icons, Primary Standard)**: `LuBuilding2`, `LuDatabase`, `LuBot`, `LuSparkles`, `LuCheckCircle`, `LuSearch`, `LuMail`, `LuSend`, `LuWorkflow`, `LuLayers`, `LuShieldCheck`, `LuArrowRight`.
   - **`react-icons/tb` (Tabler Icons)**: `TbRobot`, `TbBinaryTree`, `TbArrowsSplit`, `TbDatabase`.
   - **`react-icons/fi` (Feather Icons)**: `FiCheck`, `FiFileText`, `FiSend`.
-* **Styling**: Render icons using crisp vector strokes, sized proportionally (`size={32}` to `size={54}`), colored in GLM brand tokens (`#003A40`, `#CDFF70`, `#111827`).
+* **Styling**: Render icons using crisp vector strokes, sized proportionally (`size={32}` to `size={54}`), colored in GLM brand tokens (`#003A40`, `#CDFF70`, `#444547`).
 
 ---
 
@@ -110,7 +115,7 @@ Every GLM video is built on `GlmBaseCanvas.starter.tsx` and `GLM_CANVAS_PRESETS`
 
 | Layer | Component / Element | Position on `16:9` (`1920x1080`) | Transition Rule |
 | :--- | :--- | :--- | :--- |
-| **Layer 0: Canvas** | `#F1F0FA` Cool White (or `#003A40` Emerald) | `0, 0, 1920x1080` | **Persistent** : never transitions. |
+| **Layer 0: Canvas** | `#F2F0FA` Cool White (or `#003A40` Emerald) | `0, 0, 1920x1080` | **Persistent** : never transitions. |
 | **Layer 1: Center Stage** | `<TransitionSeries>` host | `top: 140, bottom: 160, left: 100, right: 100` | **Transitioning** : hosts scene slides with smooth transitions. |
 | **Layer 2A: Top-Left Lockup** | `GlmLogoLockup` | **`top: 54px, left: 72px`** (`160px` width) | **Persistent** : animates in once at `frame 0..12`, stays stationary. |
 | **Layer 2B: Top-Right Website** | `glmsystems.com` | **`top: 54px, right: 72px`** (`#003A40`, `22px` Bold) | **Persistent** : subtle, anchored brand URL. |

@@ -5,7 +5,7 @@
     "should_trigger": true,
     "expected_behavior": [
       "Selects Archetype A (Flippy launch) and targets 16:9 widescreen layout (1920x1080).",
-      "Mounts GlmBaseCanvas with Emerald (#003A40), Lime (#CDFF70), and Cool White (#F1F0FA) brand tokens.",
+      "Mounts GlmBaseCanvas with Emerald (#003A40), Lime (#CDFF70), Stone Grey (#444547), and Cool White (#F2F0FA) brand tokens.",
       "Positions persistent top-left GlmLogoLockup at (72px, 54px) and top-right glmsystems.com URL.",
       "Locks GlmCaptions at Y=920px with cardless ALL-CAPS text and zero vertical bounce.",
       "Uses React Icons (react-icons/lu) exclusively and enforces zero em-dashes throughout script and captions.",
@@ -19,7 +19,7 @@
     "expected_behavior": [
       "Selects 4:5 portrait aspect ratio (1080x1350) and Archetype B (Synergy workflow demo).",
       "Mounts GlmBaseCanvas with centered contentStage and captions locked at Y=1140px.",
-      "Applies crisp white elevated cards on #F1F0FA Cool White with Emerald (#003A40) and Lime (#CDFF70) accents.",
+      "Applies crisp white elevated cards on #F2F0FA Cool White with Emerald (#003A40), Lime (#CDFF70), and Stone Grey (#444547) accents.",
       "Uses react-icons/lu (LuWorkflow, LuDatabase, LuCheckCircle) for all icons.",
       "Maintains zero em-dashes across all titles, captions, and script lines."
     ]
@@ -29,7 +29,7 @@
     "prompt": "Audit my Remotion composition to verify it complies with official GLM Systems brand guidelines, color tokens, and audio settle timing.",
     "should_trigger": true,
     "expected_behavior": [
-      "Audits composition against GLM brand tokens (Emerald #003A40, Lime #CDFF70, Cool White #F1F0FA, Poppins typography).",
+      "Audits composition against GLM brand tokens (Emerald #003A40, Lime #CDFF70, Stone Grey #444547, Cool White #F2F0FA, Poppins typography).",
       "Verifies persistent top-left logo lockup and top-right website placement outside TransitionSeries.",
       "Checks for 10-frame post-transition settle delay and 12-14 frame pre-transition silence buffer.",
       "Flags any em-dashes or unauthorized non-React icon sources."

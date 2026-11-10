@@ -2,8 +2,13 @@
  * GLM Systems (glmsystems.com : "Intelligent Enterprise Automation") Isolated Brand Tokens
  * and Standard Base Content Canvas Presets across Social Media Aspect Ratios.
  *
- * Source of Truth for Visual Design:
- * - Color Palette: Emerald (#003A40), Lime (#CDFF70), Cool White (#F1F0FA), Dark Charcoal (#111827).
+ * Official Brand Colors (Source of Truth):
+ * - Lime (Primary): #CDFF70 | RGB: 205, 255, 112
+ * - Emerald: #003A40 | RGB: 0, 58, 64
+ * - Stone Grey: #444547 | RGB: 68, 69, 71
+ * - Cool White: #F2F0FA | RGB: 242, 240, 250
+ *
+ * Vector Icons & Punctuation:
  * - Vector Icons: React Icons (react-icons/lu, react-icons/tb, react-icons/fi). Strictly ban AI clipart/emojis.
  * - Mascot: Flippy (The animated Lime Bird representing the AI agent inside Exact Globe+ & Synergy).
  * - Punctuation Rule: Never use em-dashes (—). Use colons (:), arrows (->), or clean hyphens (-).
@@ -232,6 +237,7 @@ export interface GlmBrandTheme {
     backgroundCard: string;
     surfaceEmerald: string;
     surfaceLime: string;
+    surfaceStone: string;
     textPrimary: string;
     textSecondary: string;
     textOnDark: string;
@@ -239,9 +245,14 @@ export interface GlmBrandTheme {
     accentSecondary: string;
     accentLime: string;
     accentEmerald: string;
+    lime: string;
+    emerald: string;
+    stoneGrey: string;
+    coolWhite: string;
     borderSubtle: string;
     borderEmerald: string;
     borderLime: string;
+    borderStone: string;
     semanticSuccess: string;
     semanticWarning: string;
     semanticDanger: string;
@@ -272,21 +283,27 @@ export const glmBrand: GlmBrandTheme = {
   tagline: 'Intelligent Enterprise Automation',
   website: 'glmsystems.com',
   colors: {
-    backgroundPrimary: '#F1F0FA', // Cool White base
-    backgroundSecondary: '#003A40', // Deep Emerald
+    backgroundPrimary: '#F2F0FA', // Cool White base (RGB: 242, 240, 250)
+    backgroundSecondary: '#003A40', // Deep Emerald (RGB: 0, 58, 64)
     backgroundCard: '#FFFFFF', // Pure White card surface
     surfaceEmerald: '#003A40',
-    surfaceLime: '#CDFF70',
-    textPrimary: '#111827', // Dark Charcoal
-    textSecondary: '#4B5563', // Muted Slate Gray
-    textOnDark: '#F1F0FA', // Cool White text on Emerald
+    surfaceLime: '#CDFF70', // Primary Lime (RGB: 205, 255, 112)
+    surfaceStone: '#444547', // Stone Grey surface (RGB: 68, 69, 71)
+    textPrimary: '#444547', // Stone Grey primary text (RGB: 68, 69, 71)
+    textSecondary: '#666666', // Secondary muted text
+    textOnDark: '#F2F0FA', // Cool White text on Emerald
     accentPrimary: '#CDFF70', // Signature GLM Lime
     accentSecondary: '#003A40', // Signature GLM Emerald
     accentLime: '#CDFF70',
     accentEmerald: '#003A40',
+    lime: '#CDFF70', // Official Lime
+    emerald: '#003A40', // Official Emerald
+    stoneGrey: '#444547', // Official Stone Grey
+    coolWhite: '#F2F0FA', // Official Cool White
     borderSubtle: '#E5E7EB',
     borderEmerald: '#003A40',
     borderLime: '#CDFF70',
+    borderStone: '#444547',
     semanticSuccess: '#10B981',
     semanticWarning: '#F59E0B',
     semanticDanger: '#EF4444',

@@ -35,7 +35,7 @@ export interface GlmBaseCanvasProps {
  * Standard Base Content Canvas for GLM Systems (glmsystems.com).
  *
  * Persistent vs. Transitioning Layers:
- *  - Layer 0: Solid Cool White (#F1F0FA) or Emerald (#003A40) background.
+ *  - Layer 0: Solid Cool White (#F2F0FA) or Emerald (#003A40) background.
  *  - Layer 1: Symmetric centered stage (`contentStage`) hosting <TransitionSeries>.
  *  - Layer 2A: Fixed Top-Left GLM Logo Lockup (animates ONLY at frame 0..12).
  *  - Layer 2B: Fixed Top-Right glmsystems.com website mark.

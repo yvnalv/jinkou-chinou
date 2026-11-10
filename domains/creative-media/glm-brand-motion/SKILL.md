@@ -1,8 +1,8 @@
 ---
 name: glm-brand-motion
-description: "GLM Systems (glmsystems.com) specialized brand motion skill extending the-motion-designer. Applies GLM's isolated visual identity and Standard Base Content Canvas (GlmBaseCanvas) for Remotion videos across 16:9, 4:5, 9:16, and 1:1: #003A40 Emerald, #CDFF70 Lime, #F1F0FA Cool White, Poppins typography, official GLM Bird logo lockups and Flippy mascot animations, fixed Closed Captions, and enterprise B2B SaaS Remotion compositions. Use when the user selects the GLM brand in the-motion-designer or invokes /glm-brand-motion. Never mix with Databro or other brands."
+description: "GLM Systems (glmsystems.com) specialized brand motion skill extending the-motion-designer. Applies GLM's isolated visual identity and Standard Base Content Canvas (GlmBaseCanvas) for Remotion videos across 16:9, 4:5, 9:16, and 1:1: Lime #CDFF70, Emerald #003A40, Stone Grey #444547, and Cool White #F2F0FA, Poppins typography, official GLM Bird logo lockups and Flippy mascot animations, fixed Closed Captions, and enterprise B2B SaaS Remotion compositions. Use when the user selects the GLM brand in the-motion-designer or invokes /glm-brand-motion. Never mix with Databro or other brands."
 metadata:
-  version: 0.2.0
+  version: 0.3.0
 ---
 
 # GLM Brand Motion : GLM Systems (`glmsystems.com`) Visual Identity and Base Content Canvas
@@ -12,7 +12,7 @@ Specialized brand skill extending **`the-motion-designer`** exclusively for **GL
 This skill isolates all GLM Systems brand guidelines, colors, typography, vector logo lockups, sound effects, Flippy AI agent assets, product knowledge for **AI Plus Agent (Globe+ and Synergy)**, and **Standard Base Content Canvas** presets (`16:9`, `4:5`, `9:16`, `1:1`) so they never contaminate `the-motion-designer` or any other brand skill (such as `databro-brand-motion`).
 
 ```text
-Present Script First -> User Approval -> Mount <GlmBaseCanvas> -> Build <TransitionSeries> (React Icons + Emerald/Lime) -> Sync Audio Bed & SFX (~116-120 BPM) -> Validate & Render
+Present Script First -> User Approval -> Mount <GlmBaseCanvas> -> Build <TransitionSeries> (React Icons + Emerald/Lime/Stone Grey) -> Sync Audio Bed & SFX (~116-120 BPM) -> Validate & Render
 ```
 
 ## When to Use
@@ -71,7 +71,7 @@ Paths are relative to this skill's base directory.
    - Enforce reading times: 0.4s/word, min 2.0s per card, 2.0s post-motion stillness buffer.
    - **Require explicit user approval** before proceeding to code.
 2. **Mount `<GlmBaseCanvas />`**: Place the 5-layer canvas shell at the root composition level. Never place logo lockups or captions inside transitioning slide children. Default to `16:9` widescreen for LinkedIn/YouTube or `4:5` portrait for mobile feeds.
-3. **Build Slide Scenes in `<TransitionSeries>`**: Create high-contrast cards (`#FFFFFF` surfaces on `#F1F0FA` Cool White) with `#003A40` Emerald headers and `#CDFF70` Lime accents.
+3. **Build Slide Scenes in `<TransitionSeries>`**: Create high-contrast cards (`#FFFFFF` surfaces on `#F2F0FA` Cool White) with `#003A40` Emerald headers, `#444547` Stone Grey text, and `#CDFF70` Lime accents.
 4. **Use React Icons exclusively**: Source all UI and status icons from `react-icons/lu` (`LuBot`, `LuBuilding2`, `LuShieldCheck`, `LuWorkflow`, `LuDatabase`).
 5. **Integrate Real Product Screens and Mascot**: Incorporate bundled UI screens (`menu.png`, `sales.png`, `stock.png`, `email.png`) and position Flippy perching on callout badges. Reference product docs (`references/products/`).
 6. **Synchronize Audio Bed & SFX**:
@@ -90,7 +90,7 @@ Paths are relative to this skill's base directory.
 ### Mode B : Remotion Component Build
 * Implement compositions using `GlmBaseCanvas.starter.tsx` and `glm.brand.starter.ts`.
 * Use `<TransitionSeries>` with smooth 12-frame transitions (`slide`, `fade`).
-* Style elevated cards with `#FFFFFF` background, `#E5E7EB` border, and `#111827` Charcoal text.
+* Style elevated cards with `#FFFFFF` background, `#E5E7EB` border, and `#444547` Stone Grey text.
 
 ### Mode C : Timing Repair and Breathing Room
 * Eliminate rushed transitions. Enforce 10-frame settle delay after each transition before voiceover audio starts.
@@ -99,10 +99,10 @@ Paths are relative to this skill's base directory.
 
 ### Mode D : Brand Guidelines Audit
 * Validate colors against `assets/brand-kit/guidelines/glm.tokens.json`:
-  - Primary Canvas: `#F1F0FA` Cool White (or full-bleed `#003A40` Emerald for hero beats).
-  - Accent Lime: `#CDFF70`.
-  - Accent Emerald: `#003A40`.
-  - Headline Text: `#111827`.
+  - Primary Canvas: `#F2F0FA` Cool White (or full-bleed `#003A40` Emerald for hero beats).
+  - Primary Accent Lime: `#CDFF70` (RGB: 205, 255, 112).
+  - Signature Emerald: `#003A40` (RGB: 0, 58, 64).
+  - Headline & Body Text: `#444547` Stone Grey (RGB: 68, 69, 71).
 * Scan for banned elements: Flag any em-dashes (`—`), non-React vector icons, or unauthorized gradients.
 
 ### Mode E : Multi-Platform Export
@@ -122,11 +122,11 @@ Paths are relative to this skill's base directory.
 ### 3. Always Build on `<GlmBaseCanvas />` (Persistent Chrome vs. Transitioning Stage)
 * **Never place `<GlmLogoLockup />` or `<GlmCaptions />` inside individual transitioning scenes.**
 * Mount [`GlmBaseCanvas.starter.tsx`](assets/GlmBaseCanvas.starter.tsx) at the root level:
-  - **Layer 0 (Canvas)**: Solid `#F1F0FA` Cool White (or `#003A40` Emerald for hero cards) stays static.
+  - **Layer 0 (Canvas)**: Solid `#F2F0FA` Cool White (or `#003A40` Emerald for hero cards) stays static.
   - **Layer 1 (Center Stage)**: Centered `contentStage` (`top: 140, bottom: 160, left: 100, right: 100` on `16:9`) hosts `<TransitionSeries>`.
   - **Layer 2A (Top-Left Lockup)**: Anchored at **`top: 54px, left: 72px`** on `16:9` (`GlmLogoLockup`). Animates only on `frame 0..12` and remains stationary.
   - **Layer 2B (Top-Right Website)**: Anchored at **`top: 54px, right: 72px`** (`glmsystems.com` in `#003A40`, `22px` Bold).
-  - **Layer 3 (Fixed Closed Captions)**: Locked at **`Y = 920px`** on `16:9` (or `Y = 1140px` on `4:5`). Displays cardless ALL-CAPS `#111827` (or `#F1F0FA` on dark) phrases with zero vertical movement.
+  - **Layer 3 (Fixed Closed Captions)**: Locked at **`Y = 920px`** on `16:9` (or `Y = 1140px` on `4:5`). Displays cardless ALL-CAPS `#444547` (or `#F2F0FA` on dark) phrases with zero vertical movement.
   - **Layer 4 (Audio, BGM and SFX)**: Controls `bgm-ambient.wav` and synchronized SFX cues (`pop-up.wav`, `whoosh-transition.wav`, `keyboard-typing.wav`, `mouse-click.wav`, `callout-ding.wav`).
 
 ### 4. Vector Icons Standard : React Icons as Single Source of Truth
@@ -151,11 +151,18 @@ Paths are relative to this skill's base directory.
 * **Stillness Buffer after Motion**: **`2.0 seconds`** visual stillness before scene transition.
 * **Outro Endcard**: **`2.5 seconds`** minimum hold for GLM logo and website URL.
 
-### 7. Audio Brand Identity (Zakelijk, Upbeat, Gegrond)
+### 7. Official Brand Colors (Source of Truth)
+* **Lime (Primary)**: `#CDFF70` | RGB: `205, 255, 112` (energy, motion, AI innovation, dual birds logo).
+* **Emerald**: `#003A40` | RGB: `0, 58, 64` (trust, technological depth, badges, hero cards).
+* **Stone Grey**: `#444547` | RGB: `68, 69, 71` (primary text, headlines, subtle borders).
+* **Cool White**: `#F2F0FA` | RGB: `242, 240, 250` (spacious canvas background).
+* **Pure White**: `#FFFFFF` (elevated card surface).
+
+### 8. Audio Brand Identity (Zakelijk, Upbeat, Gegrond)
 * **BGM Character**: Professional, driving, grounded (~116-120 BPM). No dreamy or sleepy ambient beds; calm harmonies with active rhythmic drive.
 * **SFX Precision**: Place SFX at the exact visual landing frame (`pop` for cards, `swoosh` for slides, `ticks` for tables, `stijg` for counters, max 2 `ping` accents per video).
 
-### 8. Product Knowledge Specialization
+### 9. Product Knowledge Specialization
 * Reference [`references/products/ai-plus-agent-globeplus.md`](references/products/ai-plus-agent-globeplus.md) for Exact Globe+ features: Role 501 permissions, 5 layout modes, 10 feature pillars (stock depletion horizon, screen reader, recode, transaction confirmation, Excel import).
 * Reference [`references/products/ai-plus-agent-synergy.md`](references/products/ai-plus-agent-synergy.md) for Exact Synergy features: Request automation (leave, tasks, approvals), CRM accounts, colleague search, quotation lines, document summarization, voice input, slash commands.
 
@@ -164,7 +171,7 @@ Paths are relative to this skill's base directory.
 ## Definition of Done
 
 * Scene-by-scene script presented and approved before writing Remotion code.
-* Composition wraps scenes in `<GlmBaseCanvas />` using `glmBrand` tokens (`#F1F0FA`, `#003A40`, `#CDFF70`, `#FFFFFF`, `#111827`) with zero gradients and zero cross-brand leakage.
+* Composition wraps scenes in `<GlmBaseCanvas />` using `glmBrand` tokens (`#CDFF70`, `#003A40`, `#444547`, `#F2F0FA`, `#FFFFFF`) with zero gradients and zero cross-brand leakage.
 * Top-left GLM logo lockup (`top: 54px, left: 72px` on `16:9`) and top-right `glmsystems.com` are persistent outside the transition stage.
 * Closed Captions are locked at `Y = 920px` (`16:9`) or `Y = 1140px` (`4:5`) in cardless ALL-CAPS text with zero vertical bounce and zero em-dashes.
 * All icons are exclusively sourced from **React Icons** (`react-icons/lu`, `react-icons/tb`, `react-icons/fi`).
