@@ -196,9 +196,15 @@ Paths are relative to this skill's base directory.
   - Headline & Body Text: `#444547` Stone Grey (RGB: 68, 69, 71).
 * Scan for banned elements: Flag any em-dashes (`—`), non-React vector icons, or unauthorized gradients.
 
-### Mode E : Multi-Platform Export
-* Export across aspect ratios by switching `aspectRatio="16:9" | "4:5" | "9:16" | "1:1"` on `<GlmBaseCanvas />`.
-* Render using Remotion CLI with H.264 MP4 output.
+### Mode E : Multi-Platform & Editable NLE Export (CapCut & Canva)
+* Multi-aspect ratio rendering: Switch `aspectRatio="16:9" | "4:5" | "9:16" | "1:1"` on `<GlmBaseCanvas />`.
+* Render master deliverables using Remotion CLI (Narration edition and Music-only edition).
+* Assemble and export complete CapCut & Canva editable bundle per `the-motion-designer/references/export-formats-and-codecs.md`:
+  - `subtitles/captions.srt`: Unbaked SubRip subtitles for direct import into CapCut (Text > Local Captions > Import .srt) and Canva.
+  - `vector-assets/`: Clean SVG files for Flippy, GLM bird, badges, and Lucide icons with native vector fills and strokes so Canva displays live color swatches in the top toolbar.
+  - `audio-stems/`: Isolated `voiceover-stem.wav`, `music-bed-stem.wav`, `sfx-stem.wav`.
+  - `transparent-overlays/`: Apple ProRes 4444 `.mov` with alpha channel (`yuva444p10le`) for Flippy mascot animations over CapCut footage.
+  - `scene-clips/`: Modular individual scene MP4s (`scene01.mp4` to `scene20.mp4`).
 
 ## GLM Signature Rules
 

@@ -79,3 +79,60 @@ npx remotion render src/index.ts MainPromo out/glm-reel.mp4 \
   --props='./props/glm-launch.json'
 ```
 
+---
+
+## 3. Editable NLE & Canvas Export Package (CapCut & Canva)
+
+When users want to continue editing, modifying colors, or restyling animations inside **CapCut** or **Canva**, rendering a single flattened `.mp4` file is insufficient because text, audio, and color fills are permanently baked into pixels.
+
+To enable seamless post-editing in CapCut and Canva, the motion designer exports a **5-Layer Editable Asset Package**:
+
+```
+out/editable-editing-pack/
+├── subtitles/
+│   └── captions.srt                # Standard SubRip subtitles for live font/style editing
+├── audio-stems/
+│   ├── voiceover-stem.wav          # Clean voiceover track (unmixed)
+│   ├── music-bed-stem.wav          # Clean background music track
+│   ├── sfx-stem.wav                # Synchronized UI sound effects track
+│   └── full-mix.mp3                # Complete reference mix
+├── vector-assets/                  # Native SVG vectors with changeable color layers
+│   ├── mascot-character.svg        # Clean vector paths (Canva surfaces color swatches)
+│   ├── icons/                      # Individual Lucide/React icon vector SVGs
+│   └── ui-components/              # Badges, prompt chips, and speech balloons
+├── transparent-overlays/           # Alpha video tracks for CapCut overlays
+│   └── mascot-overlay.mov          # Apple ProRes 4444 with alpha channel
+└── scene-clips/                    # Modular video clips per scene
+    ├── scene01.mp4
+    ├── scene02.mp4
+    └── ...
+```
+
+### CapCut Continuation Workflow
+
+1. **Video & Overlay Import**:
+   - Create a new project in CapCut (16:9 or 9:16).
+   - Drag modular `scene-clips/` onto the main video track.
+   - Drag `transparent-overlays/mascot-overlay.mov` onto an upper track. Because it is encoded with ProRes 4444 (`yuva444p10le`), CapCut recognizes the alpha channel automatically with zero green screen keying.
+2. **Audio Stems Mixing**:
+   - Drag `voiceover-stem.wav` to Audio Track 1.
+   - Drag `music-bed-stem.wav` to Audio Track 2 and set CapCut's "Auto-Ducking" or lower volume to -18dB.
+   - Drag `sfx-stem.wav` to Audio Track 3.
+3. **Editable Subtitles**:
+   - Navigate to **Text > Local Captions > Import `.srt`**.
+   - Select `subtitles/captions.srt`.
+   - CapCut instantly populates an editable subtitle timeline track. Select all captions to change font type, font size, stroke color, glow, or apply CapCut animated text presets in one click.
+
+### Canva Video Continuation Workflow
+
+1. **Changeable Color Vector Assets (`.svg`)**:
+   - Canva parses SVG vector files with distinct `fill="..."` and `stroke="..."` attributes (up to 5 solid colors) and **displays color swatches in the top toolbar**.
+   - In Canva, navigate to **Uploads > Upload files** and select the SVGs from `vector-assets/`.
+   - Place an SVG (e.g. Mascot, Card, or Icon) on any video page. Click the element: Canva's top toolbar displays the color boxes, allowing users to swap brand colors in real time.
+2. **Modular Scene Video Pages**:
+   - Add a page in Canva Video for each scene.
+   - Drag each clip from `scene-clips/` onto its corresponding Canva page.
+3. **Captions & Audio**:
+   - Upload `voiceover-stem.wav` and `music-bed-stem.wav` to Canva's Audio tab.
+   - Upload `subtitles/captions.srt` to attach synchronized captions across pages.
+
