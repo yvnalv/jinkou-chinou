@@ -1,6 +1,6 @@
 # glm-brand-motion
 
-GLM Systems (`glmsystems.com`) specialized brand motion graphics and video production skill extending `the-motion-designer` with official Emerald (`#003A40`) and Lime (`#CDFF70`) tokens, Poppins typography, Flippy AI Agent narrative assets, and the `GlmBaseCanvas` 5-layer Remotion architecture.
+GLM Systems (`glmsystems.com`) specialized brand motion graphics and video production skill extending `the-motion-designer` with official Emerald (`#003A40`) and Lime (`#CDFF70`) tokens, Poppins typography, Flippy AI Agent narrative assets, product knowledge for AI Plus Agent (Globe+ and Synergy), and the `GlmBaseCanvas` 5-layer Remotion architecture.
 
 Domain: `creative-media` · Type: `specialized` · Extends: `the-motion-designer`
 
@@ -9,10 +9,11 @@ Domain: `creative-media` · Type: `specialized` · Extends: `the-motion-designer
 Invoke with `/glm-brand-motion`, or let Claude activate it automatically when you ask for:
 
 - Creating LinkedIn B2B announcement or product demo videos (`16:9` or `4:5`) for **GLM Systems** (`glmsystems.com`).
-- Introducing or explaining **Flippy**, the AI assistant inside Exact Globe+ and Exact Synergy.
+- Introducing or explaining **Flippy**, the AI assistant embedded in Exact Globe+ and Exact Synergy.
 - Producing YouTube product walk-throughs or feature release stingers with GLM brand styling.
 - Converting ERP, workflow automation, or Synergy Kanban procedures into clean, high-contrast B2B motion sequences.
-- Auditing or refactoring Remotion projects to adhere to GLM brand tokens, safe-zones, and breathing room pacing.
+- Explaining specific AI Plus Agent features: Stock Depletion Forecasts, Screen-to-Stock verification, Recode master data renaming, Excel bulk mapping, or Role 501 security.
+- Auditing or refactoring Remotion projects to adhere to GLM brand tokens, safe-zones, audio identity, and breathing room pacing.
 
 Do not use this skill for Databro Studio (`@databroid`) projects (use `databro-brand-motion`) or generic, brand-agnostic motion design (use `the-motion-designer`).
 
@@ -23,13 +24,17 @@ glm-brand-motion/
 ├── SKILL.md                                        # Master skill instructions, modes, and signature rules
 ├── README.md                                       # Overview, structure, and changelog
 ├── config/
-│   └── skill.yaml                                  # Manifest extending the-motion-designer
+│   └── skill.yaml                                  # Manifest extending the-motion-designer (v0.2.0)
 ├── evals/
 │   └── evals.json                                  # Triggering and regression test cases
 ├── references/
 │   ├── glm-brand-assets-checklist.md               # Actionable asset verification checklist
 │   ├── glm-brand-guidelines.md                     # Visual identity spec, colors, typography, React Icons
-│   └── glm-content-and-voiceover-guide.md          # Content archetypes, pacing, and Closed Captions
+│   ├── glm-content-and-voiceover-guide.md          # Content archetypes, pacing, and Closed Captions
+│   └── products/
+│       ├── README.md                               # Product knowledge directory overview
+│       ├── ai-plus-agent-globeplus.md              # Deep spec for Flippy in Exact Globe+
+│       └── ai-plus-agent-synergy.md                # Deep spec for Flippy in Exact Synergy
 └── assets/
     ├── glm.brand.starter.ts                        # TypeScript brand tokens, color palette, and canvas geometry
     ├── GlmBaseCanvas.starter.tsx                   # 5-layer Base Content Canvas preset across 16:9, 4:5, 9:16, 1:1
@@ -45,7 +50,7 @@ glm-brand-motion/
         │       ├── keyboard-typing.wav             # Mechanical typing SFX for text and code
         │       ├── mouse-click.wav                 # Crisp UI mouse click SFX
         │       ├── pop-up.wav                      # UI bubble pop entry SFX
-        │       ├── progress-ticks.wav              # Digital tick SFX for progress bars
+        │       ├── progress-ticks.wav              # Digital tick SFX for loading bars
         │       └── whoosh-transition.wav           # Smooth air whoosh transition SFX
         ├── graphics/
         │   ├── README.md                           # Graphics documentation
@@ -68,6 +73,13 @@ glm-brand-motion/
 ```
 
 ## Changelog
+
+### 0.2.0 — 2026-11-10
+
+- Integrated authentic GLM brand assets and guidelines from `C:\Users\yvnal\Downloads\glm-video-skill`.
+- Added dedicated product knowledge specifications for **AI Plus Agent for Exact Globe+** (`references/products/ai-plus-agent-globeplus.md`) and **AI Plus Agent for Exact Synergy** (`references/products/ai-plus-agent-synergy.md`) directly from `docs.glmsystems.com`.
+- Codified GLM audio brand identity: **Zakelijk, upbeat, gegrond** (~116-120 BPM, calm harmony, active groove, stabs over arpeggios, tight audible SFX).
+- Enforced production rules: "Script-First, User Sign-Off Before Rendering", single idea per video, verified citation captions, and 100% audio-independent comprehension on mute.
 
 ### 0.1.0 — 2026-11-10
 

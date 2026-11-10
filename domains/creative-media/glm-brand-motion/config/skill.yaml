@@ -1,7 +1,7 @@
 name: glm-brand-motion
-version: 0.1.0
+version: 0.2.0
 description: >
-  GLM Systems brand motion graphics and video production skill extending the-motion-designer with official Emerald (#003A40) and Lime (#CDFF70) tokens, Poppins typography, and Remotion templates.
+  GLM Systems brand motion graphics and video production skill extending the-motion-designer with official Emerald (#003A40) and Lime (#CDFF70) tokens, Poppins typography, Flippy AI Agent product intelligence, and Remotion templates.
 domain: creative-media
 type: specialized
 extends: the-motion-designer

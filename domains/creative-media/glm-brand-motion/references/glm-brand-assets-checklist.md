@@ -30,6 +30,7 @@ Actionable tracking checklist for all GLM Systems (`glmsystems.com`) brand motio
 | :--- | :--- | :--- | :--- |
 | [`glm.tokens.json`](../assets/brand-kit/guidelines/glm.tokens.json) | [x] COMPLETE | JSON | Hex tokens (`#003A40`, `#CDFF70`, `#F1F0FA`, `#111827`) |
 | `Poppins` | [x] VERIFIED | Google Font | Primary typography for display, headlines, and captions |
+| `Geist` | [x] VERIFIED | Brand Font | Wordmark typography in official GLM logo lockups |
 
 ---
 
@@ -44,3 +45,13 @@ Actionable tracking checklist for all GLM Systems (`glmsystems.com`) brand motio
 | [`pop-up.wav`](../assets/brand-kit/audio/sfx/pop-up.wav) | [x] COMPLETE | WAV | Bubble pop SFX for speech bubbles and card entries |
 | [`progress-ticks.wav`](../assets/brand-kit/audio/sfx/progress-ticks.wav) | [x] COMPLETE | WAV | Digital tick SFX for loading and progress |
 | [`whoosh-transition.wav`](../assets/brand-kit/audio/sfx/whoosh-transition.wav) | [x] COMPLETE | WAV | Smooth air whoosh SFX for scene transitions |
+
+---
+
+## 5. Product Knowledge Specifications (`references/products/`)
+
+| Reference File | Status | Format | Verified Role |
+| :--- | :--- | :--- | :--- |
+| [`README.md`](products/README.md) | [x] COMPLETE | MD | Product knowledge directory index |
+| [`ai-plus-agent-globeplus.md`](products/ai-plus-agent-globeplus.md) | [x] COMPLETE | MD | Full specification for Flippy inside Exact Globe+ |
+| [`ai-plus-agent-synergy.md`](products/ai-plus-agent-synergy.md) | [x] COMPLETE | MD | Full specification for Flippy inside Exact Synergy |

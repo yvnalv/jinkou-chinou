@@ -2,23 +2,24 @@
 name: glm-brand-motion
 description: "GLM Systems (glmsystems.com) specialized brand motion skill extending the-motion-designer. Applies GLM's isolated visual identity and Standard Base Content Canvas (GlmBaseCanvas) for Remotion videos across 16:9, 4:5, 9:16, and 1:1: #003A40 Emerald, #CDFF70 Lime, #F1F0FA Cool White, Poppins typography, official GLM Bird logo lockups and Flippy mascot animations, fixed Closed Captions, and enterprise B2B SaaS Remotion compositions. Use when the user selects the GLM brand in the-motion-designer or invokes /glm-brand-motion. Never mix with Databro or other brands."
 metadata:
-  version: 0.1.0
+  version: 0.2.0
 ---
 
 # GLM Brand Motion : GLM Systems (`glmsystems.com`) Visual Identity and Base Content Canvas
 
 Specialized brand skill extending **`the-motion-designer`** exclusively for **GLM Systems (`glmsystems.com`)**.
 
-This skill isolates all GLM Systems brand guidelines, colors, typography, vector logo lockups, sound effects, Flippy AI agent assets, and **Standard Base Content Canvas** presets (`16:9`, `4:5`, `9:16`, `1:1`) so they never contaminate `the-motion-designer` or any other brand skill (such as `databro-brand-motion`).
+This skill isolates all GLM Systems brand guidelines, colors, typography, vector logo lockups, sound effects, Flippy AI agent assets, product knowledge for **AI Plus Agent (Globe+ and Synergy)**, and **Standard Base Content Canvas** presets (`16:9`, `4:5`, `9:16`, `1:1`) so they never contaminate `the-motion-designer` or any other brand skill (such as `databro-brand-motion`).
 
 ```text
-Confirm Topic & Archetype -> Mount <GlmBaseCanvas> (Persistent Logo + Fixed Y=920px CC + SFX) -> Build <TransitionSeries> Scenes (React Icons + Emerald/Lime Cards) -> Calibrate Enterprise Voiceover (135 WPM) -> Validate & Render
+Present Script First -> User Approval -> Mount <GlmBaseCanvas> -> Build <TransitionSeries> (React Icons + Emerald/Lime) -> Sync Audio Bed & SFX (~116-120 BPM) -> Validate & Render
 ```
 
 ## When to Use
 
 * Generating LinkedIn B2B announcements, YouTube product walkthroughs, or in-app feature explainers for **GLM Systems (`glmsystems.com`)**.
 * Introducing or animating **Flippy**, the AI assistant embedded in Exact Globe+ and Exact Synergy.
+* Explaining core AI Plus Agent capabilities: Stock Depletion Forecasts, Screen-to-Stock verification, Recode master data renaming, Excel bulk mapping, or Role 501 security.
 * Building high-contrast ERP workflow, sales order management, stock verification, or Synergy Kanban motion graphics.
 * When the user selects **GLM** during Step 1 of `the-motion-designer`'s Pre-Generation Option Wizard or invokes `/glm-brand-motion`.
 
@@ -58,16 +59,26 @@ Paths are relative to this skill's base directory.
 | `references/glm-brand-assets-checklist.md` | Actionable tracking checklist for all GLM brand kit assets. |
 | `references/glm-brand-guidelines.md` | Visual identity spec, color palette, typography, and React Icons rules. |
 | `references/glm-content-and-voiceover-guide.md` | Content archetypes, pacing standards, and voiceover guidelines. |
+| `references/products/README.md` | Product knowledge directory overview for GLM enterprise add-ons. |
+| `references/products/ai-plus-agent-globeplus.md` | Deep specification for Flippy inside Exact Globe+ (ERP). |
+| `references/products/ai-plus-agent-synergy.md` | Deep specification for Flippy inside Exact Synergy (Workflow/CRM). |
 
 ## Workflow
 
-1. **Confirm Topic, Archetype, and Platform**: Determine if creating Archetype A (Flippy launch), Archetype B (Synergy workflow demo), or Archetype C (feature release). Default to `16:9` widescreen for LinkedIn/YouTube or `4:5` portrait for mobile feeds.
-2. **Mount `<GlmBaseCanvas />`**: Place the 5-layer canvas shell at the root composition level. Never place logo lockups or captions inside transitioning slide children.
+1. **Script-First Production Gate ("Eerst het script, dan pas bouwen")**:
+   - Write and present the complete scene-by-scene script before writing Remotion code (`references/glm-content-and-voiceover-guide.md`).
+   - Detail exact on-screen copy, visual movement in one line, and scene start/end timings.
+   - Enforce reading times: 0.4s/word, min 2.0s per card, 2.0s post-motion stillness buffer.
+   - **Require explicit user approval** before proceeding to code.
+2. **Mount `<GlmBaseCanvas />`**: Place the 5-layer canvas shell at the root composition level. Never place logo lockups or captions inside transitioning slide children. Default to `16:9` widescreen for LinkedIn/YouTube or `4:5` portrait for mobile feeds.
 3. **Build Slide Scenes in `<TransitionSeries>`**: Create high-contrast cards (`#FFFFFF` surfaces on `#F1F0FA` Cool White) with `#003A40` Emerald headers and `#CDFF70` Lime accents.
 4. **Use React Icons exclusively**: Source all UI and status icons from `react-icons/lu` (`LuBot`, `LuBuilding2`, `LuShieldCheck`, `LuWorkflow`, `LuDatabase`).
-5. **Integrate Real Product Screens and Mascot**: Incorporate bundled UI screens (`menu.png`, `sales.png`, `stock.png`, `email.png`) and position Flippy perching on callout badges.
-6. **Enforce Breathing Room and Timing**: Ensure 0.4s/word reading pace, minimum 2.0s card visibility, 10-frame post-transition settle delay, and 14-frame tail silence buffer.
-7. **Verify Zero Em-Dashes**: Scan all headlines, body text, code snippets, and Closed Captions to ensure zero em-dashes (`—`).
+5. **Integrate Real Product Screens and Mascot**: Incorporate bundled UI screens (`menu.png`, `sales.png`, `stock.png`, `email.png`) and position Flippy perching on callout badges. Reference product docs (`references/products/`).
+6. **Synchronize Audio Bed & SFX**:
+   - Musical character: **Zakelijk, upbeat, gegrond** (~116-120 BPM, calm harmony, active rhythm, FM-Rhodes stabs).
+   - Sync tight SFX: `pop` (40ms blip, -8dB), `swoosh` (0.28s noise sweep, -15dB), `ticks` (table waterfall, -18dB), `stijg` (progress bars, -14dB), `ping` (max 2 per video, -14dB).
+7. **Ensure Audio-Independent Comprehension**: Verify that all questions, metrics, and takeaways are 100% readable from on-screen graphics with sound muted (LinkedIn standard).
+8. **Verify Zero Em-Dashes & Verified Citations**: Ensure zero em-dashes (`—`) across all text, and verify that any statistics have source citations.
 
 ## Operating Modes
 
@@ -100,13 +111,15 @@ Paths are relative to this skill's base directory.
 
 ## GLM Signature Rules
 
-### 1. Always Ask for Content Archetype and Topic First
-* Before generating a new GLM video (unless specified by the user), confirm the **Content Archetype** (`references/glm-content-and-voiceover-guide.md`):
-  1. **Archetype A : "Flippy" AI Agent Launch and Explainer** (45-65s: Problem tension in Exact Globe+, Flippy arrives, data context demo, action confirmation, trust anchor).
-  2. **Archetype B : Exact Synergy Workflow Solution Demo** (30-45s: Automated task routing, Kanban efficiency, zero manual entry).
-  3. **Archetype C : B2B Feature Release Stinger** (15-30s: Fast announcement of new ERP connector or AI capability).
+### 1. Script-First Approval Gate ("Eerst het script, dan pas bouwen")
+* Never jump straight into code for a new video. Always write the scene-by-scene script first with timings, motion descriptions, and full copy. Await user sign-off before rendering.
 
-### 2. Always Build on `<GlmBaseCanvas />` (Persistent Chrome vs. Transitioning Stage)
+### 2. Single Idea Per Video & Open with Tension
+* Every video focuses on one clear operational improvement.
+* Always open with user tension/friction (*"Still clicking through menus to find one sales order?"*), not with the solution.
+* Split conclusion: Present the core memorable takeaway on its own scene first, followed by a clean static endcard.
+
+### 3. Always Build on `<GlmBaseCanvas />` (Persistent Chrome vs. Transitioning Stage)
 * **Never place `<GlmLogoLockup />` or `<GlmCaptions />` inside individual transitioning scenes.**
 * Mount [`GlmBaseCanvas.starter.tsx`](assets/GlmBaseCanvas.starter.tsx) at the root level:
   - **Layer 0 (Canvas)**: Solid `#F1F0FA` Cool White (or `#003A40` Emerald for hero cards) stays static.
@@ -116,7 +129,7 @@ Paths are relative to this skill's base directory.
   - **Layer 3 (Fixed Closed Captions)**: Locked at **`Y = 920px`** on `16:9` (or `Y = 1140px` on `4:5`). Displays cardless ALL-CAPS `#111827` (or `#F1F0FA` on dark) phrases with zero vertical movement.
   - **Layer 4 (Audio, BGM and SFX)**: Controls `bgm-ambient.wav` and synchronized SFX cues (`pop-up.wav`, `whoosh-transition.wav`, `keyboard-typing.wav`, `mouse-click.wav`, `callout-ding.wav`).
 
-### 3. Vector Icons Standard : React Icons as Single Source of Truth
+### 4. Vector Icons Standard : React Icons as Single Source of Truth
 * **Strict Ban**: Never use generic AI clipart, emojis, or arbitrary SVG doodles.
 * **Standard**: Exclusively use **React Icons** (`react-icons` package: `react-icons/lu` Lucide, `react-icons/tb` Tabler, `react-icons/fi` Feather).
 * Standard GLM Icons:
@@ -127,47 +140,34 @@ Paths are relative to this skill's base directory.
   - Action & Email: `LuMail` / `LuSend` / `LuCheckCircle`
   - Navigation & Arrows: `LuArrowRight` / `LuSearch`
 
-### 4. Absolute Ban on Em-Dashes (`—`) Across Writing and Closed Captions
+### 5. Absolute Ban on Em-Dashes (`—`) Across Writing and Closed Captions
 * **Strict Rule**: Never use em-dashes (`—`) or en-dashes (`–`) anywhere in video titles, slides, code comments, Closed Captions, or scripts.
-* Use colons (`:`), arrows (`->`), hyphens (`-`), or clean whitespace instead (e.g., `Meet Flippy : Your AI agent inside Exact Globe+`, `ERP Automation -> Real-time sync`).
+* Use colons (`:`), arrows (`->`), hyphens (`-`), or clean whitespace instead (e.g., `Meet Flippy : Your AI assistant embedded in Exact Globe+`, `ERP Automation -> Real-time sync`).
 
-### 5. Reading Pacing Rules (GLM Minimum Time Standard)
+### 6. Reading Pacing Rules (GLM Minimum Time Standard)
 * **Per Spoken / Written Word**: Minimum `0.4 seconds` per word.
 * **Per Text Block Entry**: Minimum `0.5 seconds` initial eye landing buffer.
 * **Minimum per Text Card**: **`2.0 seconds`** minimum on-screen visibility.
 * **Stillness Buffer after Motion**: **`2.0 seconds`** visual stillness before scene transition.
 * **Outro Endcard**: **`2.5 seconds`** minimum hold for GLM logo and website URL.
 
-### 6. Audio-Visual Transition Timing and Breathing Room
-* **Post-Transition Settle Buffer (Head Delay = `10-12 frames`)**:
-  - Visual slide enters and completes transition.
-  - Visual stillness buffer runs for `10-12 frames` (~0.35s).
-  - Speech begins only *after* the incoming slide settles.
-* **Pre-Transition Speech Silence Buffer (Tail Delay = `12-14 frames`)**:
-  - Voiceover finishes speaking.
-  - Scene holds in quiet stillness for `12-14 frames` (~0.40s) before the next transition starts.
-* **Outro Tail Hold (`24 frames`)**:
-  - Hold for 24 frames after speech ends before terminating the video.
+### 7. Audio Brand Identity (Zakelijk, Upbeat, Gegrond)
+* **BGM Character**: Professional, driving, grounded (~116-120 BPM). No dreamy or sleepy ambient beds; calm harmonies with active rhythmic drive.
+* **SFX Precision**: Place SFX at the exact visual landing frame (`pop` for cards, `swoosh` for slides, `ticks` for tables, `stijg` for counters, max 2 `ping` accents per video).
 
-### 7. Authentic GLM Color Palette and Zero Gradients
-* **Canvas Backdrop**: `#F1F0FA` (Cool White) for standard scenes; `#003A40` (Emerald) for high-impact hero moments.
-* **Signature Accent**: `#CDFF70` (Lime Green) for the GLM bird mark and interactive keyword callouts.
-* **Deep Architectural Accent**: `#003A40` (Emerald) for badges, dark cards, and high-contrast text blocks.
-* **Surface Card**: `#FFFFFF` (Pure White) with `#E5E7EB` subtle border and `16px` border-radius.
-* **Typography**: Poppins (Display and Headings) and Geist/Inter for clean body copy.
-
-### 8. Enterprise B2B Voiceover Calibration
-* Voice Profile: `en-US-AndrewNeural` or `en-GB-RyanNeural` (calm, authoritative, executive cadence) for global content; `nl-NL-MaartenNeural` for Dutch enterprise campaigns.
-* Cadence: Normal speaking pace (`rate="+0%"` to `"-2%"`, ~130-140 WPM).
+### 8. Product Knowledge Specialization
+* Reference [`references/products/ai-plus-agent-globeplus.md`](references/products/ai-plus-agent-globeplus.md) for Exact Globe+ features: Role 501 permissions, 5 layout modes, 10 feature pillars (stock depletion horizon, screen reader, recode, transaction confirmation, Excel import).
+* Reference [`references/products/ai-plus-agent-synergy.md`](references/products/ai-plus-agent-synergy.md) for Exact Synergy features: Request automation (leave, tasks, approvals), CRM accounts, colleague search, quotation lines, document summarization, voice input, slash commands.
 
 ---
 
 ## Definition of Done
 
+* Scene-by-scene script presented and approved before writing Remotion code.
 * Composition wraps scenes in `<GlmBaseCanvas />` using `glmBrand` tokens (`#F1F0FA`, `#003A40`, `#CDFF70`, `#FFFFFF`, `#111827`) with zero gradients and zero cross-brand leakage.
 * Top-left GLM logo lockup (`top: 54px, left: 72px` on `16:9`) and top-right `glmsystems.com` are persistent outside the transition stage.
 * Closed Captions are locked at `Y = 920px` (`16:9`) or `Y = 1140px` (`4:5`) in cardless ALL-CAPS text with zero vertical bounce and zero em-dashes.
 * All icons are exclusively sourced from **React Icons** (`react-icons/lu`, `react-icons/tb`, `react-icons/fi`).
 * Timing enforces 0.4s/word reading pace, minimum 2.0s card visibility, 10-frame post-transition settle delay, and 14-frame tail silence buffer.
-* Video adheres to Flippy AI Agent narrative guidelines ("Works within your rights. Never around them.").
+* Video is 100% understandable on mute for LinkedIn viewers.
 * `python tools/skills.py validate glm-brand-motion` passes with `0 errors, 0 warnings`.

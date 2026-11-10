@@ -1,9 +1,11 @@
 # GLM Systems (glmsystems.com) : Brand Motion Guidelines and Base Canvas Spec
 
 > **Source References**: 
-> 1. Official GLM Systems Brand Refresh (*"GLM's new logo and colour scheme"*).
+> 1. Official GLM Systems Brand Refresh (*"GLM's new logo and colour scheme"*, 1 Oct 2026).
 > 2. GLM Corporate Website (`glmsystems.com`) and B2B LinkedIn campaign assets.
 > 3. Official Vector SVG Brandmarks (`GLM-BIRD-Color.svg`, `GLM-black-Text-Color-Bird.svg`).
+> 4. GLM Audio Branding & Synthesized Sound System (`muziek-profiel.md`, `muziek-kennis.md`).
+> 5. GLM Systems Official Documentation (`docs.glmsystems.com/aiplusagent/`).
 > 
 > **Brand Isolation Rule**: These tokens, components, and layout rules apply **exclusively** when the user selects the **GLM** brand in `the-motion-designer` or invokes `/glm-brand-motion`. Never mix these tokens into `the-motion-designer` or other brand profiles (such as Databro).
 
@@ -15,8 +17,8 @@ Sampled directly from authentic GLM Systems brand assets:
 
 | Token Name | Hex Code | Visual Role and Usage in GLM Assets |
 | :--- | :--- | :--- |
-| **`backgroundPrimary`** | `#F1F0FA` | **Cool White** : Clean, spacious lilac-white canvas (`RGB(241, 240, 250)`). Used as the primary background for clean enterprise motion. |
-| **`backgroundSecondary`** | `#003A40` | **Emerald** : Deep, technological blue-green (`RGB(0, 58, 64)`). Represents trust and deep software architecture; used for high-contrast cards and full-bleed hero scenes. |
+| **`backgroundPrimary`** | `#F1F0FA` | **Cool White** : Clean, spacious lilac-white canvas (`RGB(241, 240, 250)`). Primary background for clean enterprise motion. |
+| **`backgroundSecondary`** | `#003A40` | **Emerald** : Deep, technological blue-green (`RGB(0, 58, 64)`). Represents trust and software architecture; used for high-contrast cards and full-bleed hero scenes. |
 | **`backgroundCard`** | `#FFFFFF` | **Pure White** : Elevated card surface on `#F1F0FA` backdrop (`borderRadius: 16px to 20px`). |
 | **`accentPrimary` / `accentLime`** | `#CDFF70` | **Signature GLM Lime** : Electric lime green (`RGB(205, 255, 112)`). Represents energy and AI innovation; fills the GLM dual birds and highlights interactive keywords. |
 | **`accentSecondary` / `accentEmerald`**| `#003A40` | **Signature GLM Emerald** : High-contrast partner to Lime. Used for text, badges, and dark callout blocks. |
@@ -30,7 +32,20 @@ Sampled directly from authentic GLM Systems brand assets:
 
 ---
 
-## 2. Vector Icons Standard : React Icons as Single Source of Truth
+## 2. Visual Language & Geometric Staging
+
+* **Spacious Whitespace**: Generous margins, clean paddings, and uncluttered typography.
+* **Geometric Diagonal Planes**: Subtle diagonal cuts in Emerald and Lime framing corners on Cool White backdrops, matching GLM's visual branding.
+* **Typography Hierarchy**:
+  - Headings & Titles: **Poppins** (Google Fonts, Bold / SemiBold).
+  - Wordmark Typography: **Geist** (two-line uppercase brandmark).
+  - Body & UI Metadata: **Poppins** or **Inter** (Regular / Medium).
+* **Audio-Independent Comprehension**: LinkedIn feeds play videos without sound by default. Every beat, question, and takeaway must be 100% readable from on-screen graphics alone.
+* **Verified Citations**: When citing performance metrics, time savings, or financial counts, always include verified source captions in-scene.
+
+---
+
+## 3. Vector Icons Standard : React Icons as Single Source of Truth
 
 * **Strict Prohibition**: Never use AI-generated emojis, generic flat AI clipart, or arbitrary doodles.
 * **Source of Truth**: Use [React Icons](https://react-icons.github.io/react-icons/) exclusively for all UI and vector icons across Remotion compositions:
@@ -41,7 +56,7 @@ Sampled directly from authentic GLM Systems brand assets:
 
 ---
 
-## 3. Punctuation Guardrail : Absolute Ban on Em-Dashes (`—`)
+## 4. Punctuation Guardrail : Absolute Ban on Em-Dashes (`—`)
 
 * **Rule**: Never use em-dashes (`—`) or en-dashes (`–`) anywhere in:
   - Video titles, scene headlines, or question openers
@@ -57,7 +72,23 @@ Sampled directly from authentic GLM Systems brand assets:
 
 ---
 
-## 4. Reading Pacing Rules (GLM Minimum Time Standard)
+## 5. Audio Brand Identity (The Voice of the Brand in Sound)
+
+Extracted from GLM's audio brand architecture (`muziek-profiel.md`):
+
+* **Character**: **Zakelijk, upbeat, gegrond** (confident, forward, never floating or meditative).
+* **Tempo**: `116 to 120 BPM`. Upbeat without rushing.
+* **Harmonic Structure**: Calm harmony with an active rhythmic groove. Avoid dreamy ambient beds or repetitive bells ("gongs").
+* **Sound Effects Calibration**:
+  - `pop`: Tight 40ms blip with hard click when data cards or badges appear (-8dB).
+  - `swoosh`: 0.28s rising air sweep on headline/card entrances (-15dB).
+  - `ticks`: Cascading clicks for multi-item table loads (-18dB).
+  - `stijg` (rise): Ascending pitch on progress bars and counters (-14dB).
+  - `ping`: Crisp glass ping on send confirmation or release alerts (-14dB, maximum 2 per video).
+
+---
+
+## 6. Reading Pacing Rules (GLM Minimum Time Standard)
 
 Enterprise software animations require calibrated reading time:
 
@@ -71,7 +102,7 @@ Enterprise software animations require calibrated reading time:
 
 ---
 
-## 5. Standard GLM Base Content Canvas (`GlmBaseCanvas`)
+## 7. Standard GLM Base Content Canvas (`GlmBaseCanvas`)
 
 Every GLM video is built on `GlmBaseCanvas.starter.tsx` and `GLM_CANVAS_PRESETS`.
 
