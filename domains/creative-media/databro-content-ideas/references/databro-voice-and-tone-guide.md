@@ -51,3 +51,4 @@ Databro's reputation rests on technical rigor and intellectual honesty. Never fa
    - Always conclude the idea with an explicit `Evidence & Verified Sources` section listing the title and URL of each source.
 4. **Evergreen Exceptions**:
    - For pure mathematical derivations (e.g. Bayes Theorem, Normal Distribution) or standard Python tutorial mechanics (e.g. creating a boxplot with Seaborn), note: `"Source: Evergreen fundamentals"`.
+

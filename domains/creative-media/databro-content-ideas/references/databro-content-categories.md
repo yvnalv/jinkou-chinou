@@ -58,3 +58,4 @@ This reference defines the 8 content categories used to plan, research, and rota
    - Math & Tutorials -> Best as Carousels (step-by-step slides).
    - AI Trends & News -> Best as Carousels or Video Reels (with `databro-brand-motion`).
    - Domain Case Studies -> Best as Carousels or LinkedIn Articles.
+

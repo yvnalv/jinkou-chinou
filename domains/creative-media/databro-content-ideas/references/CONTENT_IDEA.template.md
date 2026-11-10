@@ -50,3 +50,4 @@
 - [Title / Paper / Document 1](https://example.com/source-1) - [Brief note on what fact/stat is cited]
 - [Title / Dataset / Report 2](https://example.com/source-2) - [Brief note on what fact/stat is cited]
 *(For pure math fundamentals or basic Python tutorials: "Source: Evergreen fundamentals")*
+
