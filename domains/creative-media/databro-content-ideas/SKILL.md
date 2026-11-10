@@ -95,7 +95,7 @@ Draft the idea adhering strictly to Databro's proven 8-part content arc (`refere
 5. **Part 5 : Real-World Case Study & Benchmark Numbers**: Authentic production scenario, company case, or paper experiment numbers proving why the concept matters.
 6. **Part 6 : Actionable Solution / Future Knowledge**: Practical takeaway: clean Python code snippet, step-by-step workflow, or tool recommendation.
 7. **Part 7 : Summary Pull-Quote**: One memorable, quotable takeaway pull-quote.
-8. **Part 8 : Closing Call-to-Action (CTA)**: Engagement hook tailored for the platform ("Save dulu buat nanti, jangan lupa share ke temen lu ya bro!").
+8. **Part 8 : Closing Call-to-Action (CTA)**: Engagement hook tailored for the platform ("Save dulu buat nanti, jangan lupa share ke teman-teman kamu ya bro!").
 9. **Evidence & Sources**: Mandatory list of verified URLs or "Source: Evergreen fundamentals".
 
 ---
@@ -151,8 +151,12 @@ If the user approves the idea and wants to produce a video or animated carousel:
 ### 3. Absolute Ban on Em-Dashes (`—`)
 * Strictly zero em-dashes (`—`) or en-dashes (`–`) across all titles, copy, markdown files, and Notion entries. Use colons (`:`), hyphens (`-`), or parentheses.
 
-### 4. Databro Voice and Tone Integrity
-* Casual Bahasa Indonesia ("bro" tone), friendly, humble, and peer-to-peer.
+### 4. Databro Voice and Tone Integrity (Pronoun Guardrails)
+* **Strict Pronoun Ban**: NEVER use `"Lu"`, `"Lo"`, `"Loe"`, or `"Gue"`. They are strictly prohibited.
+* **Required Second-Person Address**: Always use `"Kamu"` (*"model ML kamu"*, *"laptop kamu"*, *"biar kamu gak bingung"*), or `"Anda"` for enterprise contexts, and `"Kalian"` for the community.
+* **Collaborative First-Person**: Use `"Kita"` (*"Yuk kita coba"*, *"Kita cek di terminal"*).
+* **The "Bro" Salutation**: `"Bro"` is an energetic brand greeting and closing punctuation (*"Bro, tahu nggak sih..."*, *"Belajar bareng Databro!"*), NOT a replacement for the pronoun "lo". Always pair with "kamu" (*"Bro, model ML kamu..."*).
+* Follow the unified brand persona in `databro-brand-motion/assets/brand-kit/persona/databro-persona.md`.
 * Standard technical terms remain in English (`feature engineering`, `data leakage`, `embeddings`, `vector search`, `overfitting`).
 * High signal-to-noise ratio: crisp Markdown tables and concrete numbers instead of generic motivational fluff.
 

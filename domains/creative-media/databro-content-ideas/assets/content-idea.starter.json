@@ -6,7 +6,7 @@
   "formatType": "Carousel (8-part)",
   "date": "2026-11-10",
   "status": "Idea 💡",
-  "backgroundHook": "Pernah gak lu minta ChatGPT bikin rencana, tapi pas disuruh eksekusi dia malah nyerah? Itu karena LLM biasa gak punya tools buat bertindak di dunia nyata.",
+  "backgroundHook": "Pernah gak kamu minta ChatGPT bikin rencana, tapi pas disuruh eksekusi dia malah nyerah? Itu karena LLM biasa gak punya tools buat bertindak di dunia nyata.",
   "bridgingExplanation": {
     "summary": "Agentic AI adalah sistem LLM yang dilengkapi kemampuan reasoning, memory, dan tool calling untuk menyelesaikan tugas multi-step secara mandiri.",
     "comparison": [
@@ -28,7 +28,7 @@
     "code": "import openai\n\n# Definisikan tool schema dan passing ke model\ntools = [{'type': 'function', 'function': {'name': 'get_stock_price', 'parameters': {...}}}]\nresponse = openai.chat.completions.create(model='gpt-4o', messages=messages, tools=tools)"
   },
   "summaryPullQuote": "LLM adalah otaknya, tapi Agentic AI adalah tangan dan kakinya yang beneran gerak.",
-  "closingCta": "Save dulu buat dipelajari nanti, dan share ke temen-temen lu yang lagi kepo soal AI ya bro!",
+  "closingCta": "Save dulu buat dipelajari nanti, dan share ke teman-teman kamu yang lagi kepo soal AI ya bro!",
   "evidenceSources": [
     {
       "title": "Anthropic: Building Effective Agents Research Report",

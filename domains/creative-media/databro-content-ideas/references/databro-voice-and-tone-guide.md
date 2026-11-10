@@ -11,10 +11,21 @@ This guide outlines the editorial style, Indonesian language conventions, and ri
 - **Signature Tone**: Casual Bahasa Indonesia ("bro" tone) that is respectful, engaging, and grounded in practical reality.
 
 ### Language Rules & Vocabulary
-- **Address Style**: Use "lu" and "bro" naturally and sparingly. Never sound forced, cringey, or overly slang-heavy.
+- **Strict Pronoun Guardrails (Non-Negotiable)**:
+  - **Banned Pronouns**: Strictly NEVER use `"Lu"`, `"Lo"`, `"Loe"`, or `"Gue"`. They sound overly informal and conflict with Databro's respected educational identity.
+  - **Required Second-Person Address**:
+    - **`"Kamu"` (Default)**: Warm, friendly, approachable tech mentor speaking directly to a learner (*"laptop kamu"*, *"model ML kamu"*, *"supaya kamu gak bingung"*).
+    - **`"Anda"` (Formal / Enterprise)**: Use when discussing enterprise SLAs, enterprise architecture, or formal business scenarios.
+    - **`"Kalian"` / `"Teman-teman"` (Plural)**: When addressing the wider audience or community (*"buat kalian yang mau belajar"*).
+  - **First-Person Address**:
+    - **`"Kita"` (Default)**: Inclusive and collaborative for walkthroughs and explainers (*"Yuk kita coba setup"*, *"Sekarang kita cek di terminal"*).
+    - **`"Saya"` / `"Databro"`**: For official announcements or brand sign-offs.
+  - **The "Bro" Salutation**:
+    - The word **`"Bro"`** is preserved as an energetic brand greeting and closing punctuation (*"Bro, tahu nggak sih..."*, *"Belajar bareng Databro!"*, *"Simpelnya gini, bro."*).
+    - **Never confuse `"Bro"` with the pronoun `"Lo"`**: Always pair with `"kamu"` (e.g. *"Bro, model ML kamu..."*, NEVER *"Bro, model ML lo..."*).
 - **Relatable Hooks**: Open with scenarios every practitioner recognizes:
-  - *"Pernah gak lu ngalamin pas training model..."*
-  - *"Sering denger istilah RAG, tapi sebenernya bedanya apa sama fine-tuning?"*
+  - *"Bro, pernah gak model machine learning kamu akurasinya tinggi pas latihan, tapi pas di-deploy langsung jeblok?"*
+  - *"Bro, sering denger istilah RAG, tapi bingung bedanya apa sama fine-tuning?"*
   - *"Banyak yang ngira data science itu cuma soal coding machine learning..."*
 - **Technical English Terms**: Keep standard data and AI terminology in English rather than awkward translations:
   - Use `feature engineering` (not "rekayasa fitur")

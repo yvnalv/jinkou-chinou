@@ -42,7 +42,7 @@
 > "[One memorable, punchy, quotable pull-quote that summarizes the core lesson in one sentence.]"
 
 ## 8. Closing Call-to-Action (CTA)
-[Platform-tailored engagement hook in Databro tone. Example: "Save dulu buat dibaca pas senggang, dan share ke temen-temen lu yang lagi belajar data ya bro!"]
+[Platform-tailored engagement hook in Databro tone. Example: "Save dulu buat dibaca pas senggang, dan share ke teman-teman kamu yang lagi belajar data ya bro!"]
 
 ---
 

@@ -7,6 +7,7 @@ Enforces technical completeness, valid citations, and zero em-dashes.
 import argparse
 import json
 import os
+import re
 import sys
 from datetime import datetime
 
@@ -36,6 +37,11 @@ def validate_and_format(data: dict) -> tuple[str, list[str]]:
     raw_text = json.dumps(data)
     if "—" in raw_text or "–" in raw_text:
         errors.append("Banned character detected: Em-dash (—) or en-dash (–) found in content. Use colons, hyphens (-), or parentheses instead.")
+
+    # Databro pronoun check: strictly banned lu/lo/loe/gue
+    banned_match = re.search(r'\b(lu|lo|loe|gue)\b', raw_text, re.IGNORECASE)
+    if banned_match:
+        errors.append(f"Banned pronoun detected: '{banned_match.group(0)}' found in content. Databro persona strictly requires 'kamu' (or 'anda'/'kalian'). 'Bro' is permitted only as a greeting.")
 
     # Source check
     sources = data.get("evidenceSources", [])
