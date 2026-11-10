@@ -4,9 +4,10 @@
     "prompt": "/databro-brand-motion Create a 15-second TikTok & Instagram Reels video for Databro Cloud 2.0 using Databro Studio's brand style.",
     "should_trigger": true,
     "expected_behavior": [
-      "Uses #111111 matte charcoal background, #BFFF72 lime green, and #F2EBE1 warm cream circle tokens from DATABRO_BRAND",
-      "Places the circular Databro avatar + 'Databro / Belajar Data Science' lockup at fixed top-left with no top-right box",
-      "Renders cardless 2-to-4 word ALL-CAPS ExtraBold #FFFFFF Closed Captions centered at Y: 1180-1260px"
+      "Picks the launch-showcase archetype and confirms aspect ratio and voiceover mode before building",
+      "Uses databroBrand tokens: #121212 canvas, #FFFFFF body text, #BB86FC lavender headline, #C1FF72 lime, #03DAC6 teal; no gradients or glows",
+      "Shows the avatar + 'Databro / Belajar Data Science' lockup top-left and the cream italic @databro.id handle top-right, both outside the TransitionSeries",
+      "Renders cardless 2-to-4 word ALL-CAPS ExtraBold #FFFFFF Closed Captions locked at Y = 1480px"
     ]
   },
   {
@@ -14,8 +15,19 @@
     "prompt": "Generate a Databro tutorial reel showing how to run a local LLM in Command Prompt with Databro's signature lime green text and red callout boxes.",
     "should_trigger": true,
     "expected_behavior": [
-      "Applies Archetype A (Warm Cream #F2EBE1 circle + #BFFF72 giant lime keyword + block cursor typewriter title) for the hook",
-      "Applies Archetype B (Centered Command Prompt window + typewriter CLI command + 3px solid #D92D20 red callout box) for the steps"
+      "Uses the code-walkthrough archetype with left-aligned scenes: #BB86FC question headline, white subline, then the terminal or code visual",
+      "Highlights key terminal output with a 3px solid #D92D20 callout box and a callout-ding SFX cue",
+      "Generates one voiceover clip per scene and sizes each scene as head delay + speechEndFrame + tail delay"
+    ]
+  },
+  {
+    "id": "trigger-databro-listicle",
+    "prompt": "Bikin video Databro 45 detik: 3 Python library wajib buat data engineer, format 9:16.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Uses the tool-listicle archetype with the step-roadmap opening and numbered badges 1.png, 2.png, 3.png",
+      "Uses only React Icons names that exist in the installed react-icons version (for example LuCodeXml, not LuCode2)",
+      "Script uses 'kamu' and 'kita', never 'lo' or 'gue', and contains no em-dashes"
     ]
   },
   {

@@ -8,14 +8,15 @@ Specialized brand motion skill for **Databro Studio (`@databroid` — "Belajar D
 | --- | --- |
 | Domain | `creative-media` |
 | Type | `specialized` (`extends: the-motion-designer`) |
-| Version | `0.2.0` |
+| Version | `0.4.0` |
 | Owner | `@yvnalv` |
 | Tags | `databro`, `remotion`, `motion-graphics`, `brand-guidelines`, `tiktok`, `reels`, `data-science` |
 
 ## When to use
 
 - Creating TikTok, Instagram Reels, YouTube Shorts, `4:5` Feed, or `16:9` motion videos for **Databro Studio (`@databroid`)**.
-- Applying Databro's isolated visual identity and **Standard Base Content Canvas** (`DatabroBaseCanvas`: `#111111` matte charcoal canvas, `#BFFF72` lime green, `#F2EBE1` warm cream circle badges, `#D92D20` red UI/terminal callouts, persistent top-left `Databro / Belajar Data Science` avatar lockup at `100px, 108px`, fixed Closed Captions locked at `Y = 1480px`, CapCut transitions, and TikTok SFX/voiceover brand-kit assets).
+- Applying Databro's isolated visual identity and **Standard Base Content Canvas** (`DatabroBaseCanvas`: `#121212` matte charcoal canvas, white text, `#BB86FC` lavender headlines, `#03DAC6` teal and `#C1FF72` lime accents, `#F0ECE2` cream emblem circles, `#D92D20` terminal callouts, left-aligned slide layouts, persistent top-left `Databro / Belajar Data Science` lockup and top-right `@databro.id`, fixed Closed Captions locked at `Y = 1480px`, CapCut transitions, and TikTok SFX/voiceover brand-kit assets).
+- Invoke with `/databro-brand-motion`, or pick Databro in `the-motion-designer`.
 
 ## Structure
 
@@ -26,8 +27,9 @@ databro-brand-motion/
 ├── config/
 │   └── skill.yaml                                   # Metadata (type: specialized, extends: the-motion-designer)
 ├── references/
-│   ├── databro-brand-guidelines.md                  # Sampled @databroid hex palette, Base Canvas presets & archetypes
-│   └── databro-content-and-voiceover-guide.md       # Prompting, voiceover cloning, fixed CC & SFX choreography guide
+│   ├── databro-brand-assets-checklist.md            # Tracking checklist for every brand kit asset
+│   ├── databro-brand-guidelines.md                  # Pixel-sampled palette, slide layout, icons, Base Canvas presets
+│   └── databro-content-and-voiceover-guide.md       # Archetypes, hooks, voiceover pipeline, fixed CC & SFX choreography
 ├── assets/
 │   ├── brand-kit/                                   # Standardized brand asset storage folder
 │   │   ├── README.md                                # Inventory of where to drop every brand file
@@ -35,19 +37,31 @@ databro-brand-motion/
 │   │   ├── guidelines/                              # databro.tokens.json & pdfs/
 │   │   ├── fonts/                                   # Drop .ttf / .otf / .woff2 font files here
 │   │   ├── logos/                                   # databro-avatar.jpg & brand logos
-│   │   ├── graphics/                                # emblems/, ui-frames/, overlays/
-│   │   ├── references/                              # Reference videos/ (.mp4) & designs/ (.png, .svg)
-│   │   └── audio/                                   # sfx/ (6 TikTok .wav files), bgm/, voiceover/talent-samples/
+│   │   ├── graphics/                                # Step badges, table/terminal/scatter references, slide screenshots
+│   │   ├── references/                              # Official carousel slides (color and layout source of truth)
+│   │   └── audio/                                   # sfx/ (6 TikTok .wav files), bgm/, voiceover/talent-samples/ + generated/
 │   ├── databro-avatar.jpg                           # Official Databro Studio circular creator avatar
 │   ├── databro.brand.starter.ts                     # Isolated databroBrand tokens & DATABRO_CANVAS_PRESETS
 │   ├── DatabroBaseCanvas.starter.tsx                # 5-layer reusable Databro Base Content Canvas
-│   ├── DatabroLogoLockup.starter.tsx                # Persistent top-left avatar + Databro / Belajar Data Science lockup
-│   └── DatabroCaptions.starter.tsx                  # Cardless 2-to-4 word ALL-CAPS white CC locked at Y=1480px
+│   ├── DatabroLogoLockup.starter.tsx                # Top-left avatar lockup + top-right @databro.id handle
+│   ├── DatabroCaptions.starter.tsx                  # Cardless 2-to-4 word ALL-CAPS white CC locked at Y=1480px
+│   └── generate_databro_cloned_vo.starter.py        # Per-scene voiceover (cloned or Edge-TTS) + caption timings JSON
 └── evals/
     └── evals.json                                   # Trigger & non-trigger evaluation suite
 ```
 
 ## Changelog
+
+### 0.4.0 - 2026-11-10
+
+- Re-sampled every brand color from the 13 official carousel slides and made them canonical across SKILL.md, references, `databro.tokens.json`, and `databro.brand.starter.ts`: lavender `#BB86FC` (was `#B487EC`), teal `#03DAC6` (was `#02DAC5`), lime `#C1FF72` (was `#BFFF72` / `#BEF96E`), coral `#FF5757` (was `#E95F62`), body text and captions `#FFFFFF` (was `#FAF9F5`), wordmark and handle cream `#F2EFEB` (was `#A3A3A3`), emblem cream `#F0ECE2` (was `#F2EBE1` in places), canvas `#121212` (was `#111111` in places).
+- Replaced the guessed code-card palette with the GitHub Dark values seen on the slides (`#24292E`, `#F97583`, `#FFAB70`, `#79B8FF`, `#6A737D`, `#E1E4E8`). Dropped the separate validation violet; `accentViolet` is now a deprecated alias of the lavender. Added table, quote, and `textBrand` tokens.
+- `DatabroBaseCanvas` now actually renders the top-right `@databro.id` handle (new `DatabroSocialHandle`), and lays scenes out left-aligned like the carousels instead of centered.
+- Unified the content archetypes into five keys used everywhere: `code-walkthrough`, `concept-theory`, `tool-listicle` (new), `launch-showcase`, `opinion-editorial`.
+- Fixed React Icons names that no longer exist (`LuCode2` -> `LuCodeXml`, `LuAlertTriangle` -> `LuTriangleAlert`, `LuAlertCircle` -> `LuCircleAlert`), verified against `react-icons@5.7.0`, and added a name check rule.
+- Settled conflicting values: Edge-TTS `pitch -4Hz`, `rate -2%`; BGM volume `0.08`; outro hold 24 frames; mono font `JetBrains Mono` first.
+- Rewrote the voiceover generator: CLI with `--help`, standard-library ElevenLabs call that requires a cloned `DATABRO_VOICE_ID` (no silent stock voice), and Edge-TTS word timings that produce ready 2-4 word caption chunks in the original spelling.
+- Removed the dependency on another skill's validator file from the Definition of Done; converted absolute `file:///` links in the checklist to relative links; removed the launch-reel "ambient glow" that contradicted the no-glow rule.
 
 ### 0.3.0 (2026-11-09)
 

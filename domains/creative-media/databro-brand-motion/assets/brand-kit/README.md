@@ -12,7 +12,7 @@ This folder (`assets/brand-kit/`) is the **single source of truth** for all Data
 | **`guidelines/`** | Color hex tokens, typography stack, Base Content Canvas geometry presets (`9:16`, `4:5`, `1:1`, `16:9`), and official Brand Book PDFs (`guidelines/pdfs/`). | `.json`, `.ts`, `.pdf`, `.md` | [`guidelines/databro.tokens.json`](guidelines/databro.tokens.json) |
 | **`fonts/`** | Custom brand font files loaded via `staticFile()` or `@remotion/google-fonts`. | `.ttf`, `.otf`, `.woff2` | [`fonts/README.md`](fonts/README.md) (`Plus Jakarta Sans`, `Inter`, `JetBrains Mono`) |
 | **`logos/`** | Official brand avatars, primary/secondary wordmarks, and icon marks. | `.svg`, `.png`, `.jpg`, `.webp` | [`logos/databro-avatar.jpg`](logos/databro-avatar.jpg) |
-| **`graphics/emblems/`** | Center-stage line-art icons and badges placed inside the `#F2EBE1` warm cream emblem circle. | `.svg`, `.png` | [`graphics/emblems/README.md`](graphics/emblems/README.md) |
+| **`graphics/emblems/`** | Hero line-art icons and badges placed inside the `#F0ECE2` warm cream emblem circle. | `.svg`, `.png` | [`graphics/emblems/README.md`](graphics/emblems/README.md) |
 | **`graphics/ui-frames/`** | Reusable terminal, browser, or installer window templates and chrome assets. | `.svg`, `.png`, `.tsx` | [`graphics/ui-frames/README.md`](graphics/ui-frames/README.md) |
 | **`graphics/overlays/`** | Sparkle accents, custom cursors, and `#D92D20` red callout frames. | `.svg`, `.png` | [`graphics/overlays/README.md`](graphics/overlays/README.md) |
 | **`references/videos/`** | Real reference TikTok / Reels `.mp4` videos for motion/timing benchmarking. | `.mp4`, `.mov`, `.webm` | [`references/videos/README.md`](references/videos/README.md) |

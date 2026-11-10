@@ -11,29 +11,42 @@
 
 ## 1. Full Color Palette (100% Solid Flat Colors : Zero Gradients)
 
-Sampled directly from authentic Databro Studio carousel and video assets:
+Pixel-sampled (most frequent exact pixel values) from the 13 official carousel slides in `assets/brand-kit/references/` (`Train/Val/Test Split`, `Korelasi vs Kausalitas`). These are the canonical values in `databro.tokens.json` and `databroBrand.colors`.
 
 | Token Name | Hex Code | Visual Role and Usage in Databro Assets |
 | :--- | :--- | :--- |
-| **`backgroundPrimary`** | `#121212` | Full-bleed solid matte charcoal black canvas (`RGB(18, 18, 18)`). Zero gradients, zero noise, zero ambient glow orbs. |
-| **`backgroundElevated`** | `#1E1E1E` | Card surface and table body background. |
-| **`backgroundCodeCard`** | `#24292D` | Dark slate blue-gray surface for IDE and code cards (`borderRadius: 16px to 20px`). |
-| **`textPrimary`** | `#FAF9F5` | Warm cream primary text, `Databro` brand title, and takeaway quotes (`RGB(250, 249, 245)`). |
-| **`textSecondary`** | `#A3A3A3` | Sub-label (`Belajar Data Science`), top-right `@databro.id`, and section subheaders. |
-| **`accentLavender`** | `#B487EC` | **Signature Question and Headline Purple** (`RGB(180, 135, 236)`). Used for carousel headlines: *"Pernah ngga....*, *"Apa itu Train/Val/Test Split?"*, *"Kenapa pakai ratio 70 / 15 / 15?"*, *"Implementasi pakai Python"*. |
-| **`accentCyan`** | `#02DAC5` | **High-Performance and Training Teal** (`RGB(2, 218, 197)`). Used for 70% Training set bar, `Training Accuracy -> 98%`, and Table Header background. |
-| **`accentPrimary` / `accentLime`** | `#BFFF72` / `#BEF96E` | **Signature Databro Lime Green** (`RGB(190, 249, 110)`). Used for 15% Test set bar, Brain circuit icon, `#1: Training Set` badge, and `Takeaway quote:` label. |
-| **`accentViolet`** | `#B684F3` | **Validation Purple** (`RGB(182, 132, 243)`). Used for 15% Validation set bar and cylinder middle slice. |
-| **`accentCoralRed`** | `#E95F62` | **Warning and Pitfall Coral Red** (`RGB(233, 95, 98)`). Used for `Real-world Accuracy -> 62%`, overfitting alerts, and error diagnostics. |
-| **`calloutRed`** | `#D92D20` | Solid 3px red rectangular callout border (`borderRadius: 6px`) highlighting key terminal output or buttons. |
-| **`emblemCircleFill`** | `#F0ECE2` | Warm cream circle (`RGB(240, 236, 226)`) used for the top-left avatar background and central hero emblem circles. |
-| **`emblemCircleInk`** | `#121212` | Bold black line-art icon inside the `#F0ECE2` warm cream circle. |
+| **`backgroundPrimary`** | `#121212` | Full-bleed solid matte charcoal canvas. Zero gradients, zero noise, zero ambient glow orbs. |
+| **`backgroundElevated`** | `#1E1E1E` | Card surface (not present in the slides; use sparingly). |
+| **`backgroundCodeCard`** | `#24292E` | GitHub Dark code card surface (`borderRadius: 16px to 20px`). |
+| **`textPrimary`** | `#FFFFFF` | Body text, sublines (*"model kamu akurasinya 98%..."*), table cells, and Closed Captions. |
+| **`textBrand`** | `#F2EFEB` | `Databro` wordmark, `Belajar Data Science` tagline, and the top-right `@databro.id` handle (italic). |
+| **`textSecondary`** | `#CCCCCC` | Muted labels and diagram strokes. |
+| **`accentLavender`** | `#BB86FC` | **Signature question and headline purple.** Carousel headlines: *"Pernah ngga...."*, *"Apa itu Train/Val/Test Split?"*, *"Implementasi pakai Python"*. The only purple in the palette; validation-set visuals use it too. |
+| **`accentCyan`** | `#03DAC6` | **Training and good-metric teal.** 70% training bar, `Training Accuracy -> 98%`, table header fill. |
+| **`accentPrimary` / `accentLime`** | `#C1FF72` | **Signature Databro lime.** Brain circuit icon, `#1: Training Set` subheads, test-set metrics, `Takeaway quote:` label. |
+| **`accentCoralRed`** | `#FF5757` | **Pitfall coral.** `Real-world Accuracy -> 62%`, overfitting alerts, error diagnostics. |
+| **`calloutRed`** | `#D92D20` | Solid 3px red rectangular callout border (`borderRadius: 6px`) on terminal output or buttons (tutorial reels; not in the carousels). |
+| **`emblemCircleFill`** | `#F0ECE2` | Warm cream circle behind the avatar and hero emblems. |
+| **`emblemCircleInk`** | `#121212` | Bold black line-art icon inside the cream circle. |
+| **`tableHeaderFill` / `tableHeaderInk`** | `#03DAC6` / `#121212` | Table header row: teal fill, bold charcoal text. Body cells are transparent with 2px `#FFFFFF` outlines and white text. |
+| **`quoteBar` / `quoteText`** | `#CCCCCC` / `#CED3DA` | Takeaway quote: serif text with a 4px left bar, under a lime `Takeaway quote:` label. |
 
-### Code Syntax Highlighting Palette (`background: #24292D`)
-- **Keywords (`from`, `import`, `def`)**: `#C27182` (soft rose / salmon pink)
-- **Parameters and Numbers (`test_size=0.30`, `random_state=42`)**: `#D28251` (warm orange)
-- **Code Comments (`# Step 1: Split train vs temp`)**: `#62676C` (muted slate gray)
-- **Variables and Code Text (`X_train, y_train`)**: `#FAF9F5` (warm cream)
+`accentViolet` is kept only as a deprecated alias of `#BB86FC` so older compositions still compile.
+
+### Code Syntax Highlighting Palette (GitHub Dark, `background: #24292E`)
+- **Keywords (`from`, `import`, `def`)**: `#F97583`
+- **Arguments (`test_size=`, `random_state=`)**: `#FFAB70`
+- **Numbers (`0.30`, `42`)**: `#79B8FF`
+- **Comments (`# Step 1: Split train vs temp`)**: `#6A737D`
+- **Variables, functions, and code text (`X_train`, `train_test_split`)**: `#E1E4E8`
+
+### Data Table Screenshot Palette (`graphics/Table.png`)
+A notebook-style dataframe preview, separate from the teal-header carousel table: body `#1F1F1E`, header `#262624`, row divider `#3B3B39`, cell text `#FAF9F5`.
+
+### Slide Layout (from the carousels)
+- Content is **left-aligned** on a shared left edge: lavender headline (about 56px ExtraBold), white subline directly under it (about 32px Regular), then the visual block, then lime subheads with white body text.
+- Generous empty space; no boxes behind headlines; flat fills only.
+- In video, keep this left alignment inside `contentStage`. Center only hero moments (emblem pop, giant lime keyword, final CTA).
 
 ---
 
@@ -41,11 +54,12 @@ Sampled directly from authentic Databro Studio carousel and video assets:
 
 * **Strict Prohibition**: Never use AI-generated emojis, generic flat AI clipart, or arbitrary raster doodles.
 * **Source of Truth**: Use [React Icons](https://react-icons.github.io/react-icons/) exclusively for all UI and vector icons across Remotion compositions:
-  - **`react-icons/lu` (Lucide Icons, Primary Standard)**: `LuBrain`, `LuDatabase`, `LuCode2`, `LuCheck`, `LuAlertTriangle`, `LuSplit`, `LuSparkles`, `LuBookOpen`, `LuLayers`, `LuWorkflow`, `LuServer`, `LuGauge`.
+  - **`react-icons/lu` (Lucide Icons, Primary Standard)**: `LuBrain`, `LuDatabase`, `LuCodeXml`, `LuTerminal`, `LuCheck`, `LuTriangleAlert`, `LuCircleAlert`, `LuSplit`, `LuSparkles`, `LuBookOpen`, `LuLayers`, `LuWorkflow`, `LuServer`, `LuGauge`.
   - **`react-icons/tb` (Tabler Icons)**: `TbBrain`, `TbCode`, `TbArrowsSplit`, `TbRobot`, `TbDatabase`.
   - **`react-icons/fi` (Feather Icons)**: `FiDatabase`, `FiTerminal`, `FiCheckCircle`.
   - **`react-icons/fa6` (FontAwesome 6)**: `FaBrain`, `FaPython`.
-* **Styling**: Always render icons using crisp vector strokes, sized proportionally (`size={48}` to `size={64}`), colored in Databro brand tokens (`#BFFF72`, `#02DAC5`, `#B487EC`, `#FAF9F5`).
+* **Version check**: Names verified against `react-icons@5.7.0`. Lucide renames icons between releases (`LuCode2`, `LuAlertTriangle`, `LuAlertCircle` no longer exist), so confirm any other name with `grep "const LuName:" node_modules/react-icons/lu/index.d.ts`.
+* **Styling**: Always render icons using crisp vector strokes, sized proportionally (`size={48}` to `size={64}`), colored in Databro brand tokens (`#C1FF72`, `#03DAC6`, `#BB86FC`, `#FFFFFF`).
 
 ---
 
@@ -72,8 +86,8 @@ Sampled directly from authentic Databro Studio carousel and video assets:
   - Normal speaking speed: **130 to 140 WPM**.
 * **Offline Edge-TTS Calibration**:
   - Voice: `id-ID-ArdiNeural`
-  - Pitch: **`-4Hz`** (or `-5Hz`) to lower the default high-pitched announcer timbre into the talent's natural baritone range.
-  - Rate: **`-2%`** to **`+0%`** for relaxed, articulate delivery.
+  - Pitch: **`-4Hz`** to lower the default high-pitched announcer timbre into the talent's natural baritone range.
+  - Rate: **`-2%`** for relaxed, articulate delivery.
 * **Conversational Wording (Eliminating Robotic AI Starch)**:
   - Natural opening hooks: *"Pernah ngga.... model kamu akurasinya 98%... tapi pas dicoba di data baru, langsung jelek?"*
   - Natural transitions: *"Nah, ini yang namanya overfitting."*, *"Simpelnya gini, bro."*
@@ -91,15 +105,15 @@ Every Databro video is built on `DatabroBaseCanvas` and `DATABRO_CANVAS_PRESETS`
 | Layer | Component / Element | Position on `9:16` (`1080x1920`) | Transition Rule |
 | :--- | :--- | :--- | :--- |
 | **Layer 0: Canvas** | `#121212` Matte Charcoal | `0, 0, 1080x1920` | **Persistent** : never transitions. |
-| **Layer 1: Center Stage** | `<TransitionSeries>` host | `top: 250, bottom: 490, left: 90, right: 90` | **Transitioning** : ONLY this layer runs CapCut smooth transitions (`pop-scale`, `camera-zoom-pan`, `whip-slide`, `implode-out`). |
+| **Layer 1: Content Stage** | `<TransitionSeries>` host | `top: 250, bottom: 490, left: 90, right: 90` | **Transitioning** : ONLY this layer runs CapCut smooth transitions (`pop-scale`, `camera-zoom-pan`, `whip-slide`, `implode-out`). Scene content is left-aligned. |
 | **Layer 2A: Top-Left Lockup** | `DatabroLogoLockup` | **`top: 108px, left: 100px`** (`64x64px` avatar) | **Persistent** : animates in **only once at `frame 0..12`** of the video, then stays **100% stationary** across all slide transitions. |
-| **Layer 2B: Top-Right Handle** | `@databro.id` | **`top: 108px, right: 100px`** (`#A3A3A3`, `24px` Regular) | **Persistent** : subtle, anchored throughout the video. |
+| **Layer 2B: Top-Right Handle** | `DatabroSocialHandle` | **`top: 108px, right: 100px`** (`#F2EFEB`, `24px` Regular italic) | **Persistent** : fades in at `frame 0..10`, then anchored throughout the video. |
 | **Layer 3: Closed Captions** | `DatabroCaptions` | Locked at **`Y = 1480px`** (`left: 110, right: 110`) | **Persistent** : locked at `Y = 1480px` throughout the entire video (`3-frame` opacity cross-fade, **zero vertical movement**). |
-| **Layer 4: Audio and SFX** | `<Audio />` + `<Sequence>` | Root audio bus | Plays `bgm-ambient.wav` (`volume: 0.14`), `voiceover.wav`, and frame-accurate TikTok SFX cues. |
+| **Layer 4: Audio and SFX** | `<Audio />` + `<Sequence>` | Root audio bus | Plays `bgm-ambient.wav` (`volume: 0.08`), `voiceover.wav`, and frame-accurate TikTok SFX cues. |
 
 ### Multi-Platform Aspect Ratio Presets (`DATABRO_CANVAS_PRESETS`)
 
-| Aspect Ratio | Resolution | Top-Left Logo `(left, top)` | Top-Right Handle `(right, top)` | Centered Stage `(top, bottom, left, right)` | Fixed Closed Caption `Y` |
+| Aspect Ratio | Resolution | Top-Left Logo `(left, top)` | Top-Right Handle `(right, top)` | Content Stage `(top, bottom, left, right)` | Fixed Closed Caption `Y` |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **`9:16`** (TikTok / Reels / Shorts) | `1080x1920` | `(100px, 108px)` | `(100px, 108px)` | `top: 250, bottom: 490, left: 90, right: 90` | **`Y = 1480px`** (`38px` ExtraBold) |
 | **`4:5`** (IG / LinkedIn Portrait) | `1080x1350` | `(84px, 72px)` | `(84px, 72px)` | `top: 180, bottom: 260, left: 84, right: 84` | **`Y = 1140px`** (`34px` ExtraBold) |

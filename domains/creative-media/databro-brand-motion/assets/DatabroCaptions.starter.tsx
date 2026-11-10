@@ -15,7 +15,7 @@ export interface DatabroCaptionsProps {
 }
 
 /**
- * Authentic @databroid Cardless Uppercase White Closed Captions (CC).
+ * Authentic @databroid Cardless Uppercase White (#FFFFFF, textPrimary) Closed Captions (CC).
  *
  * Locked at the exact reference TikTok vertical coordinate (`Y = 1480px` on 1080x1920)
  * at the Root Composition level so captions never bounce vertically or slide away

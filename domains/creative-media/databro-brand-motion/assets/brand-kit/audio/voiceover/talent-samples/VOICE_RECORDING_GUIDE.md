@@ -76,8 +76,9 @@ The human talent takes (`Gang Haji Nasim 12.m4a` through `Gang Haji Nasim 18.m4a
 
 1. **Online Instant Voice Cloning (ElevenLabs / Cartesia)**:
    - Provide `ELEVENLABS_API_KEY` in your environment.
-   - Run `scripts/generate_databro_cloned_vo.py`. It uses `databro-talent-master-calibration.mp3` as the source voice sample to clone `Databro Official Talent` (Stability: 0.60, Similarity: 0.80).
+   - Clone the talent once from `databro-talent-master-calibration.mp3` (ElevenLabs Voices -> Instant Voice Clone) and set `DATABRO_VOICE_ID` to the new voice ID.
+   - Run the skill's `assets/generate_databro_cloned_vo.starter.py` (Stability: 0.60, Similarity: 0.82). It never falls back to a stock voice.
 2. **Offline Calibrated Fallback (Edge-TTS `id-ID-ArdiNeural`)**:
-   - If no external API key is set, the pipeline automatically uses Microsoft Edge-TTS with phonetic calibration (`rate="+0%"`, `pitch="+0Hz"`, ~135 WPM), mapping English ML jargon to Indonesian tech developer phonetics.
+   - If no external API key is set, the pipeline automatically uses Microsoft Edge-TTS with phonetic calibration (`rate="-2%"`, `pitch="-4Hz"`, ~135 WPM), mapping English ML jargon to Indonesian tech developer phonetics.
 3. **Word-Level Captions Synchronization**:
    - Closed Captions are locked at `Y = 1480px` in 2-4 word uppercase chunks synchronized with the synthesized speech audio boundaries.

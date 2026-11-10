@@ -1,9 +1,10 @@
 import React from 'react';
 import { AbsoluteFill, Audio, Sequence, staticFile } from 'remotion';
 import { DatabroCaptions } from './DatabroCaptions.starter';
-import { DatabroLogoLockup } from './DatabroLogoLockup.starter';
+import { DatabroLogoLockup, DatabroSocialHandle } from './DatabroLogoLockup.starter';
 import {
   DATABRO_CANVAS_PRESETS,
+  DATABRO_TRANSITION_TIMING,
   DatabroAspectRatioKey,
   DatabroCanvasPreset,
   DatabroCaptionCue,
@@ -34,7 +35,7 @@ export interface DatabroBaseCanvasProps {
   }[];
   /** Avatar image path inside public/ */
   avatarSrc?: string;
-  /** Center-stage <TransitionSeries> scenes */
+  /** Content-stage <TransitionSeries> scenes (scene content is left-aligned inside the stage) */
   children: React.ReactNode;
 }
 
@@ -46,11 +47,13 @@ export interface DatabroBaseCanvasProps {
  * Square (1:1), or YouTube (16:9).
  *
  * Persistent vs. Transitioning Layers:
- *  - Layer 0: Solid #111111 matte charcoal canvas (never transitions).
- *  - Layer 1: Symmetric centered stage (`contentStage`) hosting <TransitionSeries>.
- *  - Layer 2: Fixed Top-Left Databro Lockup (`top: 108, left: 100` on 9:16) — animates ONLY at frame 0..12.
- *  - Layer 3: Fixed Closed Captions (`Y = 1480px` on 9:16) — zero vertical movement.
- *  - Layer 4: Frame-accurate TikTok SFX (`keyboard-typing`, `pop-up`, `whoosh-transition`, etc.), BGM & Voiceover.
+ *  - Layer 0: Solid #121212 matte charcoal canvas (never transitions).
+ *  - Layer 1: Content stage (`contentStage`) hosting <TransitionSeries>. Scenes lay out
+ *    left-aligned (lavender headline, white subline, visual below), like the carousel slides.
+ *  - Layer 2A: Fixed top-left Databro lockup (`top: 108, left: 100` on 9:16): animates ONLY at frame 0..12.
+ *  - Layer 2B: Fixed top-right @databro.id handle (`top: 108, right: 100` on 9:16): fades in at frame 0..10.
+ *  - Layer 3: Fixed Closed Captions (`Y = 1480px` on 9:16): zero vertical movement.
+ *  - Layer 4: Frame-accurate TikTok SFX (`keyboard-typing`, `pop-up`, `whoosh-transition`, etc.), BGM and voiceover.
  */
 export const DatabroBaseCanvas: React.FC<DatabroBaseCanvasProps> = ({
   aspectRatio = '9:16',
@@ -59,7 +62,7 @@ export const DatabroBaseCanvas: React.FC<DatabroBaseCanvasProps> = ({
   soundCues = [],
   enableBgm = true,
   bgmSrc = 'brand-kit/audio/bgm/bgm-ambient.wav',
-  bgmVolume = 0.08,
+  bgmVolume = DATABRO_TRANSITION_TIMING.bgmVolume,
   voiceoverSrc,
   voiceoverCues = [],
   avatarSrc = 'brand-kit/logos/databro-avatar.jpg',
@@ -71,7 +74,8 @@ export const DatabroBaseCanvas: React.FC<DatabroBaseCanvasProps> = ({
     <AbsoluteFill
       style={{ backgroundColor: databroBrand.colors.backgroundPrimary }}
     >
-      {/* LAYER 1: Symmetric Horizontally & Vertically Centered Stage (<TransitionSeries>) */}
+      {/* LAYER 1: Content Stage (<TransitionSeries>). Left-aligned by default, like the carousel slides.
+          Hero moments (emblem pop, giant keyword, CTA) may center themselves inside their own scene. */}
       <div
         style={{
           position: 'absolute',
@@ -81,20 +85,24 @@ export const DatabroBaseCanvas: React.FC<DatabroBaseCanvasProps> = ({
           right: preset.contentStage.right,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
+          alignItems: 'stretch',
+          justifyContent: 'flex-start',
+          textAlign: 'left',
           overflow: 'hidden',
         }}
       >
         {children}
       </div>
 
-      {/* LAYER 2: Persistent Top-Left Databro Lockup (Animates ONLY at frame 0..12) */}
+      {/* LAYER 2A: Persistent Top-Left Databro Lockup (Animates ONLY at frame 0..12) */}
       <DatabroLogoLockup
         aspectRatio={aspectRatio}
         presetOverride={preset}
         avatarSrc={avatarSrc}
       />
+
+      {/* LAYER 2B: Persistent Top-Right @databro.id Handle */}
+      <DatabroSocialHandle aspectRatio={aspectRatio} presetOverride={preset} />
 
       {/* LAYER 3: Fixed-Position Closed Captions (Locked at Y = 1480px on 9:16) */}
       <DatabroCaptions

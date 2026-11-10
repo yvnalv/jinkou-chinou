@@ -107,7 +107,7 @@ export const DatabroLogoLockup: React.FC<DatabroLogoLockupProps> = ({
             fontWeight: 700,
             letterSpacing: '-0.02em',
             lineHeight: 1.05,
-            color: databroBrand.colors.textPrimary,
+            color: databroBrand.colors.textBrand,
           }}
         >
           {databroBrand.name}
@@ -118,12 +118,55 @@ export const DatabroLogoLockup: React.FC<DatabroLogoLockupProps> = ({
             fontSize: Math.round(avatarSize * 0.28),
             fontWeight: 400,
             lineHeight: 1.25,
-            color: databroBrand.colors.textSecondary,
+            color: databroBrand.colors.textBrand,
           }}
         >
           {databroBrand.tagline}
         </span>
       </div>
+    </div>
+  );
+};
+
+/**
+ * Persistent top-right @databro.id handle (Layer 2B).
+ *
+ * Fades in with the lockup on frame 0..10, then stays 100% stationary.
+ * Cream #F2EFEB italic, matching the official carousel slides.
+ */
+export const DatabroSocialHandle: React.FC<{
+  aspectRatio?: DatabroAspectRatioKey;
+  presetOverride?: DatabroCanvasPreset;
+}> = ({ aspectRatio = '9:16', presetOverride }) => {
+  const frame = useCurrentFrame();
+  const preset = presetOverride ?? DATABRO_CANVAS_PRESETS[aspectRatio];
+  const handle = preset.socialHandleTopRight;
+
+  const opacity = interpolate(frame, [0, 10], [0, 1], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+  // Vertically center the handle on the avatar row of the lockup.
+  const avatarSize = preset.logoTopLeft.avatarSize;
+  const fontSize = Math.round(avatarSize * 0.375);
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: handle.top + (avatarSize - fontSize * 1.2) / 2,
+        right: handle.right,
+        opacity,
+        zIndex: 25,
+        fontFamily: databroBrand.typography.fontBody,
+        fontSize,
+        fontStyle: 'italic',
+        fontWeight: 400,
+        lineHeight: 1.2,
+        color: handle.color,
+      }}
+    >
+      {handle.text}
     </div>
   );
 };
