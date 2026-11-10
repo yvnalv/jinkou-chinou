@@ -1,9 +1,13 @@
 {
   "entries": [
+    { "path": ".agents/skills" },
     { "path": "domains/ai-engineering" },
+    { "path": "domains/auditing" },
     { "path": "domains/computer-vision" },
+    { "path": "domains/creative-media" },
     { "path": "domains/data-science" },
     { "path": "domains/ml-engineering" },
+    { "path": "domains/quality-assurance" },
     { "path": "domains/software-engineering" },
     { "path": "domains/ux-design" },
     { "path": "domains/workflow-automation" },

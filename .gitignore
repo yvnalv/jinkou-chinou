@@ -30,6 +30,7 @@ dist/
 # Personal AI-tool files (project skills under .claude/skills/ ARE committed)
 .claude/settings.local.json
 .agents/skills/
+.installed-by-jinkou-chinou.json
 
 # IDE and OS
 .vscode/
