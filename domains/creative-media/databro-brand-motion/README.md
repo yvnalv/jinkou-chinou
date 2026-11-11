@@ -52,6 +52,14 @@ databro-brand-motion/
 
 ## Changelog
 
+### 0.4.2 - 2026-11-11
+
+- Added Mandatory Gate: explicit rule banning unrequested image/video generation ("Jangan buat atau generate design konten image jika tidak diminta, atau tanya terlebih dahulu").
+- Integrated the Full Spectrum Audience rule: visuals and storyboards must cater to zero-background beginners and senior engineers simultaneously.
+- Codified Databro 5 Project Principles (Simplicity First, Data-Driven, Practical Use Case, Educational Value, Visual Clarity) into motion layouts.
+- Enforced strict editorial constraint: ban on tragedy/negative news hooks; viral hooks must be positive or neutral.
+- Updated version to 0.4.2 across skill manifest and guidelines.
+
 ### 0.4.1 - 2026-11-10
 
 - Voiceover generator: a sentence-ending word after a full 4-word caption chunk now borrows the previous chunk's last word instead of joining the next sentence (fixes chunks like `SKILL. SIMPELNYA GINI, BRO`). Only sentence endings (`.?!`) block the borrow; breath commas do not. Found while producing the "Apa itu Skill dalam Agentic AI?" video.

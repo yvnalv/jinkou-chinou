@@ -38,6 +38,14 @@ databro-content-ideas/
 
 ## Changelog
 
+### 0.2.0 - 2026-11-11
+
+- Added Full Spectrum Audience rule: content must simultaneously engage newcomers and senior engineers without dumbing down or gatekeeping.
+- Codified Databro 5 Project Principles (Simplicity First, Data-Driven, Practical Use Case, Educational Value, Visual Clarity).
+- Enforced strict editorial constraint: ban on tragedy-based/negative news hooks; viral hooks must be positive or neutral.
+- Added Critical Gate Warning: never generate design/image content unless explicitly asked or confirmed by user.
+- Updated Databro ecosystem context (Content Platform, Analytics Tools, Experimental Projects).
+
 ### 0.1.0 - 2026-11-10
 
 - Initial release of Databro Content Ideas skill.

@@ -1,5 +1,5 @@
 name: databro-brand-motion
-version: 0.4.1
+version: 0.4.2
 description: >
   Databro Studio (@databroid / @databro.id) brand motion skill extending the-motion-designer: DatabroBaseCanvas for Remotion across 9:16, 4:5, 1:1, and 16:9 with pixel-sampled colors (#121212 canvas, white text, #BB86FC lavender headlines, #03DAC6 teal, #C1FF72 lime), left-aligned slide layouts, React Icons, persistent lockup and @databro.id, fixed Y=1480px captions, and a calibrated baritone voiceover generator with synced caption timings.
 domain: creative-media

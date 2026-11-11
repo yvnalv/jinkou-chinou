@@ -2,20 +2,60 @@
 name: databro-content-ideas
 description: "Researches, validates, and drafts evidence-backed content ideas for Databro Studio (@databroid) across AI, data science, machine learning, Python, and statistics in casual Bahasa Indonesia ('bro' tone). Always asks upfront for the target topic and content format/platform before conducting deep factual research across papers, docs, news, and official sources. Formats ideas into Databro's standard 8-part content arc (Title, Subtitle, Background Hook, Bridging Explanation, Real-World Case, Actionable Solution, Summary Insight, Closing CTA) with verified citations, and syncs to workspace markdown and Notion content planner."
 metadata:
-  version: 0.1.0
+  version: 0.2.0
 ---
 
 # Databro Content Ideas : Evidence-Backed AI & Data Science Content Research
 
-Researches, validates, and structures evidence-backed technical content ideas for Databro Studio (`@databroid` / `@databro.id`). Translates machine learning algorithms, agentic AI breakthroughs, data science workflows, Python tricks, and pure statistics into relatable, casual Bahasa Indonesia ("bro" tone) without sacrificing mathematical rigor or technical accuracy.
+Researches, validates, and structures evidence-backed technical content ideas for **Databro Studio (`@databroid` / `@databro.id` : "Belajar Data Science")**. Translates machine learning algorithms, agentic AI breakthroughs, data science workflows, Python tricks, and pure statistics into relatable, casual Bahasa Indonesia ("bro" tone) without sacrificing mathematical rigor or technical accuracy.
 
 Every idea follows Databro's proven 8-part content arc, strictly adheres to zero em-dashes, and enforces mandatory primary source citations (papers, docs, benchmarks, official announcements).
+
+> [!WARNING]
+> **CRITICAL GATE (Jangan Generate Image Tanpa Diminta):**
+> **Jangan buat atau generate design konten image jika tidak diminta, atau tanya terlebih dahulu.**
+> Skill ini berfokus secara eksklusif pada riset mendalam, penyusunan narasi 8-part arc, dan sinkronisasi ke database Notion Content Planner. Tahap visual/desain memerlukan review manusia dan tidak boleh digenerate otomatis kecuali diminta secara eksplisit oleh user.
+
+---
+
+## Databro Mission & Ecosystem
+
+Databro adalah platform edukasi dan eksplorasi data science untuk membantu masyarakat Indonesia memahami data, teknologi, dan artificial intelligence secara praktis, aplikatif, dan mudah dipahami. Databro mencakup:
+1. **Content Platform**: Konten edukasi data science, visualisasi data sederhana, insight berbasis data, dan tips teknologi/AI.
+2. **Analytics Tools**: Dashboard analisis tren Instagram/Threads, performa konten, dan monitoring engagement.
+3. **Experimental Projects**: Mini project machine learning, eksperimen AI, proyek visualisasi data publik, dan automation tools.
+
+### 5 Project Principles
+1. **Simplicity First**: Semua konten dan tools harus mudah dipahami bahkan oleh orang yang baru mengenal data science.
+2. **Data-Driven**: Semua insight yang dibagikan harus berbasis data atau eksperimen nyata.
+3. **Practical Use Case**: Fokus pada contoh nyata penggunaan data science di kehidupan sehari-hari dan industri.
+4. **Educational Value**: Setiap konten harus memberikan nilai pembelajaran nyata.
+5. **Visual Clarity**: Visualisasi data harus jelas, elegan, dan tidak membingungkan.
+
+---
+
+## Target Audience : The Full Spectrum Rule
+
+Databro melayani audiens yang membentang dari orang awam dengan nol latar belakang teknis, pemula/mahasiswa IT, hingga data scientist dan AI engineer senior.
+
+* **The Simultaneous Read Rule**: Setiap konten dibaca oleh pemula dan engineer senior secara bersamaan.
+* **Non-Intimidating Delivery**: Hindari jargon yang tidak dijelaskan. Buka dengan hook dan analogi relatable dari kehidupan sehari-hari. Definisikan istilah teknis dengan bahasa awam saat pertama kali muncul.
+* **Substantive Rigor**: Konten di balik analogi harus tetap akurat secara matematis dan substantif agar engineer senior tetap merasa kredibel dan ter-engage (istilah tepat, mekanisme asli, tanpa simplifikasi keliru).
+* **The "Bro" Tone Bridge**: Gaya santai *"bro"* dan hook relatable adalah jembatan yang membuat akurasi teknis terasa ramah. Jangan pernah korbankan akurasi demi kesan santai, atau sebaliknya.
+
+---
+
+## Editorial Constraints
+
+* **Strict Ban on Tragedy/Negative News Hooks**: Dilarang keras memakai berita duka, tragedi, kecelakaan, atau isu bernuansa emosional negatif sebagai hook konten.
+* **Positive or Neutral Viral Hooks**: Hook viral harus terasa natural, bernada positif atau netral, dan terhubung secara organik ke edukasi data science atau AI.
+* **Indonesia Contextualization**: Hubungkan tren AI global ke lanskap lokal Indonesia (adopsi AI nasional, survei gaji, data publik BPS/SaaS lokal, evolusi role Data Analyst menjadi AI Orchestrator).
 
 ---
 
 ## When to Use
 
-- Use when planning daily or weekly content for Databro social channels (Instagram, LinkedIn, TikTok, X).
+- Use when planning daily or weekly content for Databro social channels (Instagram, Threads, LinkedIn, TikTok, X).
 - Use when exploring fresh AI news, papers, and agentic trends from the past 24 to 48 hours to create timely educational posts.
 - Use when drafting step-by-step data science tutorials, chart reading guides, or Python code tips.
 - Use when preparing content briefs before producing Remotion videos with `/databro-brand-motion`.
@@ -24,6 +64,7 @@ Every idea follows Databro's proven 8-part content arc, strictly adheres to zero
 ## When Not to Use
 
 - Do not use for writing production Remotion code or rendering motion graphics (use `/databro-brand-motion` or `/the-motion-designer` instead).
+- Do not use for generating design images/Canva assets unless the user explicitly asks for visual design.
 - Do not use for corporate B2B enterprise software topics outside Databro's niche (use `/glm-brand-motion` for GLM Systems / Exact ERP).
 - Do not use for raw tabular data analysis or building ML pipelines (use `/exploratory-data-analysis` or `/the-ml-engineer`).
 
@@ -63,7 +104,7 @@ Never jump straight into researching or generating an idea without user confirma
    - Instagram / LinkedIn Carousel (8-part slide breakdown, 4:5 ratio)
    - Short-Form Video Script (TikTok / Reels / Shorts 9:16 with motion cues)
    - LinkedIn Article / Long-Form Technical Essay
-   - X / Twitter Technical Thread
+   - X / Threads Technical Thread
 3. **Output Destination**:
    - Dated workspace Markdown file (`outputs/content-idea-YYYY-MM-DD.md`)
    - Notion Content Planner database (`📆 Databro Content Planner`)
@@ -76,7 +117,7 @@ Never jump straight into researching or generating an idea without user confirma
 Once the user confirms the topic and format:
 1. **Search Authoritative Sources**:
    - For AI news & trends: Check arXiv papers, official lab releases (Anthropic, DeepMind, OpenAI, Meta), GitHub trending repositories, and official engineering blogs.
-   - For real-world datasets: Inspect Kaggle dataset documentation, BPS Indonesia reports, Stack Overflow Developer Surveys, or official company tech blogs.
+   - For real-world datasets: Inspect Kaggle dataset documentation, BPS Indonesia reports, Stack Overflow Developer Surveys, Strava reports, or official company tech blogs.
    - For statistical/math concepts: Review standard statistical definitions and derivations.
 2. **Extract Concrete Evidence**:
    - Record exact benchmark numbers, architectural components, paper findings, or dataset columns.
@@ -111,6 +152,7 @@ Draft the idea adhering strictly to Databro's proven 8-part content arc (`refere
    - All 8 parts are fully fleshed out.
    - Zero em-dashes (`—`) or en-dashes (`–`) exist in the text.
    - All cited links are active, primary sources.
+   - Tone is non-intimidating to beginners yet rigorous enough for senior engineers.
 
 ---
 
@@ -130,11 +172,11 @@ If the user requested Notion synchronization:
 
 ---
 
-### Step 5 : Optional Handoff to Motion Production
+### Step 5 : Optional Handoff (Always Ask First Before Design)
 
-If the user approves the idea and wants to produce a video or animated carousel:
-- Inform the user: *"Ide konten ini siap dianimasikan menggunakan `/databro-brand-motion`. Mau langsung kita bikinin script video Remotion-nya bro?"*
-- Hand off seamlessly to `databro-brand-motion` using the 8-part arc as the storyboard outline.
+If the user approves the idea:
+- Ask the user first: *"Ide konten ini sudah masuk ke Notion Content Planner bro. Apakah kamu mau kita buatkan desain carouselnnya atau script video Remotion-nya lewat `/databro-brand-motion`?"*
+- **Never generate visual design/images without confirmation.**
 
 ---
 
@@ -160,6 +202,9 @@ If the user approves the idea and wants to produce a video or animated carousel:
 * Standard technical terms remain in English (`feature engineering`, `data leakage`, `embeddings`, `vector search`, `overfitting`).
 * High signal-to-noise ratio: crisp Markdown tables and concrete numbers instead of generic motivational fluff.
 
+### 5. Critical Warning: No Automatic Image/Design Generation
+* **Do NOT generate design images, slides, or Canva assets automatically.** Always ask or wait for the user's explicit request.
+
 ---
 
 ## Definition of Done
@@ -167,7 +212,8 @@ If the user approves the idea and wants to produce a video or animated carousel:
 A task run of `databro-content-ideas` is complete when:
 1. The user was asked upfront for the topic and platform format, and provided input or selected an option.
 2. Topic facts, numbers, and case studies were verified against primary sources.
-3. The idea was composed across all 8 parts of the Databro narrative arc with verified citations and zero em-dashes.
-4. Output was validated and saved as a dated Markdown file (`outputs/content-idea-YYYY-MM-DD.md`).
-5. If requested, Notion planner schema was compiled or synced to the user's database.
-6. A concise summary was presented to the user with a prompt to optionally proceed to `/databro-brand-motion`.
+3. Content conforms to the Full Spectrum rule (approachable for beginners, credible for seniors) and respects editorial constraints (no negative/tragedy news hooks).
+4. The idea was composed across all 8 parts of the Databro narrative arc with verified citations and zero em-dashes.
+5. Output was validated and saved as a dated Markdown file (`outputs/content-idea-YYYY-MM-DD.md`).
+6. If requested, Notion planner schema was compiled or synced to the user's database.
+7. User was asked before proceeding to visual design generation.

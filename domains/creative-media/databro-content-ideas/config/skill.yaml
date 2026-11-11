@@ -1,5 +1,5 @@
 name: databro-content-ideas
-version: 0.1.0
+version: 0.2.0
 description: >
   Researches, validates, and structures evidence-backed Databro content ideas (carousels, short-form video scripts, articles, threads) in casual Bahasa Indonesia with mandatory source citations and content planner sync.
 domain: creative-media
@@ -45,3 +45,6 @@ rules:
   ban_em_dash: true
   mandatory_evidence_sources: true
   casual_indonesian_bro_tone: true
+  full_spectrum_audience: true
+  no_tragedy_news_hooks: true
+  no_unrequested_design_generation: true
