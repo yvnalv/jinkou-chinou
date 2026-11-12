@@ -1,0 +1,18 @@
+{
+  "title": "How to Run Your First AI Engineering Project",
+  "pillar": "AI Engineering",
+  "platform": "Instagram Carousel",
+  "postType": "Post",
+  "date": "2026-11-12",
+  "status": "Idea 💡",
+  "link": "https://www.yvnalvworks.com/projects",
+  "hookStatement": "Building an AI feature is easy. Running an AI Engineering project is a completely different discipline.",
+  "industryTension": "Most beginners start by picking a model. Senior engineers start by building an eval harness.",
+  "architecturalFramework": "The 6-Part Production Guardrail: Test Suite, Schema Lock, Complexity Ladder, Budgets, Tracing, Fallbacks.",
+  "goldenRule": "Never use an autonomous agent when deterministic code and a single structured prompt solves the problem.",
+  "takeawayAndCta": "AI Engineering is not prompt engineering. It is software engineering applied to non-deterministic systems. Visit yvnalvworks.com/projects.",
+  "evidenceSources": [
+    "Huyen, Chip. 'AI Engineering: Building Applications with Foundation Models' (O'Reilly, 2024)",
+    "Anthropic. 'Building Effective Agents' (Research Report, 2024)"
+  ]
+}

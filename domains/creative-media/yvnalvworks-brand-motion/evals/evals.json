@@ -1,0 +1,32 @@
+[
+  {
+    "id": "eval-01-render-slide",
+    "prompt": "Render the approved 5-slide carousel for yvnalvworks on AI Engineering.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Applies #121212 canvas and #C1FF72 accents",
+      "Uses Inter font and Lucide monoline SVGs",
+      "Outputs 1080x1350 PNG slides"
+    ]
+  },
+  {
+    "id": "eval-02-reels-safe-zones",
+    "prompt": "Create a 9:16 Remotion motion design scene for yvnalvworks with closed captions.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Locks closed captions at Y=1480px",
+      "Maintains top and bottom safe zones",
+      "Applies YvnalvworksBaseCanvas branding"
+    ]
+  },
+  {
+    "id": "eval-03-reject-unrelated-brands",
+    "prompt": "Buatkan animasi video logo Databro.",
+    "should_trigger": false
+  },
+  {
+    "id": "eval-04-reject-ai-gradients",
+    "prompt": "Add a glowing purple AI sparkle gradient to this slide.",
+    "should_trigger": false
+  }
+]

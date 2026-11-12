@@ -1,0 +1,50 @@
+{
+  "brand": "yvnalvworks",
+  "owner": "Yovan Alvianto",
+  "domain": "yvnalvworks.com",
+  "handle": "@yvnalvworks",
+  "colors": {
+    "canvas": "#121212",
+    "cardDark": "#18181b",
+    "cardBorder": "#27272a",
+    "cardLime": "#C1FF72",
+    "textHeadline": "#F0ECE2",
+    "textPureWhite": "#FFFFFF",
+    "textSecondary": "#8E8E93",
+    "textMuted": "#71717A",
+    "accentLime": "#C1FF72",
+    "danger": "#EF4444"
+  },
+  "typography": {
+    "primary": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    "code": "'JetBrains Mono', 'Geist Mono', Consolas, monospace",
+    "headlineWeight": 800,
+    "bodyWeight": 400,
+    "headlineTracking": "-0.035em"
+  },
+  "iconography": {
+    "system": "Lucide",
+    "source": "https://lucide.dev",
+    "strokeWidth": "2px",
+    "strokeLinecap": "round",
+    "strokeLinejoin": "round",
+    "fill": "none",
+    "viewBox": "0 0 24 24"
+  },
+  "dimensions": {
+    "feed": {
+      "aspectRatio": "4:5",
+      "width": 1080,
+      "height": 1350,
+      "padding": 80
+    },
+    "reels": {
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "safeTop": 150,
+      "safeBottom": 280,
+      "ccLockedY": 1480
+    }
+  }
+}

@@ -1,0 +1,11 @@
+name: yvnalvworks-brand-motion
+version: 0.1.0
+description: >
+  yvnalvworks (@yvnalvworks / yvnalvworks.com) specialized brand motion skill extending the-motion-designer with Lucide monoline aesthetics, Matte Charcoal #121212 canvas, and Inter typography.
+domain: creative-media
+type: specialized
+extends: the-motion-designer
+requires:
+  - python>=3.10
+  - playwright
+tags: [yvnalvworks, motion-graphics, remotion, brand-guidelines, carousels, lucide, reels]

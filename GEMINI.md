@@ -22,6 +22,8 @@ When the user types a message starting with a slash command matching any skill i
 * `/databro-brand-motion` — Activate the isolated Databro Studio (`@databroid`) brand motion profile extending `the-motion-designer` ([`domains/creative-media/databro-brand-motion/SKILL.md`](domains/creative-media/databro-brand-motion/SKILL.md)).
 * `/databro-content-ideas` — Activate the evidence-backed Databro content ideation, research, and planner persona ([`domains/creative-media/databro-content-ideas/SKILL.md`](domains/creative-media/databro-content-ideas/SKILL.md)).
 * `/glm-brand-motion` — Activate the isolated GLM Systems (`glmsystems.com`) brand motion profile extending `the-motion-designer` ([`domains/creative-media/glm-brand-motion/SKILL.md`](domains/creative-media/glm-brand-motion/SKILL.md)).
+* `/yvnalvworks-brand-motion` — Activate the isolated yvnalvworks (`@yvnalvworks`) brand motion and Lucide slide renderer profile extending `the-motion-designer` ([`domains/creative-media/yvnalvworks-brand-motion/SKILL.md`](domains/creative-media/yvnalvworks-brand-motion/SKILL.md)).
+* `/yvnalvworks-content-ideas` — Activate the evidence-backed yvnalvworks technical content research and planner persona ([`domains/creative-media/yvnalvworks-content-ideas/SKILL.md`](domains/creative-media/yvnalvworks-content-ideas/SKILL.md)).
 
 ### Execution Behavior
 Upon receiving a slash command:

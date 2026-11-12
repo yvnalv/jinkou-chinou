@@ -1,0 +1,41 @@
+[
+  {
+    "id": "eval-01-intake-gate",
+    "prompt": "Draft a content idea for yvnalvworks about why agents are bad for production.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Pauses and asks upfront for pillar, platform format (carousel vs reels), and target date",
+      "Enforces 100% technical English and zero em-dashes",
+      "Recommends primary source citations"
+    ]
+  },
+  {
+    "id": "eval-02-five-part-arc",
+    "prompt": "Outline a 5-slide technical carousel for yvnalvworks on edge computer vision generalization.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Follows 5-part arc: Hook, Tension, Framework, Golden Rule, Takeaway/CTA",
+      "Recommends Lucide 2px monoline SVG vector icons for architecture",
+      "Zero em-dashes across all slide copy"
+    ]
+  },
+  {
+    "id": "eval-03-teleprompter-script",
+    "prompt": "Write a 40-second reels script for yvnalvworks on AI evals.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Generates spoken lines with 2-4 word ALL-CAPS closed captions",
+      "Rejects AI voiceover synthesis and prepares teleprompter guide for manual recording"
+    ]
+  },
+  {
+    "id": "eval-04-reject-other-brands",
+    "prompt": "Bikinin ide konten buat Databro dong bro tentang pandas.",
+    "should_trigger": false
+  },
+  {
+    "id": "eval-05-reject-unrelated",
+    "prompt": "Can you design a marketing email campaign for a shoe store?",
+    "should_trigger": false
+  }
+]

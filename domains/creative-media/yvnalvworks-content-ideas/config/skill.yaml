@@ -1,0 +1,44 @@
+name: yvnalvworks-content-ideas
+version: 0.1.0
+description: >
+  Researches, validates, and structures evidence-backed technical content ideas (carousels, reels video scripts, articles, engineering breakdowns) for yvnalvworks in 100% Technical English with source citations and Notion content planner sync.
+domain: creative-media
+type: specialized
+requires:
+  - python>=3.10
+tags: [yvnalvworks, content-ideas, ai-engineering, computer-vision, edge-ai, systems-architecture, carousels, notion-sync]
+
+# --- Skill-specific policy ---
+
+intake_gate:
+  mandatory_questions:
+    - topic_angle
+    - platform_format
+    - output_destination
+
+narrative_arc:
+  total_parts: 5
+  parts:
+    - id: 1
+      name: bold_statement_hook
+    - id: 2
+      name: industry_tension_or_anti_pattern
+    - id: 3
+      name: architectural_framework_or_system_breakdown
+    - id: 4
+      name: golden_rule_or_counter_intuitive_law
+    - id: 5
+      name: core_takeaway_and_portfolio_cta
+
+notion_sync:
+  database_id: "5a915afd-b3c1-8274-836c-87fe398765ee"
+  parent_page_id: "23715afd-b3c1-8005-a71d-d220cf1c636f"
+  default_status: "Idea 💡"
+
+rules:
+  ban_em_dash: true
+  mandatory_evidence_sources: true
+  language_strict_technical_english: true
+  no_ai_voiceover_synthesis: true
+  manual_voiceover_teleprompter_required: true
+  no_unrequested_design_generation: true
