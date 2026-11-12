@@ -20,10 +20,13 @@
 
 ## 5-Slide Carousel Structure (4:5)
 
-### Slide 1: Bold Statement Hook
-- **Headline**: [Understated, high-impact technical observation]
-- **Sub-headline**: [Contrasting reality with punchline in Electric Lime #C1FF72]
-- **Footnote**: [yvnalvworks.com / SWIPE ->]
+### Slide 1: Cover
+- **Cover Headline** (3 to 4 lines, max 18 characters each, one [[highlight]]; see `references/cover-headline-patterns.md`):
+  - Line 1: [What AI Engineers]
+  - Line 2: [Should Know]
+  - Line 3: [About [[Subject]]]
+- **Highlight**: [Promise or subject, rendered in Electric Lime #C1FF72]
+- **Hook Statement** (caption first line and reel opener, not on the slide): [Counter-intuitive technical observation]
 
 ### Slide 2: Industry Tension / Anti-Pattern
 - **Headline**: [The conventional naive approach vs Senior engineering practice]

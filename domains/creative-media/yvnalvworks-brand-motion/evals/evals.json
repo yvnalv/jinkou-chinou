@@ -4,28 +4,38 @@
     "prompt": "Render the approved 5-slide carousel for yvnalvworks on AI Engineering.",
     "should_trigger": true,
     "expected_behavior": [
-      "Applies #121212 canvas and #C1FF72 accents",
-      "Uses Inter font and Lucide monoline SVGs",
-      "Outputs 1080x1350 PNG slides"
+      "Every slide uses the grain background image, not a flat #121212 fill",
+      "Uses Poppins type, one #C1FF72 phrase per slide, and Lucide monoline SVGs",
+      "Outputs 4:5 PNG slides via scripts/render_carousel.py"
     ]
   },
   {
-    "id": "eval-02-reels-safe-zones",
+    "id": "eval-02-cover-matches-reference",
+    "prompt": "Make the cover for my yvnalvworks carousel: What AI Engineers Should Know About MCP.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Confirms the line breaks and which single phrase gets the lime highlight before rendering",
+      "Uses a cover slide: color avatar with yvnalvworks and @yvnalvworks above a 96px Poppins Bold headline",
+      "Compares the render side by side with a file in assets/reference-covers/"
+    ]
+  },
+  {
+    "id": "eval-03-reels-safe-zones",
     "prompt": "Create a 9:16 Remotion motion design scene for yvnalvworks with closed captions.",
     "should_trigger": true,
     "expected_behavior": [
       "Locks closed captions at Y=1480px",
       "Maintains top and bottom safe zones",
-      "Applies YvnalvworksBaseCanvas branding"
+      "Starts from YvnalvworksBaseCanvas with the grain background and Poppins"
     ]
   },
   {
-    "id": "eval-03-reject-unrelated-brands",
+    "id": "eval-04-reject-unrelated-brands",
     "prompt": "Buatkan animasi video logo Databro.",
     "should_trigger": false
   },
   {
-    "id": "eval-04-reject-ai-gradients",
+    "id": "eval-05-reject-ai-gradients",
     "prompt": "Add a glowing purple AI sparkle gradient to this slide.",
     "should_trigger": false
   }

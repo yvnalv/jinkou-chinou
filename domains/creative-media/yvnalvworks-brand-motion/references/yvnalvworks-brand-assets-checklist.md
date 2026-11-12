@@ -4,9 +4,13 @@
 
 | Asset | Location in Skill | Status |
 |---|---|---|
+| Grain Background (every slide and frame) | `assets/brand-kit/backgrounds/yvnalvworks-grain-bg.png` | Verified (2160x2700) |
+| Color Avatar (cover lockup) | `assets/brand-kit/logos/yovan-avatar-color.png` | Verified, 164px, cut from a published cover; replace with a full-resolution original when available |
+| Grayscale Headshot Avatar | `assets/brand-kit/logos/yovan-avatar.png` | Verified (1080px), alternate for large placements |
 | Transparent Wordmark Logo | `assets/brand-kit/logos/yvnalvworks-logo-transparent.png` | Verified |
-| Official Headshot Avatar | `assets/brand-kit/logos/yovan-avatar.png` | Verified |
 | Design Tokens (JSON) | `assets/brand-kit/guidelines/yvnalvworks.tokens.json` | Verified |
+| Reference Cover: Listicle | `assets/reference-covers/cover-ref-listicle-ai-updates.jpg` | Verified (published) |
+| Reference Cover: Should Know | `assets/reference-covers/cover-ref-should-know-maf.jpg` | Verified (published) |
 | Remotion Base Canvas | `assets/YvnalvworksBaseCanvas.starter.tsx` | Verified |
 | Automated Slide Renderer | `scripts/render_carousel.py` | Verified |
 

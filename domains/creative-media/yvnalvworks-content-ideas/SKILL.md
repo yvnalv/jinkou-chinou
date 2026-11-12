@@ -1,8 +1,8 @@
 ---
 name: yvnalvworks-content-ideas
-description: "Researches, validates, and drafts evidence-backed content ideas for yvnalvworks across AI Engineering, Computer Vision, Edge Systems, and Software Architecture in 100% Technical English. Always asks upfront for target topic and platform before researching papers, documentation, and real production patterns. Formats ideas into technical carousel outlines, video scripts with teleprompter voiceover guides, and syncs directly to the yvnalvworks Content Planner in Notion."
+description: "Researches, validates, and drafts evidence-backed content ideas for yvnalvworks across AI Engineering, Computer Vision, Edge Systems, and Software Architecture in 100% Technical English. Always asks upfront for target topic and platform before researching papers, documentation, and real production patterns. Formats ideas into technical carousel outlines with a cover headline that follows the published yvnalvworks cover patterns (What X Should Know About Y, numbered Should Know listicles, one lime highlight phrase), video scripts with teleprompter voiceover guides, and syncs directly to the yvnalvworks Content Planner in Notion."
 metadata:
-  version: 0.1.0
+  version: 0.2.1
 ---
 
 # yvnalvworks Content Ideas: Evidence-Backed Technical Content Research
@@ -37,6 +37,7 @@ Every idea is written strictly in **100% Technical English**, adheres to zero em
 
 | Path | Purpose & When to Load |
 |---|---|
+| `references/cover-headline-patterns.md` | Open when writing any carousel: cover headline formulas from the published covers, line-break and highlight rules, `coverHeadline` JSON form. |
 | `references/CONTENT_IDEA.template.md` | Standard markdown outline template for 5-part carousels and reels companion scripts. |
 | `references/yvnalvworks-content-pillars.md` | Detailed breakdown of the 4 core engineering pillars and acceptable topic scopes. |
 | `references/yvnalvworks-voice-and-tone-guide.md` | Tone constraints, writing rules, ban on em-dashes, and voiceover guidelines. |
@@ -91,7 +92,7 @@ Every idea is written strictly in **100% Technical English**, adheres to zero em
 
 Every technical post (carousel or video) follows this proven technical framework:
 
-1. **Slide 1 / Hook (Bold Statement)**: A counter-intuitive technical reality that challenges conventional wisdom (e.g., "Building an AI feature is easy. Running an AI Engineering project is a completely different discipline.").
+1. **Slide 1 / Cover + Hook**: The slide shows the `coverHeadline`, an audience-promise headline in 3 to 4 hand-broken lines with exactly one `[[lime]]` phrase, following `references/cover-headline-patterns.md` (e.g., "What AI Engineers / Should Know / About [[Microsoft / Agent Framework]]"). The `hookStatement`, a counter-intuitive technical reality (e.g., "Building an AI feature is easy. Running an AI Engineering project is a completely different discipline."), opens the caption and the reel.
 2. **Slide 2 / Tension (Industry Anti-Pattern)**: Contrast naive industry practices ("Vibe Coding") against disciplined engineering realities.
 3. **Slide 3 / Framework (Visual Architecture)**: High-signal modular system breakdown using authentic Lucide 2px monoline vector icons.
 4. **Slide 4 / Golden Rule (Engineering Law)**: A definitive architectural thesis (e.g., "Never use an autonomous agent when deterministic code and a single structured prompt solves the problem.").
@@ -112,7 +113,8 @@ Confirm with the user:
 - Verify empirical numbers and extract architectural principles.
 
 ### Step 3: Draft Narrative Arc & Script
-- For carousels: Draft all 5 slides adhering to the 5-part arc with Lucide icon recommendations.
+- For carousels: Write the `coverHeadline` from `references/cover-headline-patterns.md` (offer 2 to 3 options with line breaks and the highlight marked), then draft all 5 slides adhering to the 5-part arc with Lucide icon recommendations.
+- Validate with `python <skill-dir>/scripts/format_content_idea.py <file.json>` before handing over.
 - For reels: Draft spoken script (35-45s) and matching teleprompter recording guide with 2-4 word ALL-CAPS SRT closed captions.
 
 ### Step 4: Notion Content Planner Sync
@@ -126,6 +128,7 @@ A task run of `yvnalvworks-content-ideas` is complete when:
 1. Upfront intake gate questions were confirmed with the user.
 2. Topic was verified with primary technical sources and benchmark citations.
 3. Content conforms strictly to 100% Technical English and zero em-dashes.
-4. Teleprompter voiceover guide and closed caption subtitles were delivered (if video format).
-5. Output was saved to the designated OneDrive path.
-6. Topic was registered in the Notion Content Planner database.
+4. Carousels carry a `coverHeadline` that passes the cover rules (3 to 4 lines, max 18 characters per line, exactly one highlight).
+5. Teleprompter voiceover guide and closed caption subtitles were delivered (if video format).
+6. Output was saved to the designated OneDrive path.
+7. Topic was registered in the Notion Content Planner database.

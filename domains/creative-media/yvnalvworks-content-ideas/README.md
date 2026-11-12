@@ -22,6 +22,7 @@ yvnalvworks-content-ideas/
 │   └── evals.json                           # Trigger and behavior eval test cases
 ├── references/
 │   ├── CONTENT_IDEA.template.md             # Markdown outline template
+│   ├── cover-headline-patterns.md           # Cover headline formulas from published covers
 │   ├── platform-format-specs.md             # Resolution and safe zone specifications
 │   ├── yvnalvworks-content-pillars.md       # Scope of 4 core engineering pillars
 │   └── yvnalvworks-voice-and-tone-guide.md  # Tone constraints and em-dash ban
@@ -33,6 +34,15 @@ yvnalvworks-content-ideas/
 ```
 
 ## Changelog
+
+### 0.2.1 — 2026-11-12
+* Cover headline rules: the 18-character limit is a ceiling; "Should Know About" never fits on one line, so break it as "Should Know / About [[Subject]]".
+
+### 0.2.0 — 2026-11-12
+* Added `references/cover-headline-patterns.md` from the published covers: "What X Should Know About Y", numbered "Should Know" listicles, "Should Read" roundups, and one `[[lime]]` highlight phrase.
+* Slide 1 is now the cover headline; the bold-statement hook moves to the caption and reel opener.
+* `format_content_idea.py` requires and validates `coverHeadline` for carousels (3 to 4 lines, max 18 characters per line, exactly one highlight) and prints it in the outline.
+* Platform specs updated to the grain background and Poppins typography.
 
 ### 0.1.0 — 2026-11-12
 * Initial specialized release for yvnalvworks technical content research.

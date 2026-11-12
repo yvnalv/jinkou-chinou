@@ -12,6 +12,30 @@ import sys
 from datetime import datetime
 
 
+MAX_COVER_LINE_CHARS = 18
+
+
+def validate_cover_headline(headline: str) -> list[str]:
+    """Check a cover headline against references/cover-headline-patterns.md."""
+    errors = []
+    opens, closes = headline.count("[["), headline.count("]]")
+    if opens != closes:
+        errors.append("coverHeadline: unbalanced [[ ]] highlight markers.")
+    elif opens != 1:
+        errors.append(f"coverHeadline: needs exactly one [[highlight]] phrase, found {opens}.")
+    lines = [ln.strip() for ln in headline.replace("[[", "").replace("]]", "").split("\n")]
+    if any(not ln for ln in lines):
+        errors.append("coverHeadline: contains an empty line.")
+    if not 3 <= len(lines) <= 4:
+        errors.append(f"coverHeadline: use 3 to 4 hand-broken lines (\\n), found {len(lines)}.")
+    for ln in lines:
+        if len(ln) > MAX_COVER_LINE_CHARS:
+            errors.append(f"coverHeadline: line '{ln}' is {len(ln)} characters; max is {MAX_COVER_LINE_CHARS}.")
+    if headline.rstrip().endswith((".", "!", "?", ":")):
+        errors.append("coverHeadline: no trailing punctuation.")
+    return errors
+
+
 def validate_and_format(data: dict) -> tuple[str, list[str]]:
     errors = []
 
@@ -42,6 +66,13 @@ def validate_and_format(data: dict) -> tuple[str, list[str]]:
             errors.append(f"Non-English word detected ('{w.strip()}'). yvnalvworks content must be 100% Technical English.")
             break
 
+    is_carousel = "carousel" in str(data.get("platform", "")).lower()
+    cover = data.get("coverHeadline", "")
+    if is_carousel and not cover:
+        errors.append("Missing required field for carousels: 'coverHeadline' (see references/cover-headline-patterns.md)")
+    elif cover:
+        errors.extend(validate_cover_headline(cover))
+
     sources = data.get("evidenceSources", [])
     if not sources:
         errors.append("Evidence sources missing: every yvnalvworks content idea must cite verified papers, docs, or benchmarks.")
@@ -50,6 +81,16 @@ def validate_and_format(data: dict) -> tuple[str, list[str]]:
         return "", errors
 
     date_str = data.get("date", datetime.now().strftime("%Y-%m-%d"))
+
+    cover_block = ""
+    if cover:
+        cover_lines, in_hl = [], False
+        for raw in cover.split("\n"):
+            line = ("[[" if in_hl else "") + raw
+            in_hl = line.count("[[") > line.count("]]")
+            line += "]]" if in_hl else ""
+            cover_lines.append(line.replace("[[", "**").replace("]]", "**"))
+        cover_block = "**Cover headline:**\n\n" + "\n".join(f"> {ln}  " for ln in cover_lines) + "\n\n"
 
     md = f"""# {data['title']}
 
@@ -61,8 +102,8 @@ def validate_and_format(data: dict) -> tuple[str, list[str]]:
 
 ---
 
-## 1. Bold Statement Hook
-{data['hookStatement']}
+## 1. Cover + Hook
+{cover_block}**Hook (caption opener):** {data['hookStatement']}
 
 ## 2. Industry Tension / Anti-Pattern
 {data['industryTension']}
@@ -87,6 +128,9 @@ def validate_and_format(data: dict) -> tuple[str, list[str]]:
 
 
 def main():
+    # Status values carry emoji; Windows consoles and pipes default to cp1252.
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description="Format and validate a yvnalvworks content idea")
     parser.add_argument("input_json", help="Path to content idea JSON file")
     parser.add_argument("--out", "-o", help="Path to write output markdown")

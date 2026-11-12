@@ -6,6 +6,7 @@
   "date": "2026-11-12",
   "status": "Idea 💡",
   "link": "https://www.yvnalvworks.com/projects",
+  "coverHeadline": "How to Run\nYour First\n[[AI Engineering]]\nProject",
   "hookStatement": "Building an AI feature is easy. Running an AI Engineering project is a completely different discipline.",
   "industryTension": "Most beginners start by picking a model. Senior engineers start by building an eval harness.",
   "architecturalFramework": "The 6-Part Production Guardrail: Test Suite, Schema Lock, Complexity Ladder, Budgets, Tracing, Fallbacks.",

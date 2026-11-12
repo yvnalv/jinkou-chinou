@@ -1,5 +1,5 @@
 name: yvnalvworks-content-ideas
-version: 0.1.0
+version: 0.2.1
 description: >
   Researches, validates, and structures evidence-backed technical content ideas (carousels, reels video scripts, articles, engineering breakdowns) for yvnalvworks in 100% Technical English with source citations and Notion content planner sync.
 domain: creative-media
@@ -20,7 +20,7 @@ narrative_arc:
   total_parts: 5
   parts:
     - id: 1
-      name: bold_statement_hook
+      name: cover_headline_and_hook
     - id: 2
       name: industry_tension_or_anti_pattern
     - id: 3
@@ -34,6 +34,13 @@ notion_sync:
   database_id: "5a915afd-b3c1-8274-836c-87fe398765ee"
   parent_page_id: "23715afd-b3c1-8005-a71d-d220cf1c636f"
   default_status: "Idea 💡"
+
+cover_headline:
+  reference: references/cover-headline-patterns.md
+  lines: 3-4
+  max_chars_per_line: 18
+  highlight_phrases: 1
+  highlight_markup: "[[...]]"
 
 rules:
   ban_em_dash: true

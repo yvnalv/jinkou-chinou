@@ -1,5 +1,9 @@
 import React from 'react';
-import { AbsoluteFill } from 'remotion';
+import { AbsoluteFill, staticFile } from 'remotion';
+
+// Copy assets/brand-kit/backgrounds/yvnalvworks-grain-bg.png and
+// assets/brand-kit/logos/yovan-avatar-color.png into the Remotion public/ folder.
+// Load Poppins (400-700) and JetBrains Mono (500), e.g. with @remotion/google-fonts.
 
 export interface YvnalvworksBaseCanvasProps {
   children?: React.ReactNode;
@@ -20,8 +24,11 @@ export const YvnalvworksBaseCanvas: React.FC<YvnalvworksBaseCanvasProps> = ({
     <AbsoluteFill
       style={{
         backgroundColor: '#121212',
+        backgroundImage: `url(${staticFile('yvnalvworks-grain-bg.png')})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
         color: '#F0ECE2',
-        fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+        fontFamily: "Poppins, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
         overflow: 'hidden',
       }}
     >
@@ -40,15 +47,15 @@ export const YvnalvworksBaseCanvas: React.FC<YvnalvworksBaseCanvasProps> = ({
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <img
-            src="/assets/logos/yovan-avatar.png"
+            src={staticFile('yovan-avatar-color.png')}
             alt="Yovan Alvianto"
             style={{ width: 44, height: 44, borderRadius: '50%', border: '1px solid #27272a' }}
           />
           <div>
-            <div style={{ fontSize: 18, fontWeight: 700, color: '#FFFFFF', letterSpacing: '-0.02em' }}>
+            <div style={{ fontSize: 18, fontWeight: 600, color: '#FFFFFF', letterSpacing: '-0.01em' }}>
               yvnalvworks
             </div>
-            <div style={{ fontSize: 14, color: '#8E8E93', letterSpacing: '-0.01em' }}>
+            <div style={{ fontSize: 14, color: '#F0ECE2' }}>
               @yvnalvworks
             </div>
           </div>

@@ -5,7 +5,8 @@
 - **Resolution**: 1080 x 1350 px
 - **Standard Slide Count**: 5 slides (Cover, Context/Tension, Architecture/Framework, Golden Rule, Takeaway/CTA)
 - **Safe Margins**: 80px left/right, 80px top/bottom
-- **Visual Style**: Matte `#121212` background, Inter typography, Electric Lime (`#C1FF72`) punchline highlights and solid framework cards with dark inner containers.
+- **Visual Style**: Matte charcoal grain background image (never a flat fill), Poppins typography (Bold headlines), white headlines with Warm Ivory (`#F0ECE2`) secondary text, one Electric Lime (`#C1FF72`) punchline phrase per slide, and solid framework cards with dark inner containers.
+- **Cover (Slide 1)**: Avatar with `yvnalvworks` / `@yvnalvworks` lockup above a 3 to 4 line headline; nothing else on the slide. Copy rules: `references/cover-headline-patterns.md`.
 
 ## 2. Instagram Reels / Short-form Video
 - **Aspect Ratio**: 9:16 vertical video
