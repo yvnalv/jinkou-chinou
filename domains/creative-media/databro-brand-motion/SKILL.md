@@ -1,8 +1,8 @@
 ---
 name: databro-brand-motion
-description: "Databro Studio (@databroid / @databro.id) specialized brand motion skill extending the-motion-designer. Applies Databro's isolated visual identity and Standard Base Content Canvas (DatabroBaseCanvas) for Remotion videos across 9:16, 4:5, 1:1, and 16:9: #121212 matte charcoal canvas, white body text, #BB86FC lavender question headlines, #03DAC6 teal and #C1FF72 lime accents, left-aligned slide layouts, React Icons (react-icons/lu) as strict vector source of truth, persistent top-left Databro avatar lockup and top-right @databro.id, fixed Closed Captions locked at Y=1480px, absolute ban on em-dashes, CapCut smooth transitions with 10-frame settle delay, and calibrated baritone voiceover with synced caption timings. Covers tutorials, concept explainers, tool listicles, launch reels, and career opinion videos. Use when the user selects the Databro brand in the-motion-designer or invokes /databro-brand-motion. Never mix with GLM or other brands."
+description: "Databro Studio (@databroid / @databro.id) specialized brand motion skill extending the-motion-designer. Applies Databro's isolated visual identity and Standard Base Content Canvas (DatabroBaseCanvas) for Remotion videos across 9:16, 4:5, 1:1, and 16:9: #121212 matte charcoal canvas, white body text, #BB86FC lavender question headlines, #03DAC6 teal and #C1FF72 lime accents, left-aligned slide layouts, React Icons (react-icons/lu) as strict vector source of truth, persistent top-left Databro avatar lockup and top-right @databro.id, fixed Closed Captions locked at Y=1480px, absolute ban on em-dashes, CapCut smooth transitions with 10-frame settle delay, and calibrated baritone voiceover with synced caption timings. Every Reels or video deliverable also ships a matching cover image (cover.png thumbnail). Use when the user selects the Databro brand in the-motion-designer or invokes /databro-brand-motion. Never mix with GLM or other brands."
 metadata:
-  version: 0.4.2
+  version: 0.5.0
 ---
 
 # Databro Brand Motion : `@databroid` Visual Identity and Base Content Canvas
@@ -17,7 +17,7 @@ This skill isolates all Databro brand guidelines, colors, typography, logo locku
 > Selalu susun konsep, storyboard, atau script teks terlebih dahulu dan konfirmasikan ke user sebelum merender slide image, Canva design, atau video Remotion.
 
 ```text
-Confirm Topic & Archetype -> Plan Storyboard/Script -> Review with User -> Mount <DatabroBaseCanvas> -> Render
+Confirm Topic & Archetype -> Plan Storyboard/Script + Cover -> Review with User -> Mount <DatabroBaseCanvas> -> Render Video + Cover
 ```
 
 ---
@@ -59,6 +59,7 @@ Paths are relative to this skill's base directory.
 | `assets/DatabroBaseCanvas.starter.tsx` | Standard 5-layer Base Content Canvas preset component across aspect ratios. |
 | `assets/DatabroCaptions.starter.tsx` | Cardless ALL-CAPS Closed Captions locked at Y = 1480px on 9:16. |
 | `assets/DatabroLogoLockup.starter.tsx` | Persistent top-left Databro avatar lockup animating only on frame 0..12. |
+| `assets/DatabroVideoCover.starter.tsx` | Cover composition for every video: lockup + handle, lavender headline with one lime keyword, white hook, one key visual. Render frame 30 to `cover.png`. |
 | `assets/brand-kit/README.md` | Directory overview for the standardized Databro brand kit assets. |
 | `assets/brand-kit/audio/bgm/bgm-ambient.wav` | Warm ambient synth pad background music loop. |
 | `assets/brand-kit/audio/sfx/callout-ding.wav` | Subtle harmonic chime SFX for red callout borders. |
@@ -132,6 +133,7 @@ Paths are relative to this skill's base directory.
 | `references/databro-brand-assets-checklist.md` | Actionable tracking checklist for all Databro brand kit assets. |
 | `references/databro-brand-guidelines.md` | Full brand guidelines, extracted color palette, and React Icons rules. |
 | `references/databro-content-and-voiceover-guide.md` | Content archetypes, pacing, and Closed Caption guidelines. |
+| `references/databro-video-cover-spec.md` | Planning or rendering the cover of any Reels / TikTok / Shorts / YouTube video: sizes, layout, safe area, the four cover types, checklist. |
 | `scripts/render_carousel.py` | Python script for rendering authentic Databro carousels via matplotlib. |
 | `scripts/render_carousel_v2.py` | Updated Python script for rendering authentic Databro carousels. |
 
@@ -141,7 +143,7 @@ Paths are relative to this skill's base directory.
 
 ### 1. Mandatory Upfront Gate (Ask Before Design / Render)
 * **Never generate still images, carousels, or video renders automatically.**
-* Always present the topic, content archetype, and storyboard plan to the user first.
+* Always present the topic, content archetype, storyboard plan, and the cover concept (headline, hook, key visual) to the user first.
 
 ### 2. Always Ask for Content Archetype and Topic First
 * Confirm which **Content Archetype** to build:
@@ -179,6 +181,12 @@ Paths are relative to this skill's base directory.
 * Edge-TTS: Voice `id-ID-ArdiNeural`, pitch `"-4Hz"`, rate `"-2%"`.
 * Buffer rules: Head Delay = 10-12 frames, Tail Delay = 12-14 frames, Outro Hold = 24 frames.
 
+### 8. Every Video Ships a Cover
+* For every Reels, TikTok, Shorts, feed video, or YouTube deliverable, also design and render a dedicated **cover image** (`cover.png`, same size as the video). Never rely on a frame grabbed from the video: mid-animation frames and burned-in captions look unfinished in the profile grid.
+* Build it as its own composition with [`DatabroVideoCover.starter.tsx`](assets/DatabroVideoCover.starter.tsx): `#121212` canvas, lockup + `@databro.id`, **no captions**, lavender headline with exactly one lime keyword, white hook line, and one key visual taken from the video.
+* On `9:16`, keep the headline, hook, and visual inside **Y 380 to 1500** so the 3:4 profile-grid crop and the 4:5 feed preview stay readable. Check both the full frame and the 3:4 crop before delivering.
+* Render frame 30 (`npx remotion still src/index.ts <VideoId>Cover out/cover.png --frame=30`) and deliver it next to the video files. Sizes, cover types, and the checklist are in `references/databro-video-cover-spec.md`.
+
 ---
 
 ## Definition of Done
@@ -189,4 +197,5 @@ Paths are relative to this skill's base directory.
 * Left-aligned stage layout, fixed top-left lockup, top-right handle, and fixed Closed Captions at Y=1480px.
 * Vector icons from React Icons only.
 * Zero em-dashes across all text.
+* A matching `cover.png` was rendered for the video (dedicated cover composition, no captions, safe area checked in the 3:4 crop) and delivered next to the video.
 * The project type-checks (`npx tsc --noEmit`) and still images render accurately.

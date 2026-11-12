@@ -7,7 +7,8 @@
       "Picks the launch-showcase archetype and confirms aspect ratio and voiceover mode before building",
       "Uses databroBrand tokens: #121212 canvas, #FFFFFF body text, #BB86FC lavender headline, #C1FF72 lime, #03DAC6 teal; no gradients or glows",
       "Shows the avatar + 'Databro / Belajar Data Science' lockup top-left and the cream italic @databro.id handle top-right, both outside the TransitionSeries",
-      "Renders cardless 2-to-4 word ALL-CAPS ExtraBold #FFFFFF Closed Captions locked at Y = 1480px"
+      "Renders cardless 2-to-4 word ALL-CAPS ExtraBold #FFFFFF Closed Captions locked at Y = 1480px",
+      "Also designs a matching 1080x1920 cover.png from a dedicated cover composition (lavender headline with one lime keyword, white hook, one key visual, no captions, content inside Y 380 to 1500) and delivers it next to the video"
     ]
   },
   {
@@ -28,6 +29,17 @@
       "Uses the tool-listicle archetype with the step-roadmap opening and numbered badges 1.png, 2.png, 3.png",
       "Uses only React Icons names that exist in the installed react-icons version (for example LuCodeXml, not LuCode2)",
       "Script uses 'kamu' and 'kita', never 'lo' or 'gue', and contains no em-dashes"
+    ]
+  },
+  {
+    "id": "trigger-databro-reel-cover",
+    "prompt": "Bikinin cover buat reels Databro yang 'Apa itu RAG?' dong, yang bagus buat grid profil IG.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Opens references/databro-video-cover-spec.md and builds the cover with assets/DatabroVideoCover.starter.tsx",
+      "Renders a 1080x1920 cover.png at frame 30 with the Databro lockup and @databro.id handle and no Closed Captions",
+      "Uses a #BB86FC lavender question headline with exactly one #C1FF72 lime keyword, a white hook line, and one key visual about RAG",
+      "Checks the 3:4 profile-grid crop (Y 240 to 1680) so the headline and visual are not cut"
     ]
   },
   {

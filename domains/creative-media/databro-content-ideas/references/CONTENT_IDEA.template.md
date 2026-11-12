@@ -44,6 +44,12 @@
 ## 8. Closing Call-to-Action (CTA)
 [Platform-tailored engagement hook in Databro tone. Example: "Save dulu buat dibaca pas senggang, dan share ke teman-teman kamu yang lagi belajar data ya bro!"]
 
+## Cover (video formats only: Reels / TikTok / Shorts / YouTube)
+- **Headline**: [Lavender question, at most 3 lines, e.g. "Apa itu AI Engineering?"]
+- **Lime keyword**: [The one topic term shown in lime, e.g. "AI Engineering"]
+- **Hook**: [One white line, at most 2 lines, e.g. "AI Engineer jarang ngelatih model. Terus kerjaannya apa?"]
+- **Key visual**: [One visual from the video: diagram, code card, metric, or versus split]
+
 ---
 
 ## Evidence & Verified Sources

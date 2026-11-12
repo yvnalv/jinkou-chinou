@@ -1,8 +1,8 @@
 ---
 name: databro-content-ideas
-description: "Researches, validates, and drafts evidence-backed content ideas for Databro Studio (@databroid) across AI, data science, machine learning, Python, and statistics in casual Bahasa Indonesia ('bro' tone). Always asks upfront for the target topic and content format/platform before conducting deep factual research across papers, docs, news, and official sources. Formats ideas into Databro's standard 8-part content arc (Title, Subtitle, Background Hook, Bridging Explanation, Real-World Case, Actionable Solution, Summary Insight, Closing CTA) with verified citations, and syncs to workspace markdown and Notion content planner."
+description: "Researches, validates, and drafts evidence-backed content ideas for Databro Studio (@databroid) across AI, data science, machine learning, Python, and statistics in casual Bahasa Indonesia ('bro' tone). Always asks upfront for the target topic and content format/platform before conducting deep factual research across papers, docs, news, and official sources. Formats ideas into Databro's standard 8-part content arc (Title, Subtitle, Background Hook, Bridging Explanation, Real-World Case, Actionable Solution, Summary Insight, Closing CTA) with verified citations, adds a cover plan (headline, lime keyword, hook, key visual) to every Reels, TikTok, Shorts, or YouTube video idea, and syncs to workspace markdown and Notion content planner."
 metadata:
-  version: 0.2.0
+  version: 0.3.0
 ---
 
 # Databro Content Ideas : Evidence-Backed AI & Data Science Content Research
@@ -138,6 +138,7 @@ Draft the idea adhering strictly to Databro's proven 8-part content arc (`refere
 7. **Part 7 : Summary Pull-Quote**: One memorable, quotable takeaway pull-quote.
 8. **Part 8 : Closing Call-to-Action (CTA)**: Engagement hook tailored for the platform ("Save dulu buat nanti, jangan lupa share ke teman-teman kamu ya bro!").
 9. **Evidence & Sources**: Mandatory list of verified URLs or "Source: Evergreen fundamentals".
+10. **Cover (video formats only)**: For Short-Form Video (Reels / TikTok / Shorts) and YouTube ideas, also plan the cover in a `cover` object: `headline` (lavender question, at most 3 lines), `limeKeyword` (the one topic term shown in lime; it must appear in the headline), `hook` (white line, at most 2 lines), and `visual` (one key visual taken from the video). The cover is what the profile grid and feed preview show, so it must sell the video on its own. `scripts/format_content_idea.py` refuses a video idea without it. The cover image itself is rendered later by `/databro-brand-motion`.
 
 ---
 
@@ -153,6 +154,7 @@ Draft the idea adhering strictly to Databro's proven 8-part content arc (`refere
    - Zero em-dashes (`—`) or en-dashes (`–`) exist in the text.
    - All cited links are active, primary sources.
    - Tone is non-intimidating to beginners yet rigorous enough for senior engineers.
+   - Video ideas include a complete cover plan (headline, lime keyword, hook, key visual).
 
 ---
 
@@ -175,7 +177,7 @@ If the user requested Notion synchronization:
 ### Step 5 : Optional Handoff (Always Ask First Before Design)
 
 If the user approves the idea:
-- Ask the user first: *"Ide konten ini sudah masuk ke Notion Content Planner bro. Apakah kamu mau kita buatkan desain carouselnnya atau script video Remotion-nya lewat `/databro-brand-motion`?"*
+- Ask the user first: *"Ide konten ini sudah masuk ke Notion Content Planner bro. Apakah kamu mau kita buatkan desain carousel-nya, atau video Remotion-nya (lengkap dengan cover-nya) lewat `/databro-brand-motion`?"*
 - **Never generate visual design/images without confirmation.**
 
 ---
@@ -198,12 +200,16 @@ If the user approves the idea:
 * **Required Second-Person Address**: Always use `"Kamu"` (*"model ML kamu"*, *"laptop kamu"*, *"biar kamu gak bingung"*), or `"Anda"` for enterprise contexts, and `"Kalian"` for the community.
 * **Collaborative First-Person**: Use `"Kita"` (*"Yuk kita coba"*, *"Kita cek di terminal"*).
 * **The "Bro" Salutation**: `"Bro"` is an energetic brand greeting and closing punctuation (*"Bro, tahu nggak sih..."*, *"Belajar bareng Databro!"*), NOT a replacement for the pronoun "lo". Always pair with "kamu" (*"Bro, model ML kamu..."*).
-* Follow the unified brand persona in `databro-brand-motion/assets/brand-kit/persona/databro-persona.md`.
+* Follow the voice rules in `references/databro-voice-and-tone-guide.md`.
 * Standard technical terms remain in English (`feature engineering`, `data leakage`, `embeddings`, `vector search`, `overfitting`).
 * High signal-to-noise ratio: crisp Markdown tables and concrete numbers instead of generic motivational fluff.
 
 ### 5. Critical Warning: No Automatic Image/Design Generation
 * **Do NOT generate design images, slides, or Canva assets automatically.** Always ask or wait for the user's explicit request.
+
+### 6. Every Video Idea Includes a Cover
+* Any Reels, TikTok, Shorts, or YouTube idea ships with a cover plan (Step 2, part 10). A video is never delivered without its cover, so plan it together with the script.
+* Cover text follows the same rules: zero em-dashes, "kamu/kita", exactly one lime keyword, and it matches the first line of the post caption.
 
 ---
 
@@ -216,4 +222,5 @@ A task run of `databro-content-ideas` is complete when:
 4. The idea was composed across all 8 parts of the Databro narrative arc with verified citations and zero em-dashes.
 5. Output was validated and saved as a dated Markdown file (`outputs/content-idea-YYYY-MM-DD.md`).
 6. If requested, Notion planner schema was compiled or synced to the user's database.
-7. User was asked before proceeding to visual design generation.
+7. For video formats, the idea includes a cover plan (headline, lime keyword, hook, key visual).
+8. User was asked before proceeding to visual design generation.

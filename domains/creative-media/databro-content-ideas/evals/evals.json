@@ -22,6 +22,17 @@
     ]
   },
   {
+    "id": "databro-reels-idea-with-cover",
+    "prompt": "Bikin ide konten Reels Databro tentang apa itu vector database, formatnya video 9:16 buat Instagram.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Asks the intake questions it cannot answer from the prompt (output destination) before researching",
+      "Composes the 8-part arc with verified sources and zero em-dashes",
+      "Adds a cover plan: a lavender question headline containing the lime keyword (for example 'vector database'), a white hook line, and one key visual from the video",
+      "Runs scripts/format_content_idea.py and the output contains a 'Cover (video)' section"
+    ]
+  },
+  {
     "id": "near-miss-motion-rendering",
     "prompt": "Tolong render video 9:16 Remotion buat reels Databro pakai DatabroBaseCanvas",
     "should_trigger": false

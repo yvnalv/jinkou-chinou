@@ -27,7 +27,8 @@ def build_notion_payload(data: dict, database_id: str = DEFAULT_DATABASE_ID, ass
     elif "Thread" in platform or "X" in platform or "Twitter" in platform:
         prefix = "(Thread)"
 
-    page_title = f"{prefix} {data['title']}"
+    # Titles may already carry the prefix, e.g. "(Video) Apa itu ...": never double it.
+    page_title = data["title"] if data["title"].lstrip().startswith(prefix) else f"{prefix} {data['title']}"
 
     # Map category to Notion select options: Education, Tutorial, Study Case, Insights, Article, Carousel, Casual, Professional
     cat_str = data.get("category", "")

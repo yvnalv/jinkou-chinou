@@ -8,7 +8,7 @@ Specialized brand motion skill for **Databro Studio (`@databroid` — "Belajar D
 | --- | --- |
 | Domain | `creative-media` |
 | Type | `specialized` (`extends: the-motion-designer`) |
-| Version | `0.4.1` |
+| Version | `0.5.0` |
 | Owner | `@yvnalv` |
 | Tags | `databro`, `remotion`, `motion-graphics`, `brand-guidelines`, `tiktok`, `reels`, `data-science` |
 
@@ -29,7 +29,8 @@ databro-brand-motion/
 ├── references/
 │   ├── databro-brand-assets-checklist.md            # Tracking checklist for every brand kit asset
 │   ├── databro-brand-guidelines.md                  # Pixel-sampled palette, slide layout, icons, Base Canvas presets
-│   └── databro-content-and-voiceover-guide.md       # Archetypes, hooks, voiceover pipeline, fixed CC & SFX choreography
+│   ├── databro-content-and-voiceover-guide.md       # Archetypes, hooks, voiceover pipeline, fixed CC & SFX choreography
+│   └── databro-video-cover-spec.md                  # Cover for every video: sizes, layout, safe area, cover types, checklist
 ├── assets/
 │   ├── brand-kit/                                   # Standardized brand asset storage folder
 │   │   ├── README.md                                # Inventory of where to drop every brand file
@@ -45,12 +46,20 @@ databro-brand-motion/
 │   ├── DatabroBaseCanvas.starter.tsx                # 5-layer reusable Databro Base Content Canvas
 │   ├── DatabroLogoLockup.starter.tsx                # Top-left avatar lockup + top-right @databro.id handle
 │   ├── DatabroCaptions.starter.tsx                  # Cardless 2-to-4 word ALL-CAPS white CC locked at Y=1480px
+│   ├── DatabroVideoCover.starter.tsx                # Video cover composition (headline + hook + key visual, no captions)
 │   └── generate_databro_cloned_vo.starter.py        # Per-scene voiceover (cloned or Edge-TTS) + caption timings JSON
 └── evals/
     └── evals.json                                   # Trigger & non-trigger evaluation suite
 ```
 
 ## Changelog
+
+### 0.5.0 - 2026-11-12
+
+- New rule 8, Every Video Ships a Cover: every Reels, TikTok, Shorts, feed video, or YouTube deliverable now also gets a dedicated `cover.png` at the video's size (never a grabbed frame). The cover concept is part of the storyboard review, and the Definition of Done checks it.
+- Added `references/databro-video-cover-spec.md` (sizes per aspect ratio, 9:16 layout, safe area Y 380 to 1500 for the 3:4 profile grid and 4:5 feed preview, Question / Diagram / Versus / Code card cover types, checklist).
+- Added `assets/DatabroVideoCover.starter.tsx`, tested by rebuilding the "Apa itu AI Engineering?" reel cover on it (pixel-identical render).
+- Description and workflow line now mention the cover. Fixed the stale version in Quick Facts.
 
 ### 0.4.2 - 2026-11-11
 

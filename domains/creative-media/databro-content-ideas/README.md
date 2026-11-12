@@ -38,6 +38,14 @@ databro-content-ideas/
 
 ## Changelog
 
+### 0.3.0 - 2026-11-12
+
+- New rule 6, Every Video Idea Includes a Cover: Reels, TikTok, Shorts, and YouTube ideas now carry a `cover` plan (`headline`, `limeKeyword`, `hook`, `visual`), added as part 10 of Step 2, to the Step 3 checks, the handoff question, and the Definition of Done.
+- `scripts/format_content_idea.py` detects video formats from `platform` / `formatType`, refuses a video idea without a complete cover plan or with a lime keyword that is not in the headline, and renders a "Cover (video)" section. Tested on a video idea (with and without cover, bad keyword) and a carousel idea (unchanged).
+- `references/platform-format-specs.md` and `references/CONTENT_IDEA.template.md` describe the cover plan and its safe area.
+- `scripts/sync_notion_planner.py` no longer doubles the prefix when the title already starts with it (was `(Video) (Video) ...`).
+- Removed references to files inside `databro-brand-motion` (self-contained rule): the video handoff now names the `/databro-brand-motion` command, and the persona rule points at `references/databro-voice-and-tone-guide.md`.
+
 ### 0.2.0 - 2026-11-11
 
 - Added Full Spectrum Audience rule: content must simultaneously engage newcomers and senior engineers without dumbing down or gatekeeping.

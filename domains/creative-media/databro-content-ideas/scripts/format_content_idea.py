@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """
 Format and validate a Databro content idea into the standard 8-part markdown schema.
-Enforces technical completeness, valid citations, and zero em-dashes.
+Enforces technical completeness, valid citations, and zero em-dashes. Video ideas
+(Reels / TikTok / Shorts / YouTube) must also carry a `cover` plan:
+{"headline", "limeKeyword", "hook", "visual"}.
 """
 
 import argparse
@@ -10,6 +12,29 @@ import os
 import re
 import sys
 from datetime import datetime
+
+VIDEO_PATTERN = re.compile(r"\b(video|reels?|tiktok|shorts|youtube)\b", re.IGNORECASE)
+COVER_FIELDS = ("headline", "limeKeyword", "hook", "visual")
+
+
+def is_video_idea(data: dict) -> bool:
+    text = f"{data.get('platform', '')} {data.get('formatType', '')}"
+    return bool(VIDEO_PATTERN.search(text))
+
+
+def validate_cover(data: dict) -> list[str]:
+    """A video idea needs a complete cover plan; the lime keyword must sit inside the headline."""
+    if not is_video_idea(data):
+        return []
+    cover = data.get("cover")
+    if not isinstance(cover, dict):
+        return ["Missing 'cover': every Reels / TikTok / Shorts / YouTube idea needs a cover plan "
+                "{headline, limeKeyword, hook, visual}."]
+    errors = [f"Missing cover field: 'cover.{f}'" for f in COVER_FIELDS if not str(cover.get(f, "")).strip()]
+    kw, headline = str(cover.get("limeKeyword", "")), str(cover.get("headline", ""))
+    if kw and headline and kw.lower() not in headline.lower():
+        errors.append(f"cover.limeKeyword '{kw}' must appear inside cover.headline '{headline}'.")
+    return errors
 
 
 def validate_and_format(data: dict) -> tuple[str, list[str]]:
@@ -42,6 +67,8 @@ def validate_and_format(data: dict) -> tuple[str, list[str]]:
     banned_match = re.search(r'\b(lu|lo|loe|gue)\b', raw_text, re.IGNORECASE)
     if banned_match:
         errors.append(f"Banned pronoun detected: '{banned_match.group(0)}' found in content. Databro persona strictly requires 'kamu' (or 'anda'/'kalian'). 'Bro' is permitted only as a greeting.")
+
+    errors.extend(validate_cover(data))
 
     # Source check
     sources = data.get("evidenceSources", [])
@@ -98,6 +125,17 @@ def validate_and_format(data: dict) -> tuple[str, list[str]]:
         else:
             sources_md += f"- {s}\n"
 
+    cover_md = ""
+    if is_video_idea(data):
+        c = data["cover"]
+        cover_md = (
+            "## Cover (video)\n"
+            f"- **Headline**: {c['headline']}\n"
+            f"- **Lime keyword**: {c['limeKeyword']}\n"
+            f"- **Hook**: {c['hook']}\n"
+            f"- **Key visual**: {c['visual']}\n\n---\n\n"
+        )
+
     md = f"""# [{data['platform']}] {data['title']}
 
 > {data['subtitle']}
@@ -137,7 +175,7 @@ def validate_and_format(data: dict) -> tuple[str, list[str]]:
 
 ---
 
-## Evidence & Verified Sources
+{cover_md}## Evidence & Verified Sources
 {sources_md.strip()}
 """
     return md, []
@@ -202,6 +240,7 @@ def main():
         "platform": data["platform"],
         "word_count": len(md_output.split()),
         "sources_count": len(data.get("evidenceSources", [])),
+        "has_cover": "cover" in data and is_video_idea(data),
     }
 
     if args.json:

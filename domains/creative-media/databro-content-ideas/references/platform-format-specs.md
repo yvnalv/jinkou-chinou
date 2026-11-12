@@ -24,7 +24,13 @@ This reference provides technical constraints and structural guidelines for tail
 
 - **Canvas Aspect Ratio**: `9:16` (1080x1920px).
 - **Target Duration**: 45 to 75 seconds (1,350 to 2,250 frames @ 30 FPS).
-- **Integration**: Direct handoff to [`databro-brand-motion`](../databro-brand-motion/SKILL.md) for Remotion production using `DatabroBaseCanvas`.
+- **Integration**: Hand off to the `/databro-brand-motion` skill for Remotion production on `DatabroBaseCanvas`.
+- **Cover (required)**: Every video ships with a dedicated cover image, never a grabbed frame. Plan it with the script in a `cover` object:
+  - `headline`: lavender question, at most 3 lines (about 11 to 12 characters per line on a 1080x1920 cover).
+  - `limeKeyword`: the single topic term shown in lime; it must appear inside the headline.
+  - `hook`: one white line, at most 2 lines, usually the video's opening question.
+  - `visual`: one key visual taken from the video (diagram, code card, metric, or versus split).
+  - The rendered cover keeps headline, hook, and visual inside Y 380 to 1500 so the Instagram 3:4 profile grid and the 4:5 feed preview stay readable.
 - **Script Structure**:
   - Hook (0-5s): Visual pattern interrupt + verbal hook question.
   - Tension (5-15s): Relatable problem.
