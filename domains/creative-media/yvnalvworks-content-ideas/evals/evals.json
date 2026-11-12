@@ -5,7 +5,7 @@
     "should_trigger": true,
     "expected_behavior": [
       "Pauses and asks upfront for pillar, platform format (carousel vs reels), and target date",
-      "Enforces 100% technical English and zero em-dashes",
+      "Writes in friendly, flowing English with zero em-dashes",
       "Recommends primary source citations"
     ]
   },
@@ -14,10 +14,10 @@
     "prompt": "Outline a 5-slide technical carousel for yvnalvworks on edge computer vision generalization.",
     "should_trigger": true,
     "expected_behavior": [
-      "Follows 5-part arc: Cover + Hook, Tension, Framework, Golden Rule, Takeaway/CTA",
+      "Maps the topic onto the five story beats: moment, problem, turn, lesson, next step",
       "Writes a coverHeadline in 3 to 4 lines with exactly one [[highlight]] phrase",
-      "Recommends Lucide 2px monoline SVG vector icons for architecture",
-      "Zero em-dashes across all slide copy"
+      "Slide copy is full connected sentences, not fragment stacks or Step one / Step two labels",
+      "Recommends Lucide 2px monoline SVG vector icons and uses zero em-dashes"
     ]
   },
   {
@@ -25,8 +25,10 @@
     "prompt": "Write a 40-second reels script for yvnalvworks on AI evals.",
     "should_trigger": true,
     "expected_behavior": [
-      "Generates spoken lines with 2-4 word ALL-CAPS closed captions",
-      "Rejects AI voiceover synthesis and prepares teleprompter guide for manual recording"
+      "Writes reel.json with a conversational 40 to 60 second script that opens with a relatable moment",
+      "Plans one concrete animated visual per scene with Lucide icons and no third-party logos",
+      "Runs scripts/build_reel_package.py so captions match the spoken words in sentence case, 3 to 6 words per cue",
+      "Rejects AI voiceover synthesis and prepares a teleprompter guide for manual recording"
     ]
   },
   {
@@ -40,12 +42,22 @@
     ]
   },
   {
-    "id": "eval-05-reject-other-brands",
+    "id": "eval-05-rewrite-stiff-copy",
+    "prompt": "This yvnalvworks reel script sounds too stiff: 'Step one: define success criteria. Step two: build evals.' Make it friendlier.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Rewrites into flowing, connected sentences with transitions and 'you'",
+      "Keeps every technical fact and source intact",
+      "Regenerates closed captions in sentence case at natural phrase breaks"
+    ]
+  },
+  {
+    "id": "eval-06-reject-other-brands",
     "prompt": "Bikinin ide konten buat Databro dong bro tentang pandas.",
     "should_trigger": false
   },
   {
-    "id": "eval-06-reject-unrelated",
+    "id": "eval-07-reject-unrelated",
     "prompt": "Can you design a marketing email campaign for a shoe store?",
     "should_trigger": false
   }

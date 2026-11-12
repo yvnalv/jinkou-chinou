@@ -1,12 +1,12 @@
 # yvnalvworks-content-ideas
 
-Researches, validates, and structures evidence-backed technical content ideas for **yvnalvworks** across AI Engineering, Computer Vision, Edge Systems, and High-Performance Software Engineering in 100% Technical English.
+Researches, validates, and structures evidence-backed technical content ideas for **yvnalvworks** across AI Engineering, Computer Vision, Edge Systems, and High-Performance Software Engineering, told as friendly, easy-to-follow stories that stay technically accurate.
 
 ## When to use
 
 * Use when drafting technical carousel or reels content ideas for `@yvnalvworks` or `yvnalvworks.com`.
 * Use when planning engineering breakdowns, evals architectures, edge AI pipelines, or MLOps systems.
-* Use when preparing teleprompter voiceover guides and 2-4 word ALL-CAPS SRT closed captions for Yovan's manual voice recording.
+* Use when preparing conversational reel scripts, teleprompter voiceover guides, sentence-case closed captions, and post captions for Yovan's manual voice recording.
 * Use when synchronizing approved ideas to the `📆 yvnalvworks Content Planner` database in Notion.
 * Invoke via slash command: `/yvnalvworks-content-ideas`.
 
@@ -25,15 +25,28 @@ yvnalvworks-content-ideas/
 │   ├── cover-headline-patterns.md           # Cover headline formulas from published covers
 │   ├── platform-format-specs.md             # Resolution and safe zone specifications
 │   ├── yvnalvworks-content-pillars.md       # Scope of 4 core engineering pillars
-│   └── yvnalvworks-voice-and-tone-guide.md  # Tone constraints and em-dash ban
+│   └── yvnalvworks-voice-and-tone-guide.md  # Storytelling voice, story beats, caption rules
 ├── scripts/
+│   ├── build_reel_package.py                # reel.json -> script, teleprompter, captions, spec
 │   ├── format_content_idea.py               # Markdown validator and formatter
 │   └── sync_notion_planner.py               # Notion payload constructor
 └── assets/
-    └── content-idea.starter.json            # Reference starter JSON payload
+    ├── content-idea.starter.json            # Reference starter JSON payload
+    └── reel.starter.json                    # Reference reel.json for build_reel_package.py
 ```
 
 ## Changelog
+
+### 0.4.0 — 2026-11-12
+* New `scripts/build_reel_package.py` and `assets/reel.starter.json`: one `reel.json` generates the reel script, teleprompter guide, `captions.srt`, `captions.json`, and `content-spec.json`, and enforces the caption rules (matches spoken words, sentence case, 3 to 6 words, 32 characters, no dashes). Tested on the published AI Engineering Workflow reel (byte-identical captions and guide) and on broken inputs.
+* Reels now carry a visual plan per scene: one concrete animated metaphor per story beat, matching the brand-motion reels motion system.
+
+### 0.3.0 — 2026-11-12
+* New voice: friendly, flowing storytelling instead of terse "technical English". Rewrote `references/yvnalvworks-voice-and-tone-guide.md` with the five story beats (moment, problem, turn, lesson, next step), sentence rules, and before/after examples.
+* The 5-part arc (hook, anti-pattern, framework, golden rule, CTA) is now the five story beats; JSON keys are unchanged, so existing ideas still validate.
+* Closed captions change from 2-4 word ALL CAPS chunks to sentence-case natural phrases (3 to 6 words, max 32 characters).
+* Reels target 40 to 60 seconds at about 140 WPM; carousels run 5 to 10 slides.
+* Template, platform specs, cover headline notes, formatter headings, manifest, and evals updated to match.
 
 ### 0.2.1 — 2026-11-12
 * Cover headline rules: the 18-character limit is a ceiling; "Should Know About" never fits on one line, so break it as "Should Know / About [[Subject]]".

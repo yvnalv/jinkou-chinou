@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """
-Format and validate a yvnalvworks technical content idea into the standard 5-part schema.
-Enforces technical completeness, valid citations, 100% Technical English, and zero em-dashes.
+Format and validate a yvnalvworks content idea into the five story beats.
+Enforces completeness, valid citations, English only, and zero em-dashes.
+JSON keys keep their original names: hookStatement = the moment, industryTension = the problem,
+architecturalFramework = the turn, goldenRule = the lesson, takeawayAndCta = the next step.
 """
 
 import argparse
@@ -63,7 +65,7 @@ def validate_and_format(data: dict) -> tuple[str, list[str]]:
     indonesian_words = [" yang ", " dan ", " di ", " ini ", " untuk ", " dengan ", " tidak "]
     for w in indonesian_words:
         if w in raw_text.lower():
-            errors.append(f"Non-English word detected ('{w.strip()}'). yvnalvworks content must be 100% Technical English.")
+            errors.append(f"Non-English word detected ('{w.strip()}'). yvnalvworks content must be in English.")
             break
 
     is_carousel = "carousel" in str(data.get("platform", "")).lower()
@@ -102,19 +104,19 @@ def validate_and_format(data: dict) -> tuple[str, list[str]]:
 
 ---
 
-## 1. Cover + Hook
-{cover_block}**Hook (caption opener):** {data['hookStatement']}
+## 1. Cover + The Moment
+{cover_block}**Hook (caption and reel opener):** {data['hookStatement']}
 
-## 2. Industry Tension / Anti-Pattern
+## 2. The Problem
 {data['industryTension']}
 
-## 3. Architectural Framework
+## 3. The Turn (How It Actually Works)
 {data['architecturalFramework']}
 
-## 4. Golden Rule / Engineering Law
+## 4. The Lesson
 {data['goldenRule']}
 
-## 5. Takeaway & Portfolio CTA
+## 5. The Next Step & CTA
 {data['takeawayAndCta']}
 
 ---

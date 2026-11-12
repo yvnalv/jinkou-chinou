@@ -1,0 +1,62 @@
+{
+  "title": "Why Your Edge Model Fails After Deployment",
+  "date": "2026-11-12",
+  "category": "Computer Vision",
+  "status": "Idea 💡",
+  "link": "https://www.yvnalvworks.com/projects",
+  "wpm": 140,
+  "story": "a model that scored 98% in the lab meets a real factory camera, and the fix is in the data, not the architecture",
+  "companion": "",
+  "scenes": [
+    {
+      "name": "The moment",
+      "onscreen": "98% in the lab",
+      "spoken": "Your model scores ninety-eight percent in the lab, so you ship it to the factory camera. A week later, it's missing half the defects.",
+      "visual": "Laptop mockup with a lime accuracy chart at 98%, then a camera tile; the chart line drops red as missed-defect markers appear.",
+      "emphasis": "missing *HALF* the defects",
+      "icons": ["laptop", "camera", "triangle-alert"],
+      "cues": [
+        ["Your model scores", false],
+        ["ninety-eight percent in the lab", false],
+        ["so you ship it", false],
+        ["to the factory camera", true],
+        ["A week later, it's missing", false],
+        ["half the defects", true]
+      ]
+    },
+    {
+      "name": "The turn",
+      "onscreen": "The lab never saw the glare",
+      "spoken": "Here's what changed. The lab photos were clean, but the factory has glare, dust, and a camera that shakes a little every time the belt moves.",
+      "visual": "Split view: clean lab image tile vs factory image tile; glare, dust, and shake icons pop onto the factory side.",
+      "emphasis": "a camera that *SHAKES*",
+      "icons": ["sun", "wind", "vibrate"],
+      "cues": [
+        ["Here's what changed", true],
+        ["The lab photos were clean", false],
+        ["but the factory has glare", false],
+        ["dust, and a camera", false],
+        ["that shakes a little", false],
+        ["every time the belt moves", true]
+      ]
+    },
+    {
+      "name": "The lesson and next step",
+      "onscreen": "Test the slice, not the average",
+      "spoken": "So before you swap architectures, collect a few hundred frames from the real camera and test on those first. Follow for more.",
+      "visual": "Frames stream from the camera tile into a test set card; a per-slice bar chart shows the glare slice recovering. End card with avatar.",
+      "emphasis": "from the *REAL* camera",
+      "icons": ["camera", "flask-conical", "chart-column"],
+      "cues": [
+        ["So before you swap architectures", false],
+        ["collect a few hundred frames", false],
+        ["from the real camera", false],
+        ["and test on those first", true],
+        ["Follow for more", true]
+      ]
+    }
+  ],
+  "sources": [
+    "Replace with verified sources, one per claim, with links."
+  ]
+}

@@ -48,7 +48,26 @@
       "height": 1920,
       "safeTop": 150,
       "safeBottom": 280,
-      "ccLockedY": 1480
+      "ccLockedY": 1480,
+      "centerX": 540,
+      "contentLeft": 120,
+      "contentRight": 960,
+      "lockup": {
+        "x": 60,
+        "y": 168,
+        "avatar": 54
+      },
+      "captions": {
+        "centerY": 1480,
+        "font": "Poppins 600 46px",
+        "color": "#FFFFFF",
+        "pill": "rgba(18,18,18,0.78) with 1px #27272a border",
+        "case": "sentence",
+        "wordsPerCue": "3-6",
+        "maxChars": 32
+      },
+      "spec": "references/reels-motion-system.md",
+      "starter": "assets/reel-starter/"
     }
   },
   "background": {
@@ -90,5 +109,11 @@
       "lines": "3-4",
       "highlightPhrases": 1
     }
+  },
+  "motionColors": {
+    "good": "#C1FF72",
+    "failure": "#EF4444",
+    "neutral": "#F0ECE2",
+    "pending": "#71717A"
   }
 }

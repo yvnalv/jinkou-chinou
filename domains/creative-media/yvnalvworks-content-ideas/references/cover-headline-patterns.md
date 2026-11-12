@@ -30,7 +30,7 @@ A bonus can go in the copy: "... Should Read (With Links)", "... With Code". The
 4. Put the highlighted phrase on its own line(s) where possible. `\n` marks a line break and may sit inside `[[...]]` when the subject spans two lines.
 5. Name a **specific audience** (AI Engineers, CV Engineers, Builders, ML Teams), not "everyone" or "you guys".
 6. Add a **time anchor** (`in April 2026`) to anything news-driven, so the post ages honestly.
-7. Keep it 100% Technical English. Exact product names keep their official casing.
+7. Keep it in plain, friendly English. Exact product names keep their official casing.
 
 ## 4. JSON form
 
@@ -42,4 +42,4 @@ A bonus can go in the copy: "... Should Read (With Links)", "... With Code". The
 
 ## 5. Relation to the hook
 
-The cover headline is a promise. The `hookStatement` (the counter-intuitive bold claim) is kept, but it opens the post caption and the reel's first spoken line. It is no longer printed on the cover.
+The cover headline is a promise. The `hookStatement` is the story's opening moment, told in one or two flowing sentences (see `references/yvnalvworks-voice-and-tone-guide.md`). It opens the post caption and the reel's first spoken line. It is not printed on the cover.

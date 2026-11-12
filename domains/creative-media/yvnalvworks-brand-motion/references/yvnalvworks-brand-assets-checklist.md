@@ -11,7 +11,8 @@
 | Design Tokens (JSON) | `assets/brand-kit/guidelines/yvnalvworks.tokens.json` | Verified |
 | Reference Cover: Listicle | `assets/reference-covers/cover-ref-listicle-ai-updates.jpg` | Verified (published) |
 | Reference Cover: Should Know | `assets/reference-covers/cover-ref-should-know-maf.jpg` | Verified (published) |
-| Remotion Base Canvas | `assets/YvnalvworksBaseCanvas.starter.tsx` | Verified |
+| Remotion Reel Starter | `assets/reel-starter/` | Verified (typechecked and rendered 2026-11-12) |
+| Reels Motion System | `references/reels-motion-system.md` | Verified against the published AI Engineering Workflow reel |
 | Automated Slide Renderer | `scripts/render_carousel.py` | Verified |
 
 ## External Storage References

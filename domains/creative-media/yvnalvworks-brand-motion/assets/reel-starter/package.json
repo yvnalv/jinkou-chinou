@@ -1,0 +1,25 @@
+{
+  "name": "yvnalvworks-reel",
+  "version": "0.1.0",
+  "private": true,
+  "description": "yvnalvworks 9:16 reel built from the brand-motion reel starter (caption-timed storytelling animation)",
+  "scripts": {
+    "sync": "node -e \"require('fs').copyFileSync(process.env.REEL_DIR + '/captions.json', 'src/data/captions.json')\"",
+    "studio": "remotion studio src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "render": "remotion render src/index.ts YvnalvworksReel out/reel-captions.mp4 --codec=h264 --pixel-format=yuv420p --crf=18",
+    "render:clean": "remotion render src/index.ts YvnalvworksReelClean out/reel-clean.mp4 --codec=h264 --pixel-format=yuv420p --crf=18"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.542",
+    "@remotion/google-fonts": "4.0.542",
+    "lucide-react": "0.460.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.542"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "typescript": "5.6.3"
+  }
+}

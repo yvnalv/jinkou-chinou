@@ -3,7 +3,8 @@
 ## 1. Instagram Feed Carousel
 - **Aspect Ratio**: 4:5 vertical portrait
 - **Resolution**: 1080 x 1350 px
-- **Standard Slide Count**: 5 slides (Cover, Context/Tension, Architecture/Framework, Golden Rule, Takeaway/CTA)
+- **Slide Count**: 5 to 10 slides that follow the five story beats (moment, problem, turn, lesson, next step); a beat can span more than one slide
+- **Copy**: Flowing, friendly sentences per `references/yvnalvworks-voice-and-tone-guide.md`; 1 to 3 sentences of body per slide
 - **Safe Margins**: 80px left/right, 80px top/bottom
 - **Visual Style**: Matte charcoal grain background image (never a flat fill), Poppins typography (Bold headlines), white headlines with Warm Ivory (`#F0ECE2`) secondary text, one Electric Lime (`#C1FF72`) punchline phrase per slide, and solid framework cards with dark inner containers.
 - **Cover (Slide 1)**: Avatar with `yvnalvworks` / `@yvnalvworks` lockup above a 3 to 4 line headline; nothing else on the slide. Copy rules: `references/cover-headline-patterns.md`.
@@ -11,14 +12,16 @@
 ## 2. Instagram Reels / Short-form Video
 - **Aspect Ratio**: 9:16 vertical video
 - **Resolution**: 1080 x 1920 px
-- **Target Duration**: 35-45 seconds (~130 words per minute)
+- **Target Duration**: 40 to 60 seconds (~140 words per minute, relaxed conversation; about 95 to 140 words)
 - **Safe Zones**:
   - Top header safe zone: 0 - 150px
   - Bottom actions safe zone: 1640 - 1920px
   - Right interaction strip: 960 - 1080px
   - Closed Captions locked position: Center Y = 1480px
-- **Captions Format**: 2-4 words per chunk, ALL-CAPS, high contrast.
+- **Visual Plan**: One concrete animated visual per story beat (mockup, breaking chart, step rail, app-style Lucide tiles, transformation, end card), timed to its caption cue. Illustrative numbers are tagged `illustrative`; no third-party logos. Production style: `/yvnalvworks-brand-motion` reels motion system.
+- **Package**: `reel.json` → `scripts/build_reel_package.py` → script, teleprompter guide, `captions.srt`, `captions.json`, `content-spec.json`; plus `caption.txt`.
+- **Captions Format**: Exact voiceover words in sentence case (not ALL CAPS), one cue per natural phrase: 3 to 6 words and at most 32 characters, broken at commas and breath points, never splitting a phrase that belongs together, no trailing periods. High contrast.
 
 ## 3. LinkedIn Article / Technical Post
 - **Format**: Structured Markdown with bullet points, code blocks, and primary source links
-- **Tone**: Senior engineering advisory, system architecture analysis, empirical trade-offs.
+- **Tone**: A friendly senior engineer telling the story of a real problem, with honest trade-offs and sources.

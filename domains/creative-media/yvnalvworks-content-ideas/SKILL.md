@@ -1,29 +1,29 @@
 ---
 name: yvnalvworks-content-ideas
-description: "Researches, validates, and drafts evidence-backed content ideas for yvnalvworks across AI Engineering, Computer Vision, Edge Systems, and Software Architecture in 100% Technical English. Always asks upfront for target topic and platform before researching papers, documentation, and real production patterns. Formats ideas into technical carousel outlines with a cover headline that follows the published yvnalvworks cover patterns (What X Should Know About Y, numbered Should Know listicles, one lime highlight phrase), video scripts with teleprompter voiceover guides, and syncs directly to the yvnalvworks Content Planner in Notion."
+description: "Researches, validates, and drafts evidence-backed content ideas for yvnalvworks across AI Engineering, Computer Vision, Edge Systems, and Software Architecture, written in friendly, easy-to-follow storytelling English that stays technically accurate. Always asks upfront for target topic and platform before researching papers, documentation, and real production patterns. Formats ideas into story-driven carousel outlines with a cover headline that follows the published yvnalvworks cover patterns (What X Should Know About Y, numbered Should Know listicles, one lime highlight phrase), conversational reel scripts with teleprompter voiceover guides and natural-phrase closed captions, post captions, and syncs to the yvnalvworks Content Planner in Notion."
 metadata:
-  version: 0.2.1
+  version: 0.4.0
 ---
 
-# yvnalvworks Content Ideas: Evidence-Backed Technical Content Research
+# yvnalvworks Content Ideas: Evidence-Backed Technical Storytelling
 
-Researches, validates, and structures evidence-backed technical content ideas for **yvnalvworks (Yovan Alvianto : yvnalvworks.com / `@yvnalvworks`)**. Translates cutting-edge AI systems engineering, edge computer vision deployments, foundation model architectures, latency optimizations, and high-performance software engineering into authoritative, pragmatic, and high-signal technical content.
+Researches, validates, and structures evidence-backed technical content ideas for **yvnalvworks (Yovan Alvianto : yvnalvworks.com / `@yvnalvworks`)**. Turns AI systems engineering, edge computer vision, foundation models, latency work, and high-performance software into **friendly stories that are easy to follow**: a moment the viewer recognizes, the problem, the turn, the lesson, and the next step.
 
-Every idea is written strictly in **100% Technical English**, adheres to zero em-dashes, and enforces mandatory primary source citations (papers, docs, benchmarks, official announcements).
+Every idea is written in **English that flows like a conversation**: full, connected sentences, plain-language explanations of jargon, and no stiff fragments. The facts stay exact, every claim has a primary source (papers, docs, benchmarks, official announcements), and em-dashes stay banned. The full voice rules are in `references/yvnalvworks-voice-and-tone-guide.md`.
 
 > [!WARNING]
 > **CRITICAL GATE (No Unrequested Visual Generation):**
 > Do not generate slide images, Figma files, or video compositions unless explicitly instructed by the user.
-> This skill focuses on deep factual research, editorial structuring, teleprompter voiceover scripting, and syncing to the yvnalvworks Content Planner in Notion. Visual rendering is handled through `yvnalvworks-brand-motion` or manual approval.
+> This skill focuses on deep factual research, storytelling structure, teleprompter voiceover scripting, and syncing to the yvnalvworks Content Planner in Notion. Visual rendering is handled through `yvnalvworks-brand-motion` or manual approval.
 
 ---
 
 ## When to Use
 
-* When drafting high-signal technical carousel or reels content ideas for `@yvnalvworks` or `yvnalvworks.com`.
-* When planning, outlining, or scripting engineering breakdowns on AI systems, edge computer vision, MLOps, or Python/systems performance.
+* When drafting carousel or reels content ideas for `@yvnalvworks` or `yvnalvworks.com`.
+* When planning, outlining, or scripting engineering stories on AI systems, edge computer vision, MLOps, or Python/systems performance.
+* When writing post captions, teleprompter voiceover scripts, and timestamped closed captions (`.srt` and `.json`) for Yovan's manual voice recording.
 * When synchronizing approved content topics into the `yvnalvworks Content Planner` in Notion.
-* When generating teleprompter voiceover scripts and timestamped closed captions (`.srt` and `.json`) for Yovan's manual voice recording.
 
 ## When NOT to Use
 
@@ -37,20 +37,22 @@ Every idea is written strictly in **100% Technical English**, adheres to zero em
 
 | Path | Purpose & When to Load |
 |---|---|
+| `references/yvnalvworks-voice-and-tone-guide.md` | Open before writing any copy: the storytelling voice, the five story beats, sentence rules, caption rules, and before/after examples. |
 | `references/cover-headline-patterns.md` | Open when writing any carousel: cover headline formulas from the published covers, line-break and highlight rules, `coverHeadline` JSON form. |
-| `references/CONTENT_IDEA.template.md` | Standard markdown outline template for 5-part carousels and reels companion scripts. |
+| `references/CONTENT_IDEA.template.md` | Standard markdown outline for story-driven carousels and reels companion scripts. |
 | `references/yvnalvworks-content-pillars.md` | Detailed breakdown of the 4 core engineering pillars and acceptable topic scopes. |
-| `references/yvnalvworks-voice-and-tone-guide.md` | Tone constraints, writing rules, ban on em-dashes, and voiceover guidelines. |
-| `references/platform-format-specs.md` | Resolution, aspect ratios, safe zones, and duration limits for Instagram Feed and Reels. |
+| `references/platform-format-specs.md` | Resolution, aspect ratios, safe zones, slide counts, durations, and caption format for Instagram Feed and Reels. |
 | `scripts/format_content_idea.py` | Deterministic CLI tool to validate and format content idea JSON into clean markdown (`python scripts/format_content_idea.py <file.json>`). |
+| `scripts/build_reel_package.py` | Builds a reel package from one `reel.json`: `reels-script.txt`, `teleprompter-voiceover-guide.txt`, `captions.srt`, `captions.json`, `content-spec.json`. Enforces captions = spoken words, sentence case, 3 to 6 words and 32 characters per cue, no dashes (`python <skill-dir>/scripts/build_reel_package.py <reel.json> [--out <dir>]`; prints JSON with duration and `inTarget`). |
 | `scripts/sync_notion_planner.py` | Deterministic CLI helper to construct Notion database properties for `📆 yvnalvworks Content Planner` (`python scripts/sync_notion_planner.py <file.json>`). |
 | `assets/content-idea.starter.json` | Sample starter JSON payload illustrating valid structure and fields. |
+| `assets/reel.starter.json` | Sample `reel.json` for `build_reel_package.py`: scenes with spoken line, caption cues, on-screen text, visual plan, emphasis, Lucide icons, and sources. |
 
 ---
 
 ## Brand Persona & Core Pillars
 
-**yvnalvworks** represents Yovan Alvianto, an AI & Computer Vision Systems Engineer building production-grade intelligence at the intersection of high-performance software, edge computing, and reliable AI architectures.
+**yvnalvworks** represents Yovan Alvianto, an AI & Computer Vision Systems Engineer building production-grade intelligence at the intersection of high-performance software, edge computing, and reliable AI architectures. On camera and in captions he sounds like a friendly senior engineer telling a story, not a spec sheet.
 
 ### The 4 Content Pillars
 
@@ -78,25 +80,28 @@ Every idea is written strictly in **100% Technical English**, adheres to zero em
 
 ---
 
-## 5 Editorial Principles
+## 6 Editorial Principles
 
-1. **Pragmatic Over Hyped**: Focus on real production engineering challenges rather than toy marketing demos.
-2. **Systems Over Models**: Models are just components. The competitive edge is in evaluation, data curation, latency budgets, and architecture.
-3. **Strict 100% Technical English**: Clear, concise, active voice, industry-standard engineering terminology. Slang and casual colloquialisms are strictly prohibited.
-4. **Zero Em-Dashes**: Never use em-dashes (`—`) or en-dashes (`–`) for rhetorical parentheticals. Use colons, parentheses, or separate crisp sentences instead.
-5. **Human Voiceover Only**: Never synthesize AI voiceover. Always provide teleprompter recording guides and 2-4 word ALL-CAPS SRT captions for manual voice recording.
+1. **Tell a story, don't list facts**: Every piece moves through the five beats below. Each slide or scene leads naturally into the next.
+2. **Friendly and easy to follow**: Full, connected sentences with transitions ("So", "But here's the thing", "That's why"). Talk to "you", use contractions, and explain jargon in plain words the first time. Never stack short fragments or write "Step one: X. Step two: Y."
+3. **Accurate, never hyped**: Simplify the words, never the facts. No hype words. Every claim traces to a primary source.
+4. **Systems over models**: Models are just components. The interesting part is evaluation, data, latency, cost, and architecture.
+5. **English only, zero em-dashes**: No Indonesian or slang abbreviations. Never use em-dashes (`—`) or en-dashes (`–`); use commas, colons, parentheses, or a new sentence.
+6. **Human voiceover only**: Never synthesize an AI voice. Always provide a teleprompter guide and natural-phrase, sentence-case closed captions for manual recording.
 
 ---
 
-## The 5-Part Narrative Arc
+## The 5 Story Beats
 
-Every technical post (carousel or video) follows this proven technical framework:
+Every post (carousel or reel) follows this story. Details and examples: `references/yvnalvworks-voice-and-tone-guide.md`.
 
-1. **Slide 1 / Cover + Hook**: The slide shows the `coverHeadline`, an audience-promise headline in 3 to 4 hand-broken lines with exactly one `[[lime]]` phrase, following `references/cover-headline-patterns.md` (e.g., "What AI Engineers / Should Know / About [[Microsoft / Agent Framework]]"). The `hookStatement`, a counter-intuitive technical reality (e.g., "Building an AI feature is easy. Running an AI Engineering project is a completely different discipline."), opens the caption and the reel.
-2. **Slide 2 / Tension (Industry Anti-Pattern)**: Contrast naive industry practices ("Vibe Coding") against disciplined engineering realities.
-3. **Slide 3 / Framework (Visual Architecture)**: High-signal modular system breakdown using authentic Lucide 2px monoline vector icons.
-4. **Slide 4 / Golden Rule (Engineering Law)**: A definitive architectural thesis (e.g., "Never use an autonomous agent when deterministic code and a single structured prompt solves the problem.").
-5. **Slide 5 / Takeaway & CTA (Next Step)**: Core summary quote linking to `yvnalvworks.com/projects` or articles with a bookmark CTA.
+1. **The moment (Slide 1 / Cover + Hook)**: The slide shows the `coverHeadline`, an audience-promise headline in 3 to 4 hand-broken lines with exactly one `[[lime]]` phrase, following `references/cover-headline-patterns.md`. The `hookStatement` is a relatable moment told in one or two flowing sentences (e.g., "You build a quick AI demo, it works on the first try, and everyone is excited. Then real users show up."). It opens the caption and the reel.
+2. **The problem**: What goes wrong in practice and why it matters, told as what happens to the viewer, not as an "anti-pattern" label.
+3. **The turn (how it actually works)**: The idea that changes the picture, often a simple framework or breakdown with Lucide 2px monoline icons. Each item reads as a short natural sentence.
+4. **The lesson**: The rule in plain words, with the reason behind it (e.g., "If a few lines of code and one good prompt can solve it, you probably don't need an agent yet.").
+5. **The next step + CTA**: One concrete thing to try, then a warm call to action linking to `yvnalvworks.com/projects` or the article.
+
+Carousels run 5 to 10 slides; a beat can span more than one slide.
 
 ---
 
@@ -110,12 +115,14 @@ Confirm with the user:
 
 ### Step 2: Technical Research & Evidence Verification
 - Search official documentation, ArXiv papers, and engineering benchmarks.
-- Verify empirical numbers and extract architectural principles.
+- Verify empirical numbers and extract the principles worth telling.
 
-### Step 3: Draft Narrative Arc & Script
-- For carousels: Write the `coverHeadline` from `references/cover-headline-patterns.md` (offer 2 to 3 options with line breaks and the highlight marked), then draft all 5 slides adhering to the 5-part arc with Lucide icon recommendations.
+### Step 3: Draft the Story
+- Open `references/yvnalvworks-voice-and-tone-guide.md` and map the research onto the five beats before writing a sentence.
+- For carousels: Write the `coverHeadline` from `references/cover-headline-patterns.md` (offer 2 to 3 options with line breaks and the highlight marked), then draft the slides as flowing story beats with Lucide icon recommendations, plus the post caption.
+- For reels: Write `reel.json` in the reel folder (start from `assets/reel.starter.json`): a conversational spoken script (40 to 60 seconds, about 140 words per minute), caption cues in sentence case cut at natural phrase breaks (3 to 6 words, max 32 characters), and for every scene a **visual plan**: one concrete animated metaphor per story beat (a product mockup for the moment, a breaking chart or wrong answer for the problem, a step rail or app-style icon tiles for the turn, a transformation such as a line bending into a loop for the lesson, an avatar end card for the CTA), with Lucide icon names and no third-party logos. Then run `python <skill-dir>/scripts/build_reel_package.py <reel.json>` to generate the script, teleprompter guide, captions, and spec, and write `caption.txt`. The video itself is made with `/yvnalvworks-brand-motion`.
+- Read every spoken line out loud in your head. Rewrite anything that sounds like a list of fragments.
 - Validate with `python <skill-dir>/scripts/format_content_idea.py <file.json>` before handing over.
-- For reels: Draft spoken script (35-45s) and matching teleprompter recording guide with 2-4 word ALL-CAPS SRT closed captions.
 
 ### Step 4: Notion Content Planner Sync
 - Register entry into the `📆 yvnalvworks Content Planner` database (`5a915afd-b3c1-8274-836c-87fe398765ee`).
@@ -127,8 +134,8 @@ Confirm with the user:
 A task run of `yvnalvworks-content-ideas` is complete when:
 1. Upfront intake gate questions were confirmed with the user.
 2. Topic was verified with primary technical sources and benchmark citations.
-3. Content conforms strictly to 100% Technical English and zero em-dashes.
+3. Copy reads as a friendly, flowing story across the five beats: English only, no stiff fragment stacks, jargon explained, zero em-dashes.
 4. Carousels carry a `coverHeadline` that passes the cover rules (3 to 4 lines, max 18 characters per line, exactly one highlight).
-5. Teleprompter voiceover guide and closed caption subtitles were delivered (if video format).
+5. Reels ship `reel.json` plus the generated teleprompter guide, script with a visual plan per scene, sentence-case natural-phrase captions (`.srt` and `.json`), spec, and a post caption.
 6. Output was saved to the designated OneDrive path.
 7. Topic was registered in the Notion Content Planner database.

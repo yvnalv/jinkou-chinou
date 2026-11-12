@@ -1,8 +1,8 @@
 ---
 name: yvnalvworks-brand-motion
-description: "yvnalvworks (@yvnalvworks / yvnalvworks.com) specialized brand motion skill extending the-motion-designer. Applies yvnalvworks' signature technical aesthetic: matte charcoal grain background image (never a flat fill), Poppins Bold headlines with Warm Ivory #F0ECE2 and white text, one Electric Lime #C1FF72 punchline phrase, the avatar plus name and handle lockup above the headline on covers, Lucide 2px monoline SVG icons, and locked Y=1480px captions. Renders 4:5 carousel covers and slides that match the published reference covers, and Remotion videos. Use when creating carousels, covers, slides, or videos for yvnalvworks or invoking /yvnalvworks-brand-motion."
+description: "yvnalvworks (@yvnalvworks / yvnalvworks.com) specialized brand motion skill extending the-motion-designer. Applies yvnalvworks' signature technical aesthetic: matte charcoal grain background image (never a flat fill), Poppins Bold headlines with Warm Ivory #F0ECE2 and white text, one Electric Lime #C1FF72 punchline phrase, the avatar plus name and handle lockup above the headline on covers, Lucide 2px monoline SVG icons, and locked Y=1480px captions. Renders 4:5 carousel covers and slides that match the published reference covers, and caption-timed 9:16 Remotion reels where every story beat gets an animated visual (product mockups, charts, step rails, app-style icon tiles, loops) built from the bundled reel starter. Use when creating carousels, covers, slides, or videos for yvnalvworks or invoking /yvnalvworks-brand-motion."
 metadata:
-  version: 0.2.1
+  version: 0.4.0
 ---
 
 # yvnalvworks Brand Motion: Visual Identity and Canvas Engine
@@ -21,7 +21,7 @@ This skill isolates all yvnalvworks visual guidelines, typography, color tokens,
 ## When to Use
 
 * When designing or rendering 4:5 Instagram carousel slides and covers for `@yvnalvworks`.
-* When authoring Remotion programmatic video compositions (9:16 or 16:9) using `YvnalvworksBaseCanvas`.
+* When producing 9:16 Remotion reels from a reel script and `captions.json`, starting from `assets/reel-starter/`.
 * When formatting Lucide 2px monoline SVG vectors and high-contrast technical diagrams.
 * When exporting video subtitles or slide decks to `D:\yvnalv\Onedrive\04. yvnalvworks\Contents\`.
 * Invoke via slash command: `/yvnalvworks-brand-motion`.
@@ -50,7 +50,19 @@ This skill isolates all yvnalvworks visual guidelines, typography, color tokens,
 | `assets/brand-kit/logos/yovan-avatar-color.png` | Color avatar used in the cover lockup (66px circle). |
 | `assets/brand-kit/logos/yovan-avatar.png` | Grayscale 1080px headshot for large placements. |
 | `assets/brand-kit/logos/yvnalvworks-logo-transparent.png` | Official transparent wordmark logo. |
-| `assets/YvnalvworksBaseCanvas.starter.tsx` | Reusable Remotion canvas wrapper with the grain background and Poppins for 9:16 and 4:5 stages. |
+| `references/reels-motion-system.md` | Open for every reel: centered layout, caption-driven timing, story beat to visual patterns, motion rules, color meaning, icons, captions, deliverables and QA. |
+| `assets/reel-starter/README.md` | How to copy the starter into `D:\yvnalv\AI Skills\remotion-demos\<reel-name>\`, add brand assets and captions, and render. |
+| `assets/reel-starter/package.json` | Pinned Remotion 4.0.542, lucide-react 0.460.0, React 18; `sync`, `studio`, `typecheck`, `render`, `render:clean` scripts. |
+| `assets/reel-starter/tsconfig.json` | TypeScript config (JSON imports enabled). |
+| `assets/reel-starter/remotion.config.ts` | JPEG frames at quality 95, overwrite output. |
+| `assets/reel-starter/src/index.ts` | Registers the root. |
+| `assets/reel-starter/src/Root.tsx` | Two compositions: `YvnalvworksReel` (captions) and `YvnalvworksReelClean`. |
+| `assets/reel-starter/src/Reel.tsx` | Example three-scene reel plus end card; replace the scenes, keep the structure. |
+| `assets/reel-starter/src/theme.ts` | Poppins and JetBrains Mono loading, color tokens, centered layout constants (center x 540, content x 120 to 960, captions y 1480). |
+| `assets/reel-starter/src/timing.ts` | Caption-keyed timing: `at(id)`, `until(id)`, `pop`, `ease`, `span`, `mix`, `rand`. |
+| `assets/reel-starter/src/components/Base.tsx` | Background, TopLockup, Captions, Wipe, AppTile, Tag. |
+| `assets/reel-starter/src/components/Patterns.tsx` | Panel, StepHeading, PhoneFrame, LineChart, Meter, StepRail, EndCard, morph. |
+| `assets/reel-starter/src/data/captions.json` | Example captions (from the content-ideas reel starter); replace with the reel's real captions. |
 
 ---
 
@@ -63,12 +75,14 @@ This skill isolates all yvnalvworks visual guidelines, typography, color tokens,
 3. **Color**: headlines `#FFFFFF`, handle and body `#F0ECE2` Warm Ivory, secondary `#8E8E93`, muted `#71717A`.
 4. **Accent Highlight**: `Electric Lime` (`#C1FF72`) on exactly one punchline phrase per slide, and as solid backgrounds for framework cards.
 5. **Cover (slide 1)**: color avatar + `yvnalvworks` / `@yvnalvworks` lockup above a 96px Poppins Bold headline of 3 to 4 hand-broken lines, left-aligned text in an optically centered block, nothing else on the slide. Full spec: `references/cover-slide-spec.md`.
-6. **Lucide Monoline Icons**: strict 2px stroke width, rounded caps, rounded joins, zero fills, 24x24 viewBox.
-7. **Reels Safe Zones (9:16)**:
+6. **Copy on slides**: Render copy as the flowing sentences delivered by `/yvnalvworks-content-ideas`. Never chop body copy into fragment bullets or ALL CAPS labels; give sentences room to breathe (body 28 to 32px, line height 1.45).
+7. **Lucide Monoline Icons**: strict 2px stroke width, rounded caps, rounded joins, zero fills, 24x24 viewBox.
+8. **Reels Safe Zones (9:16)**:
    - Header safe area: 0 - 150px
    - Bottom interaction safe area: 1640 - 1920px
    - Right action strip: 960 - 1080px
    - Closed Captions locked at: Center Y = 1480px
+   - Caption style: sentence case natural phrases (3 to 6 words, max 32 characters) from the script, Poppins 600, white, one line, no ALL CAPS
 
 ---
 
@@ -78,7 +92,7 @@ This skill isolates all yvnalvworks visual guidelines, typography, color tokens,
 2. **Build the spec.** Slide 1 is a `cover` slide. Body slides are `html` fragments that use Poppins, Lucide icons, and the lime accent; the renderer puts them on the grain background.
 3. **Render** with `scripts/render_carousel.py` to the agreed folder under `D:\yvnalv\Onedrive\04. yvnalvworks\Contents\`. If the JSON reports a Poppins warning, fix connectivity and re-render; do not ship fallback fonts. If it reports a cover overflow warning, re-break the headline (for example "Should Know / About [[Subject]]") and re-render.
 4. **Compare.** View the rendered cover next to a file in `assets/reference-covers/` and walk the checklist in `references/cover-slide-spec.md`. Fix any drift in scale, position, background, or highlight before handing over.
-5. **Video.** For Remotion, start from `assets/YvnalvworksBaseCanvas.starter.tsx` (grain background, Poppins) and keep captions at Y=1480px.
+5. **Reels.** Open `references/reels-motion-system.md`. Copy `assets/reel-starter/` to `D:\yvnalv\AI Skills\remotion-demos\<reel-name>\` (see its README), put the reel's `captions.json` in `src/data/`, and plan one animated visual per story beat keyed to its caption cue with `at(id)`. Keep content centered on x 540, typecheck, render both versions (captions and clean), sample a frame from every scene and check centering, safe zones, and overlaps, then copy both MP4s into the reel's OneDrive folder.
 
 ---
 
@@ -90,4 +104,5 @@ A task run of `yvnalvworks-brand-motion` is complete when:
 3. Design complies with yvnalvworks tokens (Poppins type, white and Warm Ivory text, one #C1FF72 phrase).
 4. The cover matches the reference covers in layout, lockup, and type scale.
 5. All icons follow authentic Lucide 2px monoline SVG specifications.
-6. Rendered slides or videos were output to the designated directory and visually inspected.
+6. Reels: every story beat has an animated visual keyed to its caption, content is centered on x 540, charts carry an `illustrative` tag, no third-party logos, and both MP4s (captions and clean) are in the reel folder.
+7. Rendered slides or videos were output to the designated directory and visually inspected.

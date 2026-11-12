@@ -20,13 +20,14 @@
     ]
   },
   {
-    "id": "eval-03-reels-safe-zones",
-    "prompt": "Create a 9:16 Remotion motion design scene for yvnalvworks with closed captions.",
+    "id": "eval-03-reel-from-captions",
+    "prompt": "Make the yvnalvworks reel video for this script, with animations, icons, and charts. I'll record the voiceover myself.",
     "should_trigger": true,
     "expected_behavior": [
-      "Locks closed captions at Y=1480px",
-      "Maintains top and bottom safe zones",
-      "Starts from YvnalvworksBaseCanvas with the grain background and Poppins"
+      "Copies assets/reel-starter into remotion-demos and loads the reel's captions.json",
+      "Gives every story beat one animated visual keyed to its caption cue with at(id)",
+      "Keeps content centered on x 540, captions at Y=1480, no third-party logos, illustrative tags on charts",
+      "Renders both a captions version and a clean version and inspects sampled frames"
     ]
   },
   {

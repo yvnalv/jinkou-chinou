@@ -1,7 +1,7 @@
 name: yvnalvworks-content-ideas
-version: 0.2.1
+version: 0.4.0
 description: >
-  Researches, validates, and structures evidence-backed technical content ideas (carousels, reels video scripts, articles, engineering breakdowns) for yvnalvworks in 100% Technical English with source citations and Notion content planner sync.
+  Researches, validates, and structures evidence-backed technical content ideas (carousels, reels video scripts, articles, engineering breakdowns) for yvnalvworks as friendly, easy-to-follow technical stories, with source citations and Notion content planner sync.
 domain: creative-media
 type: specialized
 requires:
@@ -16,19 +16,38 @@ intake_gate:
     - platform_format
     - output_destination
 
-narrative_arc:
-  total_parts: 5
-  parts:
+story_beats:
+  reference: references/yvnalvworks-voice-and-tone-guide.md
+  total_beats: 5
+  beats:
     - id: 1
-      name: cover_headline_and_hook
+      name: the_moment
+      json_key: hookStatement
     - id: 2
-      name: industry_tension_or_anti_pattern
+      name: the_problem
+      json_key: industryTension
     - id: 3
-      name: architectural_framework_or_system_breakdown
+      name: the_turn
+      json_key: architecturalFramework
     - id: 4
-      name: golden_rule_or_counter_intuitive_law
+      name: the_lesson
+      json_key: goldenRule
     - id: 5
-      name: core_takeaway_and_portfolio_cta
+      name: the_next_step_and_cta
+      json_key: takeawayAndCta
+  carousel_slides: 5-10
+
+reels:
+  package_script: scripts/build_reel_package.py
+  input: reel.json
+  visual_plan: one_animated_visual_per_beat
+  duration_seconds: 40-60
+  words_per_minute: 140
+  closed_captions:
+    case: sentence
+    words_per_cue: 3-6
+    max_chars_per_cue: 32
+    break_at: natural_phrase
 
 notion_sync:
   database_id: "5a915afd-b3c1-8274-836c-87fe398765ee"
@@ -45,7 +64,9 @@ cover_headline:
 rules:
   ban_em_dash: true
   mandatory_evidence_sources: true
-  language_strict_technical_english: true
+  language_english_only: true
+  storytelling_voice: true
+  no_fragment_stacks: true
   no_ai_voiceover_synthesis: true
   manual_voiceover_teleprompter_required: true
   no_unrequested_design_generation: true
