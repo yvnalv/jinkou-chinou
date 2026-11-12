@@ -9,5 +9,5 @@ Core persona: the domain's `the-<persona>` skill, if one exists. Specialized ski
 <!-- skills:start -->
 | Skill | Type | Version | Summary |
 |---|---|---|---|
-| [`/kanban-updater`](kanban-updater/) | specialized | 3.0.0 | Write daily work logs for Exact Synergy Kanban cards from git and card history, fill them without saving, track EoD points, on a weekday schedule. |
+| [`/kanban-updater`](kanban-updater/) | specialized | 3.0.1 | Write daily work logs for Exact Synergy Kanban cards from git and card history, fill them without saving, track EoD points, on a weekday schedule. |
 <!-- skills:end -->

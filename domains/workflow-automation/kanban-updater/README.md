@@ -2,7 +2,7 @@
 
 Writes daily technical English work logs for Exact Synergy Kanban cards from git activity, card history and your notes, scored against the team's EoD SOP. It can type them into each card's **Remarks: Workflow** field with Synergy's timestamp (leaving the cards unsaved for you), report your weekly EoD points, and start itself every weekday at 17:20.
 
-Domain: `workflow-automation` · Type: `specialized` · Version: `3.0.0`
+Domain: `workflow-automation` · Type: `specialized` · Version: `3.0.1`
 
 ---
 
@@ -86,6 +86,10 @@ kanban-updater/
 ---
 
 ## Changelog
+
+### 3.0.1 — 2026-11-12
+
+- Fixed the scheduled launch closing immediately: Windows Terminal mangled the quoted prompt, so Claude Code rejected its arguments and exited. `schedule.py launch` now writes `launch.cmd` in the config folder and the terminal only runs that file; it pauses with a message if Claude Code exits with an error.
 
 ### 3.0.0 — 2026-11-12
 

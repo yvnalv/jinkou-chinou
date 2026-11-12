@@ -2,7 +2,7 @@
 name: kanban-updater
 description: Writes daily technical English work logs (End-of-Day remarks) for Exact Synergy Kanban cards from local git activity, card history and user notes, scored against the team's EoD SOP, and tracks EoD points. Three modes, always offered first. Work Log writes the remark text only. Work Log + Fill also opens each card in Synergy with Playwright and types the remark into Remarks - Workflow with Synergy's timestamp, then leaves the window for the user to save (it never saves). Points Summary reports weekly and historical EoD points from the user's Synergy remarks. Runs on a weekday schedule via Windows Task Scheduler, starting with today's work candidates to pick from. Accepts DevOps work item numbers (#7111) or Synergy request numbers (00.046.493). Use for a work log, EoD or standup update, Kanban remarks, filling Synergy cards, EoD points, or the kanban schedule. Not for Jira, Azure Boards, or commit messages.
 metadata:
-  version: 3.0.0
+  version: 3.0.1
 ---
 
 # Kanban Updater

@@ -103,14 +103,35 @@ def launch_command(cfg: dict) -> tuple[list[str] | None, dict]:
               "let me pick the cards and the mode, then continue the workflow")
     info["working_dir"] = workdir
     info["prompt"] = prompt
+    # Windows Terminal re-parses its command line and mangles quoted arguments, so the prompt never
+    # goes through it: a small launcher script holds the Claude command, and the terminal runs that.
+    launcher = config_dir() / "launch.cmd"
+    info["launcher"] = str(launcher)
+    info["launcher_text"] = launcher_text(claude, prompt, workdir)
     wt = shutil.which("wt") or shutil.which("wt.exe")
     if wt:
-        cmd = [wt, "-w", "new", "--title", "kanban-updater EoD", "-d", workdir, claude, prompt]
+        cmd = [wt, "-w", "new", "--title", "kanban-updater EoD", "-d", workdir, "cmd.exe", "/c", str(launcher)]
         info["terminal"] = "Windows Terminal"
     else:
-        cmd = ["cmd.exe", "/c", "start", "kanban-updater EoD", "/d", workdir, claude, prompt]
+        cmd = ["cmd.exe", "/c", "start", "kanban-updater EoD", "/d", workdir, "cmd.exe", "/c", str(launcher)]
         info["terminal"] = "cmd"
     return cmd, info
+
+
+def launcher_text(claude: str, prompt: str, workdir: str) -> str:
+    safe = prompt.replace("%", "%%").replace('"', "'")
+    return "\r\n".join([
+        "@echo off",
+        "chcp 65001 >nul",
+        f'cd /d "{workdir}"',
+        f'"{claude}" "{safe}"',
+        "if errorlevel 1 (",
+        "  echo.",
+        "  echo Claude Code exited with error %errorlevel%. See %USERPROFILE%\\.config\\kanban-updater\\schedule.log",
+        "  pause",
+        ")",
+        "",
+    ])
 
 
 def cmd_launch(cfg: dict, dry_run: bool) -> int:
@@ -120,6 +141,7 @@ def cmd_launch(cfg: dict, dry_run: bool) -> int:
         return emit({"status": "error", **info}, 1)
     if dry_run:
         return emit({"status": "dry-run", "command": cmd, **info})
+    Path(info["launcher"]).write_text(info["launcher_text"], encoding="utf-8")
     flags = 0x00000008 | 0x00000200 if sys.platform == "win32" else 0  # DETACHED_PROCESS | NEW_PROCESS_GROUP
     subprocess.Popen(cmd, cwd=info["working_dir"], creationflags=flags, close_fds=True,
                      stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

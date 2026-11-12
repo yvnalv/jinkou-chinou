@@ -24,7 +24,7 @@ How the weekday schedule starts a work-log session, how the candidate list and s
 What the task does: runs `pythonw.exe <installed skill>/scripts/schedule.py launch`, which:
 
 1. finds Claude Code: `claude` on PATH, else the newest `claude.exe` bundled with the VS Code extension (`%USERPROFILE%\.vscode\extensions\anthropic.claude-code-*\resources\native-binary\`), so extension updates need no change;
-2. opens Windows Terminal (or `cmd` when Windows Terminal is missing) in `working_dir` (default: the first repo) with the prompt `/kanban-updater scheduled run for <date>: ...`;
+2. writes `%USERPROFILE%\.config\kanban-updater\launch.cmd` (Claude Code + the prompt `/kanban-updater scheduled run for <date>: ...`) and opens Windows Terminal (or `cmd` when it is missing) in `working_dir` running only that file. The prompt never passes through Windows Terminal, which re-parses quoted arguments and breaks them. If Claude Code exits with an error, the window stays open with a message;
 3. appends a line to `%USERPROFILE%\.config\kanban-updater\schedule.log`.
 
 Task settings: runs only while the user is signed in (interactive), starts as soon as possible after a missed time (sleep, shutdown), works on battery, limited rights. A Claude Code session cannot be started for a signed-out user; that run is skipped, and the next weekday runs normally.
