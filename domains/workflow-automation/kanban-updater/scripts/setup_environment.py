@@ -2,14 +2,15 @@
 """Environment and dependency setup tool for kanban-updater.
 
 Diagnoses prerequisites, installs required Python dependencies (Playwright),
-prepares dedicated browser automation profiles, and manages local PersonID
-configuration.
+prepares the dedicated browser automation profile, and creates the single
+settings file (config.json) that holds URLs, PersonID and credentials.
 
 Usage:
   python setup_environment.py [--check] [--json]
   python setup_environment.py --install
-  python setup_environment.py --set-person-id <ID>
+  python setup_environment.py --init-config
   python setup_environment.py --get-person-id
+  python setup_environment.py --link-profiles
 """
 
 from __future__ import annotations
@@ -24,6 +25,10 @@ import subprocess
 import sys
 import urllib.request
 from pathlib import Path
+from urllib.parse import urlparse
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from kanban_config import ConfigError, config_path, init_config, load_config  # noqa: E402
 
 
 KNOWN_AI_DIRECTORIES: list[tuple[str, str]] = [
@@ -46,25 +51,23 @@ def get_user_home() -> Path:
     return Path.home()
 
 
-def get_config_dir() -> Path:
-    """Return local user config directory (~/.config/kanban-updater)."""
-    home = get_user_home()
-    config_dir = home / ".config" / "kanban-updater"
-    config_dir.mkdir(parents=True, exist_ok=True)
-    return config_dir
-
-
-def get_config_file() -> Path:
-    return get_config_dir() / "config.json"
+def load_settings() -> dict | None:
+    """Resolved settings from config.json, or None when the file is missing or incomplete."""
+    try:
+        return load_config()
+    except ConfigError:
+        return None
 
 
 def get_default_profile_dir() -> Path:
-    """Return dedicated Edge automation profile directory."""
+    """Return the dedicated Edge automation profile directory."""
     env_profile = os.environ.get("PLAYWRIGHT_EDGE_PROFILE")
     if env_profile and env_profile.strip():
         return Path(env_profile.strip())
-    home = get_user_home()
-    return home / ".gemini" / "playwright-edge-profile"
+    cfg = load_settings()
+    if cfg:
+        return Path(cfg["browser"]["profile"])
+    return get_user_home() / ".gemini" / "playwright-edge-profile"
 
 
 def ensure_profile_junctions(master_dir: Path | None = None) -> dict[str, dict]:
@@ -194,75 +197,38 @@ def ensure_edge_execution_policy() -> bool:
 
 
 def resolve_person_id(override: str | None = None) -> tuple[str | None, str]:
-    """Resolve PersonID from argument, environment variable, or config file."""
+    """Resolve PersonID from argument, SYNERGY_PERSON_ID, or the active environment in config.json."""
     if override:
         return override.strip(), "argument"
     env_id = os.environ.get("SYNERGY_PERSON_ID")
     if env_id and env_id.strip():
         return env_id.strip(), "environment (SYNERGY_PERSON_ID)"
-    config_file = get_config_file()
-    if config_file.is_file():
-        try:
-            with open(config_file, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                val = data.get("person_id")
-                if val:
-                    return str(val).strip(), f"config_file ({config_file})"
-        except Exception:
-            pass
+    cfg = load_settings()
+    if cfg and cfg.get("person_id"):
+        return cfg["person_id"], f"settings ({cfg['environment']})"
     return None, "none"
 
 
 def resolve_credentials() -> dict[str, str] | None:
-    """Resolve Synergy HTTP credentials from env vars or ~/.config/kanban-updater/config.json.
-
-    These credentials are used by Playwright's http_credentials parameter to automatically
-    answer HTTP 401 Basic/NTLM authentication challenges in headless mode.
-    """
-    user = os.environ.get("SYNERGY_USERNAME")
-    pwd = os.environ.get("SYNERGY_PASSWORD")
-    if user and pwd:
-        return {"username": user.strip(), "password": pwd.strip()}
-    config_file = get_config_file()
-    if config_file.is_file():
-        try:
-            with open(config_file, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                u = data.get("username")
-                p = data.get("password")
-                if u and p:
-                    return {"username": str(u).strip(), "password": str(p).strip()}
-        except Exception:
-            pass
-    return None
+    """Synergy HTTP credentials from the active environment in config.json (None = Windows login / session)."""
+    cfg = load_settings()
+    return cfg.get("credentials") if cfg else None
 
 
-def set_credentials(username: str, password: str) -> dict:
-    """Store Synergy HTTP credentials in ~/.config/kanban-updater/config.json."""
-    config_file = get_config_file()
-    data = {}
-    if config_file.is_file():
-        try:
-            with open(config_file, "r", encoding="utf-8") as f:
-                data = json.load(f)
-        except Exception:
-            pass
-    data["username"] = username.strip()
-    data["password"] = password.strip()
-    data["credentials_updated_at"] = dt.datetime.now(dt.timezone.utc).isoformat()
-    with open(config_file, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2)
-    return {"status": "success", "username": username.strip(), "config_file": str(config_file)}
-
-
-def check_synergy_connectivity(host: str = "synergy.glmsystems.com", timeout: float = 3.0) -> bool:
-    """Check if Synergy portal host is reachable."""
+def check_synergy_connectivity(base_url: str | None = None, timeout: float = 3.0) -> tuple[str, bool]:
+    """Check whether the active Synergy host accepts TCP connections."""
+    if not base_url:
+        cfg = load_settings()
+        base_url = cfg["base_url"] if cfg else "https://synergy.glmsystems.com"
+    parsed = urlparse(base_url)
+    host = parsed.hostname or "localhost"
+    port = parsed.port or (443 if parsed.scheme == "https" else 80)
     try:
-        sock = socket.create_connection((host, 443), timeout=timeout)
+        sock = socket.create_connection((host, port), timeout=timeout)
         sock.close()
-        return True
+        return host, True
     except (socket.timeout, OSError):
-        return False
+        return host, False
 
 
 def run_diagnostics(person_id_override: str | None = None) -> dict:
@@ -293,10 +259,22 @@ def run_diagnostics(person_id_override: str | None = None) -> dict:
                 break
 
     ai_links = ensure_profile_junctions(profile_dir)
-    synergy_online = check_synergy_connectivity()
+    synergy_host, synergy_online = check_synergy_connectivity()
     person_id, person_source = resolve_person_id(person_id_override)
+    cfg = load_settings()
 
-    all_ready = py_ok and playwright_installed and (edge_path is not None) and not profile_locked
+    # A lock held by the automation window itself is fine: the scripts attach to it over its port.
+    automation_window_open = False
+    if cfg:
+        try:
+            port = cfg["browser"]["cdp_port"]
+            with urllib.request.urlopen(f"http://127.0.0.1:{port}/json/version", timeout=1.5) as r:
+                automation_window_open = r.status == 200
+        except Exception:
+            automation_window_open = False
+    blocking_lock = profile_locked and not automation_window_open
+
+    all_ready = py_ok and playwright_installed and (edge_path is not None) and not blocking_lock and cfg is not None
 
     return {
         "status": "ready" if all_ready else "needs_setup",
@@ -317,10 +295,17 @@ def run_diagnostics(person_id_override: str | None = None) -> dict:
             "path": str(profile_dir),
             "exists": profile_exists,
             "locked": profile_locked,
+            "automation_window_open": automation_window_open,
             "ai_links": ai_links,
         },
+        "settings": {
+            "file": str(config_path()),
+            "valid": cfg is not None,
+            "environment": cfg["environment"] if cfg else None,
+            "auth": ("credentials" if cfg.get("credentials") else "windows-login-or-session") if cfg else None,
+        },
         "synergy": {
-            "portal_host": "synergy.glmsystems.com",
+            "portal_host": synergy_host,
             "reachable": synergy_online,
         },
         "person_id": {
@@ -328,25 +313,6 @@ def run_diagnostics(person_id_override: str | None = None) -> dict:
             "source": person_source,
             "configured": person_id is not None,
         },
-    }
-
-
-def set_person_id(new_id: str) -> dict:
-    """Store PersonID into ~/.config/kanban-updater/config.json."""
-    cleaned = new_id.strip()
-    if not cleaned:
-        raise ValueError("PersonID cannot be empty.")
-    config_file = get_config_file()
-    payload = {
-        "person_id": cleaned,
-        "updated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
-    }
-    with open(config_file, "w", encoding="utf-8") as f:
-        json.dump(payload, f, indent=2)
-    return {
-        "status": "success",
-        "person_id": cleaned,
-        "config_file": str(config_file),
     }
 
 
@@ -398,37 +364,28 @@ def main() -> int:
     parser.add_argument("--check", action="store_true", help="Run environment diagnostics (default)")
     parser.add_argument("--install", action="store_true", help="Install playwright package, browsers, and link profiles")
     parser.add_argument("--link-profiles", action="store_true", help="Create or verify profile junctions across all AI folders")
-    parser.add_argument("--set-person-id", metavar="ID", help="Save PersonID to local config")
+    parser.add_argument("--init-config", action="store_true", help="Create or migrate the config.json settings file")
     parser.add_argument("--get-person-id", action="store_true", help="Display resolved PersonID")
-    parser.add_argument("--set-credentials", nargs=2, metavar=("USER", "PASS"), help="Save Synergy HTTP credentials (username password) to local config")
     parser.add_argument("--json", action="store_true", help="Output machine-readable JSON")
 
     args = parser.parse_args()
 
-    if args.set_credentials:
-        u, p = args.set_credentials
+    if args.init_config:
         try:
-            res = set_credentials(u, p)
-            if args.json:
-                print(json.dumps(res, indent=2))
-            else:
-                print(f"[OK] Synergy HTTP credentials saved for '{res['username']}' in {res['config_file']}")
-            return 0
-        except Exception as e:
-            print(f"[ERROR] Failed to save credentials: {e}", file=sys.stderr)
+            res = init_config()
+        except ConfigError as e:
+            print(f"[ERROR] {e}", file=sys.stderr)
             return 1
-
-    if args.set_person_id:
-        try:
-            res = set_person_id(args.set_person_id)
-            if args.json:
-                print(json.dumps(res, indent=2))
-            else:
-                print(f"[OK] PersonID set to '{res['person_id']}' in {res['config_file']}")
-            return 0
-        except Exception as e:
-            print(f"[ERROR] Failed to save PersonID: {e}", file=sys.stderr)
-            return 1
+        if args.json:
+            print(json.dumps(res, indent=2))
+        else:
+            print(f"[{res['status'].upper()}] Settings file: {res['config_file']}")
+            if res.get("migrated_from"):
+                print(f"  Migrated from: {', '.join(res['migrated_from'])}")
+            if res.get("removed"):
+                print(f"  Removed after verified migration: {res['removed']}")
+            print('  Open it, fill in your values (backslashes doubled), and set "active_environment".')
+        return 0
 
     if args.get_person_id:
         person_id, source = resolve_person_id()
@@ -494,10 +451,13 @@ def main() -> int:
                     print(f"    - {ag:32} [LINKED]")
                 else:
                     print(f"    - {ag:32} [{st.upper()}]")
-        print(f"Synergy Connectivity: {'Online' if diag['synergy']['reachable'] else 'Unreachable / Timeout'}")
+        st = diag["settings"]
+        state = f"valid, environment {st['environment']}, auth {st['auth']}" if st["valid"] else "MISSING OR INCOMPLETE - run --init-config"
+        print(f"Settings: {st['file']} ({state})")
+        print(f"Synergy Connectivity ({diag['synergy']['portal_host']}): {'Online' if diag['synergy']['reachable'] else 'Unreachable / Timeout'}")
         print(f"PersonID: {diag['person_id']['value'] or '<not set>'} (source: {diag['person_id']['source']})")
         if diag['status'] != "ready":
-            print("\nRun with --install to install missing dependencies, or set PersonID with --set-person-id <ID>.")
+            print("\nRun with --install to install missing dependencies, or --init-config to create the settings file.")
 
     return 0 if diag["status"] == "ready" else 0
 

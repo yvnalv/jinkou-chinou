@@ -35,21 +35,27 @@ echo.
 echo [*] Linking shared Edge profile across all local AI agent folders...
 python "%~dp0setup_environment.py" --link-profiles
 
-:: 3. Optional PersonID configuration
+:: 3. Settings file (URLs, PersonID, credentials, repos, schedule) - one JSON file outside the repo
 echo.
 echo ----------------------------------------------------------------
-echo [?] Exact Synergy PersonID Configuration
+echo [?] Settings file: %%USERPROFILE%%\.config\kanban-updater\config.json
 echo ----------------------------------------------------------------
-echo To find your PersonID:
-echo   1. Log in to https://synergy.glmsystems.com/
-echo   2. Right-click your name link at top-right -^> Open in new tab
-echo   3. Look at the URL: HRMResourceCard.aspx?ID=^<PersonID^>
+python "%~dp0setup_environment.py" --init-config
+for /f "usebackq delims=" %%P in (`python "%~dp0kanban_config.py" --path`) do set "CFG=%%P"
 echo.
-set "USER_PID="
-set /p "USER_PID=Enter your numeric PersonID (or press Enter to skip / auto-discover): "
-if not "!USER_PID!"=="" (
-    python "%~dp0setup_environment.py" --set-person-id "!USER_PID!"
+echo Remember: backslashes are doubled in JSON, for example DOMAIN\\name and D:\\work\\505\\*
+set "OPEN_CFG="
+set /p "OPEN_CFG=Open it in Notepad now to fill in your values? [Y/n]: "
+if /i not "!OPEN_CFG!"=="n" (
+    start "" /wait notepad "!CFG!"
 )
+echo To find your PersonID: run "python %~dp0synergy_fill.py check" (it detects it), or right-click
+echo your name in Synergy -^> Open in new tab, and copy the number after HRMResourceCard.aspx?ID=
+
+:: 3b. Weekday schedule from config.json (schedule block)
+echo.
+echo [*] Registering the weekday work-log schedule (Windows Task Scheduler)...
+python "%~dp0schedule.py" sync
 
 :: 4. Final Environment Diagnostic Check
 echo.

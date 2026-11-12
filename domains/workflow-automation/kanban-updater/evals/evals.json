@@ -1,34 +1,44 @@
 [
   {
-    "id": "draft-eod-remarks-from-git",
-    "prompt": "Draft my End-of-Day work remarks for ticket #7111 based on the commits I made today and note that I helped Andika with installer debugging.",
+    "id": "work-log-several-cards-today",
+    "prompt": "Write my work log for #7111 and #7094 based on what I did today. I also helped Andika debug the installer.",
     "should_trigger": true,
     "expected_behavior": [
-      "Selects Mode A (Draft-Only) and does not launch Playwright browser",
-      "Inspects git log and diffs non-destructively",
-      "Writes a cohesive 5-8 sentence human narrative paragraph instead of bullet points, covering problem, approach, chosen solution, obstacles, validation, and next step",
-      "Omits the current ticket number (#7111) from the remark text while including the user note about Andika without inventing unauthorized root causes"
+      "Asks the mode question (Work Log / Work Log + Fill) before any other work",
+      "Runs scripts/git_activity.py for today and maps commits to each work item",
+      "Reads each card's history with synergy_fill.py find and history (read-only), or states that history was not checked",
+      "Writes one 5-8 sentence prose paragraph per card, without the card's own number, including the Andika note without invented detail",
+      "Shows a self-audit table per card (already logged today, repetition, expected score)"
     ]
   },
   {
-    "id": "synergy-card-submit-transition",
-    "prompt": "Submit my drafted remarks to Synergy ticket #7111, move the card to In-Progress, and verify it saved.",
+    "id": "fill-cards-no-save",
+    "prompt": "Do my EoD update for 00.046.493 and fill it into Synergy.",
     "should_trigger": true,
     "expected_behavior": [
-      "Selects Mode C (Append Remarks & Transition)",
-      "Resolves PersonID and locates the card on the Synergy Kanban board",
-      "Preserves existing historical remarks in the remarks field",
-      "Applies transition and verifies persistence with read reload"
+      "Asks the mode question and recommends Work Log + Fill",
+      "Gets the user's approval of the remark text before filling",
+      "Runs synergy_fill.py check, writes a plan JSON to the scratchpad, then runs synergy_fill.py fill",
+      "Reports per card filled/skipped/error with the timestamp text",
+      "States that nothing was saved and the user must press Save; never clicks Save or changes status"
     ]
   },
   {
-    "id": "setup-playwright-environment",
-    "prompt": "Setup my environment for kanban-updater and set my PersonID to 12345.",
+    "id": "ambiguous-work-item",
+    "prompt": "Fill today's remark for work item 7111 in Synergy.",
     "should_trigger": true,
     "expected_behavior": [
-      "Selects Mode E (Environment Setup)",
-      "Runs scripts/setup_environment.py to verify or install dependencies",
-      "Stores PersonID into local user configuration"
+      "When find returns decision ambiguous, lists the matching cards (request number, description, status, owner) and asks which one",
+      "Does not fill any card until the user picks one"
+    ]
+  },
+  {
+    "id": "switch-to-live",
+    "prompt": "Local test worked. Switch kanban-updater to the live Synergy and check it.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Tells the user to set active_environment to live in config.json (or edits only that value with permission) and fill environments.live",
+      "Runs synergy_fill.py check and reports the result without printing the password"
     ]
   },
   {
@@ -37,8 +47,38 @@
     "should_trigger": false
   },
   {
-    "id": "general-code-refactoring",
-    "prompt": "Refactor the authentication middleware in auth.py to use async/await.",
+    "id": "scheduled-run",
+    "prompt": "/kanban-updater scheduled run for Friday 13 November 2026: list today's work candidates, let me pick the cards and the mode, then continue the workflow",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Runs synergy_fill.py candidates before anything else",
+      "Shows the numbered candidate table with request number, work item, status, today's evidence, logged today and last log",
+      "Asks in one round: cards (multiSelect, 'All recommended' plus top 3, others via Other) and mode (three options)",
+      "Continues with only the chosen cards in the chosen mode"
+    ]
+  },
+  {
+    "id": "points-this-week",
+    "prompt": "How many EoD points do I have this week?",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Asks the mode (recommends Points Summary) and the period before running anything",
+      "Runs points.py report, rates every unscored entry with the SOP rubric, stores ratings with points.py rate, and reports again",
+      "Shows per-day scores, weekly bonus status, penalty, final score and average per day, with caveats"
+    ]
+  },
+  {
+    "id": "change-schedule-time",
+    "prompt": "Move my kanban-updater schedule to 17:40.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Edits schedule.time in config.json (with permission) rather than the Windows task",
+      "Runs schedule.py sync and schedule.py status and reports the next run time"
+    ]
+  },
+  {
+    "id": "commit-message",
+    "prompt": "Write a commit message for my staged changes.",
     "should_trigger": false
   }
 ]

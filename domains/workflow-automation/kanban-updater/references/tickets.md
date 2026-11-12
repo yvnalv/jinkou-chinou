@@ -1,6 +1,6 @@
 # Historical Ticket Lookup Hints
 
-These mappings serve as reference lookup hints from previous configurations. They have not been verified live. Always resolve and confirm the actual card on the current user's board before writing. Historical mappings are never a current-state guarantee.
+These mappings are lookup hints from earlier runs on the live portal. They are not verified and never replace `synergy_fill.py find`: always resolve the card live and let the user confirm it before filling.
 
 ## Known Ticket References
 
@@ -16,14 +16,17 @@ These mappings serve as reference lookup hints from previous configurations. The
 
 ## Exact Synergy URL Templates
 
+`<base_url>` is the active environment's `base_url` from `config.json` (for example `http://localhost/synergy_505` or `https://synergy.glmsystems.com`).
+
 ```text
-https://synergy.glmsystems.com/docs/HRMResourceCard.aspx?ID=<PersonID>
-https://synergy.glmsystems.com/docs/GLMSysKanbanBoard.aspx?personid=<PersonID>
-https://synergy.glmsystems.com/docs/WflRequest.aspx?RequestID=<GUID>
+<base_url>/docs/HRMResourceCard.aspx?ID=<PersonID>
+<base_url>/docs/GLMSysKanbanBoard.aspx?PersonId=<PersonID>
+<base_url>/docs/WflRequest.aspx?BCAction=1&ID=%7b<GUID>%7d
 ```
 
 ### Route Notes
 
-* `<PersonID>`: Identifier of the employee resource. Must be resolved before opening the Kanban board.
-* `<GUID>`: The specific workflow request ID (`RequestID`), extracted from the ticket link on the Kanban board.
-* Directory listing on `https://synergy.glmsystems.com/docs/` often returns HTTP 403 Forbidden by design; specific `.aspx` endpoints function normally.
+* `<PersonID>`: the employee resource ID. Optional for the board; `synergy_fill.py find` searches without it.
+* `<GUID>`: the workflow request ID (`requestId` in `find` results). The request number shown on cards (`00.046.493`) is the HID, not the GUID.
+* A request page opened this way is the same page the board shows in its popup dialog, so Save behaves the same.
+* Directory listing on `<base_url>/docs/` returns HTTP 403 by design; the `.aspx` pages work normally.

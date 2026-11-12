@@ -1,122 +1,91 @@
-# Configuration and PersonID Setup
+# Configuration: the `config.json` Settings File
 
-This guide explains how `kanban-updater` identifies the employee (`PersonID`), accesses Exact Synergy, and isolates its Playwright browser session.
-
----
-
-## 1. What is PersonID?
-
-In Exact Synergy Enterprise, every employee has a unique resource record identified by an integer or numeric ID known as the **PersonID**. The personal Kanban board is routed via this ID:
+Every URL, PersonID, credential, repository, start time, schedule and browser setting lives in **one JSON file outside every repository**:
 
 ```text
-https://synergy.glmsystems.com/docs/GLMSysKanbanBoard.aspx?personid=<PersonID>
+%USERPROFILE%\.config\kanban-updater\config.json
 ```
 
-Without a valid `PersonID`, the automation cannot open the employee's personal board.
+The environment variable `KANBAN_UPDATER_CONFIG` points to a different file. The file holds a password in plain text: never copy it into a skill folder, a repository, or a chat message. Next to it live two data files the scripts write: `points-ledger.json` (quality ratings) and `schedule.log`.
 
 ---
 
-## 2. How to Find Your PersonID
+## 1. Create or migrate
 
-Follow these steps to find your personal ID in Exact Synergy:
-
-1. Open your browser and navigate to the Synergy portal: `https://synergy.glmsystems.com/`.
-2. Ensure you are logged in with your enterprise credentials.
-3. Look at the **top-right header** where your full name is displayed.
-4. **Important**: Right-click your name link and choose **Open in new tab** (or inspect its URL).
-   * *Why in a new tab?* Clicking the link normally inside the portal opens the profile inside a nested iframe, keeping the address bar on the generic portal URL.
-5. In the newly opened tab, inspect the URL in the browser address bar:
-   ```text
-   https://synergy.glmsystems.com/docs/HRMResourceCard.aspx?ID=12345
-   ```
-6. The numeric value following `?ID=` (e.g. `12345`) is your **PersonID**.
-
----
-
-## 3. PersonID Resolution Hierarchy
-
-The skill checks for `PersonID` in this exact order:
-
-```text
-1. CLI Argument / Prompt:    /kanban-updater for person 12345
-2. Environment Variable:     SYNERGY_PERSON_ID
-3. Local User Config File:   ~/.config/kanban-updater/config.json
-4. Live Auto-Discovery:      Opens logged-in name link in new tab via Playwright
-```
-
-### Option A: Local Config File (Recommended for Persistence)
-Run the bundled setup script to store your PersonID locally:
 ```powershell
-python scripts/setup_environment.py --set-person-id 12345
+python <skill-dir>/scripts/kanban_config.py --init
 ```
-This saves to `~/.config/kanban-updater/config.json` (on Windows: `%USERPROFILE%\.config\kanban-updater\config.json`):
+
+* No file: copies `assets/config.template.json`.
+* An older `synergy.md` (2.0) in the same folder: its values are moved into `config.json`, and `synergy.md` is deleted after they read back identically.
+* A flat 1.x `config.json` (`person_id`, `username`, `password` at top level): those values move into `environments.live`.
+* Already current: nothing changes.
+
+Check what the scripts will use (password masked):
+
+```powershell
+python <skill-dir>/scripts/kanban_config.py --show
+python <skill-dir>/scripts/kanban_config.py --show --env live
+```
+
+## 2. Format
+
 ```json
 {
-  "person_id": "12345",
-  "updated_at": "2026-10-01T13:30:00Z"
+  "active_environment": "local",
+  "environments": {
+    "local": { "base_url": "http://localhost/synergy_505", "person_id": "1",
+               "username": "", "password": "", "date_format": "dd-mm-yyyy" },
+    "live":  { "base_url": "https://synergy.glmsystems.com", "person_id": "...",
+               "username": "DOMAIN\\name", "password": "...", "date_format": "dd-mm-yyyy" }
+  },
+  "work_log": { "repos": ["D:\\work\\505\\*"], "start_time": "09:00" },
+  "schedule": { "enabled": true, "days": ["Mon","Tue","Wed","Thu","Fri"], "time": "17:20",
+                "working_dir": "D:\\work\\505", "task_name": "kanban-updater EoD" },
+  "browser":  { "profile": "%USERPROFILE%\\.gemini\\playwright-edge-profile", "cdp_port": 9333,
+                "slow_mo": 100, "timeout_seconds": 45 }
 }
 ```
-*Note: This file is located in your user profile, keeping credentials and personal IDs completely isolated from Git version control.*
 
-### Option B: User Environment Variable
-Set the variable in PowerShell:
-```powershell
-[System.Environment]::SetEnvironmentVariable('SYNERGY_PERSON_ID', '12345', 'User')
-```
-Or in CMD:
+JSON rules that bite:
+
+* **Backslashes are doubled**: `DOMAIN\\name`, `D:\\work\\505`. A single `\` is a syntax error (the scripts point at the line and say so).
+* A `"` inside a password is written `\"`.
+* No comments and no trailing commas.
+
+| Key | Meaning |
+|---|---|
+| `active_environment` | Which entry of `environments` is used. Switch `local` → `live` after testing. |
+| `environments.<name>.base_url` | Portal root without `/docs`. |
+| `person_id` | Your resource ID. Needed for your active cards (candidates) and points. `synergy_fill.py check` detects it from the board and tells you the value to set. |
+| `username`, `password` | Optional. Empty = Windows login or the saved browser session. |
+| `date_format` | How Synergy prints timestamp dates for you: `dd-mm-yyyy`, `mm-dd-yyyy` or `yyyy-mm-dd`. |
+| `work_log.repos` | Repository paths. Wildcards (`D:\\work\\505\\*`) expand to every git repository they match. |
+| `work_log.start_time` | Official start time (HH:MM). Timeliness deadline = start + 9 h; grace hour after that. |
+| `schedule.*` | See `references/schedule-and-points.md` §1. After editing, run `schedule.py sync`. |
+| `browser.profile` | Dedicated Edge profile. `%USERPROFILE%` is expanded. |
+| `browser.cdp_port` | Local port of the visible automation window. |
+| `browser.slow_mo` | Milliseconds between fill actions (watchable); 0 disables. |
+| `browser.timeout_seconds` | Page timeout. |
+
+More environments (for example `"local_504"`) can be added and selected by name.
+
+## 3. Local first, then live
+
+1. Test with `"active_environment": "local"` (Windows login, no credentials).
+2. Fill `environments.live` and change one value: `"active_environment": "live"`.
+3. `python <skill-dir>/scripts/synergy_fill.py check` confirms login, Kanban access and your PersonID on live.
+
+## 4. Finding your PersonID by hand
+
+Right-click your name (top-right in Synergy) → **Open in new tab** → the number after `HRMResourceCard.aspx?ID=`. A normal click opens the profile in an iframe and hides the URL. `SYNERGY_PERSON_ID` (environment variable) overrides the file for `setup_environment.py`.
+
+## 5. Browser profile and session sharing
+
+The automation uses its own Edge profile. `setup_environment.py --link-profiles` links the same physical profile into each AI tool folder (`.gemini` is the master; `.claude`, `.copilot`, `.agents`, `.codex`, `.cline`, `.cagent`, `.antigravity-ide` are directory junctions), so one sign-in serves every tool. Junctions need no administrator rights.
+
+For a sign-in credentials cannot answer (single sign-on), sign in once in the visible window `fill` opens, or open the profile yourself and close it afterwards (a window opened without the automation port locks the profile for the scripts):
+
 ```cmd
-setx SYNERGY_PERSON_ID 12345
+start msedge.exe --user-data-dir="%USERPROFILE%\.gemini\playwright-edge-profile" https://synergy.glmsystems.com
 ```
-
-### Option C: Live Auto-Discovery
-If no config or variable is set, the skill connects to your active Synergy session, locates your user link at the top-right header, opens it in a new tab, extracts the `ID` parameter from `HRMResourceCard.aspx?ID=...`, and uses it for the current run.
-
----
-
-## 4. Browser Profiles and Unified Multi-AI Session Sharing
-
-### Dedicated Automation Profile
-To avoid session conflicts with your daily personal Microsoft Edge browsing, the skill uses an isolated automation profile directory:
-```text
-%USERPROFILE%\.gemini\playwright-edge-profile
-```
-
-### Unified Multi-AI Profile Sharing (Zero-Duplication Auth)
-All local AI assistants share this identical underlying profile via Windows NTFS Directory Junctions (`mklink /J` or `setup_environment.py --link-profiles`):
-* **Gemini / Antigravity**: `%USERPROFILE%\.gemini\playwright-edge-profile` (Master)
-* **Claude Code**: `%USERPROFILE%\.claude\playwright-edge-profile` (Linked Junction)
-* **GitHub Copilot**: `%USERPROFILE%\.copilot\playwright-edge-profile` (Linked Junction)
-* **OpenAI / Agent Skills (ChatGPT)**: `%USERPROFILE%\.agents\playwright-edge-profile` (Linked Junction)
-* **OpenAI Codex**: `%USERPROFILE%\.codex\playwright-edge-profile` (Linked Junction)
-* **Cline**: `%USERPROFILE%\.cline\playwright-edge-profile` (Linked Junction)
-* **CAgent**: `%USERPROFILE%\.cagent\playwright-edge-profile` (Linked Junction)
-* **Antigravity IDE**: `%USERPROFILE%\.antigravity-ide\playwright-edge-profile` (Linked Junction)
-
-#### Benefits:
-* **Authenticate ONCE**: Completing authentication in Edge once persists the session token in the master profile, instantly authenticating **every** AI agent simultaneously.
-* **Zero Disk Duplication**: Directory junctions are transparent NTFS reparse points; they consume 0 extra disk space.
-* **Zero Admin Elevation**: Creating directory junctions in Windows requires standard user permissions (no Administrator prompt or Developer Mode needed).
-
-### One-Time Headless Authentication
-Because `synergy.glmsystems.com` uses Windows Security (NTLM/Kerberos), headless Chromium cannot automatically answer OS-level modal credential dialogs on a blank profile. Authenticate it once interactively:
-```cmd
-start msedge.exe --user-data-dir="%USERPROFILE%\.gemini\playwright-edge-profile" "https://synergy.glmsystems.com"
-```
-1. Enter your corporate credentials into the Windows Security dialog and click **OK**.
-2. Once the Synergy portal loads, close the Edge window.
-3. Windows saves your authenticated session into `playwright-edge-profile`.
-4. From then on, headless runs across Claude, Antigravity, Copilot, and other agents will run silently without prompting.
-
-### Attaching via Chrome DevTools Protocol (CDP)
-If you already have a running Edge session with Synergy open, you can start Edge with a remote debugging port:
-```powershell
-msedge.exe --remote-debugging-port=9222
-```
-And pass CDP connection in the prompt or environment:
-```powershell
-$env:SYNERGY_CDP_ENDPOINT = "http://localhost:9222"
-```
-Playwright will connect via `connect_over_cdp()`, reusing your live authenticated session without creating lock conflicts.
-
-### Non-Destructive Process Safety Guarantee
-The automation **never** kills existing Edge processes (`taskkill`, `Stop-Process`). If the profile is locked by an open Edge process, it fails gracefully and provides recovery instructions (`references/browser-recovery.md`).

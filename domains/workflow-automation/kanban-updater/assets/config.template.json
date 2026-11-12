@@ -1,0 +1,36 @@
+{
+  "active_environment": "local",
+  "environments": {
+    "local": {
+      "base_url": "http://localhost/synergy_505",
+      "person_id": "",
+      "username": "",
+      "password": "",
+      "date_format": "dd-mm-yyyy"
+    },
+    "live": {
+      "base_url": "https://synergy.glmsystems.com",
+      "person_id": "",
+      "username": "",
+      "password": "",
+      "date_format": "dd-mm-yyyy"
+    }
+  },
+  "work_log": {
+    "repos": [],
+    "start_time": "09:00"
+  },
+  "schedule": {
+    "enabled": true,
+    "days": ["Mon", "Tue", "Wed", "Thu", "Fri"],
+    "time": "17:20",
+    "working_dir": "",
+    "task_name": "kanban-updater EoD"
+  },
+  "browser": {
+    "profile": "%USERPROFILE%\\.gemini\\playwright-edge-profile",
+    "cdp_port": 9333,
+    "slow_mo": 100,
+    "timeout_seconds": 45
+  }
+}

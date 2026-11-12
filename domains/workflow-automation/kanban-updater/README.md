@@ -1,82 +1,57 @@
 # kanban-updater
 
-Draft evidence-based technical English work updates from Git and user notes, or update requested Exact Synergy Kanban cards using isolated Playwright automation.
+Writes daily technical English work logs for Exact Synergy Kanban cards from git activity, card history and your notes, scored against the team's EoD SOP. It can type them into each card's **Remarks: Workflow** field with Synergy's timestamp (leaving the cards unsaved for you), report your weekly EoD points, and start itself every weekday at 17:20.
 
-Domain: `workflow-automation` · Type: `specialized` · Version: `1.1.0`
+Domain: `workflow-automation` · Type: `specialized` · Version: `3.0.0`
 
 ---
 
 ## When to use
 
-Invoke with `/kanban-updater`, or let your agent activate it when asking to:
+Invoke with `/kanban-updater`, or ask for things like:
 
-* *"Draft my EoD remarks based on my commits today for ticket #7111."*
-* *"Summarize what changed on this branch and format it for our standup."*
-* *"Inspect the current remarks and status of ticket #7094 on Synergy."*
-* *"Submit my drafted remarks to card #7111 and move it to In-Progress."*
-* *"Audit my EoD update score for this week according to the SOP."*
-* *"Setup the Playwright environment and set my PersonID."*
+* *"Write my work log for #7111 and #7094 for today."*
+* *"EoD update for the cards I worked on today, and fill them in Synergy."*
+* *"What are my EoD points this week?"*
 
-Do not use for Jira, GitHub Projects, general git commits, or backend coding tasks.
+Every run starts by asking the mode:
 
----
+| Mode | What happens |
+|---|---|
+| **Work Log** | Drafts one remark per card; reads history read-only to avoid repeats. Types nothing into Synergy. |
+| **Work Log + Fill** | Drafts, you approve, then a visible Edge window opens one tab per card with the remark typed after Synergy's timestamp. **You press Save.** |
+| **Points Summary** | Asks the period (this week, last 4 weeks, custom), then shows per-day and per-week EoD points, bonus, penalty and trend from your saved remarks. |
 
-## Getting Started
+Cards: DevOps work item (`#7111`) or Synergy request number (`46493`, `00.046.493`). A number matching several cards always makes the skill ask.
 
-### 1. Prerequisites and One-Click Setup
-You can set up Playwright, verify Microsoft Edge, and configure your PersonID with a single click:
+### Scheduled run
 
-* **From the Repository Root:** Double-click [`setup-kanban.bat`](../../../setup-kanban.bat) or run `.\setup-kanban.bat`.
-* **From the Skill Directory:** Run `domains\workflow-automation\kanban-updater\scripts\setup.bat`.
-* **Or via Python directly:**
-  ```powershell
-  # Diagnostic health check
-  python domains/workflow-automation/kanban-updater/scripts/setup_environment.py --check
+Every weekday at 17:20 (configurable) Windows Task Scheduler opens Claude Code in Windows Terminal with `/kanban-updater scheduled run ...`. It lists today's candidates (work items in today's commits and edited files, plus your active cards, with "logged today" and "last log"), and asks in one round which cards (one, several, or all) and which mode.
 
-  # Automatic installation
-  python domains/workflow-automation/kanban-updater/scripts/setup_environment.py --install
-  ```
-
-### 2. Setting Your `<PersonID>`
-Exact Synergy routes personal Kanban boards using the employee's `PersonID`. Each team member has a unique ID:
-
-#### Finding Your PersonID
-1. Navigate to `https://synergy.glmsystems.com/` in your browser.
-2. In the top-right header, right-click your name link and select **Open in new tab**.
-3. In the new tab's URL bar, find the parameter:
-   `https://synergy.glmsystems.com/docs/HRMResourceCard.aspx?ID=12345`
-4. The number following `?ID=` is your `PersonID`.
-
-#### Configuring Your PersonID
-You can set your `PersonID` in any of the following ways (highest to lowest priority):
-
-1. **Directly in the Prompt**:
-   ```text
-   /kanban-updater #7111 for PersonID 12345
-   ```
-2. **Local User Configuration** (Recommended, persists across sessions):
-   ```powershell
-   python domains/workflow-automation/kanban-updater/scripts/setup_environment.py --set-person-id 12345
-   ```
-   *(Saves to `~/.config/kanban-updater/config.json`, keeping personal IDs out of Git).*
-3. **Environment Variable**:
-   ```powershell
-   [System.Environment]::SetEnvironmentVariable('SYNERGY_PERSON_ID', '12345', 'User')
-   ```
-4. **Live Auto-Discovery**:
-   If unconfigured, the skill automatically discovers your ID by inspecting the top-right name link in a new tab during an active Synergy session.
+Not for Jira, GitHub Projects, Azure Boards, commit messages, or status changes.
 
 ---
 
-## Operating Modes
+## Setup
 
-| Mode | Trigger Example | Actions & Safeguards |
-|---|---|---|
-| **Mode A — Draft-Only** *(Default)* | `"Draft my standup from today's commits"` | Inspects git log/diffs, formats EoD SOP remarks. **Zero browser access.** |
-| **Mode B — Card Inspection** | `"Check ticket #7111 on Synergy"` | Launches headless Edge, navigates to board, reads status and remarks. |
-| **Mode C — Append & Transition** | `"Submit update to #7111 and mark In-Progress"` | Preserves history, appends remarks, transitions status, verifies persistence. |
-| **Mode D — EoD Scoring Audit** | `"Calculate my EoD score for this week"` | Evaluates remarks against consistency, timeliness, and quality criteria. |
-| **Mode E — Environment Setup** | `"Setup Playwright environment"` | Runs `setup_environment.py` diagnostics, installer, and config helper. |
+1. **One-click**: `setup-kanban.bat` in the repository root (or `scripts\setup.bat`): installs Playwright, links the shared Edge profile, creates `config.json`, registers the schedule, runs diagnostics.
+2. **Settings**: everything in one file outside the repo, `%USERPROFILE%\.config\kanban-updater\config.json`:
+   ```json
+   {
+     "active_environment": "local",
+     "environments": {
+       "local": { "base_url": "http://localhost/synergy_505", "person_id": "1", "username": "", "password": "" },
+       "live":  { "base_url": "https://synergy.glmsystems.com", "person_id": "...", "username": "DOMAIN\\name", "password": "..." }
+     },
+     "work_log": { "repos": ["D:\work\505\*"], "start_time": "09:00" },
+     "schedule": { "enabled": true, "days": ["Mon","Tue","Wed","Thu","Fri"], "time": "17:20" }
+   }
+   ```
+   Backslashes are doubled in JSON. Going live = `"active_environment": "live"`. Full key list: [references/configuration.md](references/configuration.md).
+3. **Schedule**: after changing `schedule`, run `python scripts/schedule.py sync`; `status` shows the next run, `run` starts it now.
+4. **Check**: `python scripts/synergy_fill.py check` should report `"kanban_board": "reachable"` and your PersonID.
+
+The password sits in plain text in that file and is never printed by the scripts (`kanban_config.py --show` masks it).
 
 ---
 
@@ -84,25 +59,54 @@ You can set your `PersonID` in any of the following ways (highest to lowest prio
 
 ```text
 kanban-updater/
-├── SKILL.md                          # Main skill instructions, trigger description, modes, and rules
-├── README.md                         # Human owner documentation, setup guide, and changelog
+├── SKILL.md                             # Modes, scheduled run, workflow, rules, definition of done
+├── README.md                            # This file
 ├── config/
-│   └── skill.yaml                    # Machine-readable manifest and operational policy
+│   └── skill.yaml                       # Manifest and policy summary
+├── assets/
+│   └── config.template.json             # Template for %USERPROFILE%\.config\kanban-updater\config.json
 ├── scripts/
-│   ├── setup_environment.py          # Dependency installer and PersonID configuration tool
-│   └── setup.bat                     # Windows batch automation for environment setup
+│   ├── kanban_config.py                 # Read / create / migrate config.json (password masked)
+│   ├── git_activity.py                  # Read-only git evidence by day and work item
+│   ├── synergy_fill.py                  # check | find | history | candidates | entries | fill (never saves)
+│   ├── points.py                        # EoD points report, quality ratings ledger
+│   ├── schedule.py                      # Windows Task Scheduler: sync | status | run | remove | launch
+│   ├── setup_environment.py             # Prerequisite diagnostics and installer
+│   └── setup.bat                        # One-click Windows setup
 ├── references/
-│   ├── configuration.md              # PersonID discovery, environment variables, Edge profiles
-│   ├── tickets.md                    # Historical ticket lookup hints and Synergy URL templates
-│   ├── eod-scoring.md                # End-of-Day scoring SOP and evidence-based remark templates
-│   └── browser-recovery.md           # Playwright session management and failure recovery protocols
+│   ├── eod-scoring.md                   # EoD SOP, writing style, mandatory self-audit
+│   ├── synergy-automation.md            # Lookup, paging, history, fill mechanics, sessions, failures
+│   ├── schedule-and-points.md           # Scheduled run, candidate selection, points computation
+│   ├── configuration.md                 # config.json keys, local/live, PersonID, Edge profile
+│   └── tickets.md                       # Old ticket hints and URL templates
 └── evals/
-    └── evals.json                    # Trigger and behavior test cases
+    └── evals.json                       # Trigger and behavior cases
 ```
 
 ---
 
 ## Changelog
+
+### 3.0.0 — 2026-11-12
+
+- Settings moved back to one `config.json` (`assets/config.template.json`, `scripts/kanban_config.py`) with environments, repos (wildcards), start time, schedule and browser; `synergy.md` and the flat 1.x file migrate automatically. Removed `scripts/synergy_config.py` and `assets/synergy-config.template.md`.
+- Added the third mode **Points Summary** (`scripts/points.py`): per-day and per-week points, weekly bonus, repetition penalty, Waiting and weekend exclusions; quality rated once by Claude and kept in `points-ledger.json`.
+- Added the weekday schedule (`scripts/schedule.py`): Windows Task Scheduler opens Claude Code (PATH or the VS Code extension's bundled binary) at the configured time with a scheduled-run prompt.
+- Added `synergy_fill.py candidates` (today's work items from git plus your active cards, ranked, with logged-today and last-log) and `entries` (your remarks for points); the scheduled run asks cards (multi-select, "All") and mode in one round.
+- Card search now pages through the board (action 5), so matches are no longer cut at 5 cards per column; PersonID and login name are detected from the board.
+- `git_activity.py`: recognises `user/user-story/#7310` branches and reports uncommitted files by the day they were modified.
+- New reference `references/schedule-and-points.md`; rewrote `references/configuration.md`.
+
+### 2.0.0 — 2026-11-12
+
+- Replaced the five modes with two, asked at the start of every run: **Work Log** and **Work Log + Fill**.
+- Added `scripts/synergy_fill.py`: `check`, `find` (work item or request number, asks on multiple matches), `history` (Workflow remarks grouped by day) and `fill` (types into Remarks: Workflow with Synergy's auto-timestamp, or the Timestamp button as fallback; never saves; leaves the visible window open).
+- Added `scripts/git_activity.py`: read-only git evidence grouped by day and work item, for several cards per run.
+- Added the single settings file `synergy.md` (`assets/synergy-config.template.md`, `scripts/synergy_config.py`) holding local and live URLs, PersonID, credentials and browser options; the 1.x `config.json` values migrate into the live block.
+- Added the mandatory self-audit (inspection against card history + EoD scoring) to every work log (`references/eod-scoring.md` §5).
+- Merged `references/browser-recovery.md` into the new `references/synergy-automation.md`; rewrote `references/configuration.md`.
+- Removed the save-and-transition mode, the separate inspection, scoring-audit and setup modes, and the `--set-person-id` / `--set-credentials` options (edit `synergy.md` instead).
+- Windows integrated authentication via `--auth-server-allowlist`, so the local portal needs no stored credentials.
 
 ### 1.1.0 — 2026-11-09
 

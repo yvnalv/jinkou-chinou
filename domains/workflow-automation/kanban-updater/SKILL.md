@@ -1,28 +1,27 @@
 ---
 name: kanban-updater
-description: Drafts evidence-based technical English work updates and End-of-Day (EoD) remarks from local Git repositories and user notes, or inspects and updates Exact Synergy Kanban cards using isolated Playwright automation. Use when drafting standup or EoD reports, checking ticket status in Synergy, appending remarks, or transitioning card status. Not for Jira, GitHub Projects, or non-Synergy issue tracking.
+description: Writes daily technical English work logs (End-of-Day remarks) for Exact Synergy Kanban cards from local git activity, card history and user notes, scored against the team's EoD SOP, and tracks EoD points. Three modes, always offered first. Work Log writes the remark text only. Work Log + Fill also opens each card in Synergy with Playwright and types the remark into Remarks - Workflow with Synergy's timestamp, then leaves the window for the user to save (it never saves). Points Summary reports weekly and historical EoD points from the user's Synergy remarks. Runs on a weekday schedule via Windows Task Scheduler, starting with today's work candidates to pick from. Accepts DevOps work item numbers (#7111) or Synergy request numbers (00.046.493). Use for a work log, EoD or standup update, Kanban remarks, filling Synergy cards, EoD points, or the kanban schedule. Not for Jira, Azure Boards, or commit messages.
 metadata:
-  version: 1.1.0
+  version: 3.0.0
 ---
 
 # Kanban Updater
 
-Synthesize verified Git changes and user notes into professional, high-scoring technical English work remarks, and optionally inspect or update personal Exact Synergy Kanban cards via dedicated Playwright browser automation.
+Turn the day's real work (git activity, card history, the user's notes) into one natural, high-scoring work log per Exact Synergy Kanban card, optionally type those logs into the cards' **Remarks: Workflow** field (never saving), and keep score of the EoD points they earn.
 
 ```text
-Resolve Intent & Scope → Extract Git Evidence → Synthesize Remarks (EoD SOP) → [Optional: Browser Automation] → Verify Persistence
+(Scheduled: candidates → pick cards) → Ask mode → Scope → Git evidence → Card history → Draft → Self-audit → Fill → hand over
+                                                    └→ Points Summary: period → report → rate new entries → tables
 ```
 
 ## When to Use
 
-* Drafting daily standup or End-of-Day (EoD) updates from local Git commits, diffs, and notes.
-* Scoring or auditing work remarks against the team's EoD scoring SOP.
-* Inspecting live ticket status, recent history, or available actions on Exact Synergy boards.
-* Appending verified remarks to an Exact Synergy workflow request while preserving prior history.
-* Moving cards across workflow states (e.g., Open to In-Progress / Approve) on personal Kanban boards.
-* Setting up Playwright dependencies, Edge browser profile, or user `PersonID`.
+* Writing today's work log / EoD remark / standup update for one or more Synergy cards, and optionally filling them in without saving.
+* The weekday 17:20 scheduled run (prompt starts with `/kanban-updater scheduled run`).
+* Checking EoD points for this week or past weeks.
+* Setting up `config.json`, Playwright, the Edge profile, or the Windows schedule.
 
-Do not use it for: managing Jira or GitHub Projects boards, general git commit authoring, writing production feature code, or bypassing corporate authentication barriers.
+Do not use it for: Jira, GitHub Projects or Azure Boards, writing commit messages, changing a card's status, or anything that saves in Synergy on the user's behalf.
 
 ## Bundled Resources
 
@@ -30,92 +29,110 @@ Paths are relative to this skill's base directory.
 
 | File | Open it when |
 |---|---|
-| `references/configuration.md` | Setting up or discovering `PersonID`, configuring environment variables (`SYNERGY_PERSON_ID`), managing user config, or setting up Edge profiles and CDP. |
-| `references/eod-scoring.md` | Drafting or auditing task remarks according to the End-of-Day scoring SOP (consistency, timeliness, quality, bonus/penalty, and label templates). |
-| `references/tickets.md` | Looking up historical ticket mappings, request GUIDs, or Exact Synergy route templates (`HRMResourceCard`, `GLMSysKanbanBoard`, `WflRequest`). |
-| `references/browser-recovery.md` | Diagnosing Playwright connection failures, handling profile locks, managing timeouts, formatting structured error logs, or executing safe write retries. |
-| `scripts/setup_environment.py` | Checking prerequisites or auto-installing Playwright and configuring PersonID: `python <skill-dir>/scripts/setup_environment.py [--check|--install|--set-person-id ID|--json]`. |
-| `scripts/setup.bat` | Interactive Windows batch automation to install Playwright, configure PersonID, and run health diagnostics: `<skill-dir>/scripts/setup.bat`. |
+| `references/eod-scoring.md` | Every draft and every quality rating: the scoring SOP, the 5–8 sentence narrative style, the gold-standard example, and the mandatory self-audit (§5). |
+| `references/synergy-automation.md` | Running `find`, `history`, `candidates`, `entries` or `fill`: matching rules, board paging, timestamp mechanics, plan file format, sessions, failure table. |
+| `references/schedule-and-points.md` | The scheduled run (candidate table, selection question), Points Summary (period question, rating loop, report tables), and managing the Windows task. |
+| `references/configuration.md` | Creating or editing `config.json`: environments, local/live switch, credentials, repos, start time, schedule, browser. |
+| `references/tickets.md` | Old ticket-to-GUID hints and Synergy URL templates. |
+| `assets/config.template.json` | Template copied to `%USERPROFILE%\.config\kanban-updater\config.json` by `kanban_config.py --init`. |
+| `scripts/kanban_config.py` | Settings: `python <skill-dir>/scripts/kanban_config.py --show [--env NAME]` (password masked), `--init` (create or migrate), `--path`. |
+| `scripts/git_activity.py` | Git evidence by day and work item: `python <skill-dir>/scripts/git_activity.py --repo PATH [--repo PATH] [--since DATE] [--until DATE] [--author X \| --all-authors]`. Read-only. |
+| `scripts/synergy_fill.py` | Synergy automation: `python <skill-dir>/scripts/synergy_fill.py [--env NAME] check \| find NUMBER... \| history TARGET... [--days N] \| candidates [--date DATE] [--max-history N] \| entries --since DATE --until DATE \| fill --plan PLAN.json`. Never saves. |
+| `scripts/points.py` | EoD points: `python <skill-dir>/scripts/points.py report [--weeks N \| --since DATE --until DATE]`, `rate --file RATINGS.json`, `ledger`. |
+| `scripts/schedule.py` | Windows task: `python <skill-dir>/scripts/schedule.py sync \| status \| run \| remove \| launch [--dry-run]`. |
+| `scripts/setup_environment.py` | Prerequisites: `python <skill-dir>/scripts/setup_environment.py [--check \| --install \| --init-config \| --link-profiles \| --get-person-id] [--json]`. |
+| `scripts/setup.bat` | One-click Windows setup: Playwright, profile links, `config.json`, schedule sync, diagnostics: `<skill-dir>/scripts/setup.bat`. |
 
 ---
 
-## Operating Modes
+## Scheduled run (prompt starts with "/kanban-updater scheduled run")
 
-Choose the lightest safe mode covering the user's intent. **Default to Mode A whenever submission is not explicitly requested.**
+The Windows task opens Claude Code at the configured time (default Mon–Fri 17:20). Then:
 
-| Request | Mode | Browser Action | Output |
-|---|---|---|---|
-| Draft standup or EoD remarks; summarize commits; prepare wording | **A — Draft-Only** | None (Safe) | Formatted technical English remarks |
-| Check card status, read history, view board columns | **B — Card Inspection** | Read-Only | Card details, current status, recent remarks |
-| Submit remarks to card; mark In-Progress or Approve | **C — Append & Transition** | Write + Read Verification | Verified submission report with card URL |
-| Audit EoD score; check timeliness, quality, or weekly bonus | **D — EoD Scoring Audit** | None / Inspection | Itemized score report against SOP |
-| Check dependencies; install Playwright; configure PersonID | **E — Environment Setup** | Diagnostic / Pip | Diagnostic health report / Config status |
+1. `synergy_fill.py candidates` → today's work items from git (commits today, uncommitted files edited today on a work-item branch) plus your active cards, ranked, each with "logged today" and "last log".
+2. Show the full numbered candidate table, then ask **in one question round** (details in `references/schedule-and-points.md`):
+   * **Which cards** (multi-select): "All recommended (N)" plus the top 3 recommended cards; other numbers typed under *Other* (`1,4,5`).
+   * **Mode**: the three options of Step 0.
+3. Continue from Step 1 with the chosen cards and mode. Ambiguous or "no card found" work items: ask for the right card before drafting.
+4. If nothing has activity today, say so, show your active cards anyway, and let the user pick or skip.
 
-### Mode A — Draft-Only (Default)
+## Step 0 — Always ask the mode first
 
-1. **Establish Scope**: Identify target repository, active branch, reporting period (default: current day in user's timezone), and user notes.
-2. **Extract Git Evidence**: Run non-destructive Git commands (`git status --short`, `git log --since=...`, `git diff --stat`, `git diff`, `git diff --cached`). Never commit, stash, or reset working trees.
-3. **Synthesize Remarks (5–8 Sentence Human Narrative Paragraph)**:
-   - Write the work update as **one cohesive, natural human prose paragraph of 5 to 8 sentences** (`references/eod-scoring.md`) — **never** as a list of bullet points (`- Progress:`, `- Validation:`, etc.).
-   - Follow the natural engineering story arc from sentence to sentence:
-     1. **Problem & Goal ("Why")**: State what is being built or fixed and why the previous behavior fell short.
-     2. **Existing Behavior & Chosen Solution ("How & What")**: Explain what the system already did versus the approach/solution chosen and business rules applied.
-     3. **Edge Cases, States, & Refinements**: Describe specific states handled, UX/code details, or adjustments made after review/testing.
-     4. **Obstacles / Challenges & Resolution**: Honestly narrate any build failures, environment issues, tricky bugs, or blockers encountered and how they were traced and resolved.
-     5. **Verification & Supporting Work**: State what builds, tests, or checks passed (and any artifacts/screenshots produced).
-     6. **Next Progress in the Plan**: Close with a sentence stating the immediate next concrete step (remaining test cases, dependency to clear, or PR creation).
-   - **No Self-Ticket Numbers**: Never mention the current work item/ticket number inside the remark text. Only mention a ticket/work item ID when referencing an **external dependency or blocker on another work item** (e.g., *"until #7412 is deployed"*).
-   - **Plain Human Engineering Tone**: Avoid robotic AI buzzwords (*"leveraged"*, *"spearheaded"*, *"seamlessly orchestrated"*). Every claim must map to a real commit, diff, or user note.
-4. **Present Draft**: Output the formatted narrative paragraph. Stop here without launching a browser unless submission was explicitly commanded.
+Before any other work (outside the scheduled run, where it is asked together with the card choice), ask one question (AskUserQuestion when available):
 
-### Mode B — Card Inspection
+| Option | Meaning |
+|---|---|
+| **Work Log** | Write the remark text only. Read-only lookups in Synergy are allowed for history; nothing is typed into Synergy. |
+| **Work Log + Fill** | Write the remarks, get approval, then type them into each card's Remarks: Workflow in a visible Edge window. The user presses Save. |
+| **Points Summary** | Report EoD points for a period from your saved Synergy remarks (see "Points Summary" below). |
 
-1. **Check Prerequisites**: Ensure Playwright is available via `scripts/setup_environment.py --check`.
-2. **Resolve PersonID**: Check prompt, `SYNERGY_PERSON_ID` env var, `~/.config/kanban-updater/config.json`, or perform live discovery (`references/configuration.md`).
-3. **Connect Session**: Launch Edge persistent context (`channel="msedge"`, `headless=True`, `chromium_sandbox=False`, profile `%USERPROFILE%\.claude\playwright-edge-profile` or `%USERPROFILE%\.gemini\playwright-edge-profile`). Pass `http_credentials=resolve_credentials()` from `scripts/setup_environment.py` to authenticate HTTP 401 challenges automatically in headless mode.
-4. **Locate Ticket**: Navigate to `GLMSysKanbanBoard.aspx?personid=<PersonID>`. Locate the card matching `<TicketNumber>`, click it to open the request dialog or extract the iframe URL `WflRequest.aspx?BCAction=1&ID={GUID}`.
-5. **Inspect & Report**: Open or inspect the request card. Read current status, requester, DevOps status, and recent remarks history. Close context and report findings.
+Mark the option the request points to as recommended, but still ask. In the same round, ask anything from Step 1 the request does not answer.
 
-### Mode C — Append Remarks & Transition
+## Step 1 — Scope the day
 
-1. **Verify Draft & Target**: Confirm exact remarks and target card GUID before writing.
-2. **Open Request**: Open `WflRequest.aspx?BCAction=1&ID={GUID}` in the authenticated persistent context (passing `http_credentials=resolve_credentials()`).
-3. **Preserve History**: Inspect `#txtRemarks`. If editable history exists, read the entire existing string and append the new remark separated by two newlines (`\n\n`). If Synergy auto-stamps remarks, enter only the new content.
-4. **Apply Transition (Optional)**: If status transition was requested (e.g. Open to In-Progress), verify available action buttons (`#btnApprove`, `#btnSave`) and click the verified control.
-5. **Verify Persistence**: Re-navigate to the request URL. Confirm new remark is visible, prior remarks remain intact, and status matches the requested state.
-6. **Report**: Return verified completion report with the direct card link. If submission failed, log structured error (`references/browser-recovery.md`) and output ready-to-copy remarks. Never blindly retry a write without reading first.
+* **Cards**: work item (`#7111`) or request numbers (`00.046.493`, `46493`). If none were given, propose candidates (`synergy_fill.py candidates`) and let the user pick.
+* **Date**: today unless the user says otherwise. Never present back-dated work as today's.
+* **Repositories**: from the request, the working directory, or `work_log.repos` in `config.json` (wildcards allowed).
+* **Notes**: meetings, debugging help, blockers. Use them verbatim as facts.
 
-### Mode D — EoD Scoring Audit
+## Step 2 — Git evidence
 
-1. Collect task remarks and submission timestamps.
-2. Audit consistency (+1.0 weekday), timeliness (+1.0 on time, +0.5 grace), and quality (2.0-3.0 for progress, validation, blockers, and next steps) per `references/eod-scoring.md`.
-3. Calculate final score and average per day; highlight penalties (repetition) or bonuses (5-day streak).
+1. `scripts/git_activity.py` for the repos and date (add `--since` a few days back for continuity). It groups commits by day and work item and lists uncommitted files with the day they were last modified.
+2. For each card, take that day's commits for its work item plus uncommitted work edited that day on its branch. Read the diffs (`git show <sha>`, `git diff`) for what you will describe; subjects alone are not evidence.
+3. `unlinked` commits: ask which card they belong to, or leave them out.
+4. Read-only: never commit, stash, reset, or switch branches.
 
-### Mode E — Environment Setup
+## Step 3 — Card lookup and history (read-only)
 
-1. Execute `<skill-dir>/scripts/setup.bat` (on Windows) or run `python <skill-dir>/scripts/setup_environment.py --install`.
-2. Configure PersonID if requested via `--set-person-id <ID>`.
-3. Report component readiness (Python, Playwright, Edge, Profile, Synergy connectivity).
+1. Missing `config.json`: offer `kanban_config.py --init`, then continue. Without it, mark history "not checked".
+2. `synergy_fill.py find <numbers...>`: `unique` → use it; `ambiguous` → **always ask which card** (request number, description, status, owner); `not_found` → ask for the request number.
+3. `synergy_fill.py history <request_id...> --days 14`.
+4. `auth_required` or a profile lock: stop and follow `references/synergy-automation.md` §6. Never invent credentials or ask for a password in chat.
+
+## Step 4 — Draft one remark per card
+
+Follow `references/eod-scoring.md` §4: one paragraph of **5–8 sentences** (problem and why → existing behavior and chosen solution → edge cases → obstacles and resolution → verification → next step), **never the card's own number**, plain developer tone, every claim backed by evidence, continuing the card's last entry without repeating it.
+
+## Step 5 — Self-audit, then present
+
+Run the inspection and scoring audit (`references/eod-scoring.md` §5) and revise until it passes. Present each card's remark with its audit table. **Work Log mode ends here.**
+
+## Step 6 — Fill (Work Log + Fill only)
+
+1. **Approval gate**: the user approves or edits each remark; fill only approved text, character for character.
+2. **Pre-flight**: `synergy_fill.py check`; on failure `setup_environment.py --check`.
+3. **Plan**: `[{"query", "request_id", "message"}, ...]` as JSON in the scratchpad (never in a repository).
+4. **Fill**: `synergy_fill.py fill --plan <file>` → visible Edge window, one tab per card, Synergy timestamp (Enter, or the Timestamp button as fallback), text typed and verified, window left open.
+5. **Report** one row per card (status, timestamp text, reason) and say plainly: **nothing was saved; review each tab and press Save yourself**.
+6. **Verify** after the user saves: `history` for those cards.
+
+## Points Summary
+
+1. Ask the period first: **This week**, **Last 4 weeks**, or a custom range.
+2. `points.py report` for that period (it reads your own remarks on your cards, read-only).
+3. For every item in `unscored`, rate quality 0.5–3.0 with `references/eod-scoring.md` §1.C, write `[{"key", "quality", "note"}]` to the scratchpad, run `points.py rate --file`, then `report` again. Ratings are stored once in the ledger.
+4. Present the weekly table and trend (`references/schedule-and-points.md` §3), with caveats: timeliness uses the timestamp time, Waiting uses the current status, unverified start time.
 
 ---
 
 ## Rules
 
-* **Default to Draft**: Never access Synergy or execute browser writes when the user asks for wording, drafts, or summaries. Submission requires unambiguous user intent.
-* **Cohesive 5–8 Sentence Narrative Style (No Bullet Lists)**: Always write work remarks as a single, connected human prose paragraph of 5 to 8 sentences walking through the problem, approach and chosen solution, refinements/edge cases, obstacles hit and resolved, validation performed, and next step in the implementation plan. Do not use bullet-point lists (`- Progress:`, `- Validation:`, etc.).
-* **No Self-Work-Item Number**: Never include the current ticket/work item number in the remark prose. Only mention a work item number when referring to another ticket that this work depends on or is blocked by.
-* **Non-Destructive Browser Operations**: Never use `taskkill`, `Stop-Process`, or force-close user browsers. If the automation profile is locked, report the condition and instruct the user to close the conflicting tab or use CDP.
-* **Top-Right Profile New-Tab Rule**: When auto-discovering `PersonID` in Synergy, always open the top-right name link in a new tab. Clicking inside the portal traps navigation in an iframe without exposing the URL parameter.
-* **Preserve History**: Never overwrite existing remarks in `#txtRemarks`. Always append new entries to existing text.
-* **Truthful Grounding**: Never invent collaborator names, deployment events, clean builds, or root causes. Distinguish implemented changes from pending validation.
-* **Safe Write Retries**: If a timeout occurs after clicking save or approve, always execute a read-only page refresh to check if the update persisted before attempting any retry.
-
----
+* **Ask the mode every time** (in the scheduled run, together with the card choice). Never draft or browse before it is answered.
+* **Never save.** Never click Save, Approve/In-Progress, Reject, Realize, Process, Delete or Close, never change a status. Saving is always the user's own click, even if asked mid-run.
+* **Ambiguity means ask**: several cards for one number, unlinked commits, "no card found". Never pick for the user.
+* **Append, never replace**; **approved text only**, into the confirmed `request_id`.
+* **Writing rules always apply**: 5–8 sentence prose, no self ticket number, plain tone, truthful grounding, self-audit before presenting.
+* **Honest points**: rate quality by the SOP rubric only; never inflate, and never suggest moving a card or padding text to gain points.
+* **Browser discipline**: fill runs in a visible window; reads run headless or in the open automation window. Locate controls by Synergy's stable IDs and handlers, wait on page state, never fixed sleeps.
+* **Login walls stop the run.** Point the user to `config.json` or a one-time sign-in.
+* **Secrets stay in `config.json`.** Never print, echo, or commit the password; `kanban_config.py --show` masks it. The file lives outside every repository.
+* **Non-destructive**: never kill Edge or close tabs the automation did not open.
+* **No blind retries**: check `history` and open tabs before re-filling a card.
+* **Schedule changes go through config**: edit `schedule` in `config.json`, then `schedule.py sync`. Never edit the Windows task by hand.
 
 ## Definition of Done
 
-* **Mode A**: Factual technical English remarks delivered to the user with zero browser execution.
-* **Mode B**: Live ticket details, status, and recent history extracted and presented.
-* **Mode C**: Remarks confirmed persisted on the live request card, history verified intact, status transition confirmed, and direct URL provided.
-* **Mode D**: Transparent mathematical score breakdown delivered with evidence citations.
-* **Mode E**: Environment diagnostics verified clean (`status: ready`) or dependencies successfully installed.
+* **Work Log**: mode asked; each chosen card has a grounded 5–8 sentence remark with its audit table; ambiguities resolved by the user; history status stated.
+* **Work Log + Fill**: the above, plus approval, `fill` result per card, the window left open with nothing saved, and the user told to press Save.
+* **Points Summary**: period asked; every task entry in the period rated or explicitly pending; weekly totals, bonus, penalty and average per day shown with caveats.
+* **Scheduled run**: candidates shown, the user's card and mode choice honored, then the chosen mode's definition of done.

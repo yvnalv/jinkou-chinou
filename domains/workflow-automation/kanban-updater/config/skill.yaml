@@ -1,69 +1,92 @@
 name: kanban-updater
-version: 1.1.0
+version: 3.0.0
 description: >
-  Draft evidence-based technical English work updates from Git and user notes, or update requested Exact Synergy Kanban cards using Playwright.
+  Write daily work logs for Exact Synergy Kanban cards from git and card history, fill them without saving, track EoD points, on a weekday schedule.
 domain: workflow-automation
 type: specialized
 requires:
   - python>=3.10
   - playwright
-tags: [kanban, synergy, standup, eod-reporting, git, playwright, automation]
+tags: [kanban, synergy, eod-reporting, work-log, standup, git, playwright, automation, schedule, points]
 
 # --- Skill-specific policy ---
 
 modes:
-  - id: A
-    name: draft-only
-    safe_default: true
-    requires_browser: false
-  - id: B
-    name: card-inspection
-    requires_browser: true
-    write_enabled: false
-  - id: C
-    name: append-and-transition
-    requires_browser: true
-    write_enabled: true
-  - id: D
-    name: eod-scoring-audit
-    requires_browser: false
-  - id: E
-    name: environment-setup
-    requires_browser: false
+  ask_every_time: true
+  options:
+    - id: work-log
+      label: Work Log
+      browser: read_only_lookups
+      writes_to_synergy: false
+    - id: work-log-fill
+      label: Work Log + Fill
+      browser: visible_window_for_fill
+      writes_to_synergy: types_into_field_only
+      saves: never
+      requires_user_approval_of_text: true
+    - id: points-summary
+      label: Points Summary
+      browser: read_only_lookups
+      asks_period_first: true
 
-browser:
-  channel: msedge
-  headless: true
-  chromium_sandbox: false
-  profile_path: "%USERPROFILE%\\.gemini\\playwright-edge-profile"
-  allow_process_termination: false
-  safe_retry_on_timeout: read_only_verification
+settings:
+  file: "%USERPROFILE%\\.config\\kanban-updater\\config.json"
+  override_env_var: KANBAN_UPDATER_CONFIG
+  template: assets/config.template.json
+  data_files: [points-ledger.json, schedule.log]
+  environments: [local, live]
 
-person_id_resolution:
-  hierarchy:
-    - prompt_or_args
-    - environment_variable: SYNERGY_PERSON_ID
-    - config_file: ~/.config/kanban-updater/config.json
-    - live_auto_discovery: top_right_name_new_tab
+schedule:
+  mechanism: windows_task_scheduler
+  default: {days: [Mon, Tue, Wed, Thu, Fri], time: "17:20"}
+  launches: claude_code_in_windows_terminal
+  claude_binary: path_then_newest_vscode_extension
+  source_of_truth: config.json
+  first_step: candidates_then_card_and_mode_question
+  selection: {multi_select: true, max_options: 4, all_option: true, other_numbers_free_text: true}
+
+card_lookup:
+  accepts: [work_item_number, request_number, formatted_request_number]
+  board_paging: action_5_until_empty
+  on_multiple_matches: ask_user
+  on_no_match: ask_for_request_number
+
+fill:
+  field: WorkflowComments
+  position: append_at_end
+  timestamp: auto_on_first_key_else_timestamp_button
+  forbidden_controls: [btnSave, btnApprove, btnReject, btnRealize, btnProcess, btnDelete, btnClose]
+  after_fill: detach_and_leave_window_open
+  refill_open_card: refuse
+
+points:
+  task_entry: one_per_card_per_weekday
+  timeliness_from: first_remark_time
+  quality: rated_once_by_claude_stored_in_ledger
+  waiting_exclusion: current_status
 
 eod_scoring:
   max_task_score: 5.0
   consistency_points: 1.0
   timeliness_points: 1.0
+  timeliness_deadline: start_time_plus_9h
+  grace_hours: 1
   quality_points_max: 3.0
+  quality_gate: 2.5
   weekly_bonus: 2.0
   repetition_penalty: -5.0
+  repetition_similarity: 0.95
 
-writing_style:
-  format: single_cohesive_paragraph
+browser:
+  channel: msedge
+  read_only: headless_or_attach_to_open_window
+  fill: visible_detached_window_with_cdp_port
+  allow_process_termination: false
+  integrated_windows_auth: true
+
+work_log:
+  sources: [git_activity_by_day, card_history, user_notes]
+  self_audit: [inspection, scoring]
+  format: single_paragraph
   sentence_count_range: [5, 8]
-  disallow_bullet_points: true
   omit_self_work_item_id: true
-  allow_external_dependency_work_item_id: true
-  narrative_arc:
-    - problem_and_why
-    - existing_behavior_and_chosen_solution
-    - edge_cases_and_refinements
-    - obstacles_and_resolution
-    - verification_and_tests
-    - next_step_in_plan
