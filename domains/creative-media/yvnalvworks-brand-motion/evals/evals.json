@@ -27,7 +27,8 @@
       "Copies assets/reel-starter into remotion-demos and loads the reel's captions.json",
       "Gives every story beat one animated visual keyed to its caption cue with at(id)",
       "Keeps content centered on x 540, captions at Y=1480, no third-party logos, illustrative tags on charts",
-      "Renders both a captions version and a clean version and inspects sampled frames"
+      "Renders both a captions version and a clean version and inspects sampled frames",
+      "Renders the 9:16 reel cover (reel-cover.png) from cover-spec.json with the same lockup and headline as the feed cover"
     ]
   },
   {

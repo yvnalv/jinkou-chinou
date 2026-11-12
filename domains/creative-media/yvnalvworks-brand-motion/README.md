@@ -56,6 +56,10 @@ yvnalvworks-brand-motion/
 
 ## Changelog
 
+### 0.5.0 — 2026-11-12
+* Every reel or video now ships with a cover: `render_carousel.py` gains `"format": "reel"` / `--format reel` (1080x1920, block centered for the profile-grid crops) and a per-slide `file` name.
+* Cover spec section 6 documents the reel cover; the reels motion system adds the cover to deliverables and QA.
+
 ### 0.4.0 — 2026-11-12
 * Reels system from the approved "The AI Engineering Workflow" reel: `references/reels-motion-system.md` (centered layout on x 540, caption-keyed timing, one animated visual per story beat, motion rules, color meaning, captions, QA).
 * New `assets/reel-starter/`: a typechecked, render-tested Remotion project with Base and Patterns components (PhoneFrame, LineChart, Meter, StepRail, AppTile, Wipe, EndCard, morph) and two compositions (captions and clean).

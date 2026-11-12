@@ -67,7 +67,18 @@
         "maxChars": 32
       },
       "spec": "references/reels-motion-system.md",
-      "starter": "assets/reel-starter/"
+      "starter": "assets/reel-starter/",
+      "cover": {
+        "required": true,
+        "file": "reel-cover.png",
+        "width": 1080,
+        "height": 1920,
+        "layout": "same as feed cover, block optically centered",
+        "gridSafeY": [
+          285,
+          1635
+        ]
+      }
     }
   },
   "background": {

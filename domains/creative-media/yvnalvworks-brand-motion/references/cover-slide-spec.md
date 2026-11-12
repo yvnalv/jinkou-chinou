@@ -69,14 +69,30 @@ Use the `cover` slide type in `scripts/render_carousel.py`; it encodes every val
 
 `\n` is a line break; `[[...]]` is the lime highlight and may span a break.
 
-## 6. Outside inspiration (not bundled)
+## 6. Reel and video cover (9:16)
+
+**Every reel or video ships with a cover.** It is the same cover as the feed: lockup and headline only, same type scale, same highlight rule, on the grain background, at 1080 x 1920.
+
+- The block is optically centered in the 9:16 frame, so it stays inside both profile-grid crops (centered 4:5, y 285 to 1635, and centered 3:4, y 240 to 1680). Nothing important goes outside y 285 to 1635.
+- No captions, icons, play buttons, or frame grabs on the cover.
+- Render it with `"format": "reel"`; output `reel-cover.png` (2160 x 3840 at 2x) into the reel folder next to the MP4s:
+
+```json
+{"format": "reel", "slides": [
+  {"type": "cover", "headline": "6 Steps Every\nAI Builder\n[[Should Know]]", "file": "reel-cover.png"}
+]}
+```
+
+`/yvnalvworks-content-ideas` writes this file as `cover-spec.json` from the reel's `coverHeadline`, so normally you only run `python <skill-dir>/scripts/render_carousel.py <reel-folder>/cover-spec.json --out <reel-folder>`.
+
+## 7. Outside inspiration (not bundled)
 
 The owner also shared another creator's listicle cover (blue gradient, 3D clay icons, third-party company logos, "With Links" pill, "Swipe next" footer). It is kept as copy inspiration only and is not bundled, because it carries another person's name, photo, and trademarked logos.
 
 * **Borrow:** the value-promise headline ("... You Should Read") and the idea of stating the bonus in the copy ("With Links", "With Code").
 * **Do not borrow:** blue or purple gradients, 3D clay illustrations, brand logos, pill badges, header year stamps, or footer swipe bars. They break the yvnalvworks matte grain aesthetic.
 
-## 7. Cover review checklist
+## 8. Cover review checklist
 
 - [ ] Grain background image present (not a flat fill).
 - [ ] Lockup: color avatar, white name, ivory handle, above the headline.
@@ -84,3 +100,4 @@ The owner also shared another creator's listicle cover (blue gradient, 3D clay i
 - [ ] Exactly one lime phrase.
 - [ ] Block optically centered; nothing else on the slide.
 - [ ] Side-by-side comparison with a reference cover shows the same scale and position.
+- [ ] Reel cover: 1080 x 1920 (2x export), block inside the centered 4:5 crop, saved as `reel-cover.png` next to the MP4s.

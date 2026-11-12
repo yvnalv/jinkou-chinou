@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """
-Playwright-based 4:5 slide renderer for yvnalvworks carousels.
+Playwright-based slide and cover renderer for yvnalvworks carousels and reels.
 
-Reads a carousel spec JSON and renders 1080x1350 slides (exported at --scale,
-default 2x = 2160x2700 PNG). Every slide sits on the brand grain background
+Reads a spec JSON and renders 4:5 carousel slides (1080x1350) or a 9:16 reel
+cover (1080x1920), exported at --scale (default 2x). Every slide sits on the brand grain background
 (assets/brand-kit/backgrounds/yvnalvworks-grain-bg.png), never a flat fill.
 
 Spec format:
 {
+  "format": "feed",            // "feed" (4:5, default) or "reel" (9:16 reel/video cover)
   "slides": [
-    {"type": "cover", "headline": "What AI Engineers\\nShould Know\\nAbout [[Microsoft\\nAgent Framework]]"},
+    {"type": "cover", "headline": "What AI Engineers\\nShould Know\\nAbout [[Microsoft\\nAgent Framework]]", "file": "cover.png"},
     {"type": "html", "html": "<div class='h2'>Body slide fragment</div>"},
     {"type": "html", "html": "<!doctype html><html>... full document ...</html>"}
   ]
@@ -23,6 +24,10 @@ HTML slides: a fragment (no <html> tag) is wrapped in the brand shell (grain
 background, Poppins, 80px padding). A full document is rendered as-is after
 token substitution: {{BG}} = grain background data URI, {{AVATAR}} = color
 avatar data URI, {{FONTS}} = Google Fonts <link> tags.
+
+Optional per-slide "file" sets the output name (default 01.png, 02.png, ...).
+A reel cover uses the same lockup and headline as the feed cover, centered so it
+survives the profile-grid crop (3:4 and 4:5 centered crops).
 
 Prints a JSON summary to stdout.
 """
@@ -45,7 +50,11 @@ SKILL_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BG_PATH = os.path.join(SKILL_DIR, "assets", "brand-kit", "backgrounds", "yvnalvworks-grain-bg.png")
 AVATAR_PATH = os.path.join(SKILL_DIR, "assets", "brand-kit", "logos", "yovan-avatar-color.png")
 
-WIDTH, HEIGHT = 1080, 1350
+# format -> (width, height, cover stage padding)
+FORMATS = {
+    "feed": (1080, 1350, "0 40px 108px 0"),
+    "reel": (1080, 1920, "0 40px 140px 0"),
+}
 
 FONTS = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">'
@@ -56,7 +65,7 @@ FONTS = (
 
 BASE_CSS = """
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:1080px;height:1350px;overflow:hidden}
+html,body{width:__W__px;height:__H__px;overflow:hidden}
 body{background:#121212 url({{BG}}) center/cover no-repeat;color:#F0ECE2;
   font-family:'Poppins',sans-serif;-webkit-font-smoothing:antialiased}
 .hl{color:#C1FF72}
@@ -64,7 +73,7 @@ body{background:#121212 url({{BG}}) center/cover no-repeat;color:#F0ECE2;
 """
 
 COVER_CSS = """
-.stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:0 40px 108px 0}
+.stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:__PAD__}
 .block{display:flex;flex-direction:column;align-items:flex-start;max-width:860px}
 .lockup{display:flex;align-items:center;gap:10px;margin-bottom:46px}
 .lockup img{width:66px;height:66px;border-radius:50%;display:block}
@@ -117,15 +126,21 @@ def build_html(slide: dict) -> str:
 <style>{BASE_CSS}{SHELL_CSS}</style></head><body><div class="shell">{content}</div></body></html>"""
 
 
-def substitute(doc: str, tokens: dict) -> str:
+def substitute(doc: str, tokens: dict, fmt: str = "feed") -> str:
+    w, h, pad = FORMATS[fmt]
+    doc = doc.replace("__W__", str(w)).replace("__H__", str(h)).replace("__PAD__", pad)
     for key, value in tokens.items():
         doc = doc.replace("{{" + key + "}}", value)
     return doc
 
 
-def render_carousel(spec_path: str, output_dir: str, scale: float) -> dict:
+def render_carousel(spec_path: str, output_dir: str, scale: float, fmt_override: str | None = None) -> dict:
     with open(spec_path, "r", encoding="utf-8") as f:
         spec = json.load(f)
+    fmt = fmt_override or spec.get("format", "feed")
+    if fmt not in FORMATS:
+        raise ValueError(f"Unknown format '{fmt}' (use 'feed' or 'reel')")
+    width, height, _ = FORMATS[fmt]
     slides = spec.get("slides", [])
     if not slides:
         raise ValueError("Spec has no 'slides'")
@@ -140,7 +155,7 @@ def render_carousel(spec_path: str, output_dir: str, scale: float) -> dict:
 
     with sync_playwright() as p:
         browser = p.chromium.launch()
-        page = browser.new_page(viewport={"width": WIDTH, "height": HEIGHT}, device_scale_factor=scale)
+        page = browser.new_page(viewport={"width": width, "height": height}, device_scale_factor=scale)
         for idx, slide in enumerate(slides, start=1):
             kind = slide.get("type", "html")
             if kind == "cover":
@@ -149,11 +164,11 @@ def render_carousel(spec_path: str, output_dir: str, scale: float) -> dict:
                 doc = build_html(slide)
             else:
                 raise ValueError(f"Slide {idx}: unknown type '{kind}' (use 'cover' or 'html')")
-            page.set_content(substitute(doc, tokens), wait_until="networkidle")
+            page.set_content(substitute(doc, tokens, fmt), wait_until="networkidle")
             fonts_ok = page.evaluate(
                 "async () => { await document.fonts.ready; return document.fonts.check(\"700 96px Poppins\"); }"
             )
-            out_file = os.path.join(output_dir, f"{idx:02d}.png")
+            out_file = os.path.join(output_dir, slide.get("file") or f"{idx:02d}.png")
             page.screenshot(path=out_file)
             entry = {"slide": idx, "type": kind, "file": out_file, "poppinsLoaded": fonts_ok}
             if kind == "cover":
@@ -176,21 +191,22 @@ def render_carousel(spec_path: str, output_dir: str, scale: float) -> dict:
         for r in rendered
         if r["type"] == "cover" and r["intendedLines"] > 1 and r["headlineLines"] != r["intendedLines"]
     ]
-    return {"slides": rendered, "pixelSize": [int(WIDTH * scale), int(HEIGHT * scale)], "warnings": warnings}
+    return {"format": fmt, "slides": rendered, "pixelSize": [int(width * scale), int(height * scale)], "warnings": warnings}
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Render yvnalvworks 4:5 carousel slides on the brand grain background")
+    parser = argparse.ArgumentParser(description="Render yvnalvworks 4:5 carousel slides or a 9:16 reel cover on the brand grain background")
     parser.add_argument("spec", help="Path to carousel spec JSON")
     parser.add_argument("--out", "-o", default="./slides", help="Output directory for rendered PNGs")
-    parser.add_argument("--scale", type=float, default=2.0, help="Device scale factor (2 = 2160x2700 export)")
+    parser.add_argument("--scale", type=float, default=2.0, help="Device scale factor (2 = 2x export)")
+    parser.add_argument("--format", choices=sorted(FORMATS), help="Override the spec format: feed (4:5) or reel (9:16 cover)")
     args = parser.parse_args()
 
     if not os.path.exists(args.spec):
         print(f"Error: spec file '{args.spec}' not found.", file=sys.stderr)
         sys.exit(1)
     try:
-        result = render_carousel(args.spec, args.out, args.scale)
+        result = render_carousel(args.spec, args.out, args.scale, args.format)
     except (ValueError, json.JSONDecodeError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         sys.exit(1)

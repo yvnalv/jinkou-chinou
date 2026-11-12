@@ -1,6 +1,6 @@
 # yvnalvworks Cover Headline Patterns
 
-The copy rules for carousel slide 1, taken from the two published yvnalvworks covers. Every carousel idea delivers a `coverHeadline` that follows these rules, so `/yvnalvworks-brand-motion` can render it straight onto the standard cover without rewriting.
+The copy rules for carousel slide 1 **and for every reel or video cover**, taken from the two published yvnalvworks covers. Every carousel idea delivers a `coverHeadline` that follows these rules, so `/yvnalvworks-brand-motion` can render it straight onto the standard cover without rewriting.
 
 ## 1. Published references
 
@@ -39,6 +39,8 @@ A bonus can go in the copy: "... Should Read (With Links)", "... With Code". The
 ```
 
 `scripts/format_content_idea.py` checks the line count, line length, and the single highlight.
+
+Reels and videos use the same field in `reel.json`; `scripts/build_reel_package.py` refuses a reel without a valid `coverHeadline` and writes `cover-spec.json` for the 9:16 cover render.
 
 ## 5. Relation to the hook
 

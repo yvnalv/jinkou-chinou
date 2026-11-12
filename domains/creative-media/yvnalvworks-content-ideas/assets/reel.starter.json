@@ -1,5 +1,6 @@
 {
   "title": "Why Your Edge Model Fails After Deployment",
+  "coverHeadline": "Why Your\n[[Edge Model]]\nFails in\nProduction",
   "date": "2026-11-12",
   "category": "Computer Vision",
   "status": "Idea 💡",
@@ -56,7 +57,5 @@
       ]
     }
   ],
-  "sources": [
-    "Replace with verified sources, one per claim, with links."
-  ]
+  "sources": ["Replace with verified sources, one per claim, with links."]
 }

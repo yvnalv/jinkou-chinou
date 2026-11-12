@@ -2,7 +2,11 @@
 """Build a yvnalvworks reel package from one reel JSON file.
 
 Writes, into --out (default: the JSON file's folder):
-  reels-script.txt, teleprompter-voiceover-guide.txt, captions.srt, captions.json, content-spec.json
+  reels-script.txt, teleprompter-voiceover-guide.txt, captions.srt, captions.json, content-spec.json,
+  cover-spec.json (render the reel cover with /yvnalvworks-brand-motion render_carousel.py)
+
+Every reel needs a cover: `coverHeadline` follows the same rules as carousel covers
+(3 to 4 lines, max 18 characters per line, exactly one [[highlight]]).
 
 Every caption cue is checked against the spoken words (same words, same order), the
 storytelling caption rules (sentence case, 3 to 6 words, max 32 characters, no trailing
@@ -19,6 +23,9 @@ import json
 import os
 import re
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from format_content_idea import validate_cover_headline  # noqa: E402  (same skill)
 
 MIN_WORDS, MAX_WORDS, MAX_CHARS = 3, 6, 32
 MIN_CUE, SENTENCE_PAUSE = 1.0, 0.3
@@ -40,6 +47,10 @@ def validate(reel):
     for key in ("title", "date", "scenes", "sources"):
         if not reel.get(key):
             errors.append(f"missing '{key}'")
+    if not reel.get("coverHeadline"):
+        errors.append("missing 'coverHeadline': every reel needs a cover (see references/cover-headline-patterns.md)")
+    else:
+        errors.extend(validate_cover_headline(reel["coverHeadline"]))
     for sc in reel.get("scenes", []):
         name = sc.get("name", "?")
         cues = sc.get("cues", [])
@@ -135,7 +146,10 @@ def build(reel, out):
                     "onscreen": sc.get("onscreen", ""), "visual": sc.get("visual", ""), "lucideIcons": sc.get("icons", []), "ccLockedY": 1480}
                    for i, sc in enumerate(scenes, 1)],
     }
+    spec["cover"] = {"file": "reel-cover.png", "headline": reel["coverHeadline"], "spec": "cover-spec.json"}
     write("content-spec.json", json.dumps(spec, indent=2, ensure_ascii=False) + "\n")
+    cover_spec = {"format": "reel", "slides": [{"type": "cover", "headline": reel["coverHeadline"], "file": "reel-cover.png"}]}
+    write("cover-spec.json", json.dumps(cover_spec, indent=2, ensure_ascii=False) + "\n")
     return {"out": out, "cues": len(cues), "words": words, "durationSeconds": round(total, 1),
             "inTarget": 40 <= total <= 60}
 

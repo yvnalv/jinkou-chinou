@@ -1,8 +1,8 @@
 ---
 name: yvnalvworks-brand-motion
-description: "yvnalvworks (@yvnalvworks / yvnalvworks.com) specialized brand motion skill extending the-motion-designer. Applies yvnalvworks' signature technical aesthetic: matte charcoal grain background image (never a flat fill), Poppins Bold headlines with Warm Ivory #F0ECE2 and white text, one Electric Lime #C1FF72 punchline phrase, the avatar plus name and handle lockup above the headline on covers, Lucide 2px monoline SVG icons, and locked Y=1480px captions. Renders 4:5 carousel covers and slides that match the published reference covers, and caption-timed 9:16 Remotion reels where every story beat gets an animated visual (product mockups, charts, step rails, app-style icon tiles, loops) built from the bundled reel starter. Use when creating carousels, covers, slides, or videos for yvnalvworks or invoking /yvnalvworks-brand-motion."
+description: "yvnalvworks (@yvnalvworks / yvnalvworks.com) specialized brand motion skill extending the-motion-designer. Applies yvnalvworks' signature technical aesthetic: matte charcoal grain background image (never a flat fill), Poppins Bold headlines with Warm Ivory #F0ECE2 and white text, one Electric Lime #C1FF72 punchline phrase, the avatar plus name and handle lockup above the headline on covers, Lucide 2px monoline SVG icons, and locked Y=1480px captions. Renders 4:5 carousel covers and slides that match the published reference covers, a 9:16 cover for every reel or video, and caption-timed 9:16 Remotion reels where every story beat gets an animated visual (product mockups, charts, step rails, app-style icon tiles, loops) built from the bundled reel starter. Use when creating carousels, covers, slides, or videos for yvnalvworks or invoking /yvnalvworks-brand-motion."
 metadata:
-  version: 0.4.0
+  version: 0.5.0
 ---
 
 # yvnalvworks Brand Motion: Visual Identity and Canvas Engine
@@ -42,7 +42,7 @@ This skill isolates all yvnalvworks visual guidelines, typography, color tokens,
 | `references/yvnalvworks-brand-guidelines.md` | Core color tokens, background rule, Poppins typography, and prohibited visuals. |
 | `references/yvnalvworks-brand-assets-checklist.md` | Verification checklist for background, avatars, logos, tokens, reference covers, and storage locations. |
 | `references/lucide-icon-spec.md` | Technical SVG rules and concept-to-icon mapping for Lucide vectors. |
-| `scripts/render_carousel.py` | Playwright renderer for 4:5 slides on the grain background, exported 2160x2700 PNG: `python <skill-dir>/scripts/render_carousel.py <spec.json> --out <dir> [--scale 2]`. `cover` slides take a `headline` (`\n` breaks, `[[...]]` lime); `html` slides take a fragment (wrapped in the brand shell) or a full document with `{{BG}}`, `{{AVATAR}}`, `{{FONTS}}` tokens. Prints JSON; exits 1 if Poppins failed to load or a hand-broken cover line overflowed the 860px measure and wrapped. |
+| `scripts/render_carousel.py` | Playwright renderer on the grain background: 4:5 slides (2160x2700 PNG) or, with `"format": "reel"` (or `--format reel`), the 9:16 reel/video cover (2160x3840 PNG): `python <skill-dir>/scripts/render_carousel.py <spec.json> --out <dir> [--scale 2] [--format feed\|reel]`. A slide's optional `file` sets the output name. `cover` slides take a `headline` (`\n` breaks, `[[...]]` lime); `html` slides take a fragment (wrapped in the brand shell) or a full document with `{{BG}}`, `{{AVATAR}}`, `{{FONTS}}` tokens. Prints JSON; exits 1 if Poppins failed to load or a hand-broken cover line overflowed the 860px measure and wrapped. |
 | `assets/brand-kit/backgrounds/yvnalvworks-grain-bg.png` | The background of every slide and video frame (matte charcoal grain). Never substitute a flat fill. |
 | `assets/reference-covers/cover-ref-listicle-ai-updates.jpg` | Published listicle cover. Compare renders against it. |
 | `assets/reference-covers/cover-ref-should-know-maf.jpg` | Published "What X Should Know About Y" cover. Compare renders against it. |
@@ -74,7 +74,7 @@ This skill isolates all yvnalvworks visual guidelines, typography, color tokens,
    - `JetBrains Mono` or `Geist Mono` (500) for slide counters (`01 / 05`), code blocks, and metrics.
 3. **Color**: headlines `#FFFFFF`, handle and body `#F0ECE2` Warm Ivory, secondary `#8E8E93`, muted `#71717A`.
 4. **Accent Highlight**: `Electric Lime` (`#C1FF72`) on exactly one punchline phrase per slide, and as solid backgrounds for framework cards.
-5. **Cover (slide 1)**: color avatar + `yvnalvworks` / `@yvnalvworks` lockup above a 96px Poppins Bold headline of 3 to 4 hand-broken lines, left-aligned text in an optically centered block, nothing else on the slide. Full spec: `references/cover-slide-spec.md`.
+5. **Cover (slide 1, and every reel or video)**: color avatar + `yvnalvworks` / `@yvnalvworks` lockup above a 96px Poppins Bold headline of 3 to 4 hand-broken lines, left-aligned text in an optically centered block, nothing else on the slide. Reels and videos always get the same cover at 9:16 (`reel-cover.png`). Full spec: `references/cover-slide-spec.md`.
 6. **Copy on slides**: Render copy as the flowing sentences delivered by `/yvnalvworks-content-ideas`. Never chop body copy into fragment bullets or ALL CAPS labels; give sentences room to breathe (body 28 to 32px, line height 1.45).
 7. **Lucide Monoline Icons**: strict 2px stroke width, rounded caps, rounded joins, zero fills, 24x24 viewBox.
 8. **Reels Safe Zones (9:16)**:
@@ -92,7 +92,7 @@ This skill isolates all yvnalvworks visual guidelines, typography, color tokens,
 2. **Build the spec.** Slide 1 is a `cover` slide. Body slides are `html` fragments that use Poppins, Lucide icons, and the lime accent; the renderer puts them on the grain background.
 3. **Render** with `scripts/render_carousel.py` to the agreed folder under `D:\yvnalv\Onedrive\04. yvnalvworks\Contents\`. If the JSON reports a Poppins warning, fix connectivity and re-render; do not ship fallback fonts. If it reports a cover overflow warning, re-break the headline (for example "Should Know / About [[Subject]]") and re-render.
 4. **Compare.** View the rendered cover next to a file in `assets/reference-covers/` and walk the checklist in `references/cover-slide-spec.md`. Fix any drift in scale, position, background, or highlight before handing over.
-5. **Reels.** Open `references/reels-motion-system.md`. Copy `assets/reel-starter/` to `D:\yvnalv\AI Skills\remotion-demos\<reel-name>\` (see its README), put the reel's `captions.json` in `src/data/`, and plan one animated visual per story beat keyed to its caption cue with `at(id)`. Keep content centered on x 540, typecheck, render both versions (captions and clean), sample a frame from every scene and check centering, safe zones, and overlaps, then copy both MP4s into the reel's OneDrive folder.
+5. **Reels.** Open `references/reels-motion-system.md`. Copy `assets/reel-starter/` to `D:\yvnalv\AI Skills\remotion-demos\<reel-name>\` (see its README), put the reel's `captions.json` in `src/data/`, and plan one animated visual per story beat keyed to its caption cue with `at(id)`. Keep content centered on x 540, typecheck, render both versions (captions and clean), render the 9:16 cover from the reel's `cover-spec.json` (`reel-cover.png`), sample a frame from every scene and check centering, safe zones, and overlaps, then copy both MP4s next to the cover in the reel's OneDrive folder.
 
 ---
 
@@ -104,5 +104,5 @@ A task run of `yvnalvworks-brand-motion` is complete when:
 3. Design complies with yvnalvworks tokens (Poppins type, white and Warm Ivory text, one #C1FF72 phrase).
 4. The cover matches the reference covers in layout, lockup, and type scale.
 5. All icons follow authentic Lucide 2px monoline SVG specifications.
-6. Reels: every story beat has an animated visual keyed to its caption, content is centered on x 540, charts carry an `illustrative` tag, no third-party logos, and both MP4s (captions and clean) are in the reel folder.
+6. Reels: every story beat has an animated visual keyed to its caption, content is centered on x 540, charts carry an `illustrative` tag, no third-party logos, and both MP4s (captions and clean) plus `reel-cover.png` are in the reel folder.
 7. Rendered slides or videos were output to the designated directory and visually inspected.

@@ -37,6 +37,9 @@ yvnalvworks-content-ideas/
 
 ## Changelog
 
+### 0.5.0 — 2026-11-12
+* Every reel or video gets a cover: `reel.json` requires a `coverHeadline` (same formulas and rules as carousel covers), and `build_reel_package.py` validates it and writes `cover-spec.json` for the 9:16 cover render in `/yvnalvworks-brand-motion`.
+
 ### 0.4.0 — 2026-11-12
 * New `scripts/build_reel_package.py` and `assets/reel.starter.json`: one `reel.json` generates the reel script, teleprompter guide, `captions.srt`, `captions.json`, and `content-spec.json`, and enforces the caption rules (matches spoken words, sentence case, 3 to 6 words, 32 characters, no dashes). Tested on the published AI Engineering Workflow reel (byte-identical captions and guide) and on broken inputs.
 * Reels now carry a visual plan per scene: one concrete animated metaphor per story beat, matching the brand-motion reels motion system.

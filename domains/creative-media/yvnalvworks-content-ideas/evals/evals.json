@@ -28,7 +28,8 @@
       "Writes reel.json with a conversational 40 to 60 second script that opens with a relatable moment",
       "Plans one concrete animated visual per scene with Lucide icons and no third-party logos",
       "Runs scripts/build_reel_package.py so captions match the spoken words in sentence case, 3 to 6 words per cue",
-      "Rejects AI voiceover synthesis and prepares a teleprompter guide for manual recording"
+      "Rejects AI voiceover synthesis and prepares a teleprompter guide for manual recording",
+      "Writes a coverHeadline for the reel cover (3 to 4 lines, one [[highlight]]) and produces cover-spec.json"
     ]
   },
   {
