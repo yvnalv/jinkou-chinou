@@ -37,6 +37,10 @@ yvnalvworks-content-ideas/
 
 ## Changelog
 
+### 0.6.0 — 2026-11-13
+* Teleprompter guide asks for one take per scene with natural pauses, matching the brand-motion voiceover sync.
+* `build_reel_package.py` keeps captions already aligned to a recorded voiceover (`--force-captions` to overwrite).
+
 ### 0.5.0 — 2026-11-12
 * Every reel or video gets a cover: `reel.json` requires a `coverHeadline` (same formulas and rules as carousel covers), and `build_reel_package.py` validates it and writes `cover-spec.json` for the 9:16 cover render in `/yvnalvworks-brand-motion`.
 

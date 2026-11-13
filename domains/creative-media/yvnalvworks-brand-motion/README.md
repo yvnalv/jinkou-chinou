@@ -23,6 +23,7 @@ yvnalvworks-brand-motion/
 ├── references/
 │   ├── cover-slide-spec.md                  # Measured cover layout, lockup, headline scale, checklist
 │   ├── reels-motion-system.md               # Reel layout, timing, beat-to-visual patterns, motion, QA
+│   ├── voiceover-sync.md                    # Recorded takes -> sped-up voice + aligned captions
 │   ├── lucide-icon-spec.md                  # Lucide SVG standards and concept mappings
 │   ├── yvnalvworks-brand-assets-checklist.md# Brand kit asset checklist
 │   └── yvnalvworks-brand-guidelines.md      # Background, color tokens, typography, and rules
@@ -34,9 +35,11 @@ yvnalvworks-brand-motion/
     │   ├── package.json                     # Pinned Remotion + lucide-react
     │   ├── tsconfig.json
     │   ├── remotion.config.ts
+    │   ├── scripts/                         # transcribe.mjs, align_voiceover.py, refine_captions.py
     │   └── src/
     │       ├── index.ts, Root.tsx, Reel.tsx # Entry, two compositions, example reel
     │       ├── theme.ts, timing.ts          # Tokens + centered layout, caption-keyed timing
+    │       ├── voiceover.ts                 # VOICEOVER_FILE switch
     │       ├── components/Base.tsx          # Background, lockup, captions, wipe, app tile, tag
     │       ├── components/Patterns.tsx      # Panel, heading, phone, chart, meter, rail, end card
     │       └── data/captions.json           # Example captions
@@ -55,6 +58,9 @@ yvnalvworks-brand-motion/
 ```
 
 ## Changelog
+
+### 0.6.0 — 2026-11-13
+* Voiceover sync is now standard: `references/voiceover-sync.md` plus `transcribe.mjs`, `align_voiceover.py`, `refine_captions.py`, and a `VOICEOVER_FILE` switch in the reel starter. Takes are matched to scenes, joined, loudness-normalized, sped up (default 1.2x), and every caption (and so every animation beat) is re-timed to the real voice. Tested on the AI Engineering Workflow reel.
 
 ### 0.5.0 — 2026-11-12
 * Every reel or video now ships with a cover: `render_carousel.py` gains `"format": "reel"` / `--format reel` (1080x1920, block centered for the profile-grid crops) and a per-slide `file` name.

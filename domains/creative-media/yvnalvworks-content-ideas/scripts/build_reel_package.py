@@ -105,6 +105,8 @@ def build(reel, out):
          "2. Let sentences flow into each other. Small pauses at commas, a breath at each period.",
          "3. Lean lightly on the word marked *LIKE THIS* in each scene.",
          "4. Smile on the first line. The hook is a moment the viewer recognizes.",
+         "   Record ONE TAKE PER SCENE, in order, into the reel folder's voiceover/ subfolder,",
+         "   with a short natural pause at every comma and period (the sync uses those pauses).",
          f"5. Caption timings are estimates at ~{wpm} WPM. After recording, re-time captions.srt to your",
          "   audio (CapCut: import SRT, drag cue edges), or send the audio back for re-alignment.", "",
          line, "FULL READ-THROUGH", line]
@@ -160,6 +162,7 @@ def main():
     ap = argparse.ArgumentParser(description="Build a yvnalvworks reel package (script, teleprompter, captions, spec) from reel JSON")
     ap.add_argument("reel_json", help="Path to reel JSON (see assets/reel.starter.json)")
     ap.add_argument("--out", "-o", help="Output folder (default: the JSON file's folder)")
+    ap.add_argument("--force-captions", action="store_true", help="Overwrite captions even if they are aligned to a recorded voiceover")
     args = ap.parse_args()
     if not os.path.exists(args.reel_json):
         print(f"Error: '{args.reel_json}' not found.", file=sys.stderr)
@@ -173,7 +176,20 @@ def main():
             print(f"  - {e}", file=sys.stderr)
         sys.exit(1)
     out = args.out or os.path.dirname(os.path.abspath(args.reel_json))
-    print(json.dumps(build(reel, out), indent=2))
+    aligned = reel.get("video", {}).get("voiceover", {}).get("captionsAligned")
+    keep = {}
+    if aligned and not args.force_captions:
+        for name in ("captions.srt", "captions.json"):
+            p = os.path.join(out, name)
+            if os.path.exists(p):
+                keep[name] = open(p, encoding="utf-8").read()
+    result = build(reel, out)
+    for name, text in keep.items():  # restore captions aligned to the real voiceover
+        with open(os.path.join(out, name), "w", encoding="utf-8") as f:
+            f.write(text)
+    if keep:
+        result["captionsKept"] = "aligned to the recorded voiceover (use --force-captions to overwrite)"
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

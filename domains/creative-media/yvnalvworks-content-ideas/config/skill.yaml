@@ -1,5 +1,5 @@
 name: yvnalvworks-content-ideas
-version: 0.5.0
+version: 0.6.0
 description: >
   Researches, validates, and structures evidence-backed technical content ideas (carousels, reels video scripts, articles, engineering breakdowns) for yvnalvworks as friendly, easy-to-follow technical stories, with source citations and Notion content planner sync.
 domain: creative-media
@@ -40,6 +40,8 @@ story_beats:
 reels:
   package_script: scripts/build_reel_package.py
   cover_required: true
+  voiceover_takes: one_per_scene
+  keep_aligned_captions: true
   cover_field: coverHeadline
   input: reel.json
   visual_plan: one_animated_visual_per_beat

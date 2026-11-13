@@ -1,5 +1,5 @@
 name: yvnalvworks-brand-motion
-version: 0.5.0
+version: 0.6.0
 description: >
   yvnalvworks (@yvnalvworks / yvnalvworks.com) specialized brand motion skill extending the-motion-designer with the matte grain background, Poppins typography, reference-matched carousel covers, and Lucide monoline icons.
 domain: creative-media
@@ -8,4 +8,4 @@ extends: the-motion-designer
 requires:
   - python>=3.10
   - playwright
-tags: [yvnalvworks, motion-graphics, remotion, brand-guidelines, carousels, covers, lucide, reels, reel-starter]
+tags: [yvnalvworks, motion-graphics, remotion, brand-guidelines, carousels, covers, lucide, reels, reel-starter, voiceover-sync]

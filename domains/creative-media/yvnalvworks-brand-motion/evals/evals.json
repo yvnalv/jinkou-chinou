@@ -32,12 +32,23 @@
     ]
   },
   {
-    "id": "eval-04-reject-unrelated-brands",
+    "id": "eval-04-sync-voiceover",
+    "prompt": "I recorded the voiceover for the yvnalvworks reel, it's in the voiceover folder. Sync it with the video and make it 1.2x.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Transcribes each take to confirm which scene it is and flags real wording changes",
+      "Runs align_voiceover.py with --speed 1.2, then refine_captions.py, and reports the median timing error",
+      "Sets VOICEOVER_FILE, re-renders both versions with audio, and checks every beat still finishes in time",
+      "Leaves the original recordings untouched and delivers voiceover-final-1.2x.wav plus aligned captions"
+    ]
+  },
+  {
+    "id": "eval-05-reject-unrelated-brands",
     "prompt": "Buatkan animasi video logo Databro.",
     "should_trigger": false
   },
   {
-    "id": "eval-05-reject-ai-gradients",
+    "id": "eval-06-reject-ai-gradients",
     "prompt": "Add a glowing purple AI sparkle gradient to this slide.",
     "should_trigger": false
   }

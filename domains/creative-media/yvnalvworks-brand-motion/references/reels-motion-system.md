@@ -70,4 +70,5 @@ Sentence case, natural phrases of 3 to 6 words (max 32 characters), Poppins 600 
 2. `npm run typecheck`, then render both: `npm run render` (captions) and `npm run render:clean` (no captions, for CapCut).
 3. **Render the cover.** Every reel ships with `reel-cover.png` (9:16, same lockup and headline as the feed cover): `python <skill-dir>/scripts/render_carousel.py <reel-folder>/cover-spec.json --out <reel-folder>`. See `references/cover-slide-spec.md`, section 6.
 4. Extract a frame from every scene (`npx remotion ffmpeg -ss <sec> -i <mp4> -frames:v 1 ...`) and check: grain background, centering on x 540, nothing in the right strip or header, captions readable, no overlaps.
-5. Copy both MP4s into the reel's OneDrive folder next to the cover, script, guide, captions, and `reel.json`.
+5. When the voiceover is recorded, sync it with `references/voiceover-sync.md` and re-render.
+6. Copy both MP4s into the reel's OneDrive folder next to the cover, script, guide, captions, and `reel.json`.

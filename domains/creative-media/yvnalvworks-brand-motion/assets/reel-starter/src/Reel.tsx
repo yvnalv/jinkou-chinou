@@ -1,10 +1,11 @@
 import React from 'react';
-import { AbsoluteFill, useCurrentFrame } from 'remotion';
+import { AbsoluteFill, Audio, staticFile, useCurrentFrame } from 'remotion';
 import { Camera, FlaskConical, Laptop, Sun, Vibrate, Wind } from 'lucide-react';
 import { C, CENTER_X, POPPINS } from './theme';
 import { at, ease, mix, pop } from './timing';
 import { AppTile, Background, Captions, TopLockup, Wipe } from './components/Base';
 import { EndCard, LineChart, Meter, Panel, StepHeading } from './components/Patterns';
+import { VOICEOVER_FILE } from './voiceover';
 
 // Example reel wired to src/data/captions.json (the content-ideas reel.starter.json story).
 // Replace the scenes, keep the structure: every beat starts at a caption cue via at(id).
@@ -55,6 +56,7 @@ const LessonScene: React.FC = () => {
 export const Reel: React.FC<{ showCaptions: boolean }> = ({ showCaptions }) => (
   <AbsoluteFill style={{ backgroundColor: C.bg, fontFamily: POPPINS, color: C.ivory }}>
     <Background />
+    {VOICEOVER_FILE ? <Audio src={staticFile(VOICEOVER_FILE)} /> : null}
     <MomentScene />
     <TurnScene />
     <LessonScene />

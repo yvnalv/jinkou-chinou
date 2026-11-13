@@ -1,8 +1,8 @@
 ---
 name: yvnalvworks-brand-motion
-description: "yvnalvworks (@yvnalvworks / yvnalvworks.com) specialized brand motion skill extending the-motion-designer. Applies yvnalvworks' signature technical aesthetic: matte charcoal grain background image (never a flat fill), Poppins Bold headlines with Warm Ivory #F0ECE2 and white text, one Electric Lime #C1FF72 punchline phrase, the avatar plus name and handle lockup above the headline on covers, Lucide 2px monoline SVG icons, and locked Y=1480px captions. Renders 4:5 carousel covers and slides that match the published reference covers, a 9:16 cover for every reel or video, and caption-timed 9:16 Remotion reels where every story beat gets an animated visual (product mockups, charts, step rails, app-style icon tiles, loops) built from the bundled reel starter. Use when creating carousels, covers, slides, or videos for yvnalvworks or invoking /yvnalvworks-brand-motion."
+description: "yvnalvworks (@yvnalvworks / yvnalvworks.com) specialized brand motion skill extending the-motion-designer. Applies yvnalvworks' signature technical aesthetic: matte charcoal grain background image (never a flat fill), Poppins Bold headlines with Warm Ivory #F0ECE2 and white text, one Electric Lime #C1FF72 punchline phrase, the avatar plus name and handle lockup above the headline on covers, Lucide 2px monoline SVG icons, and locked Y=1480px captions. Renders 4:5 carousel covers and slides that match the published reference covers, a 9:16 cover for every reel or video, and caption-timed 9:16 Remotion reels where every story beat gets an animated visual (product mockups, charts, step rails, app-style icon tiles, loops) built from the bundled reel starter, then synced to Yovan's recorded voiceover (takes joined, sped up, captions re-timed). Use when creating carousels, covers, slides, or videos for yvnalvworks or invoking /yvnalvworks-brand-motion."
 metadata:
-  version: 0.5.0
+  version: 0.6.0
 ---
 
 # yvnalvworks Brand Motion: Visual Identity and Canvas Engine
@@ -50,6 +50,7 @@ This skill isolates all yvnalvworks visual guidelines, typography, color tokens,
 | `assets/brand-kit/logos/yovan-avatar-color.png` | Color avatar used in the cover lockup (66px circle). |
 | `assets/brand-kit/logos/yovan-avatar.png` | Grayscale 1080px headshot for large placements. |
 | `assets/brand-kit/logos/yvnalvworks-logo-transparent.png` | Official transparent wordmark logo. |
+| `references/voiceover-sync.md` | Open when Yovan has recorded the voiceover: match takes to scenes, speed (default 1.2x), align, refine, render with voice, deliver. |
 | `references/reels-motion-system.md` | Open for every reel: centered layout, caption-driven timing, story beat to visual patterns, motion rules, color meaning, icons, captions, deliverables and QA. |
 | `assets/reel-starter/README.md` | How to copy the starter into `D:\yvnalv\AI Skills\remotion-demos\<reel-name>\`, add brand assets and captions, and render. |
 | `assets/reel-starter/package.json` | Pinned Remotion 4.0.542, lucide-react 0.460.0, React 18; `sync`, `studio`, `typecheck`, `render`, `render:clean` scripts. |
@@ -62,6 +63,10 @@ This skill isolates all yvnalvworks visual guidelines, typography, color tokens,
 | `assets/reel-starter/src/timing.ts` | Caption-keyed timing: `at(id)`, `until(id)`, `pop`, `ease`, `span`, `mix`, `rand`. |
 | `assets/reel-starter/src/components/Base.tsx` | Background, TopLockup, Captions, Wipe, AppTile, Tag. |
 | `assets/reel-starter/src/components/Patterns.tsx` | Panel, StepHeading, PhoneFrame, LineChart, Meter, StepRail, EndCard, morph. |
+| `assets/reel-starter/src/voiceover.ts` | `VOICEOVER_FILE`: null renders silent; set to the aligned file in `public/` to add the voice. |
+| `assets/reel-starter/scripts/transcribe.mjs` | whisper.cpp 1.5.5 `small.en` (local): transcript and rough word times per WAV, to confirm which take is which scene and what was said. |
+| `assets/reel-starter/scripts/align_voiceover.py` | Joins the takes, normalizes loudness, applies the speed, and times every caption from pauses and syllables. |
+| `assets/reel-starter/scripts/refine_captions.py` | Snaps mid-phrase cue starts to Whisper word times on the final audio. |
 | `assets/reel-starter/src/data/captions.json` | Example captions (from the content-ideas reel starter); replace with the reel's real captions. |
 
 ---
@@ -93,6 +98,7 @@ This skill isolates all yvnalvworks visual guidelines, typography, color tokens,
 3. **Render** with `scripts/render_carousel.py` to the agreed folder under `D:\yvnalv\Onedrive\04. yvnalvworks\Contents\`. If the JSON reports a Poppins warning, fix connectivity and re-render; do not ship fallback fonts. If it reports a cover overflow warning, re-break the headline (for example "Should Know / About [[Subject]]") and re-render.
 4. **Compare.** View the rendered cover next to a file in `assets/reference-covers/` and walk the checklist in `references/cover-slide-spec.md`. Fix any drift in scale, position, background, or highlight before handing over.
 5. **Reels.** Open `references/reels-motion-system.md`. Copy `assets/reel-starter/` to `D:\yvnalv\AI Skills\remotion-demos\<reel-name>\` (see its README), put the reel's `captions.json` in `src/data/`, and plan one animated visual per story beat keyed to its caption cue with `at(id)`. Keep content centered on x 540, typecheck, render both versions (captions and clean), render the 9:16 cover from the reel's `cover-spec.json` (`reel-cover.png`), sample a frame from every scene and check centering, safe zones, and overlaps, then copy both MP4s next to the cover in the reel's OneDrive folder.
+6. **Voiceover.** When the recording arrives, follow `references/voiceover-sync.md`: confirm each take's scene and wording, apply the speed (ask; Yovan's default is 1.2x), align and refine the captions, set `VOICEOVER_FILE`, re-render both versions with voice, check every beat still finishes in time, and deliver the final audio and aligned captions.
 
 ---
 
@@ -105,4 +111,5 @@ A task run of `yvnalvworks-brand-motion` is complete when:
 4. The cover matches the reference covers in layout, lockup, and type scale.
 5. All icons follow authentic Lucide 2px monoline SVG specifications.
 6. Reels: every story beat has an animated visual keyed to its caption, content is centered on x 540, charts carry an `illustrative` tag, no third-party logos, and both MP4s (captions and clean) plus `reel-cover.png` are in the reel folder.
-7. Rendered slides or videos were output to the designated directory and visually inspected.
+7. Voiced reels: captions are aligned to the real audio (report the median timing error), both MP4s carry the voice, and the final audio plus aligned captions are in the reel folder.
+8. Rendered slides or videos were output to the designated directory and visually inspected.
