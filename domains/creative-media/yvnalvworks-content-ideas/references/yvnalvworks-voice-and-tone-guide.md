@@ -37,15 +37,17 @@ The hook opens a loop. The story must **close that same loop** in the payoff (th
 
 ## 3. Story structure
 
-### Reels (40 to 60 seconds)
+### Reels (as long as the story needs, under 3 minutes)
 
 | Part | Time | What it does |
 |---|---|---|
 | Hook | 0 to 3 s | One short sentence that opens a question (section 2). |
 | Setup | 3 to 12 s | Put the viewer in a concrete moment: what they did, what they saw. "You hit send, you check the usage page..." |
 | Discovery | 12 to 40 s | Explain what is really going on, **as a sequence of things that happen**, each one answering the question the last one raised. This is where the facts live, inside the story. |
-| Payoff | 40 to 50 s | Close the hook's loop. The number, the surprise, the "so that's why". |
-| Takeaway + CTA | 50 to 60 s | One thing to try, said like advice to a friend, then "Follow for more". |
+| Payoff | near the end | Close the hook's loop. The number, the surprise, the "so that's why". |
+| Takeaway + CTA | last ~10 s | One thing to try, said like advice to a friend, then "Follow for more". |
+
+Timings shown are for a 60-second reel. Longer reels (up to 3 minutes) stretch the setup and discovery; the hook stays 2 to 3 seconds.
 
 ### Carousels
 
@@ -89,7 +91,7 @@ First-person anecdotes ("Last week I...") must be **true**. Ask Yovan for a real
 
 ### Spoken scripts (reels)
 - Write for the ear. If you run out of breath, split at a natural pause, not into fragments.
-- About 140 words per minute; 40 to 60 seconds is 95 to 140 words.
+- About 140 words per minute: 60 seconds is about 140 words, 90 seconds about 210, and the hard ceiling is 3 minutes (about 420 words). Keep it as short as the story allows.
 - Mark the hook as its own first sentence in scene 1.
 
 ### On-screen closed captions

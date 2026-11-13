@@ -16,7 +16,7 @@ How a reel goes from estimated timings to Yovan's real voice. First used on "The
 
 ## 3. Speed
 
-Ask the speed if it was not given; Yovan's preference so far is **1.2x** (natural pace about 135 WPM becomes about 160, a normal reels pace). `atempo` keeps the pitch. Keep the final reel inside 40 to 60 seconds.
+Ask the speed if it was not given; Yovan's preference so far is **1.2x** (natural pace about 135 WPM becomes about 160, a normal reels pace). `atempo` keeps the pitch. Keep the final reel under 3 minutes.
 
 ## 4. Align, join, speed up
 

@@ -201,7 +201,7 @@ def build(reel, out):
     write("cover-spec.json", json.dumps(cover_spec, indent=2, ensure_ascii=False) + "\n")
     hook = sentences(scenes[0]["spoken"])[0]
     return {"out": out, "cues": len(cues), "words": words, "durationSeconds": round(total, 1),
-            "inTarget": 40 <= total <= 60, "hook": hook, "hookSeconds": round(len(hook.split()) * spw, 1),
+            "inTarget": 30 <= total < 180, "hook": hook, "hookSeconds": round(len(hook.split()) * spw, 1),
             "styleWarnings": style_warnings(reel)}
 
 

@@ -37,6 +37,9 @@ yvnalvworks-content-ideas/
 
 ## Changelog
 
+### 0.7.1 — 2026-11-13
+* Reels may run as long as the story needs, under 3 minutes (was 40 to 60 seconds); `inTarget` checks 30 s to under 180 s.
+
 ### 0.7.0 — 2026-11-13
 * Hook first: the first sentence is 8 words or fewer (2 to 3 seconds) and the payoff must answer it; reels follow Hook → Setup → Discovery → Payoff → Takeaway with timings.
 * Voice guide rewritten against AI-ish writing: sentence rhythm rules (12 to 22 words, one short punch per part), a list of generated-sounding patterns to avoid, an honesty rule for anecdotes, and a stiff-vs-story worked example.

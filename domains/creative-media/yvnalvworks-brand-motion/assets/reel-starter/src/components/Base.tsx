@@ -42,7 +42,7 @@ export const Captions: React.FC = () => {
     <div style={{ position: 'absolute', left: CONTENT_LEFT, width: CONTENT_RIGHT - CONTENT_LEFT, top: CC_Y - 80, height: 160, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <div
         style={{
-          fontWeight: 600, fontSize: 46, lineHeight: 1.2, color: C.white, maxWidth: 780, textAlign: 'center', letterSpacing: '-0.01em',
+          fontWeight: 600, fontSize: 46, lineHeight: 1.2, color: C.white, maxWidth: 840, textAlign: 'center', letterSpacing: '-0.01em',
           background: 'rgba(18,18,18,0.78)', border: `1px solid ${C.border}`, borderRadius: 22, padding: '12px 30px',
           transform: `scale(${0.94 + 0.06 * p}) translateY(${(1 - p) * 10}px)`, opacity: Math.min(1, p * 1.6),
         }}

@@ -12,8 +12,8 @@
 ## 2. Instagram Reels / Short-form Video
 - **Aspect Ratio**: 9:16 vertical video
 - **Resolution**: 1080 x 1920 px
-- **Target Duration**: 40 to 60 seconds (~140 words per minute, relaxed conversation; about 95 to 140 words)
-- **Structure**: Hook 0 to 3 s (first sentence 8 words or fewer, visual from frame 0), Setup 3 to 12 s, Discovery 12 to 40 s, Payoff 40 to 50 s (answers the hook), Takeaway + CTA 50 to 60 s.
+- **Target Duration**: as long as the story needs and under 3 minutes (most land around 45 to 90 seconds); about 140 words per minute, relaxed conversation. Never pad a story to fill time, and never cut a payoff to hit a number.
+- **Structure**: Hook 0 to 3 s (first sentence 8 words or fewer, visual from frame 0), Setup 3 to 12 s, Discovery 12 to 40 s, Payoff (answers the hook), Takeaway + CTA in the last 10 seconds; longer stories stretch the discovery, not the hook.
 - **Safe Zones**:
   - Top header safe zone: 0 - 150px
   - Bottom actions safe zone: 1640 - 1920px

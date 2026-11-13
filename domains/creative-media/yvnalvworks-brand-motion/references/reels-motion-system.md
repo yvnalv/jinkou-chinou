@@ -30,7 +30,7 @@ Check centering on every review: draw a vertical line at x 540 over sampled fram
 
 - `captions.json` (from `/yvnalvworks-content-ideas` `build_reel_package.py`) is the single timeline. Every beat starts at `at(cueId)` in `src/timing.ts`.
 - When the voiceover is recorded and the captions re-timed, `npm run sync` and re-render; the animation follows the voice.
-- Reels run 40 to 60 seconds; the composition adds about 2 seconds of tail for the end card.
+- Reels run as long as the story needs and stay under 3 minutes; the composition adds about 2 seconds of tail for the end card.
 
 ## 4. Story beat to visual
 

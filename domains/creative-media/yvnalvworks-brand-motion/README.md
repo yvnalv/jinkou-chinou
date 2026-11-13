@@ -59,6 +59,10 @@ yvnalvworks-brand-motion/
 
 ## Changelog
 
+### 0.7.1 — 2026-11-13
+* Reel length: as long as the story needs, under 3 minutes (was 40 to 60 seconds).
+* Starter captions use the full 840px content width before wrapping.
+
 ### 0.7.0 — 2026-11-13
 * Reels motion system section 1b: hook visible from frame 0, one hero object travels through the story, few headings, motion follows speech.
 * Captions become breath groups (3 to 9 words, 48 characters, up to two lines); the starter `Captions` component wraps to two lines.
