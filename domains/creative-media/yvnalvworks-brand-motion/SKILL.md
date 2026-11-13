@@ -2,7 +2,7 @@
 name: yvnalvworks-brand-motion
 description: "yvnalvworks (@yvnalvworks / yvnalvworks.com) specialized brand motion skill extending the-motion-designer. Applies yvnalvworks' signature technical aesthetic: matte charcoal grain background image (never a flat fill), Poppins Bold headlines with Warm Ivory #F0ECE2 and white text, one Electric Lime #C1FF72 punchline phrase, the avatar plus name and handle lockup above the headline on covers, Lucide 2px monoline SVG icons, and locked Y=1480px captions. Renders 4:5 carousel covers and slides that match the published reference covers, a 9:16 cover for every reel or video, and caption-timed 9:16 Remotion reels where every story beat gets an animated visual (product mockups, charts, step rails, app-style icon tiles, loops) built from the bundled reel starter, then synced to Yovan's recorded voiceover (takes joined, sped up, captions re-timed). Use when creating carousels, covers, slides, or videos for yvnalvworks or invoking /yvnalvworks-brand-motion."
 metadata:
-  version: 0.6.0
+  version: 0.7.0
 ---
 
 # yvnalvworks Brand Motion: Visual Identity and Canvas Engine
@@ -87,7 +87,8 @@ This skill isolates all yvnalvworks visual guidelines, typography, color tokens,
    - Bottom interaction safe area: 1640 - 1920px
    - Right action strip: 960 - 1080px
    - Closed Captions locked at: Center Y = 1480px
-   - Caption style: sentence case natural phrases (3 to 6 words, max 32 characters) from the script, Poppins 600, white, one line, no ALL CAPS
+   - Caption style: sentence case breath groups (3 to 9 words, max 48 characters, up to two lines) from the script, Poppins 600, white, no ALL CAPS
+   - Hook: the hook visual is on screen from frame 0 (no fade-in or logo intro), and one hero object travels through the story instead of a deck of titled panels (`references/reels-motion-system.md`, section 1b)
 
 ---
 

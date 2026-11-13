@@ -6,6 +6,13 @@ How yvnalvworks reels look and move. Distilled from the published "The AI Engine
 
 Every spoken story beat gets **one concrete, animated visual metaphor**, timed to the caption cue that says it. The viewer should understand the story with the sound off.
 
+## 1b. Hook and flow
+
+- **The hook is visible on frame 0.** The first 2 to 3 seconds show the hook itself (a big number, a broken result, the surprising thing) already on screen or snapping in within 6 frames. No slow fades, no logo intro, no title card.
+- **Follow one thing through the story.** Pick a hero object (the message, the model, the camera frame) and let it travel and transform from scene to scene: the chat bubble slides into the tokenizer, becomes chips, packs into luggage, lands on a receipt. Cutting between unrelated titled panels feels like a slide deck.
+- **Few headings.** A mono kicker plus big title on every scene reads as slides. Use on-screen text for the hook, key numbers, and at most a few short labels; let the voice and captions carry the sentences.
+- **Motion follows speech.** Animate on the words that name things (`at(id)` of the cue that says them), and let a finished state breathe for about a second before the next change.
+
 ## 2. Layout (1080 x 1920)
 
 | Zone | Rule |
@@ -62,7 +69,7 @@ Every chart, score, or number that is not real data carries the mono tag `illust
 
 ## 8. Captions
 
-Sentence case, natural phrases of 3 to 6 words (max 32 characters), Poppins 600 46px white on a dark pill (`rgba(18,18,18,0.78)`, 1px `#27272a` border), centered at y 1480, popping in per cue.
+Sentence case, breath-group phrases of 3 to 9 words (max 48 characters, wrapping to at most two lines), Poppins 600 46px white on a dark pill (`rgba(18,18,18,0.78)`, 1px `#27272a` border), centered at y 1480, popping in per cue.
 
 ## 9. Deliverables and QA
 

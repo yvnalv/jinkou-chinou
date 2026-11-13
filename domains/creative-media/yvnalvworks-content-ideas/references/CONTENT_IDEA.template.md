@@ -66,5 +66,6 @@ Write every line in the storytelling voice from `references/yvnalvworks-voice-an
 ## Reel Companion (9:16)
 - **Target Duration**: 40 to 60 seconds (~140 WPM, conversational)
 - **Talent Mode**: Manual human voiceover (Yovan Alvianto)
-- **Script**: The five beats as flowing spoken sentences
-- **Closed Captions**: Exact voiceover words, sentence case, natural phrase cues (3 to 6 words, max 32 characters), locked at Y=1480px
+- **Hook (0 to 3 s)**: [8 words or fewer that open a question]
+- **Script**: Setup, discovery, payoff, takeaway as flowing spoken sentences (12 to 22 words each, one short punch at most per part)
+- **Closed Captions**: Exact voiceover words, sentence case, breath-group cues (3 to 9 words, max 48 characters, up to two lines), locked at Y=1480px

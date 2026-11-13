@@ -1,5 +1,5 @@
 name: yvnalvworks-content-ideas
-version: 0.6.0
+version: 0.7.0
 description: >
   Researches, validates, and structures evidence-backed technical content ideas (carousels, reels video scripts, articles, engineering breakdowns) for yvnalvworks as friendly, easy-to-follow technical stories, with source citations and Notion content planner sync.
 domain: creative-media
@@ -49,9 +49,14 @@ reels:
   words_per_minute: 140
   closed_captions:
     case: sentence
-    words_per_cue: 3-6
-    max_chars_per_cue: 32
-    break_at: natural_phrase
+    words_per_cue: 3-9
+    max_chars_per_cue: 48
+    max_lines: 2
+    break_at: breath_group
+  hook:
+    max_words: 8
+    seconds: 2-3
+  style_lint: zero_warnings
 
 notion_sync:
   database_id: "5a915afd-b3c1-8274-836c-87fe398765ee"

@@ -9,8 +9,10 @@ Every reel needs a cover: `coverHeadline` follows the same rules as carousel cov
 (3 to 4 lines, max 18 characters per line, exactly one [[highlight]]).
 
 Every caption cue is checked against the spoken words (same words, same order), the
-storytelling caption rules (sentence case, 3 to 6 words, max 32 characters, no trailing
-period), and the em/en dash ban. Timing is estimated from words per minute; re-time
+storytelling caption rules (sentence case, 3 to 9 words, max 48 characters, no trailing
+period), and the em/en dash ban. The hook rule is enforced: the first sentence of scene 1
+is 8 words or fewer (about 3 seconds once sped up 1.2x). A style lint warns about AI-ish writing: stacked
+short sentences and stock phrases (see references/yvnalvworks-voice-and-tone-guide.md). Timing is estimated from words per minute; re-time
 captions.srt to the real voiceover after recording.
 
 Usage:
@@ -27,7 +29,9 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from format_content_idea import validate_cover_headline  # noqa: E402  (same skill)
 
-MIN_WORDS, MAX_WORDS, MAX_CHARS = 3, 6, 32
+MIN_WORDS, MAX_WORDS, MAX_CHARS = 3, 9, 48
+HOOK_MAX_WORDS = 8  # about 3 s at the 1.2x delivery
+SHORT_SENTENCE = 7  # words
 MIN_CUE, SENTENCE_PAUSE = 1.0, 0.3
 
 
@@ -42,6 +46,44 @@ def ts(t, srt=True):
     return f"00:{m:02d}:{s:02d},{ms:03d}" if srt else f"{m:02d}:{s:02d}.{ms // 100}"
 
 
+STOCK_PHRASES = [
+    "here's the thing", "let's dive", "dive in", "let that sink in", "buckle up", "game changer", "game-changer",
+    "unlock", "in today's world", "the secret", "spoiler", "it's not just", "in short", "did you know",
+    "in this video", "today we'll", "hi guys",
+]
+
+
+def sentences(text):
+    return [x.strip() for x in re.split(r"(?<=[.!?])\s+", text.strip()) if x.strip()]
+
+
+def style_warnings(reel):
+    """Warnings (not errors) for AI-ish writing: stacked short sentences and stock phrases."""
+    warns = []
+    allsent = []
+    for sc in reel.get("scenes", []):
+        sents = sentences(sc.get("spoken", ""))
+        allsent += sents
+        run = 0
+        for x in sents:
+            run = run + 1 if len(x.split()) < SHORT_SENTENCE else 0
+            if run == 2:
+                warns.append(f"{sc.get('name', '?')}: two short sentences in a row ('{x}'); merge into one flowing sentence")
+        low = sc.get("spoken", "").lower()
+        for ph in STOCK_PHRASES:
+            if ph in low:
+                warns.append(f"{sc.get('name', '?')}: stock phrase '{ph}' sounds generated; say it plainly")
+    body = allsent[1:]  # the hook may be short
+    if body:
+        short = sum(1 for x in body if len(x.split()) < SHORT_SENTENCE)
+        avg = sum(len(x.split()) for x in body) / len(body)
+        if short / len(body) > 0.3:
+            warns.append(f"{short} of {len(body)} sentences are under {SHORT_SENTENCE} words; the script will sound choppy")
+        if avg < 11:
+            warns.append(f"average sentence is {avg:.1f} words; aim for 12 to 22 so it flows like speech")
+    return warns
+
+
 def validate(reel):
     errors = []
     for key in ("title", "date", "scenes", "sources"):
@@ -51,7 +93,12 @@ def validate(reel):
         errors.append("missing 'coverHeadline': every reel needs a cover (see references/cover-headline-patterns.md)")
     else:
         errors.extend(validate_cover_headline(reel["coverHeadline"]))
-    for sc in reel.get("scenes", []):
+    scenes = reel.get("scenes", [])
+    if scenes:
+        first = sentences(scenes[0].get("spoken", ""))
+        if first and len(first[0].split()) > HOOK_MAX_WORDS:
+            errors.append(f"hook: the first sentence has {len(first[0].split())} words; the hook must land in 2 to 3 seconds ({HOOK_MAX_WORDS} words or fewer)")
+    for sc in scenes:
         name = sc.get("name", "?")
         cues = sc.get("cues", [])
         if norm(sc.get("spoken", "")) != norm(" ".join(c[0] for c in cues)):
@@ -152,8 +199,10 @@ def build(reel, out):
     write("content-spec.json", json.dumps(spec, indent=2, ensure_ascii=False) + "\n")
     cover_spec = {"format": "reel", "slides": [{"type": "cover", "headline": reel["coverHeadline"], "file": "reel-cover.png"}]}
     write("cover-spec.json", json.dumps(cover_spec, indent=2, ensure_ascii=False) + "\n")
+    hook = sentences(scenes[0]["spoken"])[0]
     return {"out": out, "cues": len(cues), "words": words, "durationSeconds": round(total, 1),
-            "inTarget": 40 <= total <= 60}
+            "inTarget": 40 <= total <= 60, "hook": hook, "hookSeconds": round(len(hook.split()) * spw, 1),
+            "styleWarnings": style_warnings(reel)}
 
 
 def main():

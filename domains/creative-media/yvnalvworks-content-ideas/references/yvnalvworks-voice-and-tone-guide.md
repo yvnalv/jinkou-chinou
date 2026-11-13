@@ -1,72 +1,125 @@
 # yvnalvworks Voice & Tone Guide
 
+## Table of contents
+1. Who is talking
+2. The hook (first 2 to 3 seconds)
+3. Story structure (reels and carousels)
+4. Sentence rhythm
+5. AI-ish patterns to avoid
+6. Honesty in stories
+7. Still non-negotiable
+8. Spoken scripts, captions, slides, post captions
+9. Worked example: stiff vs story
+
 ## 1. Who is talking
 
-Yovan, an AI and Computer Vision systems engineer, explaining something he has learned to a smart friend who builds software but has not done this exact thing yet. The voice is friendly, curious, and honest about trade-offs. It is technically accurate, never hyped, and never lectures.
+Yovan, an AI and Computer Vision systems engineer, telling a friend who builds software about something that surprised him. Warm, curious, a little playful, honest about trade-offs, technically exact. It should sound like a person talking over coffee, never like a narrator reading facts or a model summarizing a document.
 
-Write like you are telling the story over coffee, not reading out a spec sheet.
+The test: read the script out loud. If it sounds like a list of facts with transitions glued between them, it is not a story yet.
 
-## 2. Every piece is a story
+## 2. The hook (first 2 to 3 seconds)
 
-Carousels, reels, and captions all follow the same five story beats:
+The first sentence decides whether anyone watches the rest. It is spoken in **2 to 3 seconds: 8 words or fewer** (about 3 seconds at the usual 1.2x delivery), and the visual says the same thing **from the first frame** (a big number, a broken screen, a surprising result; no slow fade-in, no logo, no greeting).
 
-| Beat | What it does | Example |
+A hook does one of these:
+
+| Hook type | Example |
+|---|---|
+| Surprising result | "Your six-word question just cost three thousand tokens." |
+| Relatable pain | "Your AI demo worked yesterday. Today it's lying to customers." |
+| Curiosity gap | "AI can't count the r's in strawberry, and here's why." |
+| Stakes | "Writing this prompt in Indonesian costs a quarter more." |
+| Contrarian | "The model is the easiest part of an AI product." |
+
+Never open with: "Hi guys", "In this video", "Today we'll talk about", "Did you know", or a definition ("Tokens are...").
+
+The hook opens a loop. The story must **close that same loop** in the payoff (the three thousand tokens get explained; the strawberry gets counted).
+
+## 3. Story structure
+
+### Reels (40 to 60 seconds)
+
+| Part | Time | What it does |
 |---|---|---|
-| 1. The moment | A situation the viewer recognizes | "You build a quick AI demo, it works on the first try, and everyone is excited." |
-| 2. The problem | What goes wrong, and why it matters | "Then real users show up, and the answers start drifting in ways nobody can explain." |
-| 3. The turn | How it actually works, the idea that changes the picture | "That's because the model was never the hard part. The system around it is." |
-| 4. The lesson | The rule, said in plain words | "So start simple, and only add complexity when your tests prove you need it." |
-| 5. The next step | What to do tomorrow, plus a warm CTA | "Pick one feature this week and write ten test cases for it first." |
+| Hook | 0 to 3 s | One short sentence that opens a question (section 2). |
+| Setup | 3 to 12 s | Put the viewer in a concrete moment: what they did, what they saw. "You hit send, you check the usage page..." |
+| Discovery | 12 to 40 s | Explain what is really going on, **as a sequence of things that happen**, each one answering the question the last one raised. This is where the facts live, inside the story. |
+| Payoff | 40 to 50 s | Close the hook's loop. The number, the surprise, the "so that's why". |
+| Takeaway + CTA | 50 to 60 s | One thing to try, said like advice to a friend, then "Follow for more". |
 
-## 3. Sentence rules
+### Carousels
 
-1. **Full, connected sentences that flow into each other.** Use transitions: "So", "But here's the thing", "That's why", "Which means", "And once that works", "Think of it like".
-2. **Vary the rhythm.** Most sentences run 10 to 20 words. A short line is fine for emphasis, but never stack three fragments in a row.
-3. **No telegraphic patterns.** Avoid "Step one: X. Step two: Y.", noun stacks ("Schema locks. Latency budgets. Telemetry."), and headline-speak in body copy. Turn lists into a journey: "First you..., then..., and once that holds up...".
-4. **Talk to "you".** Use "I" or "we" for real experience. Contractions are welcome (it's, you'll, don't).
-5. **Explain jargon the first time** in plain words: "evals, which are small tests that tell you whether a change made things better or worse".
-6. **One idea per sentence, one idea per slide or scene.**
-7. **Analogies are welcome when they are accurate.** Drop one that bends the facts.
+Slide 1 is the hook (the cover headline plus a hook line in the caption). Slides then follow setup, discovery, payoff, takeaway; every slide ends with a reason to swipe.
 
-## 4. Still non-negotiable
+## 4. Sentence rhythm
+
+- **Spoken, flowing sentences.** Most sentences run 12 to 22 words and carry a cause or a consequence: "because", "so", "which is why", "and that's when", "turns out".
+- **One short punch per part, at most.** A short sentence is a drumbeat; three in a row is a robot. Never stack sentences under 7 words.
+- **Tell it as events.** "When you hit send, a tokenizer quietly chops your text into pieces" beats "A tokenizer splits text into tokens."
+- **Concrete over abstract.** Real words (hello, strawberry), real numbers (6 words, 3,000 tokens), real objects (the usage page, the chat window).
+- **Talk to "you".** Contractions everywhere (it's, you're, don't). Jargon gets a plain-words explanation the first time.
+- **Questions only when the story needs one.** One question to turn the story is great; a question every line is a quiz.
+
+## 5. AI-ish patterns to avoid
+
+These make a script sound generated. `build_reel_package.py` flags many of them.
+
+- Stacked short declaratives: "Models don't read words. They read tokens. Tokens are numbers."
+- "Here's the thing", "Let's dive in", "Let that sink in", "Buckle up", "Game-changer", "Unlock", "In today's world", "The secret", "Spoiler".
+- "It's not just X, it's Y" and "Not X. Y." reveal patterns.
+- Rule-of-three lists in every paragraph ("faster, cheaper, and better").
+- Colon reveals in every sentence ("The answer: tokens.").
+- Opening every sentence with "So" or "And".
+- Definitions as the first line ("Tokenization is the process of...").
+- Summaries that repeat the script ("In short, tokens are...").
+
+## 6. Honesty in stories
+
+First-person anecdotes ("Last week I...") must be **true**. Ask Yovan for a real moment, or use a "you" scenario or a clearly hypothetical one ("Imagine you..."). Measured numbers name their source ("in my test with the GPT-4o tokenizer"). Illustrative numbers on screen carry the `illustrative` tag.
+
+## 7. Still non-negotiable
 
 1. **English only.** No Indonesian and no slang abbreviations. Friendly does not mean sloppy.
 2. **Technically correct, with sources.** Simplify the words, never the facts.
-3. **No hype.** Avoid "game-changing", "revolutionary", "insane hack", "mind-blowing". Say what happens and why.
+3. **No hype** and none of the patterns in section 5.
 4. **No em-dashes or en-dashes** (`—`, `–`). Use commas, colons, parentheses, or a new sentence.
 5. **Human voiceover only.** Yovan records manually (iPhone, 48 kHz). Never synthesize a voice.
 
-## 5. Spoken scripts (reels)
+## 8. Formats
 
-- Write for the ear. Read it out loud; if you run out of breath, split at a natural pause, not into fragments.
-- Pace: relaxed conversation, about 140 words per minute. Target 40 to 60 seconds (about 95 to 140 words).
-- Open with the moment (beat 1) in the first 3 seconds, so the viewer sees themselves in it.
-- End with one clear next step, then the CTA.
+### Spoken scripts (reels)
+- Write for the ear. If you run out of breath, split at a natural pause, not into fragments.
+- About 140 words per minute; 40 to 60 seconds is 95 to 140 words.
+- Mark the hook as its own first sentence in scene 1.
 
-## 6. On-screen closed captions
+### On-screen closed captions
+- The exact voiceover words, in **sentence case**.
+- One cue per breath group, not per few words: **3 to 9 words, at most 48 characters**, shown on up to two lines. Longer, natural phrases read as speech; tiny 3-word flashes read as a robot.
+- Break at commas and breath points; never split a phrase that belongs together ("a / model"). No trailing periods; keep question marks.
 
-- The exact words of the voiceover, in **sentence case** (not ALL CAPS).
-- One cue per natural phrase: 3 to 6 words, at most 32 characters. Break at commas and breath points.
-- Never split a phrase that belongs together ("a / model", "add / context").
-- No trailing periods on cues; keep question marks.
+### Carousel slides
+- Each slide is one story moment: a natural sentence headline plus 1 to 3 flowing sentences.
+- End a slide with a pull to the next one when it fits.
 
-## 7. Carousel slides
+### Post captions
+- Start with the hook line, then tell the story in short paragraphs, then the takeaway, CTA, sources, hashtags.
 
-- Each slide is one story beat. The headline is a natural sentence or phrase; the body is 1 to 3 flowing sentences.
-- End a slide with a line that pulls the reader to the next one when it fits ("So what makes it different from ML engineering?").
-- Grids and lists are fine, but each item reads as a short, natural sentence, not a label.
+## 9. Worked example: stiff vs story
 
-## 8. Post captions
+**Stiff (what we shipped first, avoid):**
 
-- Open with the moment in one or two sentences.
-- Then the insight as a short paragraph, an optional compact list, and a warm CTA.
-- Paragraphs, not walls of fragments.
+> You ask a model one short question, but the usage page says three thousand tokens. Where did they come from? Models don't read words. A tokenizer cuts your text into chunks called tokens, and each one becomes a number. Common words stay whole, but rare words and numbers get split into smaller pieces. And your message is never alone.
 
-## 9. Before and after
+Why it fails: no hook in the first 3 seconds (the first sentence is 15 words), and the middle is a row of short declarative facts.
 
-| Avoid (stiff) | Prefer (story) |
-|---|---|
-| "Step one: define success criteria. Step two: build evals, so every change is measured." | "Before you touch a model, decide what a good answer looks like. Then turn that into a small set of tests, so every change you make is measured instead of guessed." |
-| "AI Engineering is building applications on top of foundation models. You rarely train the model." | "Here's the simplest way to think about it: AI engineering is building real products on top of models someone else already trained. Your job is everything around the model." |
-| "Never use an autonomous agent when deterministic code and a single structured prompt solves the problem." | "If a few lines of code and one well-written prompt can solve it, you probably don't need an agent yet. Agents are powerful, but they cost you speed, money, and predictability." |
-| "Check out this insane new AI agent framework! It will automate your entire company overnight!" (hype) | "This new agent framework is useful for one specific thing: long tasks that need many tool calls. Here's when it's worth it, and when it isn't." |
+**Story (do this):**
+
+> Your six-word question just cost three thousand tokens. *(hook, 2.5 s)*
+>
+> And no, the meter isn't broken. When you hit send, the model never actually sees your words, because a tokenizer quietly chops them into little pieces and turns every piece into a number. Easy words like hello stay in one piece, but something like strawberry gets cut into three.
+>
+> So where did the other three thousand come from? Every message you send carries luggage you never see: the app's hidden instructions, its tool descriptions, and your entire conversation, sent again on every single turn.
+>
+> You pay for all of it, and reply tokens usually cost more than the ones you sent, so long chats get expensive fast.
+>
+> So before you ship, paste your prompt into a tokenizer and look at the real number. Follow for more.

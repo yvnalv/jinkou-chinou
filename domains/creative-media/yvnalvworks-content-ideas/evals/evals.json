@@ -25,11 +25,10 @@
     "prompt": "Write a 40-second reels script for yvnalvworks on AI evals.",
     "should_trigger": true,
     "expected_behavior": [
-      "Writes reel.json with a conversational 40 to 60 second script that opens with a relatable moment",
-      "Plans one concrete animated visual per scene with Lucide icons and no third-party logos",
-      "Runs scripts/build_reel_package.py so captions match the spoken words in sentence case, 3 to 6 words per cue",
-      "Rejects AI voiceover synthesis and prepares a teleprompter guide for manual recording",
-      "Writes a coverHeadline for the reel cover (3 to 4 lines, one [[highlight]]) and produces cover-spec.json"
+      "Opens with a hook of 8 words or fewer that the payoff answers",
+      "Writes reel.json as a flowing story (setup, discovery, payoff, takeaway) with one animated visual per scene",
+      "Runs build_reel_package.py with zero styleWarnings; captions match the spoken words, 3 to 9 words per cue",
+      "Rejects AI voiceover synthesis and prepares a teleprompter guide for manual recording"
     ]
   },
   {
@@ -53,12 +52,22 @@
     ]
   },
   {
-    "id": "eval-06-reject-other-brands",
+    "id": "eval-06-story-not-stiff",
+    "prompt": "This yvnalvworks reel script sounds AI-ish, short sentences word by word. Rewrite it as storytelling with a strong hook.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Rewrites the opening into a hook of 8 words or fewer, landing in 2 to 3 seconds",
+      "Merges stacked short sentences into flowing spoken sentences with cause and consequence",
+      "Removes stock phrases such as 'Here's the thing' and closes the hook's loop in the payoff"
+    ]
+  },
+  {
+    "id": "eval-07-reject-other-brands",
     "prompt": "Bikinin ide konten buat Databro dong bro tentang pandas.",
     "should_trigger": false
   },
   {
-    "id": "eval-07-reject-unrelated",
+    "id": "eval-08-reject-unrelated",
     "prompt": "Can you design a marketing email campaign for a shoe store?",
     "should_trigger": false
   }

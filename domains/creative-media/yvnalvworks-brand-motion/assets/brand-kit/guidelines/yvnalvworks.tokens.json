@@ -63,8 +63,9 @@
         "color": "#FFFFFF",
         "pill": "rgba(18,18,18,0.78) with 1px #27272a border",
         "case": "sentence",
-        "wordsPerCue": "3-6",
-        "maxChars": 32
+        "wordsPerCue": "3-9",
+        "maxChars": 48,
+        "maxLines": 2
       },
       "spec": "references/reels-motion-system.md",
       "starter": "assets/reel-starter/",
@@ -78,6 +79,11 @@
           285,
           1635
         ]
+      },
+      "hook": {
+        "seconds": "0-3",
+        "visibleFromFrame": 0,
+        "maxSpokenWords": 8
       }
     }
   },

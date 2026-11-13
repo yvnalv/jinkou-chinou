@@ -1,8 +1,8 @@
 ---
 name: yvnalvworks-content-ideas
-description: "Researches, validates, and drafts evidence-backed content ideas for yvnalvworks across AI Engineering, Computer Vision, Edge Systems, and Software Architecture, written in friendly, easy-to-follow storytelling English that stays technically accurate. Always asks upfront for target topic and platform before researching papers, documentation, and real production patterns. Formats ideas into story-driven carousel outlines with a cover headline that follows the published yvnalvworks cover patterns (What X Should Know About Y, numbered Should Know listicles, one lime highlight phrase), conversational reel scripts with a cover headline, teleprompter voiceover guides and natural-phrase closed captions, post captions, and syncs to the yvnalvworks Content Planner in Notion."
+description: "Researches, validates, and drafts evidence-backed content ideas for yvnalvworks across AI Engineering, Computer Vision, Edge Systems, and Software Architecture, written as friendly stories that open with a 2 to 3 second hook and flow like natural speech, while staying technically accurate. Always asks upfront for target topic and platform before researching papers, documentation, and real production patterns. Formats ideas into story-driven carousel outlines with a cover headline that follows the published yvnalvworks cover patterns (What X Should Know About Y, numbered Should Know listicles, one lime highlight phrase), conversational reel scripts with a cover headline, teleprompter voiceover guides and natural-phrase closed captions, post captions, and syncs to the yvnalvworks Content Planner in Notion."
 metadata:
-  version: 0.6.0
+  version: 0.7.0
 ---
 
 # yvnalvworks Content Ideas: Evidence-Backed Technical Storytelling
@@ -43,7 +43,7 @@ Every idea is written in **English that flows like a conversation**: full, conne
 | `references/yvnalvworks-content-pillars.md` | Detailed breakdown of the 4 core engineering pillars and acceptable topic scopes. |
 | `references/platform-format-specs.md` | Resolution, aspect ratios, safe zones, slide counts, durations, and caption format for Instagram Feed and Reels. |
 | `scripts/format_content_idea.py` | Deterministic CLI tool to validate and format content idea JSON into clean markdown (`python scripts/format_content_idea.py <file.json>`). |
-| `scripts/build_reel_package.py` | Builds a reel package from one `reel.json`: `reels-script.txt`, `teleprompter-voiceover-guide.txt`, `captions.srt`, `captions.json`, `content-spec.json`, and `cover-spec.json` (the 9:16 cover for `/yvnalvworks-brand-motion`). Requires a valid `coverHeadline`. Keeps captions that are already aligned to a recorded voiceover (`video.voiceover.captionsAligned`) unless `--force-captions`. Enforces captions = spoken words, sentence case, 3 to 6 words and 32 characters per cue, no dashes (`python <skill-dir>/scripts/build_reel_package.py <reel.json> [--out <dir>]`; prints JSON with duration and `inTarget`). |
+| `scripts/build_reel_package.py` | Builds a reel package from one `reel.json`: `reels-script.txt`, `teleprompter-voiceover-guide.txt`, `captions.srt`, `captions.json`, `content-spec.json`, and `cover-spec.json` (the 9:16 cover for `/yvnalvworks-brand-motion`). Requires a valid `coverHeadline`. Keeps captions that are already aligned to a recorded voiceover (`video.voiceover.captionsAligned`) unless `--force-captions`. Enforces captions = spoken words, sentence case, 3 to 9 words and 48 characters per cue, no dashes, and the hook (first sentence 8 words or fewer); reports `styleWarnings` for AI-ish writing (`python <skill-dir>/scripts/build_reel_package.py <reel.json> [--out <dir>]`; prints JSON with duration and `inTarget`). |
 | `scripts/sync_notion_planner.py` | Deterministic CLI helper to construct Notion database properties for `📆 yvnalvworks Content Planner` (`python scripts/sync_notion_planner.py <file.json>`). |
 | `assets/content-idea.starter.json` | Sample starter JSON payload illustrating valid structure and fields. |
 | `assets/reel.starter.json` | Sample `reel.json` for `build_reel_package.py`: scenes with spoken line, caption cues, on-screen text, visual plan, emphasis, Lucide icons, and sources. |
@@ -82,8 +82,8 @@ Every idea is written in **English that flows like a conversation**: full, conne
 
 ## 6 Editorial Principles
 
-1. **Tell a story, don't list facts**: Every piece moves through the five beats below. Each slide or scene leads naturally into the next.
-2. **Friendly and easy to follow**: Full, connected sentences with transitions ("So", "But here's the thing", "That's why"). Talk to "you", use contractions, and explain jargon in plain words the first time. Never stack short fragments or write "Step one: X. Step two: Y."
+1. **Hook first, then a story**: The first sentence is a hook of 8 words or fewer (2 to 3 seconds) that opens a question; the rest is a story that closes it. Facts live inside the story as things that happen, never as a row of statements.
+2. **Sounds like a person, not a model**: Flowing spoken sentences of 12 to 22 words that carry cause and consequence ("because", "so", "which is why"), at most one short punch per part, "you" and contractions, jargon explained the first time. Never stack short sentences, and avoid the AI-ish patterns in the voice guide (section 5).
 3. **Accurate, never hyped**: Simplify the words, never the facts. No hype words. Every claim traces to a primary source.
 4. **Systems over models**: Models are just components. The interesting part is evaluation, data, latency, cost, and architecture.
 5. **English only, zero em-dashes**: No Indonesian or slang abbreviations. Never use em-dashes (`—`) or en-dashes (`–`); use commas, colons, parentheses, or a new sentence.
@@ -91,9 +91,9 @@ Every idea is written in **English that flows like a conversation**: full, conne
 
 ---
 
-## The 5 Story Beats
+## Story Structure
 
-Every post (carousel or reel) follows this story. Details and examples: `references/yvnalvworks-voice-and-tone-guide.md`.
+Reels run **Hook (0 to 3 s) → Setup (3 to 12 s) → Discovery (12 to 40 s) → Payoff (40 to 50 s) → Takeaway + CTA (50 to 60 s)**; the payoff answers the hook. Carousels use the same arc across slides. Full rules, the AI-ish pattern list, and a worked stiff-vs-story example: `references/yvnalvworks-voice-and-tone-guide.md`. The five beats below map onto it.
 
 1. **The moment (Slide 1 / Cover + Hook)**: The slide shows the `coverHeadline`, an audience-promise headline in 3 to 4 hand-broken lines with exactly one `[[lime]]` phrase, following `references/cover-headline-patterns.md`. The `hookStatement` is a relatable moment told in one or two flowing sentences (e.g., "You build a quick AI demo, it works on the first try, and everyone is excited. Then real users show up."). It opens the caption and the reel.
 2. **The problem**: What goes wrong in practice and why it matters, told as what happens to the viewer, not as an "anti-pattern" label.
@@ -120,8 +120,8 @@ Confirm with the user:
 ### Step 3: Draft the Story
 - Open `references/yvnalvworks-voice-and-tone-guide.md` and map the research onto the five beats before writing a sentence.
 - For carousels: Write the `coverHeadline` from `references/cover-headline-patterns.md` (offer 2 to 3 options with line breaks and the highlight marked), then draft the slides as flowing story beats with Lucide icon recommendations, plus the post caption.
-- For reels: Write `reel.json` in the reel folder (start from `assets/reel.starter.json`): a `coverHeadline` (every reel or video gets a cover, written with the same formulas and rules as carousel covers in `references/cover-headline-patterns.md`; offer 2 to 3 options), a conversational spoken script (40 to 60 seconds, about 140 words per minute), caption cues in sentence case cut at natural phrase breaks (3 to 6 words, max 32 characters), and for every scene a **visual plan**: one concrete animated metaphor per story beat (a product mockup for the moment, a breaking chart or wrong answer for the problem, a step rail or app-style icon tiles for the turn, a transformation such as a line bending into a loop for the lesson, an avatar end card for the CTA), with Lucide icon names and no third-party logos. The teleprompter guide asks for one take per scene so `/yvnalvworks-brand-motion` can sync the voice later. Then run `python <skill-dir>/scripts/build_reel_package.py <reel.json>` to generate the script, teleprompter guide, captions, and spec, and write `caption.txt`. The video itself is made with `/yvnalvworks-brand-motion`.
-- Read every spoken line out loud in your head. Rewrite anything that sounds like a list of fragments.
+- For reels: Write `reel.json` in the reel folder (start from `assets/reel.starter.json`): a `coverHeadline` (every reel or video gets a cover, written with the same formulas and rules as carousel covers in `references/cover-headline-patterns.md`; offer 2 to 3 options), a conversational spoken script (40 to 60 seconds, about 140 words per minute), caption cues in sentence case cut at breath groups (3 to 9 words, max 48 characters, up to two lines), and for every scene a **visual plan**: one concrete animated metaphor per story beat (a product mockup for the moment, a breaking chart or wrong answer for the problem, a step rail or app-style icon tiles for the turn, a transformation such as a line bending into a loop for the lesson, an avatar end card for the CTA), with Lucide icon names and no third-party logos. The teleprompter guide asks for one take per scene so `/yvnalvworks-brand-motion` can sync the voice later. Then run `python <skill-dir>/scripts/build_reel_package.py <reel.json>` to generate the script, teleprompter guide, captions, and spec, and write `caption.txt`. The video itself is made with `/yvnalvworks-brand-motion`.
+- Read every spoken line out loud in your head. Rewrite anything that sounds like a list of facts. `build_reel_package.py` must report the hook within 8 words and **zero `styleWarnings`** (stacked short sentences, choppy average, stock phrases) before handing over.
 - Validate with `python <skill-dir>/scripts/format_content_idea.py <file.json>` before handing over.
 
 ### Step 4: Notion Content Planner Sync
@@ -134,7 +134,7 @@ Confirm with the user:
 A task run of `yvnalvworks-content-ideas` is complete when:
 1. Upfront intake gate questions were confirmed with the user.
 2. Topic was verified with primary technical sources and benchmark citations.
-3. Copy reads as a friendly, flowing story across the five beats: English only, no stiff fragment stacks, jargon explained, zero em-dashes.
+3. Copy opens with a hook of 8 words or fewer and reads as a flowing story whose payoff answers the hook: English only, zero style warnings, jargon explained, zero em-dashes.
 4. Carousels carry a `coverHeadline` that passes the cover rules (3 to 4 lines, max 18 characters per line, exactly one highlight).
 5. Reels ship `reel.json` (with a valid `coverHeadline`) plus the generated teleprompter guide, script with a visual plan per scene, sentence-case natural-phrase captions (`.srt` and `.json`), spec, `cover-spec.json`, and a post caption.
 6. Output was saved to the designated OneDrive path.

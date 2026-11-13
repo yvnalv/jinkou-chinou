@@ -37,6 +37,11 @@ yvnalvworks-content-ideas/
 
 ## Changelog
 
+### 0.7.0 — 2026-11-13
+* Hook first: the first sentence is 8 words or fewer (2 to 3 seconds) and the payoff must answer it; reels follow Hook → Setup → Discovery → Payoff → Takeaway with timings.
+* Voice guide rewritten against AI-ish writing: sentence rhythm rules (12 to 22 words, one short punch per part), a list of generated-sounding patterns to avoid, an honesty rule for anecdotes, and a stiff-vs-story worked example.
+* `build_reel_package.py` enforces the hook, allows breath-group captions (3 to 9 words, 48 characters, two lines), and reports `styleWarnings` (stacked short sentences, choppy average, stock phrases).
+
 ### 0.6.0 — 2026-11-13
 * Teleprompter guide asks for one take per scene with natural pauses, matching the brand-motion voiceover sync.
 * `build_reel_package.py` keeps captions already aligned to a recorded voiceover (`--force-captions` to overwrite).

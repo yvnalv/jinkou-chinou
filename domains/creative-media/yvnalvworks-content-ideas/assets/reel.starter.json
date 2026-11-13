@@ -6,53 +6,63 @@
   "status": "Idea 💡",
   "link": "https://www.yvnalvworks.com/projects",
   "wpm": 140,
-  "story": "a model that scored 98% in the lab meets a real factory camera, and the fix is in the data, not the architecture",
+  "story": "a 98% model misses half the defects on a real factory camera; following the frames from lab to line shows why, and the fix is in the data",
   "companion": "",
   "scenes": [
     {
-      "name": "The moment",
-      "onscreen": "98% in the lab",
-      "spoken": "Your model scores ninety-eight percent in the lab, so you ship it to the factory camera. A week later, it's missing half the defects.",
-      "visual": "Laptop mockup with a lime accuracy chart at 98%, then a camera tile; the chart line drops red as missed-defect markers appear.",
-      "emphasis": "missing *HALF* the defects",
-      "icons": ["laptop", "camera", "triangle-alert"],
+      "name": "Hook",
+      "onscreen": "98% in the lab, half missed",
+      "spoken": "Your ninety-eight percent model missed half the defects.",
+      "visual": "Frame 0: a lime accuracy chart already at 98% snaps red and drops, with missed-defect markers popping on a camera frame.",
+      "emphasis": "missed *HALF* the defects",
+      "icons": ["camera", "triangle-alert"],
       "cues": [
-        ["Your model scores", false],
-        ["ninety-eight percent in the lab", false],
-        ["so you ship it", false],
-        ["to the factory camera", true],
-        ["A week later, it's missing", false],
+        ["Your ninety-eight percent model missed", false],
         ["half the defects", true]
       ]
     },
     {
-      "name": "The turn",
+      "name": "Setup",
+      "onscreen": "Perfect in the lab",
+      "spoken": "In the lab it looked perfect, so you shipped it to the factory camera, and a week later the defect reports started piling up again.",
+      "visual": "The hero camera frame travels from a laptop tile to the factory camera tile; a stack of defect reports grows beside it.",
+      "emphasis": "started *PILING UP* again",
+      "icons": ["laptop", "camera", "file-warning"],
+      "cues": [
+        ["In the lab it looked perfect,", false],
+        ["so you shipped it to the factory camera,", false],
+        ["and a week later the defect reports", false],
+        ["started piling up again", true]
+      ]
+    },
+    {
+      "name": "Discovery",
       "onscreen": "The lab never saw the glare",
-      "spoken": "Here's what changed. The lab photos were clean, but the factory has glare, dust, and a camera that shakes a little every time the belt moves.",
-      "visual": "Split view: clean lab image tile vs factory image tile; glare, dust, and shake icons pop onto the factory side.",
+      "spoken": "The lab photos were clean and evenly lit, but the factory has glare from the windows, dust on the lens, and a camera that shakes a little every time the belt moves.",
+      "visual": "Same camera frame: glare, dust, and shake effects land on it one by one as each is named.",
       "emphasis": "a camera that *SHAKES*",
       "icons": ["sun", "wind", "vibrate"],
       "cues": [
-        ["Here's what changed", true],
-        ["The lab photos were clean", false],
-        ["but the factory has glare", false],
-        ["dust, and a camera", false],
+        ["The lab photos were clean and evenly lit,", false],
+        ["but the factory has glare from the windows,", false],
+        ["dust on the lens, and a camera", false],
         ["that shakes a little", false],
         ["every time the belt moves", true]
       ]
     },
     {
-      "name": "The lesson and next step",
+      "name": "Payoff and takeaway",
       "onscreen": "Test the slice, not the average",
-      "spoken": "So before you swap architectures, collect a few hundred frames from the real camera and test on those first. Follow for more.",
-      "visual": "Frames stream from the camera tile into a test set card; a per-slice bar chart shows the glare slice recovering. End card with avatar.",
-      "emphasis": "from the *REAL* camera",
-      "icons": ["camera", "flask-conical", "chart-column"],
+      "spoken": "So before you swap architectures, collect a few hundred frames from that real camera and test on those first, because that's where your accuracy actually lives. Follow for more.",
+      "visual": "Frames stream from the camera into a test set card; a per-slice meter for the glare slice climbs. Avatar end card.",
+      "emphasis": "that *REAL* camera",
+      "icons": ["camera", "flask-conical", "user-plus"],
       "cues": [
-        ["So before you swap architectures", false],
+        ["So before you swap architectures,", false],
         ["collect a few hundred frames", false],
-        ["from the real camera", false],
-        ["and test on those first", true],
+        ["from that real camera and test on those first,", false],
+        ["because that's where your", false],
+        ["accuracy actually lives", true],
         ["Follow for more", true]
       ]
     }

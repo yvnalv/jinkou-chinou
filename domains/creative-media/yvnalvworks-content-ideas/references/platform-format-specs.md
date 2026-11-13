@@ -13,6 +13,7 @@
 - **Aspect Ratio**: 9:16 vertical video
 - **Resolution**: 1080 x 1920 px
 - **Target Duration**: 40 to 60 seconds (~140 words per minute, relaxed conversation; about 95 to 140 words)
+- **Structure**: Hook 0 to 3 s (first sentence 8 words or fewer, visual from frame 0), Setup 3 to 12 s, Discovery 12 to 40 s, Payoff 40 to 50 s (answers the hook), Takeaway + CTA 50 to 60 s.
 - **Safe Zones**:
   - Top header safe zone: 0 - 150px
   - Bottom actions safe zone: 1640 - 1920px
@@ -21,7 +22,7 @@
 - **Cover (required)**: Every reel or video gets a 9:16 cover with the same lockup and headline style as the feed cover (`coverHeadline` in `reel.json`, rules in `references/cover-headline-patterns.md`). Rendered by `/yvnalvworks-brand-motion` as `reel-cover.png`.
 - **Visual Plan**: One concrete animated visual per story beat (mockup, breaking chart, step rail, app-style Lucide tiles, transformation, end card), timed to its caption cue. Illustrative numbers are tagged `illustrative`; no third-party logos. Production style: `/yvnalvworks-brand-motion` reels motion system.
 - **Package**: `reel.json` → `scripts/build_reel_package.py` → script, teleprompter guide, `captions.srt`, `captions.json`, `content-spec.json`, `cover-spec.json`; plus `caption.txt`.
-- **Captions Format**: Exact voiceover words in sentence case (not ALL CAPS), one cue per natural phrase: 3 to 6 words and at most 32 characters, broken at commas and breath points, never splitting a phrase that belongs together, no trailing periods. High contrast.
+- **Captions Format**: Exact voiceover words in sentence case (not ALL CAPS), one cue per breath group: 3 to 9 words and at most 48 characters, shown on up to two lines, broken at commas and breath points, never splitting a phrase that belongs together, no trailing periods. High contrast.
 
 ## 3. LinkedIn Article / Technical Post
 - **Format**: Structured Markdown with bullet points, code blocks, and primary source links

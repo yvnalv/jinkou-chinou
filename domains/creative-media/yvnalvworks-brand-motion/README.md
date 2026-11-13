@@ -59,6 +59,10 @@ yvnalvworks-brand-motion/
 
 ## Changelog
 
+### 0.7.0 — 2026-11-13
+* Reels motion system section 1b: hook visible from frame 0, one hero object travels through the story, few headings, motion follows speech.
+* Captions become breath groups (3 to 9 words, 48 characters, up to two lines); the starter `Captions` component wraps to two lines.
+
 ### 0.6.0 — 2026-11-13
 * Voiceover sync is now standard: `references/voiceover-sync.md` plus `transcribe.mjs`, `align_voiceover.py`, `refine_captions.py`, and a `VOICEOVER_FILE` switch in the reel starter. Takes are matched to scenes, joined, loudness-normalized, sped up (default 1.2x), and every caption (and so every animation beat) is re-timed to the real voice. Tested on the AI Engineering Workflow reel.
 
