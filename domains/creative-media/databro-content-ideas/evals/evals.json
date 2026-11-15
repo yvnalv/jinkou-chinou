@@ -28,8 +28,20 @@
     "expected_behavior": [
       "Asks the intake questions it cannot answer from the prompt (output destination) before researching",
       "Composes the 8-part arc with verified sources and zero em-dashes",
+      "Writes the script as story beats (hook, setup, discovery, payoff, takeaway, cta) whose first sentence is 9 words or fewer, in flowing sentences with no colon-dictated lists",
       "Adds a cover plan: a lavender question headline containing the lime keyword (for example 'vector database'), a white hook line, and one key visual from the video",
-      "Runs scripts/format_content_idea.py and the output contains a 'Cover (video)' section"
+      "Runs scripts/format_content_idea.py, which reports zero styleWarnings, and the output contains 'Cover (video)' and 'Script (video ...)' sections"
+    ]
+  },
+  {
+    "id": "databro-rewrite-stiff-script",
+    "prompt": "Script reels Databro ini kerasa kaku banget kayak AI, tolong bikin jadi storytelling: 'Token itu penting. Model membaca token. Bukan kata. Pertama, teks dipotong. Kedua, diubah jadi angka. Ketiga, dihitung biayanya.'",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Opens references/databro-voice-and-tone-guide.md section 2 before rewriting",
+      "Rewrites into a hook of 9 words or fewer followed by flowing 10 to 22 word sentences joined by connectors such as karena, jadi, makanya",
+      "Removes the stacked short sentences, the 'Bukan kata' reveal, and the pertama/kedua/ketiga enumeration",
+      "Keeps the facts accurate and the pronouns kamu/kita, with zero em-dashes"
     ]
   },
   {

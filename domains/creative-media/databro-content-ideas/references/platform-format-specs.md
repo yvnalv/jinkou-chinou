@@ -23,7 +23,7 @@ This reference provides technical constraints and structural guidelines for tail
 ## 2. Short-Form Video (TikTok / Instagram Reels / YouTube Shorts)
 
 - **Canvas Aspect Ratio**: `9:16` (1080x1920px).
-- **Target Duration**: 45 to 75 seconds (1,350 to 2,250 frames @ 30 FPS).
+- **Target Duration**: 45 to 90 seconds (1,350 to 2,700 frames @ 30 FPS). Size the script for the final reel: the creator records at about 123 to 125 words per minute including natural pauses, and the recording is sped up **1.2x** (range 1.1x to 1.2x, pitch kept), so the reel runs at about 148 words per minute: roughly 110 to 220 spoken words.
 - **Integration**: Hand off to the `/databro-brand-motion` skill for Remotion production on `DatabroBaseCanvas`.
 - **Cover (required)**: Every video ships with a dedicated cover image, never a grabbed frame. Plan it with the script in a `cover` object:
   - `headline`: lavender question, at most 3 lines (about 11 to 12 characters per line on a 1080x1920 cover).
@@ -31,12 +31,14 @@ This reference provides technical constraints and structural guidelines for tail
   - `hook`: one white line, at most 2 lines, usually the video's opening question.
   - `visual`: one key visual taken from the video (diagram, code card, metric, or versus split).
   - The rendered cover keeps headline, hook, and visual inside Y 380 to 1500 so the Instagram 3:4 profile grid and the 4:5 feed preview stay readable.
-- **Script Structure**:
-  - Hook (0-5s): Visual pattern interrupt + verbal hook question.
-  - Tension (5-15s): Relatable problem.
-  - Core Lesson (15-40s): Fast-paced walkthrough with kinetic subtitles.
-  - Actionable Tip (40-55s): Concrete takeaway.
-  - Outro (55-60s): Follow & share CTA.
+- **Script Structure (a story, not a list)**:
+  - Hook (0 to 3 s): one line of 9 words or fewer that opens a question or surprise, with a visual pattern interrupt.
+  - Setup (3 to 12 s): the everyday moment where the topic shows up.
+  - Discovery (12 to 50 s): how it really works, told as cause and effect; numbers appear as things that happen.
+  - Payoff (50 to 60 s): the moment that answers the hook.
+  - Takeaway + CTA (last 8 to 12 s): one practical action, then save/follow.
+  - Flowing spoken sentences of about 10 to 22 words; no colon-dictated lists or "pertama/kedua/ketiga" in the voiceover (on-screen numbering is fine). Full rules: `references/databro-voice-and-tone-guide.md`, section 2.
+  - Every beat carries one concrete visual idea for the animation.
 
 ---
 

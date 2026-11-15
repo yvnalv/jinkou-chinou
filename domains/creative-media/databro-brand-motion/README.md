@@ -8,7 +8,7 @@ Specialized brand motion skill for **Databro Studio (`@databroid` — "Belajar D
 | --- | --- |
 | Domain | `creative-media` |
 | Type | `specialized` (`extends: the-motion-designer`) |
-| Version | `0.5.0` |
+| Version | `0.7.0` |
 | Owner | `@yvnalv` |
 | Tags | `databro`, `remotion`, `motion-graphics`, `brand-guidelines`, `tiktok`, `reels`, `data-science` |
 
@@ -53,6 +53,17 @@ databro-brand-motion/
 ```
 
 ## Changelog
+
+### 0.7.0 - 2026-11-13
+
+- Creator voiceover speed preference: recorded voice is sped up **1.2x** by default (range 1.1x to 1.2x) with ffmpeg `atempo`, which keeps the pitch; the creator's natural ~123 wpm becomes ~148 wpm. Added to Rule 7 and the Definition of Done.
+- `references/databro-content-and-voiceover-guide.md` section 10 documents the recorded-voiceover sync workflow used on "Gimana Token AI Dihitung?": one take per scene, Whisper only for the words, hand-corrected transcript, MMS forced alignment, silence trim and long-pause tightening, `atempo` + `loudnorm`, re-timing, and verification on the final MP4 (mean caption offset 0.03 s on that reel).
+
+### 0.6.0 - 2026-11-13
+
+- Scripts are stories now, never stiff word-by-word fact lists: Rule 6 adds the storytelling rule (hook of 9 words or fewer in the first 2 to 3 seconds, Setup -> Discovery -> Payoff -> Takeaway + CTA, flowing 10 to 22 word sentences), and the Definition of Done checks it.
+- `references/databro-content-and-voiceover-guide.md` gains a Storytelling Script section (arc, rhythm at the measured 125 wpm talent pace, AI-ish patterns to avoid, stiff-vs-story example) and cuts Closed Caption chunks at breath groups.
+- `assets/brand-kit/persona/databro-persona.md`: replaced the stiff "Langkah pertama / Kedua / Ketiga" transitions and the "Semoga bermanfaat" sign-off with hook examples, story-telling rules, and a conversational CTA. `references/databro-brand-guidelines.md` wording bullets updated to match.
 
 ### 0.5.0 - 2026-11-12
 

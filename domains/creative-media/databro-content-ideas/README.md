@@ -38,6 +38,18 @@ databro-content-ideas/
 
 ## Changelog
 
+### 0.5.0 - 2026-11-13
+
+- Voiceover speed preference: the creator's recording is sped up **1.2x** in the final reel (range 1.1x to 1.2x), so scripts are sized at about 148 words per minute (natural ~123 wpm x 1.2).
+- `scripts/format_content_idea.py` now reports `recording_seconds` (natural pace) and `script_seconds` (final reel at 1.2x), and the duration warning uses the final-reel length. Re-tested on the token reel idea.
+
+### 0.4.0 - 2026-11-13
+
+- New rule 7, Storytelling, Never Stiff: every piece opens with a 2 to 3 second hook (first sentence 9 words or fewer) and reads as a story (Hook, Setup, Discovery, Payoff, Takeaway + CTA) in flowing 10 to 22 word spoken sentences instead of choppy, word-by-word fact lists.
+- `references/databro-voice-and-tone-guide.md` gains section 2 (hook, story arc, sentence rhythm, Indonesian AI-ish patterns to avoid, honesty inside stories, and a stiff-vs-story example from the "Apa itu AI Engineering?" reel); later sections renumbered, contents line added.
+- `scripts/format_content_idea.py`: video ideas now need a story-beat `script` whose hook is 9 words or fewer; every idea is linted for stacked short sentences, colon-dictated lists, pertama/kedua enumerations, stock phrases, repeated crutches, choppy averages and definition hooks (`styleWarnings`), and reports `script_seconds` at the measured 125 wpm talent pace. Tested on the old stiff AI Engineering script (flagged), the new token reel draft (clean) and a carousel idea.
+- Platform specs and the template describe the story-beat script; reels target 45 to 90 seconds.
+
 ### 0.3.0 - 2026-11-12
 
 - New rule 6, Every Video Idea Includes a Cover: Reels, TikTok, Shorts, and YouTube ideas now carry a `cover` plan (`headline`, `limeKeyword`, `hook`, `visual`), added as part 10 of Step 2, to the Step 3 checks, the handoff question, and the Definition of Done.

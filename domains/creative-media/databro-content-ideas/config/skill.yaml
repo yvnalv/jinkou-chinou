@@ -1,7 +1,7 @@
 name: databro-content-ideas
-version: 0.3.0
+version: 0.5.0
 description: >
-  Researches, validates, and structures evidence-backed Databro content ideas (carousels, short-form video scripts with a cover plan, articles, threads) in casual Bahasa Indonesia with mandatory source citations and content planner sync.
+  Researches, validates, and structures evidence-backed Databro content ideas (carousels, short-form video scripts with a cover plan, articles, threads) as stories with a 2 to 3 second hook, in casual Bahasa Indonesia with mandatory source citations and content planner sync.
 domain: creative-media
 type: specialized
 requires:
@@ -48,4 +48,7 @@ rules:
   full_spectrum_audience: true
   no_tragedy_news_hooks: true
   no_unrequested_design_generation: true
+  storytelling_voice: true          # hook of 9 words or fewer, flowing 10-22 word sentences, zero styleWarnings
+  spoken_wpm: 125                   # measured talent pace incl. pauses, used to size scripts
+  voiceover_speed: 1.2              # creator preference: recorded voice sped up 1.2x (1.1x to 1.2x) in the final reel
   video_cover_plan_required: true   # Reels / TikTok / Shorts / YouTube ideas need a `cover` object (headline, limeKeyword, hook, visual)

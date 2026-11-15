@@ -2,7 +2,7 @@
 name: databro-brand-motion
 description: "Databro Studio (@databroid / @databro.id) specialized brand motion skill extending the-motion-designer. Applies Databro's isolated visual identity and Standard Base Content Canvas (DatabroBaseCanvas) for Remotion videos across 9:16, 4:5, 1:1, and 16:9: #121212 matte charcoal canvas, white body text, #BB86FC lavender question headlines, #03DAC6 teal and #C1FF72 lime accents, left-aligned slide layouts, React Icons (react-icons/lu) as strict vector source of truth, persistent top-left Databro avatar lockup and top-right @databro.id, fixed Closed Captions locked at Y=1480px, absolute ban on em-dashes, CapCut smooth transitions with 10-frame settle delay, and calibrated baritone voiceover with synced caption timings. Every Reels or video deliverable also ships a matching cover image (cover.png thumbnail). Use when the user selects the Databro brand in the-motion-designer or invokes /databro-brand-motion. Never mix with GLM or other brands."
 metadata:
-  version: 0.5.0
+  version: 0.7.0
 ---
 
 # Databro Brand Motion : `@databroid` Visual Identity and Base Content Canvas
@@ -132,7 +132,7 @@ Paths are relative to this skill's base directory.
 | `assets/generate_databro_cloned_vo.starter.py` | Generating each scene voiceover and caption timings. |
 | `references/databro-brand-assets-checklist.md` | Actionable tracking checklist for all Databro brand kit assets. |
 | `references/databro-brand-guidelines.md` | Full brand guidelines, extracted color palette, and React Icons rules. |
-| `references/databro-content-and-voiceover-guide.md` | Content archetypes, pacing, and Closed Caption guidelines. |
+| `references/databro-content-and-voiceover-guide.md` | Writing or reviewing any voiceover script, or syncing the creator's recorded voiceover: content archetypes, the storytelling script rules (2 to 3 second hook, story arc, spoken rhythm, AI-ish patterns), pacing, Closed Caption chunking at breath groups, and the recorded-voiceover speed (1.2x) and sync workflow. |
 | `references/databro-video-cover-spec.md` | Planning or rendering the cover of any Reels / TikTok / Shorts / YouTube video: sizes, layout, safe area, the four cover types, checklist. |
 | `scripts/render_carousel.py` | Python script for rendering authentic Databro carousels via matplotlib. |
 | `scripts/render_carousel_v2.py` | Updated Python script for rendering authentic Databro carousels. |
@@ -175,11 +175,13 @@ Paths are relative to this skill's base directory.
 * **Strictly Prohibited**: NEVER use `"Lo"`, `"Lu"`, `"Loe"`, or `"Gue"`.
 * **Required Address**: Always use **`"Kamu"`** (default learner), **`"Anda"`** (enterprise), and **`"Kita"`** (collaborative).
 * **The "Bro" Salutation**: Energetic brand greeting and sign-off (*"Simpelnya gini, bro!"*), paired with `"kamu"`.
+* **Storytelling, never stiff**: scripts open with a hook of 9 words or fewer in the first 2 to 3 seconds and then tell a story (Setup -> Discovery -> Payoff -> Takeaway + CTA) in flowing 10 to 22 word sentences. No stacked short sentences, colon-dictated lists, or *"pertama/kedua/ketiga"* in the voiceover. Rules and examples: `references/databro-content-and-voiceover-guide.md` (Storytelling Script).
 
 ### 7. Voiceover Talent Pitch Calibration
 * Master audio calibration fundamental frequency $F_0 \approx 86\text{--}90$ Hz (warm baritone).
 * Edge-TTS: Voice `id-ID-ArdiNeural`, pitch `"-4Hz"`, rate `"-2%"`.
 * Buffer rules: Head Delay = 10-12 frames, Tail Delay = 12-14 frames, Outro Hold = 24 frames.
+* **Creator-recorded voiceover (default)**: speed the recording up **1.2x** (range 1.1x to 1.2x) with ffmpeg `atempo` so the pitch is unchanged; natural pace about 123 wpm becomes about 148 wpm. Captions follow the spoken words and are re-timed by forced alignment. Workflow and checks: `references/databro-content-and-voiceover-guide.md`, section 10.
 
 ### 8. Every Video Ships a Cover
 * For every Reels, TikTok, Shorts, feed video, or YouTube deliverable, also design and render a dedicated **cover image** (`cover.png`, same size as the video). Never rely on a frame grabbed from the video: mid-animation frames and burned-in captions look unfinished in the profile grid.
@@ -197,5 +199,7 @@ Paths are relative to this skill's base directory.
 * Left-aligned stage layout, fixed top-left lockup, top-right handle, and fixed Closed Captions at Y=1480px.
 * Vector icons from React Icons only.
 * Zero em-dashes across all text.
+* The voiceover script reads as a story: hook within the first 2 to 3 seconds (9 words or fewer), flowing sentences, and caption chunks cut at breath groups.
+* A recorded voiceover is sped up 1.2x (unless the user chose otherwise) with pitch kept, and captions are re-timed to it and checked on the final MP4.
 * A matching `cover.png` was rendered for the video (dedicated cover composition, no captions, safe area checked in the 3:4 crop) and delivered next to the video.
 * The project type-checks (`npx tsc --noEmit`) and still images render accurately.

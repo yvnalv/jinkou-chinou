@@ -1,8 +1,8 @@
 ---
 name: databro-content-ideas
-description: "Researches, validates, and drafts evidence-backed content ideas for Databro Studio (@databroid) across AI, data science, machine learning, Python, and statistics in casual Bahasa Indonesia ('bro' tone). Always asks upfront for the target topic and content format/platform before conducting deep factual research across papers, docs, news, and official sources. Formats ideas into Databro's standard 8-part content arc (Title, Subtitle, Background Hook, Bridging Explanation, Real-World Case, Actionable Solution, Summary Insight, Closing CTA) with verified citations, adds a cover plan (headline, lime keyword, hook, key visual) to every Reels, TikTok, Shorts, or YouTube video idea, and syncs to workspace markdown and Notion content planner."
+description: "Researches, validates, and drafts evidence-backed content ideas for Databro Studio (@databroid) across AI, data science, machine learning, Python, and statistics in casual Bahasa Indonesia ('bro' tone). Always asks upfront for the target topic and content format/platform before conducting deep factual research across papers, docs, news, and official sources. Writes every piece as a story (a 2 to 3 second hook, then natural flowing narration, never stiff fact lists) inside Databro's standard 8-part content arc (Title, Subtitle, Background Hook, Bridging Explanation, Real-World Case, Actionable Solution, Summary Insight, Closing CTA) with verified citations, adds a cover plan (headline, lime keyword, hook, key visual) to every Reels, TikTok, Shorts, or YouTube video idea, and syncs to workspace markdown and Notion content planner."
 metadata:
-  version: 0.3.0
+  version: 0.5.0
 ---
 
 # Databro Content Ideas : Evidence-Backed AI & Data Science Content Research
@@ -76,9 +76,9 @@ Databro melayani audiens yang membentang dari orang awam dengan nol latar belaka
 |---|---|
 | `references/CONTENT_IDEA.template.md` | Standard 8-part markdown schema. Open when drafting and formatting the final content output. |
 | `references/databro-content-categories.md` | The 8 core editorial categories and rotation guide. Open to review topic scopes or pick fresh angles. |
-| `references/databro-voice-and-tone-guide.md` | Indonesian "bro" tone rules, technical English terms, zero-em-dash rule, and fact-checking policy. |
+| `references/databro-voice-and-tone-guide.md` | Open before writing any copy: Indonesian "bro" tone, the storytelling voice (2 to 3 second hook, story arc, sentence rhythm, AI-ish patterns to avoid, a worked stiff-vs-story example), technical English terms, zero-em-dash rule, and fact-checking policy. |
 | `references/platform-format-specs.md` | Constraints for Carousels (4:5), Short-form video (9:16), LinkedIn articles, and X threads. |
-| `scripts/format_content_idea.py` | Validates required fields, citations, and zero em-dashes: `python <skill-dir>/scripts/format_content_idea.py --input <file.json> --output <file.md>`. |
+| `scripts/format_content_idea.py` | Validates required fields, citations, zero em-dashes, the video cover plan, and the video `script` (hook of 9 words or fewer); reports `styleWarnings` for AI-ish writing, `recording_seconds` (natural pace, about 125 wpm) and `script_seconds` (the final reel, with the recording sped up 1.2x): `python <skill-dir>/scripts/format_content_idea.py --input <file.json> --output <file.md> --json`. |
 | `scripts/sync_notion_planner.py` | Compiles Notion block schema and properties for the Databro Content Planner database: `python <skill-dir>/scripts/sync_notion_planner.py --input <file.json> --dry-run`. |
 | `assets/content-idea.starter.json` | JSON schema starter showing the exact field layout and structure. |
 
@@ -127,7 +127,11 @@ Once the user confirms the topic and format:
 
 ### Step 2 : Compose the 8-Part Databro Narrative Arc
 
-Draft the idea adhering strictly to Databro's proven 8-part content arc (`references/CONTENT_IDEA.template.md`):
+Draft the idea adhering strictly to Databro's proven 8-part content arc (`references/CONTENT_IDEA.template.md`), and **write every part as a story, not a list of facts** (`references/databro-voice-and-tone-guide.md`, section 2):
+
+* **Hook first**: the opening line is a hook of 9 words or fewer (2 to 3 seconds spoken) that opens a question or surprise; the story later pays it off.
+* **Story arc**: Hook (0 to 3 s) -> Setup (an everyday moment) -> Discovery (how it really works, facts told as things that happen) -> Payoff (answers the hook) -> Takeaway + CTA.
+* **Natural rhythm**: flowing spoken sentences of about 10 to 22 words joined by *karena, jadi, makanya, ternyata, padahal*; at most one short punch line per beat; no colon-dictated lists, no "pertama/kedua/ketiga" in voiceover, no stock phrases.
 
 1. **Part 1 : Title / Headline**: Short, punchy concept name in Indonesian + English terms.
 2. **Part 2 : Subtitle / Framing Question**: One-line hook question setting up the immediate "why".
@@ -139,6 +143,7 @@ Draft the idea adhering strictly to Databro's proven 8-part content arc (`refere
 8. **Part 8 : Closing Call-to-Action (CTA)**: Engagement hook tailored for the platform ("Save dulu buat nanti, jangan lupa share ke teman-teman kamu ya bro!").
 9. **Evidence & Sources**: Mandatory list of verified URLs or "Source: Evergreen fundamentals".
 10. **Cover (video formats only)**: For Short-Form Video (Reels / TikTok / Shorts) and YouTube ideas, also plan the cover in a `cover` object: `headline` (lavender question, at most 3 lines), `limeKeyword` (the one topic term shown in lime; it must appear in the headline), `hook` (white line, at most 2 lines), and `visual` (one key visual taken from the video). The cover is what the profile grid and feed preview show, so it must sell the video on its own. `scripts/format_content_idea.py` refuses a video idea without it. The cover image itself is rendered later by `/databro-brand-motion`.
+11. **Script (video formats only)**: a `script` list of story beats, each `{beat, voiceover, visual}` with `beat` in `hook`, `setup`, `discovery`, `payoff`, `takeaway`, `cta`. The first beat is the hook (first sentence 9 words or fewer). Every beat gets one concrete visual idea for the animation. Aim for 45 to 90 seconds of final reel. The creator records at about 123 to 125 words per minute and the voice is sped up **1.2x** in the reel (range 1.1x to 1.2x), so the final pace is about 148 words per minute: roughly 110 to 220 spoken words.
 
 ---
 
@@ -155,6 +160,7 @@ Draft the idea adhering strictly to Databro's proven 8-part content arc (`refere
    - All cited links are active, primary sources.
    - Tone is non-intimidating to beginners yet rigorous enough for senior engineers.
    - Video ideas include a complete cover plan (headline, lime keyword, hook, key visual).
+   - The formatter reports **zero `styleWarnings`** and, for video, a hook within 9 words and `script_seconds` between 45 and 90. Read every spoken line out loud in your head and rewrite anything that sounds like a list being read.
 
 ---
 
@@ -211,6 +217,10 @@ If the user approves the idea:
 * Any Reels, TikTok, Shorts, or YouTube idea ships with a cover plan (Step 2, part 10). A video is never delivered without its cover, so plan it together with the script.
 * Cover text follows the same rules: zero em-dashes, "kamu/kita", exactly one lime keyword, and it matches the first line of the post caption.
 
+### 7. Storytelling, Never Stiff
+* Every piece (reels, carousel, caption, article, thread) opens with a 2 to 3 second hook and then reads like a person telling a story, never like an AI dictating facts word by word. Short choppy sentences, colon reveals, mechanical enumerations, and stock phrases are rewritten until the formatter reports zero `styleWarnings`.
+* Facts stay exact inside the story: measured numbers name their source, first-person anecdotes are true, and illustrations are marked as illustrations.
+
 ---
 
 ## Definition of Done
@@ -222,5 +232,6 @@ A task run of `databro-content-ideas` is complete when:
 4. The idea was composed across all 8 parts of the Databro narrative arc with verified citations and zero em-dashes.
 5. Output was validated and saved as a dated Markdown file (`outputs/content-idea-YYYY-MM-DD.md`).
 6. If requested, Notion planner schema was compiled or synced to the user's database.
-7. For video formats, the idea includes a cover plan (headline, lime keyword, hook, key visual).
-8. User was asked before proceeding to visual design generation.
+7. For video formats, the idea includes a cover plan (headline, lime keyword, hook, key visual) and a story-beat `script` with a hook of 9 words or fewer.
+8. Copy reads as a story with zero `styleWarnings` from the formatter.
+9. User was asked before proceeding to visual design generation.

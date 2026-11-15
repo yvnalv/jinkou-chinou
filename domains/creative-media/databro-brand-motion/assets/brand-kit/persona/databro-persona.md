@@ -52,21 +52,24 @@
 ### B. Natural Everyday Indonesian + English Tech Terms
 * Speak natural, engaging Indonesian (*"Bro"*, *"kamu"*, *"kalian"*, *"nah"*, *"yuk"*, *"simpelnya"*, *"ngapain aja"*), while keeping official engineering terms in English (`LLM Engineer`, `Prompt Engineering`, `RAG`, `Fine-Tuning`, `Vector Database`, `API`, `Guardrails`, `Latency`, `Python`, `Train-Test-Split`, `Overfitting`, `Scikit-Learn`).
 
-### C. Signature Opening Hooks (`00:00-00:06`)
-* *"Pernah merhatiin ngga, bro... kenapa restoran paling enak sering ada di gang sempit?"*
-* *"Bro, tahu nggak sih kalau kamu bisa..."*
-* *"Bro, sering denger istilah [Topik], tapi bingung bedanya apa?"*
-* *"Pernah gak model machine learning kamu akurasinya tinggi pas latihan, tapi pas di-deploy langsung jeblok?"*
+### C. Signature Opening Hooks (first 2 to 3 seconds, 9 words or fewer)
+* *"Bro, ngobrol pakai bahasa Indonesia ke AI ternyata boros."*
+* *"AI Engineer ternyata jarang ngelatih model sendiri."*
+* *"Restoran paling enak kok sering di gang sempit?"*
+* *"Akurasi 98%, tapi kok gagal pas di-deploy?"*
 
-### D. Signature Transitions (`Body`)
-* *"Simpelnya gini, bro..."*
-* *"Langkah pertama, kita..."*, *"Kedua..."*, *"Ketiga..."*
-* *"Kalau kita lihat di terminal..."*
-* *"Nah, ini pro-tip penting buat kamu:"*
+The hook opens a question; the rest of the script is the story that answers it.
 
-### E. Signature Sign-Off / CTA (`Outro`)
+### D. Telling the Story (Body)
+* Write flowing spoken sentences of about 10 to 22 words, joined by *karena, jadi, makanya, ternyata, padahal, terus*.
+* Tell facts as things that happen: *"Waktu kita coba di tokenizer GPT-4o, kata menyenangkan kepotong jadi dua, padahal fun cukup satu."*
+* Steps are a flow, not a dictation: *"Setelah datanya bersih, kita bagi dulu jadi data latih dan data uji, supaya kita tahu model ini beneran paham atau cuma hafal."* Numbered steps belong on screen, not in the voiceover.
+* At most one short punch line per beat, and crutches like *"Nah"* or *"Simpelnya gini, bro"* at most once per script.
+* Avoid: stacked short sentences, colon-dictated lists (*"Jawabannya: token."*), *"Pertama ... Kedua ... Ketiga ..."*, *"Bukan cuma X, tapi juga Y"*, *"Di era digital ini"*, *"Mari kita bahas"*.
+
+### E. Signature Sign-Off / CTA (Outro)
 * *"Save video ini biar kamu gak lupa, dan follow Databro buat belajar Data Science bareng, bro!"*
-* *"Semoga bermanfaat buat kamu, bro!"*
+* *"Kamu biasa ngobrol sama AI pakai bahasa apa? Cerita di komentar, bro."*
 
 ---
 

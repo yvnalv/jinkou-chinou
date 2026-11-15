@@ -28,6 +28,20 @@ Whenever `/databro-brand-motion` is invoked without a complete topic and step br
 * **Always use "Kita"** as the collaborative first-person pronoun (*"Yuk kita coba"*, *"Kita cek di terminal"*).
 * **"Bro"** is an energetic brand greeting and closing punctuation (*"Bro, tahu nggak sih..."*, *"Belajar bareng Databro!"*), NOT a replacement for the pronoun "lo".
 
+### Storytelling Script (Never Stiff)
+
+Every Databro video script is a story, not a list of facts read word by word:
+
+1. **Hook in the first 2 to 3 seconds**: the first sentence is 9 words or fewer and opens a question or surprise (*"Bro, ngobrol pakai bahasa Indonesia ke AI ternyata boros."*). The payoff later answers it.
+2. **Story arc**: Hook (0 to 3 s) -> Setup (an everyday moment) -> Discovery (how it really works, cause and effect, numbers told as things that happen) -> Payoff (answers the hook) -> Takeaway + CTA.
+3. **Spoken rhythm**: flowing sentences of about 10 to 22 words joined by *karena, jadi, makanya, ternyata, padahal*; at most one short punch line per beat. Size scripts at the talent's measured pace, about 125 words per minute including pauses.
+4. **Avoid AI-ish patterns**: stacked short sentences (*"Model tidak membaca kata. Model membaca token."*), colon-dictated lists (*"ML Engineering: data, model, baru produk."*), *"Pertama ... Kedua ... Ketiga ..."* in the voiceover (numbering belongs on screen), stock phrases (*"Di era digital ini"*, *"Mari kita bahas"*, *"Semoga bermanfaat"*), *"Bukan cuma X, tapi juga Y"* reveals, and opening several beats with *"Simpelnya gini"* or *"Nah"*.
+5. **Visuals follow the story**: each beat gets one concrete animated metaphor, and reveals land on the spoken word that names them.
+
+Example (same facts):
+- Stiff: *"Bedanya sama ML Engineering? Urutan kerjanya. ML Engineering: data, model, baru produk."*
+- Story: *"Dulu, kalau mau bikin fitur AI, kamu harus ngumpulin data dan ngelatih model berbulan-bulan sebelum ada produk yang bisa dicoba. Sekarang urutannya kebalik, karena modelnya sudah jadi."*
+
 ---
 
 ## 3. Closed Captions (CC) Rules for `@databroid`
@@ -35,7 +49,8 @@ Whenever `/databro-brand-motion` is invoked without a complete topic and step br
 1. **Exact Fixed Position (`Y = 1480px` on `1080×1920`)**:
    - Handled automatically by [`DatabroCaptions`](../assets/DatabroCaptions.starter.tsx) inside [`DatabroBaseCanvas`](../assets/DatabroBaseCanvas.starter.tsx).
    - Never place `<DatabroCaptions />` inside individual scenes; keep it on the root `<DatabroBaseCanvas />` so it never moves during slide transitions.
-2. **2-to-4 Words Per Phrase in ALL-CAPS**:
+2. **2-to-4 Words Per Phrase in ALL-CAPS, cut at breath groups**:
+   - Cut where the speaker naturally breathes or a phrase ends, never in the middle of a phrase (keep *"DI ATAS FOUNDATION MODEL"* together rather than *"DI ATAS"* / *"FOUNDATION MODEL"* split across a pause).
    - Break Indonesian or English narration into natural 2-to-4 word uppercase chunks:
      - Good: `"BRO TAHU NGGAK"`, `"SIH KALAU KALIAN"`, `"BISA INSTALL MODEL"`, `"DI LAPTOP KAMU"`
      - Bad: `"Bro tahu nggak sih kalau kalian bisa install model LLM langsung di laptop kamu sendiri?"` (too long, wraps to 3+ lines).
@@ -153,7 +168,27 @@ python <skill-dir>/assets/generate_databro_cloned_vo.starter.py --text-file vo/s
 
 ---
 
-## 10. Prompt Examples for `/databro-brand-motion`
+## 10. Creator-Recorded Voiceover: Speed and Sync
+
+Most Databro reels use the creator's own recorded voice instead of a cloned or TTS voice. The video is first built with captions timed to an estimate, then re-timed to the real recording.
+
+### Speed preference (default 1.2x)
+- **Speed the recorded voice up 1.2x** (accepted range 1.1x to 1.2x; use 1.2x unless the user asks otherwise). The creator's natural pace is about **123 words per minute including pauses** (measured on the "Apa itu AI Engineering?" reel, 2026-11-12); at 1.2x it becomes about **148 wpm**, a normal reels pace.
+- Use ffmpeg `atempo` so the **pitch stays the same** (verify: median F0 before and after should be within a few Hz; on "Gimana Token AI Dihitung?" it moved 96 -> 98 Hz).
+- Size scripts for the final video: about 148 spoken words per minute, so a 45 to 90 second reel holds about 110 to 220 words.
+
+### Sync workflow
+1. **One take per scene** from the creator, saved in the reel's `voiceover/` folder. Near-silent takes (peak below about -40 dBFS) are false starts and are skipped.
+2. **Transcribe** each take only to learn what was actually said (whisper.cpp through `@remotion/install-whisper-cpp`, model `small`, language `id`). Its word timestamps are unreliable (pauses get swallowed), so never time captions from it.
+3. Write the **corrected transcript** per scene: fix mishearings by hand (Claude, Llama, LinkedIn, GPT-4o, prompt caching, Databro) and keep the creator's real wording where it differs from the script. Captions follow the spoken words.
+4. **Forced-align** the corrected transcript to each take with the MMS-300m forced aligner (`torchaudio.functional.forced_align`; weights from the Hugging Face mirror `MahmoudAshraf/mms-300m-1130-forced-aligner`, because the torchaudio download host serves an expired certificate). Spell digits the way they were spoken for alignment only ("3" -> "tiga", "2025" -> "dua ribu dua puluh lima").
+5. **Edit the audio**: trim silence before and after speech (0.10 s pre-roll, 0.25 s post-roll), shorten only pauses longer than 0.9 s to 0.6 s (cut in the middle of the silence with 15 ms fades), then `atempo=1.2` and `loudnorm=I=-16:TP=-1.5:LRA=11`. No BGM under the voice; keep SFX quiet (volume 0.2 to 0.4).
+6. **Re-time**: word times map through the edit, then divide by the speed. Scene duration = head delay (12) + sped-up clip + tail delay (14), plus the 24-frame outro hold on the last scene. Captions start on the first word of each chunk.
+7. **Verify on the final MP4**: extract its audio and compare caption starts with voice onsets after pauses; aim for a mean offset under 0.1 s. Spot-check frames at the key spoken words to confirm reveals still land.
+
+The Remotion bundled ffmpeg has `atempo` and `loudnorm`, but not `highpass` or `volumedetect`; measure loudness and pauses from the decoded samples instead.
+
+## 11. Prompt Examples for `/databro-brand-motion`
 
 - **Tutorial Prompt**:
   > `/databro-brand-motion Buat video TikTok 60 detik tentang "Cara Setup PostgreSQL + pgvector pakai Docker dalam 2 Menit" dengan archetype code-walkthrough: opening code-shock, step terminal Command Prompt dengan kotak merah #D92D20, transisi CapCut, SFX TikTok, dan CC rata tengah di posisi tetap Y=1480px.`

@@ -44,6 +44,16 @@
 ## 8. Closing Call-to-Action (CTA)
 [Platform-tailored engagement hook in Databro tone. Example: "Save dulu buat dibaca pas senggang, dan share ke teman-teman kamu yang lagi belajar data ya bro!"]
 
+## Script (video formats only: a story, not a list)
+| # | Beat | Voiceover (flowing spoken Indonesian) | Visual |
+|---|---|---|---|
+| 1 | hook | [9 words or fewer that open a question, e.g. "Bro, ngobrol pakai bahasa Indonesia ke AI ternyata boros."] | [Pattern-interrupt visual] |
+| 2 | setup | [The everyday moment, 1 to 2 flowing sentences] | [Concrete visual] |
+| 3 | discovery | [How it really works, cause and effect, numbers as things that happen] | [Animated mechanism] |
+| 4 | payoff | [The moment that answers the hook] | [Visual payoff] |
+| 5 | takeaway | [One practical action] | [Visual] |
+| 6 | cta | [Save/follow line] | [Avatar end card] |
+
 ## Cover (video formats only: Reels / TikTok / Shorts / YouTube)
 - **Headline**: [Lavender question, at most 3 lines, e.g. "Apa itu AI Engineering?"]
 - **Lime keyword**: [The one topic term shown in lime, e.g. "AI Engineering"]

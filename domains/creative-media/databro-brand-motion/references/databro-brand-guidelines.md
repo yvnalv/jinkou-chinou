@@ -90,7 +90,8 @@ A notebook-style dataframe preview, separate from the teal-header carousel table
   - Rate: **`-2%`** for relaxed, articulate delivery.
 * **Conversational Wording (Eliminating Robotic AI Starch)**:
   - Natural opening hooks: *"Pernah ngga.... model kamu akurasinya 98%... tapi pas dicoba di data baru, langsung jelek?"*
-  - Natural transitions: *"Nah, ini yang namanya overfitting."*, *"Simpelnya gini, bro."*
+  - Natural transitions that carry the story forward with cause and effect: *"Makanya waktu modelnya ketemu data baru, akurasinya langsung turun."*, *"Masalahnya, kamus itu kebanyakan belajar dari bahasa Inggris."* Use crutches like *"Nah"* or *"Simpelnya gini, bro"* at most once per script.
+  - Storytelling, never stiff: hook of 9 words or fewer in the first 2 to 3 seconds, then flowing 10 to 22 word sentences; no stacked short sentences, colon-dictated lists, or *"pertama/kedua/ketiga"* in the voiceover (details in `references/databro-content-and-voiceover-guide.md`).
   - Authentic enthusiast sign-off: *"Code-nya simpel banget, bro!"*, *"Save video ini dan follow Databro buat belajar AI bareng, bro!"*
   - Pronoun guardrails: Always use **`"Kamu"`** and **`"Kita"`**. Never use `"Lo"` or `"Gue"`.
 
