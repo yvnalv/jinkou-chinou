@@ -24,7 +24,8 @@ A ready-to-run 9:16 Remotion project that matches the published yvnalvworks reel
 | `src/voiceover.ts` | `VOICEOVER_FILE`: null (silent) or the aligned voiceover in `public/` |
 | `scripts/transcribe.mjs` | whisper.cpp (local) transcript + word times per WAV -> `<name>.words.json` |
 | `scripts/align_voiceover.py` | Joins takes, speeds up, times captions from pauses + syllables -> `vo-out/` |
-| `scripts/refine_captions.py` | Snaps cue starts to Whisper word times on the final audio |
+| `scripts/align_mms.py` | Default: MMS forced alignment of the script words to the final audio -> captions |
+| `scripts/refine_captions.py` | Fallback: snaps cues to Whisper word times on the final audio |
 
 ## Voiceover (after Yovan records)
 
@@ -35,9 +36,9 @@ Full guide: `references/voiceover-sync.md` in this skill.
 npm run transcribe -- vo/take1-16k.wav vo/take2-16k.wav ...   # 16 kHz mono WAV copies of the takes
 # 2. Join, speed up, and time the captions to the real audio
 npm run align -- --reel "<reel folder>/reel.json" --takes "<take scene 1>" "<take scene 2>" ... --speed 1.2 --out vo-out
-# 3. Snap mid-phrase cues to Whisper word times on the final audio
-npm run transcribe -- vo/final-16k.wav
-npm run refine -- --captions vo-out/captions.json --words vo/final-16k.words.json
+# 3. Time every caption to the spoken words (MMS forced alignment; see references/voiceover-sync.md)
+"D:/yvnalv/AI Skills/remotion-demos/.venv-omnivoice/Scripts/python.exe" scripts/align_mms.py --reel "<reel folder>/reel.json" --audio vo/final-16k.wav --model "D:/yvnalv/AI Skills/remotion-demos/models/mms-fa" --captions vo-out/captions.json
+#    Fallback without MMS: npm run transcribe -- vo/final-16k.wav && npm run refine -- --captions vo-out/captions.json --words vo/final-16k.words.json
 ```
 
 Then copy `vo-out/voiceover.wav` to `public/`, `vo-out/captions.json` to `src/data/`, set `VOICEOVER_FILE = 'voiceover.wav'` in `src/voiceover.ts`, and render.

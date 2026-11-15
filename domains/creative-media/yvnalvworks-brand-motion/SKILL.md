@@ -2,7 +2,7 @@
 name: yvnalvworks-brand-motion
 description: "yvnalvworks (@yvnalvworks / yvnalvworks.com) specialized brand motion skill extending the-motion-designer. Applies yvnalvworks' signature technical aesthetic: matte charcoal grain background image (never a flat fill), Poppins Bold headlines with Warm Ivory #F0ECE2 and white text, one Electric Lime #C1FF72 punchline phrase, the avatar plus name and handle lockup above the headline on covers, Lucide 2px monoline SVG icons, and locked Y=1480px captions. Renders 4:5 carousel covers and slides that match the published reference covers, a 9:16 cover for every reel or video, and caption-timed 9:16 Remotion reels where every story beat gets an animated visual (product mockups, charts, step rails, app-style icon tiles, loops) built from the bundled reel starter, then synced to Yovan's recorded voiceover (takes joined, sped up, captions re-timed). Use when creating carousels, covers, slides, or videos for yvnalvworks or invoking /yvnalvworks-brand-motion."
 metadata:
-  version: 0.7.1
+  version: 0.8.0
 ---
 
 # yvnalvworks Brand Motion: Visual Identity and Canvas Engine
@@ -66,7 +66,8 @@ This skill isolates all yvnalvworks visual guidelines, typography, color tokens,
 | `assets/reel-starter/src/voiceover.ts` | `VOICEOVER_FILE`: null renders silent; set to the aligned file in `public/` to add the voice. |
 | `assets/reel-starter/scripts/transcribe.mjs` | whisper.cpp 1.5.5 `small.en` (local): transcript and rough word times per WAV, to confirm which take is which scene and what was said. |
 | `assets/reel-starter/scripts/align_voiceover.py` | Joins the takes, normalizes loudness, applies the speed, and times every caption from pauses and syllables. |
-| `assets/reel-starter/scripts/refine_captions.py` | Snaps mid-phrase cue starts to Whisper word times on the final audio. |
+| `assets/reel-starter/scripts/align_mms.py` | Default caption timing after the voice is joined: MMS forced alignment of the script words to the final audio (run with the `.venv-omnivoice` interpreter and the model in `remotion-demos/models/mms-fa`). |
+| `assets/reel-starter/scripts/refine_captions.py` | Fallback when MMS is unavailable: snaps cues to Whisper word times (first-two-word match, ordered, last-word ends). |
 | `assets/reel-starter/src/data/captions.json` | Example captions (from the content-ideas reel starter); replace with the reel's real captions. |
 
 ---
@@ -99,7 +100,7 @@ This skill isolates all yvnalvworks visual guidelines, typography, color tokens,
 3. **Render** with `scripts/render_carousel.py` to the agreed folder under `D:\yvnalv\Onedrive\04. yvnalvworks\Contents\`. If the JSON reports a Poppins warning, fix connectivity and re-render; do not ship fallback fonts. If it reports a cover overflow warning, re-break the headline (for example "Should Know / About [[Subject]]") and re-render.
 4. **Compare.** View the rendered cover next to a file in `assets/reference-covers/` and walk the checklist in `references/cover-slide-spec.md`. Fix any drift in scale, position, background, or highlight before handing over.
 5. **Reels.** Open `references/reels-motion-system.md`. Copy `assets/reel-starter/` to `D:\yvnalv\AI Skills\remotion-demos\<reel-name>\` (see its README), put the reel's `captions.json` in `src/data/`, and plan one animated visual per story beat keyed to its caption cue with `at(id)`. Keep content centered on x 540, typecheck, render both versions (captions and clean), render the 9:16 cover from the reel's `cover-spec.json` (`reel-cover.png`), sample a frame from every scene and check centering, safe zones, and overlaps, then copy both MP4s next to the cover in the reel's OneDrive folder.
-6. **Voiceover.** When the recording arrives, follow `references/voiceover-sync.md`: confirm each take's scene and wording, apply the speed (ask; Yovan's default is 1.2x), align and refine the captions, set `VOICEOVER_FILE`, re-render both versions with voice, check every beat still finishes in time, and deliver the final audio and aligned captions.
+6. **Voiceover.** When the recording arrives, follow `references/voiceover-sync.md`: confirm each take's scene and wording, apply the speed (ask; Yovan's default is 1.2x), join the takes, time the captions with MMS forced alignment (verify no caption starts inside a silence), set `VOICEOVER_FILE`, re-render both versions with voice, check every beat still finishes in time, and deliver the final audio and aligned captions.
 
 ---
 

@@ -35,7 +35,7 @@ yvnalvworks-brand-motion/
     │   ├── package.json                     # Pinned Remotion + lucide-react
     │   ├── tsconfig.json
     │   ├── remotion.config.ts
-    │   ├── scripts/                         # transcribe.mjs, align_voiceover.py, refine_captions.py
+    │   ├── scripts/                         # transcribe.mjs, align_voiceover.py, align_mms.py, refine_captions.py
     │   └── src/
     │       ├── index.ts, Root.tsx, Reel.tsx # Entry, two compositions, example reel
     │       ├── theme.ts, timing.ts          # Tokens + centered layout, caption-keyed timing
@@ -58,6 +58,11 @@ yvnalvworks-brand-motion/
 ```
 
 ## Changelog
+
+### 0.8.0 — 2026-11-13
+* Captions are timed to the recorded voice with MMS forced alignment (`assets/reel-starter/scripts/align_mms.py`, model in `remotion-demos/models/mms-fa`): every matched caption landed within 0.05 s on "How LLM Tokens Are Counted", where pause-based timing was up to 2.4 s off inside one-breath phrases and Whisper was 2 s off at a take boundary.
+* `refine_captions.py` (now the fallback) matches the first two words, keeps cues ordered, allows a unique match up to 3 s away, and ends cues at Whisper's last word.
+* `references/voiceover-sync.md` documents the MMS step and the silence check before rendering.
 
 ### 0.7.1 — 2026-11-13
 * Reel length: as long as the story needs, under 3 minutes (was 40 to 60 seconds).
