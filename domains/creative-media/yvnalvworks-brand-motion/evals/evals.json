@@ -20,6 +20,16 @@
     ]
   },
   {
+    "id": "eval-series-cover-subtitle",
+    "prompt": "Render the shared cover for part 3 of my 7-part yvnalvworks PPE tracker series.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Uses the same series headline on a cover slide and adds subtitle 'Part 3 of 7 · <subject>' in Warm Ivory",
+      "Keeps exactly one lime phrase in the headline and none in the subtitle",
+      "Re-breaks the headline by hand if the renderer warns that a line wrapped"
+    ]
+  },
+  {
     "id": "eval-03-reel-from-captions",
     "prompt": "Make the yvnalvworks reel video for this script, with animations, icons, and charts. I'll record the voiceover myself.",
     "should_trigger": true,

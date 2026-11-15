@@ -62,6 +62,16 @@
     ]
   },
   {
+    "id": "eval-series-tutorial-parts",
+    "prompt": "Plan a 7-part yvnalvworks reels tutorial series on building a PPE safety tracker. No Notion here, just give me the files.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Uses one shared coverHeadline for all parts and a coverSubtitle 'Part N of 7 · Subject' per part",
+      "Saves under Contents\\Instagram\\[MM. Month YYYY]\\Series\\[YYMMDD] Title\\ with _Plan, _Assets, _Code, _Cover and Part N folders",
+      "Writes Notion handoff Markdown files with sync_notion_planner.py --markdown instead of calling Notion"
+    ]
+  },
+  {
     "id": "eval-07-reject-other-brands",
     "prompt": "Bikinin ide konten buat Databro dong bro tentang pandas.",
     "should_trigger": false

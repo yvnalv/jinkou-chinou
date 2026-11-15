@@ -38,6 +38,28 @@ def validate_cover_headline(headline: str) -> list[str]:
     return errors
 
 
+MAX_COVER_SUBTITLE_CHARS = 44
+SUBTITLE_RE = re.compile(r"^Part \d+ of \d+ \u00b7 \S.*$")
+
+
+def validate_cover_subtitle(subtitle: str) -> list[str]:
+    """Series covers only: one line 'Part N of M · Subject' (references/cover-headline-patterns.md, section 6)."""
+    errors = []
+    if "\n" in subtitle:
+        errors.append("coverSubtitle: must be one line.")
+    if len(subtitle) > MAX_COVER_SUBTITLE_CHARS:
+        errors.append(f"coverSubtitle: {len(subtitle)} characters; max is {MAX_COVER_SUBTITLE_CHARS}.")
+    if "[[" in subtitle or "]]" in subtitle:
+        errors.append("coverSubtitle: no [[highlight]]; the lime stays on the headline.")
+    if not SUBTITLE_RE.match(subtitle.strip()):
+        errors.append("coverSubtitle: use 'Part N of M \u00b7 Subject' (middle dot separator).")
+    else:
+        n, m = (int(x) for x in re.findall(r"\d+", subtitle)[:2])
+        if not 1 <= n <= m:
+            errors.append(f"coverSubtitle: part {n} of {m} is out of range.")
+    return errors
+
+
 def validate_and_format(data: dict) -> tuple[str, list[str]]:
     errors = []
 
@@ -74,6 +96,11 @@ def validate_and_format(data: dict) -> tuple[str, list[str]]:
         errors.append("Missing required field for carousels: 'coverHeadline' (see references/cover-headline-patterns.md)")
     elif cover:
         errors.extend(validate_cover_headline(cover))
+    subtitle = data.get("coverSubtitle", "")
+    if subtitle:
+        if not cover:
+            errors.append("coverSubtitle needs a coverHeadline (it sits under the shared series headline).")
+        errors.extend(validate_cover_subtitle(subtitle))
 
     sources = data.get("evidenceSources", [])
     if not sources:
@@ -93,6 +120,8 @@ def validate_and_format(data: dict) -> tuple[str, list[str]]:
             line += "]]" if in_hl else ""
             cover_lines.append(line.replace("[[", "**").replace("]]", "**"))
         cover_block = "**Cover headline:**\n\n" + "\n".join(f"> {ln}  " for ln in cover_lines) + "\n\n"
+        if subtitle:
+            cover_block += f"**Series subtitle:** {subtitle}\n\n"
 
     md = f"""# {data['title']}
 

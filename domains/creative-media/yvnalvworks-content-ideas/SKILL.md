@@ -2,7 +2,7 @@
 name: yvnalvworks-content-ideas
 description: "Researches, validates, and drafts evidence-backed content ideas for yvnalvworks across AI Engineering, Computer Vision, Edge Systems, and Software Architecture, written as friendly stories that open with a 2 to 3 second hook and flow like natural speech, while staying technically accurate. Always asks upfront for target topic and platform before researching papers, documentation, and real production patterns. Formats ideas into story-driven carousel outlines with a cover headline that follows the published yvnalvworks cover patterns (What X Should Know About Y, numbered Should Know listicles, one lime highlight phrase), conversational reel scripts with a cover headline, teleprompter voiceover guides and natural-phrase closed captions, post captions, and syncs to the yvnalvworks Content Planner in Notion."
 metadata:
-  version: 0.7.1
+  version: 0.8.0
 ---
 
 # yvnalvworks Content Ideas: Evidence-Backed Technical Storytelling
@@ -38,13 +38,13 @@ Every idea is written in **English that flows like a conversation**: full, conne
 | Path | Purpose & When to Load |
 |---|---|
 | `references/yvnalvworks-voice-and-tone-guide.md` | Open before writing any copy: the storytelling voice, the five story beats, sentence rules, caption rules, and before/after examples. |
-| `references/cover-headline-patterns.md` | Open when writing any carousel: cover headline formulas from the published covers, line-break and highlight rules, `coverHeadline` JSON form. |
+| `references/cover-headline-patterns.md` | Open when writing any carousel: cover headline formulas from the published covers, line-break and highlight rules, `coverHeadline` JSON form, and the series `coverSubtitle` (section 6). |
 | `references/CONTENT_IDEA.template.md` | Standard markdown outline for story-driven carousels and reels companion scripts. |
 | `references/yvnalvworks-content-pillars.md` | Detailed breakdown of the 4 core engineering pillars and acceptable topic scopes. |
 | `references/platform-format-specs.md` | Resolution, aspect ratios, safe zones, slide counts, durations, and caption format for Instagram Feed and Reels. |
 | `scripts/format_content_idea.py` | Deterministic CLI tool to validate and format content idea JSON into clean markdown (`python scripts/format_content_idea.py <file.json>`). |
-| `scripts/build_reel_package.py` | Builds a reel package from one `reel.json`: `reels-script.txt`, `teleprompter-voiceover-guide.txt`, `captions.srt`, `captions.json`, `content-spec.json`, and `cover-spec.json` (the 9:16 cover for `/yvnalvworks-brand-motion`). Requires a valid `coverHeadline`. Keeps captions that are already aligned to a recorded voiceover (`video.voiceover.captionsAligned`) unless `--force-captions`. Enforces captions = spoken words, sentence case, 3 to 9 words and 48 characters per cue, no dashes, and the hook (first sentence 8 words or fewer); reports `styleWarnings` for AI-ish writing (`python <skill-dir>/scripts/build_reel_package.py <reel.json> [--out <dir>]`; prints JSON with duration and `inTarget`). |
-| `scripts/sync_notion_planner.py` | Deterministic CLI helper to construct Notion database properties for `📆 yvnalvworks Content Planner` (`python scripts/sync_notion_planner.py <file.json>`). |
+| `scripts/build_reel_package.py` | Builds a reel package from one `reel.json`: `reels-script.txt`, `teleprompter-voiceover-guide.txt`, `captions.srt`, `captions.json`, `content-spec.json`, and `cover-spec.json` (the 9:16 cover for `/yvnalvworks-brand-motion`). Requires a valid `coverHeadline`; a series part adds `coverSubtitle` (`Part N of M · Subject`), which goes into `cover-spec.json`. Keeps captions that are already aligned to a recorded voiceover (`video.voiceover.captionsAligned`) unless `--force-captions`. Enforces captions = spoken words, sentence case, 3 to 9 words and 48 characters per cue, no dashes, and the hook (first sentence 8 words or fewer); reports `styleWarnings` for AI-ish writing (`python <skill-dir>/scripts/build_reel_package.py <reel.json> [--out <dir>]`; prints JSON with duration and `inTarget`). |
+| `scripts/sync_notion_planner.py` | Builds the Notion properties for `📆 yvnalvworks Content Planner` from a content idea JSON or `reel.json`, and with `--markdown` writes a Markdown handoff file (database, properties table, and optional page body from `--body`) for a tool that has Notion access (`python <skill-dir>/scripts/sync_notion_planner.py <file.json> [--markdown <handoff.md>] [--body <content.md>]`). |
 | `assets/content-idea.starter.json` | Sample starter JSON payload illustrating valid structure and fields. |
 | `assets/reel.starter.json` | Sample `reel.json` for `build_reel_package.py`: scenes with spoken line, caption cues, on-screen text, visual plan, emphasis, Lucide icons, and sources. |
 
@@ -111,7 +111,16 @@ Carousels run 5 to 10 slides; a beat can span more than one slide.
 Confirm with the user:
 1. Target pillar and topic angle.
 2. Target platform (Instagram Carousel 4:5, Instagram Reels 9:16, LinkedIn Article).
-3. Output path (`D:\yvnalv\Onedrive\04. yvnalvworks\Contents\...`) and Notion sync option.
+3. Output path and Notion sync option. Content is grouped by month: `D:\yvnalv\Onedrive\04. yvnalvworks\Contents\Instagram\[MM. Month YYYY]\{Feed|Reels|Series}\[YYMMDD] Title\` (for example `11. November 2026\Reels\[261113] How LLM Tokens Are Counted\`). Shared brand files stay in `Contents\Assets\` and `Contents\Voiceover\`. A multi-part series gets one folder under `Series\`:
+
+   ```text
+   [YYMMDD] Series Title\
+     _Plan\      series plan, sources, shot list, schedule, Notion handoff
+     _Assets\    photos\ cutouts\ graded\ video\ graphics\ + LICENSES.md
+     _Code\      runnable project code for tutorials
+     _Cover\     shared series cover spec and per-part renders
+     Part N - Subject\  Reel\ Carousel\ Footage\ Voiceover\ Render\
+   ```
 
 ### Step 2: Technical Research & Evidence Verification
 - Search official documentation, ArXiv papers, and engineering benchmarks.
@@ -119,6 +128,7 @@ Confirm with the user:
 
 ### Step 3: Draft the Story
 - Open `references/yvnalvworks-voice-and-tone-guide.md` and map the research onto the five beats before writing a sentence.
+- For a series: every part reuses one shared `coverHeadline` and adds `coverSubtitle` (`Part 3 of 7 · Teach It PPE`), per `references/cover-headline-patterns.md` section 6.
 - For carousels: Write the `coverHeadline` from `references/cover-headline-patterns.md` (offer 2 to 3 options with line breaks and the highlight marked), then draft the slides as flowing story beats with Lucide icon recommendations, plus the post caption.
 - For reels: Write `reel.json` in the reel folder (start from `assets/reel.starter.json`): a `coverHeadline` (every reel or video gets a cover, written with the same formulas and rules as carousel covers in `references/cover-headline-patterns.md`; offer 2 to 3 options), a conversational spoken script (as long as the story needs, under 3 minutes, about 140 words per minute), caption cues in sentence case cut at breath groups (3 to 9 words, max 48 characters, up to two lines), and for every scene a **visual plan**: one concrete animated metaphor per story beat (a product mockup for the moment, a breaking chart or wrong answer for the problem, a step rail or app-style icon tiles for the turn, a transformation such as a line bending into a loop for the lesson, an avatar end card for the CTA), with Lucide icon names and no third-party logos. The teleprompter guide asks for one take per scene so `/yvnalvworks-brand-motion` can sync the voice later. Then run `python <skill-dir>/scripts/build_reel_package.py <reel.json>` to generate the script, teleprompter guide, captions, and spec, and write `caption.txt`. The video itself is made with `/yvnalvworks-brand-motion`.
 - Read every spoken line out loud in your head. Rewrite anything that sounds like a list of facts. `build_reel_package.py` must report the hook within 8 words and **zero `styleWarnings`** (stacked short sentences, choppy average, stock phrases) before handing over.
@@ -126,6 +136,7 @@ Confirm with the user:
 
 ### Step 4: Notion Content Planner Sync
 - Register entry into the `📆 yvnalvworks Content Planner` database (`5a915afd-b3c1-8274-836c-87fe398765ee`).
+- When this session has no Notion tool (or the user asks for it), deliver a Markdown handoff instead: run `scripts/sync_notion_planner.py <file.json> --markdown <handoff.md> --body <content.md>` per entry and save the files next to the content (a series keeps them in `_Plan\`), so the user can pass them to a tool that has Notion access.
 
 ---
 
@@ -137,5 +148,5 @@ A task run of `yvnalvworks-content-ideas` is complete when:
 3. Copy opens with a hook of 8 words or fewer and reads as a flowing story whose payoff answers the hook: English only, zero style warnings, jargon explained, zero em-dashes.
 4. Carousels carry a `coverHeadline` that passes the cover rules (3 to 4 lines, max 18 characters per line, exactly one highlight).
 5. Reels ship `reel.json` (with a valid `coverHeadline`) plus the generated teleprompter guide, script with a visual plan per scene, sentence-case natural-phrase captions (`.srt` and `.json`), spec, `cover-spec.json`, and a post caption.
-6. Output was saved to the designated OneDrive path.
-7. Topic was registered in the Notion Content Planner database.
+6. Output was saved to the month folder on OneDrive (`Contents\Instagram\[MM. Month YYYY]\...`); series parts share one cover headline with a valid `coverSubtitle`.
+7. Topic was registered in the Notion Content Planner database, or a Markdown handoff file was delivered for it.

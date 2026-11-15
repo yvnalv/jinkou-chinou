@@ -19,7 +19,7 @@
   - Bottom actions safe zone: 1640 - 1920px
   - Right interaction strip: 960 - 1080px
   - Closed Captions locked position: Center Y = 1480px
-- **Cover (required)**: Every reel or video gets a 9:16 cover with the same lockup and headline style as the feed cover (`coverHeadline` in `reel.json`, rules in `references/cover-headline-patterns.md`). Rendered by `/yvnalvworks-brand-motion` as `reel-cover.png`.
+- **Cover (required)**: Every reel or video gets a 9:16 cover with the same lockup and headline style as the feed cover (`coverHeadline` in `reel.json`, rules in `references/cover-headline-patterns.md`). Rendered by `/yvnalvworks-brand-motion` as `reel-cover.png`. Parts of a series share one cover headline and add `coverSubtitle` (`Part 3 of 7 · Teach It PPE`).
 - **Visual Plan**: One concrete animated visual per story beat (mockup, breaking chart, step rail, app-style Lucide tiles, transformation, end card), timed to its caption cue. Illustrative numbers are tagged `illustrative`; no third-party logos. Production style: `/yvnalvworks-brand-motion` reels motion system.
 - **Package**: `reel.json` → `scripts/build_reel_package.py` → script, teleprompter guide, `captions.srt`, `captions.json`, `content-spec.json`, `cover-spec.json`; plus `caption.txt`.
 - **Captions Format**: Exact voiceover words in sentence case (not ALL CAPS), one cue per breath group: 3 to 9 words and at most 48 characters, shown on up to two lines, broken at commas and breath points, never splitting a phrase that belongs together, no trailing periods. High contrast.

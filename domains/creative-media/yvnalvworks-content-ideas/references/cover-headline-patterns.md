@@ -45,3 +45,19 @@ Reels and videos use the same field in `reel.json`; `scripts/build_reel_package.
 ## 5. Relation to the hook
 
 The cover headline is a promise. The `hookStatement` is the story's opening moment, told in one or two flowing sentences (see `references/yvnalvworks-voice-and-tone-guide.md`). It opens the post caption and the reel's first spoken line. It is not printed on the cover.
+
+## 6. Series covers (`coverSubtitle`)
+
+A multi-part series (a tutorial in 7 reels, for example) uses **one shared cover headline** for every part, so the profile grid reads as one set. Each part adds a single subtitle line under the headline:
+
+```json
+"coverHeadline": "Build a PPE\n[[Safety Tracker]]\nWith Your\nWebcam",
+"coverSubtitle": "Part 3 of 7 · Teach It PPE"
+```
+
+1. Format: `Part N of M · Subject`, with a middle dot (`·`) separator, never a dash. The subject is the part's topic in Title Case.
+2. One line, at most **44 characters**; no `[[highlight]]` (the lime stays on the headline).
+3. The series headline follows every rule in section 3. A "Build X" tutorial headline is fine for a series when it names the result the viewer builds.
+4. Single posts never get a subtitle.
+
+`format_content_idea.py` and `build_reel_package.py` validate it; `build_reel_package.py` writes it into `cover-spec.json` as the cover slide's `subtitle`, which `/yvnalvworks-brand-motion` renders in Warm Ivory under the headline.

@@ -125,6 +125,18 @@
       "highlightColor": "#C1FF72",
       "lines": "3-4",
       "highlightPhrases": 1
+    },
+    "seriesSubtitle": {
+      "optional": true,
+      "pattern": "Part N of M · Subject",
+      "weight": 500,
+      "size": 36,
+      "lineHeight": 1.25,
+      "tracking": "-0.01em",
+      "color": "#F0ECE2",
+      "marginTop": 40,
+      "maxChars": 44,
+      "lines": 1
     }
   },
   "motionColors": {

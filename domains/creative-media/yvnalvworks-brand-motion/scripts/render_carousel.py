@@ -11,6 +11,7 @@ Spec format:
   "format": "feed",            // "feed" (4:5, default) or "reel" (9:16 reel/video cover)
   "slides": [
     {"type": "cover", "headline": "What AI Engineers\\nShould Know\\nAbout [[Microsoft\\nAgent Framework]]", "file": "cover.png"},
+    {"type": "cover", "headline": "Build a PPE\\n[[Safety Tracker]]\\nWith Your\\nWebcam", "subtitle": "Part 3 of 7 · Teach It PPE"},
     {"type": "html", "html": "<div class='h2'>Body slide fragment</div>"},
     {"type": "html", "html": "<!doctype html><html>... full document ...</html>"}
   ]
@@ -19,6 +20,10 @@ Spec format:
 Cover headline markup: "\\n" forces a line break, [[...]] marks the Electric
 Lime highlight (may span line breaks). Without "\\n" the headline wraps
 automatically inside the 860px measure.
+
+Series covers: an optional cover "subtitle" (one line, at most 44 characters,
+for example "Part 3 of 7 · Teach It PPE") is set in Warm Ivory under the
+headline, so every part of a series shares one cover and only the subtitle changes.
 
 HTML slides: a fragment (no <html> tag) is wrapped in the brand shell (grain
 background, Poppins, 80px padding). A full document is rendered as-is after
@@ -80,6 +85,7 @@ COVER_CSS = """
 .lockup .name{font-weight:600;font-size:24px;line-height:1.2;color:#FFFFFF;letter-spacing:-0.01em}
 .lockup .handle{font-weight:400;font-size:21px;line-height:1.2;color:#F0ECE2}
 .headline{font-weight:700;font-size:96px;line-height:1.02;letter-spacing:-0.04em;color:#FFFFFF;text-align:left}
+.subtitle{font-weight:500;font-size:36px;line-height:1.25;letter-spacing:-0.01em;color:#F0ECE2;margin-top:40px;white-space:nowrap}
 """
 
 SHELL_CSS = """
@@ -103,10 +109,25 @@ def headline_html(text: str) -> str:
     return escaped.replace("\n", "<br>")
 
 
+MAX_SUBTITLE_CHARS = 44
+
+
+def validate_subtitle(subtitle: str) -> None:
+    if "\n" in subtitle or len(subtitle) > MAX_SUBTITLE_CHARS:
+        raise ValueError(f"Cover 'subtitle' must be one line of at most {MAX_SUBTITLE_CHARS} characters: '{subtitle}'")
+    if "[[" in subtitle or "—" in subtitle or "–" in subtitle:
+        raise ValueError("Cover 'subtitle' takes no [[highlight]] and no em or en dashes (use ' · ')")
+
+
 def build_cover(slide: dict) -> str:
     headline = slide.get("headline", "")
     if not headline.strip():
         raise ValueError("Cover slide needs a non-empty 'headline'")
+    subtitle = slide.get("subtitle", "").strip()
+    subtitle_html = ""
+    if subtitle:
+        validate_subtitle(subtitle)
+        subtitle_html = f'\n  <div class="subtitle">{html_lib.escape(subtitle)}</div>'
     name = html_lib.escape(slide.get("name", "yvnalvworks"))
     handle = html_lib.escape(slide.get("handle", "@yvnalvworks"))
     return f"""<!doctype html><html><head><meta charset="utf-8">{FONTS}
@@ -114,7 +135,7 @@ def build_cover(slide: dict) -> str:
 <div class="stage"><div class="block">
   <div class="lockup"><img src="{{{{AVATAR}}}}" alt="">
     <div><div class="name">{name}</div><div class="handle">{handle}</div></div></div>
-  <div class="headline">{headline_html(headline)}</div>
+  <div class="headline">{headline_html(headline)}</div>{subtitle_html}
 </div></div></body></html>"""
 
 
@@ -178,6 +199,11 @@ def render_carousel(spec_path: str, output_dir: str, scale: float, fmt_override:
                     " return Math.round(h.getBoundingClientRect().height / (96 * 1.02)); }"
                 )
                 entry["intendedLines"] = slide["headline"].strip().count("\n") + 1
+                if slide.get("subtitle", "").strip():
+                    # nowrap keeps it on one line; flag it if it runs past the 860px measure.
+                    entry["subtitleWidth"] = page.evaluate(
+                        "() => Math.round(document.querySelector('.subtitle').scrollWidth)"
+                    )
             rendered.append(entry)
         browser.close()
 
@@ -190,6 +216,10 @@ def render_carousel(spec_path: str, output_dir: str, scale: float, fmt_override:
         f"{r['intendedLines']} hand-broken lines; a line is too wide for the 860px measure, shorten or re-break it"
         for r in rendered
         if r["type"] == "cover" and r["intendedLines"] > 1 and r["headlineLines"] != r["intendedLines"]
+    ]
+    warnings += [
+        f"Slide {r['slide']}: cover subtitle is {r['subtitleWidth']}px wide, over the 860px measure; shorten it"
+        for r in rendered if r.get("subtitleWidth", 0) > 860
     ]
     return {"format": fmt, "slides": rendered, "pixelSize": [int(width * scale), int(height * scale)], "warnings": warnings}
 

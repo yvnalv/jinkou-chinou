@@ -11,7 +11,7 @@ Measured from the two published reference covers in `assets/reference-covers/`. 
 
 * 1080 x 1350 (4:5), exported at 2x (2160 x 2700).
 * Background: `assets/brand-kit/backgrounds/yvnalvworks-grain-bg.png`, scaled with `cover`. It is a `#121212` base with fine light speckle grain and soft lighter haze in the top-left and bottom-right. **Never replace it with a flat color fill**; `#121212` is only the fallback color behind the image.
-* Nothing else on the cover: no slide counter, no footer, no domain watermark, no swipe cue, no icons, no logo wordmark.
+* Nothing else on the cover (a series adds only its subtitle line, section 7): no slide counter, no footer, no domain watermark, no swipe cue, no icons, no logo wordmark.
 
 ## 2. Layout
 
@@ -85,19 +85,43 @@ Use the `cover` slide type in `scripts/render_carousel.py`; it encodes every val
 
 `/yvnalvworks-content-ideas` writes this file as `cover-spec.json` from the reel's `coverHeadline`, so normally you only run `python <skill-dir>/scripts/render_carousel.py <reel-folder>/cover-spec.json --out <reel-folder>`.
 
-## 7. Outside inspiration (not bundled)
+## 7. Series cover subtitle
+
+A multi-part series (for example a 7-part tutorial) uses **one shared series cover**: the same lockup and headline on every part, plus one subtitle line that names the part.
+
+| Property | Value |
+|---|---|
+| Field | `subtitle` on the `cover` slide (from `coverSubtitle` in `/yvnalvworks-content-ideas`) |
+| Copy | `Part N of M · Subject`, Title Case subject, middle dot separator, no highlight, no dashes |
+| Font | Poppins 500, 36px, line height 1.25, tracking -0.01em |
+| Color | `#F0ECE2` Warm Ivory (the lime stays on the headline) |
+| Position | 40px under the headline, left-aligned with it, one line (max 44 characters, must fit the 860px measure) |
+
+```json
+{"format": "reel", "slides": [
+  {"type": "cover", "headline": "Build a PPE
+[[Safety Tracker]]
+With Your
+Webcam", "subtitle": "Part 3 of 7 · Teach It PPE", "file": "reel-cover.png"}
+]}
+```
+
+The renderer rejects a subtitle with a line break, a highlight, a dash, or more than 44 characters, and warns when it renders wider than 860px. Single posts never get a subtitle; the cover stays lockup plus headline.
+
+## 8. Outside inspiration (not bundled)
 
 The owner also shared another creator's listicle cover (blue gradient, 3D clay icons, third-party company logos, "With Links" pill, "Swipe next" footer). It is kept as copy inspiration only and is not bundled, because it carries another person's name, photo, and trademarked logos.
 
 * **Borrow:** the value-promise headline ("... You Should Read") and the idea of stating the bonus in the copy ("With Links", "With Code").
 * **Do not borrow:** blue or purple gradients, 3D clay illustrations, brand logos, pill badges, header year stamps, or footer swipe bars. They break the yvnalvworks matte grain aesthetic.
 
-## 8. Cover review checklist
+## 9. Cover review checklist
 
 - [ ] Grain background image present (not a flat fill).
 - [ ] Lockup: color avatar, white name, ivory handle, above the headline.
 - [ ] Headline Poppins Bold 96px, -0.04em, left-aligned, 3 to 4 hand-broken lines.
 - [ ] Exactly one lime phrase.
+- [ ] Series only: one Warm Ivory subtitle line `Part N of M · Subject` under the headline; single posts have none.
 - [ ] Block optically centered; nothing else on the slide.
 - [ ] Side-by-side comparison with a reference cover shows the same scale and position.
 - [ ] Reel cover: 1080 x 1920 (2x export), block inside the centered 4:5 crop, saved as `reel-cover.png` next to the MP4s.

@@ -9,7 +9,8 @@ Write every line in the storytelling voice from `references/yvnalvworks-voice-an
 - **Author**: Yovan Alvianto (@yvnalvworks)
 - **Status**: Idea 💡
 - **Target Date**: YYYY-MM-DD
-- **Target Destination**: `D:\yvnalv\Onedrive\04. yvnalvworks\Contents\[Platform]\[YYMMDD] [Topic]\`
+- **Target Destination**: `D:\yvnalv\Onedrive\04. yvnalvworks\Contents\Instagram\[MM. Month YYYY]\{Feed|Reels|Series}\[YYMMDD] [Topic]\`
+- **Series Subtitle** (series only): `Part N of M · Subject`
 
 ---
 

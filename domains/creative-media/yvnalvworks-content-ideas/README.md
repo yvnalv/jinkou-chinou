@@ -29,13 +29,18 @@ yvnalvworks-content-ideas/
 ├── scripts/
 │   ├── build_reel_package.py                # reel.json -> script, teleprompter, captions, spec
 │   ├── format_content_idea.py               # Markdown validator and formatter
-│   └── sync_notion_planner.py               # Notion payload constructor
+│   └── sync_notion_planner.py               # Notion properties + Markdown handoff file
 └── assets/
     ├── content-idea.starter.json            # Reference starter JSON payload
     └── reel.starter.json                    # Reference reel.json for build_reel_package.py
 ```
 
 ## Changelog
+
+### 0.8.0 — 2026-11-15
+* Series covers: optional `coverSubtitle` (`Part N of M · Subject`, one line, max 44 characters, middle dot, no highlight) under one shared series headline. `format_content_idea.py` and `build_reel_package.py` validate it, and `cover-spec.json` carries it as the cover `subtitle` for `/yvnalvworks-brand-motion`. Documented in `references/cover-headline-patterns.md` section 6.
+* Output folders are grouped by month: `Contents\Instagram\[MM. Month YYYY]\{Feed|Reels|Series}\[YYMMDD] Title\`, with a documented series layout (`_Plan`, `_Assets`, `_Code`, `_Cover`, `Part N - Subject`).
+* `sync_notion_planner.py --markdown <file> [--body <md>]` writes a Notion handoff file for sessions without a Notion tool.
 
 ### 0.7.1 — 2026-11-13
 * Reels may run as long as the story needs, under 3 minutes (was 40 to 60 seconds); `inTarget` checks 30 s to under 180 s.

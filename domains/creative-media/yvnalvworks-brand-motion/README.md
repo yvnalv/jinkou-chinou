@@ -59,6 +59,11 @@ yvnalvworks-brand-motion/
 
 ## Changelog
 
+### 0.9.0 — 2026-11-15
+* Series covers: `render_carousel.py` cover slides take an optional one-line `subtitle` (`Part N of M · Subject`, Poppins 500 36px, Warm Ivory, 40px under the headline). It rejects line breaks, highlights, dashes, and more than 44 characters, and warns when the subtitle renders wider than 860px.
+* `references/cover-slide-spec.md` section 7 and the design tokens document the series subtitle; the checklist covers it.
+* Renders go to the month folders `Contents\Instagram\[MM. Month YYYY]\...`.
+
 ### 0.8.0 — 2026-11-13
 * Captions are timed to the recorded voice with MMS forced alignment (`assets/reel-starter/scripts/align_mms.py`, model in `remotion-demos/models/mms-fa`): every matched caption landed within 0.05 s on "How LLM Tokens Are Counted", where pause-based timing was up to 2.4 s off inside one-breath phrases and Whisper was 2 s off at a take boundary.
 * `refine_captions.py` (now the fallback) matches the first two words, keeps cues ordered, allows a unique match up to 3 s away, and ends cues at Whisper's last word.
