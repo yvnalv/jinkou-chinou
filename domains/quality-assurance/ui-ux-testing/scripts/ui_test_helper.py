@@ -68,14 +68,81 @@ def ensure_windows_browser_invoker_policy() -> list[str]:
     return applied
 
 
-def check_environment(project_dir: Path | None = None) -> dict[str, Any]:
-    """Inspect installed Node.js, Python packages, and Playwright Chromium binaries."""
-    cwd = (project_dir or Path.cwd()).resolve()
-    py_ver = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
+def resolve_node_tools() -> tuple[str | None, str | None, str | None]:
+    """Find node, npx, and npm even if winget just installed Node.js and PATH is not refreshed yet."""
+    if sys.platform == "win32":
+        candidate_dirs = [
+            Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / "nodejs",
+            Path(os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)")) / "nodejs",
+            Path(os.environ.get("LocalAppData", "")) / "Programs" / "nodejs",
+            Path(os.environ.get("AppData", "")) / "npm",
+        ]
+        current_path = os.environ.get("PATH", "")
+        for d in candidate_dirs:
+            if d.is_dir() and str(d).lower() not in current_path.lower():
+                os.environ["PATH"] = f"{d}{os.pathsep}{os.environ.get('PATH', '')}"
 
     node_bin = shutil.which("node")
     npx_bin = shutil.which("npx")
     npm_bin = shutil.which("npm")
+    return node_bin, npx_bin, npm_bin
+
+
+def verify_python_playwright_chromium(py_exe: str) -> tuple[bool, str | None]:
+    """Ask Playwright directly whether its exact required Chromium executable exists on disk."""
+    code = (
+        "import os, sys\n"
+        "try:\n"
+        "    from playwright.sync_api import sync_playwright\n"
+        "    with sync_playwright() as p:\n"
+        "        exe = p.chromium.executable_path\n"
+        "        print(exe)\n"
+        "        sys.exit(0 if os.path.isfile(exe) else 2)\n"
+        "except Exception as e:\n"
+        "    print(str(e))\n"
+        "    sys.exit(1)\n"
+    )
+    try:
+        proc = subprocess.run(
+            [py_exe, "-c", code],
+            capture_output=True,
+            text=True,
+            timeout=15,
+            encoding="utf-8",
+            errors="replace",
+        )
+        out = (proc.stdout or "").strip().splitlines()
+        exe_path = out[-1].strip() if out else None
+        return proc.returncode == 0, exe_path
+    except Exception as exc:
+        return False, str(exc)
+
+
+def detect_project_python(cwd: Path) -> list[str]:
+    """Return [sys.executable] plus any local project virtualenv Python if different."""
+    executables = [sys.executable]
+    candidates = [
+        cwd / ".venv" / "Scripts" / "python.exe",
+        cwd / "venv" / "Scripts" / "python.exe",
+        cwd / ".venv" / "bin" / "python",
+        cwd / "venv" / "bin" / "python",
+    ]
+    seen = {str(Path(sys.executable).resolve()).lower()}
+    for c in candidates:
+        if c.is_file():
+            resolved = str(c.resolve()).lower()
+            if resolved not in seen:
+                seen.add(resolved)
+                executables.append(str(c))
+    return executables
+
+
+def check_environment(project_dir: Path | None = None) -> dict[str, Any]:
+    """Inspect installed Node.js, Python packages, and exact Playwright Chromium binary revision."""
+    cwd = (project_dir or Path.cwd()).resolve()
+    py_ver = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
+
+    node_bin, npx_bin, npm_bin = resolve_node_tools()
     node_version = None
     if node_bin:
         try:
@@ -109,6 +176,11 @@ def check_environment(project_dir: Path | None = None) -> dict[str, Any]:
                 elif child.name.startswith("chromium_headless_shell-"):
                     headless_shell_dirs.append(child.name)
 
+    exact_chromium_ok = False
+    exact_chromium_exe = None
+    if py_packages.get("playwright"):
+        exact_chromium_ok, exact_chromium_exe = verify_python_playwright_chromium(sys.executable)
+
     has_package_json = (cwd / "package.json").is_file()
     node_packages = {
         "@playwright/test": (cwd / "node_modules" / "@playwright" / "test").is_dir(),
@@ -116,7 +188,7 @@ def check_environment(project_dir: Path | None = None) -> dict[str, Any]:
         "dotenv": (cwd / "node_modules" / "dotenv").is_dir(),
     }
 
-    binaries_ready = bool(chromium_dirs and headless_shell_dirs)
+    binaries_ready = bool(chromium_dirs and headless_shell_dirs and exact_chromium_ok)
     python_ready = all(py_packages.values()) and binaries_ready
     node_ready = bool(node_bin and npx_bin) and binaries_ready and (not has_package_json or all(node_packages.values()))
 
@@ -138,6 +210,7 @@ def check_environment(project_dir: Path | None = None) -> dict[str, Any]:
         "project_dir": str(cwd),
         "python": {
             "executable": sys.executable,
+            "project_pythons": detect_project_python(cwd),
             "version": py_ver,
             "packages": py_packages,
             "ready": python_ready,
@@ -156,6 +229,8 @@ def check_environment(project_dir: Path | None = None) -> dict[str, Any]:
             "cache_dir": str(browsers_dir),
             "chromium": chromium_dirs,
             "chromium_headless_shell": headless_shell_dirs,
+            "exact_chromium_executable": exact_chromium_exe,
+            "exact_revision_verified": exact_chromium_ok,
             "ready": binaries_ready,
         },
         "missing": missing,
@@ -199,7 +274,7 @@ def install_dependencies(stack: str = "auto", project_dir: Path | None = None) -
     install_py = stack in ("auto", "python", "both")
     install_node = stack in ("node", "both") or (stack == "auto" and has_pkg_json)
 
-    # 1. Ensure Node.js on Windows if missing
+    # 1. Ensure Node.js on Windows if missing, then refresh PATH in-process
     if (not before["node"]["found"]) and sys.platform == "win32":
         winget = shutil.which("winget")
         if winget:
@@ -213,39 +288,56 @@ def install_dependencies(stack: str = "auto", project_dir: Path | None = None) -
                     "--accept-source-agreements",
                 ],
             )
+            resolve_node_tools()
 
-    # 2. Install missing Python packages
+    # 2. Install missing Python packages across active Python and any project .venv
     if install_py:
-        missing_py = [pkg for pkg, ok in before["python"]["packages"].items() if not ok]
-        if missing_py:
-            run_step(
-                "pip_install_playwright_packages",
-                [sys.executable, "-m", "pip", "install", *missing_py],
+        req_py_pkgs = ["playwright", "pytest", "pytest-playwright", "axe-playwright-python"]
+        for py_exe in detect_project_python(cwd):
+            missing_py = (
+                [pkg for pkg, ok in before["python"]["packages"].items() if not ok]
+                if py_exe == sys.executable
+                else req_py_pkgs
             )
+            if missing_py:
+                res = run_step(
+                    f"pip_install_playwright_packages ({Path(py_exe).parent.name})",
+                    [py_exe, "-m", "pip", "install", *missing_py],
+                )
+                if res.get("returncode") != 0:
+                    run_step("ensurepip_bootstrap", [py_exe, "-m", "ensurepip", "--upgrade"])
+                    run_step(
+                        f"pip_install_retry ({Path(py_exe).parent.name})",
+                        [py_exe, "-m", "pip", "install", *missing_py],
+                    )
 
-    # 3. Install missing Node packages if package.json exists in target directory
-    if install_node and has_pkg_json:
-        npm_bin = shutil.which("npm")
-        missing_npm = [pkg for pkg, ok in before["node"]["packages"].items() if not ok]
-        if npm_bin and missing_npm:
-            run_step(
-                "npm_install_playwright_packages",
-                [npm_bin, "install", "-D", *missing_npm],
-                workdir=cwd,
-            )
+    # 3. Install missing Node packages if package.json exists (or initialize if --stack node/both)
+    _, npx_bin, npm_bin = resolve_node_tools()
+    if install_node and npm_bin:
+        if not has_pkg_json and stack in ("node", "both"):
+            run_step("npm_init_y", [npm_bin, "init", "-y"], workdir=cwd)
+            has_pkg_json = (cwd / "package.json").is_file()
+        if has_pkg_json:
+            missing_npm = [pkg for pkg, ok in before["node"]["packages"].items() if not ok]
+            if missing_npm:
+                run_step(
+                    "npm_install_playwright_packages",
+                    [npm_bin, "install", "-D", *missing_npm],
+                    workdir=cwd,
+                )
 
-    # 4. Install Playwright Chromium browser binaries if missing
+    # 4. Install Playwright Chromium browser binaries if missing or revision mismatch
     current_env = check_environment(cwd)
     if not current_env["browsers"]["ready"]:
-        if current_env["python"]["packages"].get("playwright"):
+        for py_exe in detect_project_python(cwd):
             run_step(
-                "python_playwright_install_chromium",
-                [sys.executable, "-m", "playwright", "install", "chromium"],
+                f"python_playwright_install_chromium ({Path(py_exe).parent.name})",
+                [py_exe, "-m", "playwright", "install", "chromium"],
             )
-        elif current_env["node"]["npx_path"]:
+        if npx_bin and has_pkg_json:
             run_step(
                 "npx_playwright_install_chromium",
-                [current_env["node"]["npx_path"], "playwright", "install", "chromium"],
+                [npx_bin, "playwright", "install", "chromium"],
                 workdir=cwd,
             )
 
