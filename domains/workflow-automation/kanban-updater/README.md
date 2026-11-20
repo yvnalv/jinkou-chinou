@@ -2,7 +2,7 @@
 
 Writes daily technical English work logs for Exact Synergy Kanban cards from git activity, card history and your notes, scored against the team's EoD SOP. It can type them into each card's **Remarks: Workflow** field with Synergy's timestamp (leaving the cards unsaved for you), report your weekly EoD points, and start itself every weekday at 17:20.
 
-Domain: `workflow-automation` · Type: `specialized` · Version: `3.0.1`
+Domain: `workflow-automation` · Type: `specialized` · Version: `3.1.0`
 
 ---
 
@@ -13,6 +13,7 @@ Invoke with `/kanban-updater`, or ask for things like:
 * *"Write my work log for #7111 and #7094 for today."*
 * *"EoD update for the cards I worked on today, and fill them in Synergy."*
 * *"What are my EoD points this week?"*
+* *"Give me a summary of my work for the past 7 days for the weekly meeting."*
 
 Every run starts by asking the mode:
 
@@ -21,6 +22,7 @@ Every run starts by asking the mode:
 | **Work Log** | Drafts one remark per card; reads history read-only to avoid repeats. Types nothing into Synergy. |
 | **Work Log + Fill** | Drafts, you approve, then a visible Edge window opens one tab per card with the remark typed after Synergy's timestamp. **You press Save.** |
 | **Points Summary** | Asks the period (this week, last 4 weeks, custom), then shows per-day and per-week EoD points, bonus, penalty and trend from your saved remarks. |
+| **Weekly Meeting** | Asks the period (default: last 7 days including today), reads git, your Kanban remarks and your notes, and writes the spoken Team Weekly Meeting update: 4–7 bullets, product and benefit first, a status per bullet, no ticket numbers. Read-only. |
 
 Cards: DevOps work item (`#7111`) or Synergy request number (`46493`, `00.046.493`). A number matching several cards always makes the skill ask.
 
@@ -78,7 +80,8 @@ kanban-updater/
 │   ├── synergy-automation.md            # Lookup, paging, history, fill mechanics, sessions, failures
 │   ├── schedule-and-points.md           # Scheduled run, candidate selection, points computation
 │   ├── configuration.md                 # config.json keys, local/live, PersonID, Edge profile
-│   └── tickets.md                       # Old ticket hints and URL templates
+│   ├── tickets.md                       # Old ticket hints and URL templates
+│   └── weekly-meeting.md                # Weekly Meeting: period, evidence, wording structure, example, self-check
 └── evals/
     └── evals.json                       # Trigger and behavior cases
 ```
@@ -86,6 +89,12 @@ kanban-updater/
 ---
 
 ## Changelog
+
+### 3.1.0 — 2026-11-19
+
+- New **Weekly Meeting** mode: a spoken Team Weekly Meeting update for a period (default last 7 days including today) from git activity, your own Kanban remarks (`synergy_fill.py entries`) and your notes.
+- New reference `references/weekly-meeting.md` with the wording structure and a gold-standard example taken from the owner's own meeting update.
+- The scheduled run still offers only the three EoD modes; Weekly Meeting is on request.
 
 ### 3.0.1 — 2026-11-12
 

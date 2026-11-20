@@ -80,5 +80,17 @@
     "id": "commit-message",
     "prompt": "Write a commit message for my staged changes.",
     "should_trigger": false
+  },
+  {
+    "id": "weekly-meeting-summary",
+    "prompt": "Give me a summary of my work for the past 7 days including today for my weekly meeting.",
+    "should_trigger": true,
+    "expected_behavior": [
+      "Asks the mode and recommends Weekly Meeting; asks the period with last 7 days including today as the default",
+      "Runs scripts/git_activity.py with --since and --until over the configured repos and synergy_fill.py entries for the same period (read-only)",
+      "Writes 4-7 spoken first-person bullets grouped by product: goal and benefit first, one concrete detail, status and next step",
+      "Uses no work item numbers, request numbers, branch, class or file names",
+      "Lists statuses it could not confirm (for example whether a PR was created) for the user to check, and types nothing into Synergy"
+    ]
   }
 ]

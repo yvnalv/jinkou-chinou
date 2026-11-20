@@ -1,13 +1,13 @@
 name: kanban-updater
-version: 3.0.1
+version: 3.1.0
 description: >
-  Write daily work logs for Exact Synergy Kanban cards from git and card history, fill them without saving, track EoD points, on a weekday schedule.
+  Write daily work logs for Exact Synergy Kanban cards from git and card history, fill them without saving, track EoD points, write the weekly meeting update, on a weekday schedule.
 domain: workflow-automation
 type: specialized
 requires:
   - python>=3.10
   - playwright
-tags: [kanban, synergy, eod-reporting, work-log, standup, git, playwright, automation, schedule, points]
+tags: [kanban, synergy, eod-reporting, work-log, standup, weekly-meeting, git, playwright, automation, schedule, points]
 
 # --- Skill-specific policy ---
 
@@ -28,6 +28,12 @@ modes:
       label: Points Summary
       browser: read_only_lookups
       asks_period_first: true
+    - id: weekly-meeting
+      label: Weekly Meeting
+      browser: read_only_lookups
+      writes_to_synergy: false
+      asks_period_first: true
+      offered_in_scheduled_run: false
 
 settings:
   file: "%USERPROFILE%\\.config\\kanban-updater\\config.json"
@@ -83,6 +89,17 @@ browser:
   fill: visible_detached_window_with_cdp_port
   allow_process_termination: false
   integrated_windows_auth: true
+
+weekly_meeting:
+  default_period: last_7_days_including_today
+  sources: [git_activity_by_day, own_kanban_remarks, user_notes, conversation]
+  format: spoken_bullets
+  bullets_range: [4, 7]
+  sentences_per_bullet: [1, 4]
+  omit_work_item_ids: true
+  omit_code_names: true
+  status_per_bullet: true
+  reference: references/weekly-meeting.md
 
 work_log:
   sources: [git_activity_by_day, card_history, user_notes]

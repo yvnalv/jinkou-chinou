@@ -1,8 +1,8 @@
 ---
 name: kanban-updater
-description: Writes daily technical English work logs (End-of-Day remarks) for Exact Synergy Kanban cards from local git activity, card history and user notes, scored against the team's EoD SOP, and tracks EoD points. Three modes, always offered first. Work Log writes the remark text only. Work Log + Fill also opens each card in Synergy with Playwright and types the remark into Remarks - Workflow with Synergy's timestamp, then leaves the window for the user to save (it never saves). Points Summary reports weekly and historical EoD points from the user's Synergy remarks. Runs on a weekday schedule via Windows Task Scheduler, starting with today's work candidates to pick from. Accepts DevOps work item numbers (#7111) or Synergy request numbers (00.046.493). Use for a work log, EoD or standup update, Kanban remarks, filling Synergy cards, EoD points, or the kanban schedule. Not for Jira, Azure Boards, or commit messages.
+description: Writes daily technical English work logs (End-of-Day remarks) for Exact Synergy Kanban cards from git activity, card history and user notes, scored against the team's EoD SOP; tracks EoD points; and writes the Team Weekly Meeting script. Four modes, always offered first. Work Log writes the remark text only. Work Log + Fill types each remark into the card's Remarks - Workflow in Synergy with Playwright and Synergy's timestamp, then leaves the window for the user to save (it never saves). Points Summary reports weekly and historical EoD points. Weekly Meeting turns the past 7 days of commits, Kanban remarks and notes into a short spoken update in the user's own style. Runs on a weekday schedule via Windows Task Scheduler. Accepts work item numbers (#7111) or Synergy request numbers (00.046.493). Use for a work log, EoD or standup update, Kanban remarks, filling Synergy cards, EoD points, a weekly meeting summary of my work, or the kanban schedule. Not for Jira, Azure Boards, or commit messages.
 metadata:
-  version: 3.0.1
+  version: 3.1.0
 ---
 
 # Kanban Updater
@@ -34,6 +34,7 @@ Paths are relative to this skill's base directory.
 | `references/schedule-and-points.md` | The scheduled run (candidate table, selection question), Points Summary (period question, rating loop, report tables), and managing the Windows task. |
 | `references/configuration.md` | Creating or editing `config.json`: environments, local/live switch, credentials, repos, start time, schedule, browser. |
 | `references/tickets.md` | Old ticket-to-GUID hints and Synergy URL templates. |
+| `references/weekly-meeting.md` | Weekly Meeting mode: period question, evidence sources, the spoken wording structure, the gold-standard example, and the self-check. |
 | `assets/config.template.json` | Template copied to `%USERPROFILE%\.config\kanban-updater\config.json` by `kanban_config.py --init`. |
 | `scripts/kanban_config.py` | Settings: `python <skill-dir>/scripts/kanban_config.py --show [--env NAME]` (password masked), `--init` (create or migrate), `--path`. |
 | `scripts/git_activity.py` | Git evidence by day and work item: `python <skill-dir>/scripts/git_activity.py --repo PATH [--repo PATH] [--since DATE] [--until DATE] [--author X \| --all-authors]`. Read-only. |
@@ -52,7 +53,7 @@ The Windows task opens Claude Code at the configured time (default Mon–Fri 17:
 1. `synergy_fill.py candidates` → today's work items from git (commits today, uncommitted files edited today on a work-item branch) plus your active cards, ranked, each with "logged today" and "last log".
 2. Show the full numbered candidate table, then ask **in one question round** (details in `references/schedule-and-points.md`):
    * **Which cards** (multi-select): "All recommended (N)" plus the top 3 recommended cards; other numbers typed under *Other* (`1,4,5`).
-   * **Mode**: the three options of Step 0.
+   * **Mode**: Work Log, Work Log + Fill, or Points Summary (Weekly Meeting is on request only).
 3. Continue from Step 1 with the chosen cards and mode. Ambiguous or "no card found" work items: ask for the right card before drafting.
 4. If nothing has activity today, say so, show your active cards anyway, and let the user pick or skip.
 
@@ -65,6 +66,7 @@ Before any other work (outside the scheduled run, where it is asked together wit
 | **Work Log** | Write the remark text only. Read-only lookups in Synergy are allowed for history; nothing is typed into Synergy. |
 | **Work Log + Fill** | Write the remarks, get approval, then type them into each card's Remarks: Workflow in a visible Edge window. The user presses Save. |
 | **Points Summary** | Report EoD points for a period from your saved Synergy remarks (see "Points Summary" below). |
+| **Weekly Meeting** | Write the spoken Team Weekly Meeting update for a period (default: last 7 days including today) from git, your Kanban remarks and your notes (see "Weekly Meeting" below). Read-only. |
 
 Mark the option the request points to as recommended, but still ask. In the same round, ask anything from Step 1 the request does not answer.
 
@@ -115,6 +117,15 @@ Run the inspection and scoring audit (`references/eod-scoring.md` §5) and revis
 
 ---
 
+## Weekly Meeting
+
+Details: `references/weekly-meeting.md`.
+
+1. Ask the period first (default **last 7 days including today**), together with the mode.
+2. Collect evidence read-only: `git_activity.py --since --until` over `work_log.repos` (merged-PR commits mean merged), `synergy_fill.py entries --since --until` for your own remarks, and the notes or documents you point to.
+3. Group by product or area, then write 4–7 spoken bullets in the wording structure of §3: product and goal first, benefit for users or customers, one concrete detail, status and next step; no work item numbers or code names.
+4. Run the self-check (§5), present the script, and list anything to confirm before the meeting.
+
 ## Rules
 
 * **Ask the mode every time** (in the scheduled run, together with the card choice). Never draft or browse before it is answered.
@@ -135,4 +146,5 @@ Run the inspection and scoring audit (`references/eod-scoring.md` §5) and revis
 * **Work Log**: mode asked; each chosen card has a grounded 5–8 sentence remark with its audit table; ambiguities resolved by the user; history status stated.
 * **Work Log + Fill**: the above, plus approval, `fill` result per card, the window left open with nothing saved, and the user told to press Save.
 * **Points Summary**: period asked; every task entry in the period rated or explicitly pending; weekly totals, bonus, penalty and average per day shown with caveats.
+* **Weekly Meeting**: period asked; evidence from git, Kanban remarks and notes; 4–7 grounded bullets in the user's wording structure with a status each; uncertain statuses listed for the user to confirm; nothing written to Synergy.
 * **Scheduled run**: candidates shown, the user's card and mode choice honored, then the chosen mode's definition of done.
