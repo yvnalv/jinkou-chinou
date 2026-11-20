@@ -9,6 +9,6 @@ Core persona: `/the-tester`. Specialized skills are named descriptively, without
 <!-- skills:start -->
 | Skill | Type | Version | Summary |
 |---|---|---|---|
-| [`/the-tester`](the-tester/) | core | 0.1.0 | Language-agnostic QA and testing persona. Analyzes context to choose the right testing stack, level, and tool (unit, integration, E2E) for the given codebase. |
-| [`/ui-ux-testing`](ui-ux-testing/) | specialized | 0.2.0 | Automated UI/UX, visual regression, accessibility (WCAG), and responsive test suite engineer using Playwright and Selenium. |
+| [`/the-tester`](the-tester/) | core | 0.2.0 | Language-agnostic QA and testing persona. Analyzes context to choose the right testing stack, level, and tool (unit, integration, E2E), auto-installs missing test dependencies and browser binaries, and writes reliable automated tests. |
+| [`/ui-ux-testing`](ui-ux-testing/) | specialized | 0.3.0 | Automated UI/UX, visual regression, accessibility (WCAG), and responsive test suite engineer using Playwright and Selenium. |
 <!-- skills:end -->

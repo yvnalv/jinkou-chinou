@@ -41,3 +41,32 @@ Do not guess. Look for the following artifacts to determine the existing test se
 2. **Test Directories:** Folders named `tests/`, `__tests__/`, `spec/`, or `t/`.
 3. **Test Filename Conventions:** Files ending in `_test.py`, `.spec.ts`, `.test.js`, or starting with `Test*.java`.
 4. **CI/CD Pipelines:** Inspect `.github/workflows/`, `.gitlab-ci.yml`, or `Jenkinsfile` for existing test execution commands.
+
+## Automated Dependency & Browser Binary Bootstrap
+
+Before executing any test suite, verify that the chosen test runner and (for E2E tests) browser binaries exist. If missing, install them automatically:
+
+* **Node.js / TypeScript (Playwright E2E):**
+  ```bash
+  # If node/npx is missing on Windows:
+  winget install OpenJS.NodeJS.LTS --accept-package-agreements --accept-source-agreements
+  # Install Playwright test runner and Chromium binaries:
+  npm install -D @playwright/test @axe-core/playwright dotenv
+  npx playwright install chromium
+  ```
+* **Node.js / TypeScript (Vitest / Jest Unit & Integration):**
+  ```bash
+  npm install -D vitest
+  # or
+  npm install -D jest @types/jest ts-jest
+  ```
+* **Python (PyTest + Playwright E2E):**
+  ```bash
+  python -m pip install pytest playwright pytest-playwright axe-playwright-python
+  python -m playwright install chromium
+  ```
+* **Python (PyTest Unit & Integration):**
+  ```bash
+  python -m pip install pytest pytest-cov
+  ```
+

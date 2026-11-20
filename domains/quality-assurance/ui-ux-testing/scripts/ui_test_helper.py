@@ -2,18 +2,22 @@
 """UI/UX Testing Helper CLI tool.
 
 Provides utility functions to:
-  1. Validate Playwright test configuration files for UI/UX testing best practices.
-  2. Parse and format Axe-core accessibility JSON outputs into clean markdown tables.
-  3. Generate summary metrics of UI test runs for chat reporting.
+  1. Check and auto-install required automation testing dependencies (Node.js/npx, Python Playwright,
+     pytest-playwright, axe-playwright-python, @playwright/test, @axe-core/playwright, and Chromium binaries).
+  2. Validate Playwright test configuration files for UI/UX testing best practices.
+  3. Parse and format Axe-core accessibility JSON outputs into clean markdown tables.
 
-Uses Python standard library only (no external dependencies required).
+Uses Python standard library only (no external dependencies required to run this helper).
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
+import shutil
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -25,6 +29,235 @@ if sys.platform == "win32":
         sys.stderr.reconfigure(encoding="utf-8", errors="replace")
     except Exception:
         pass
+
+
+def get_playwright_browsers_dir() -> Path:
+    """Return the platform-specific Playwright browser cache directory."""
+    env_path = os.environ.get("PLAYWRIGHT_BROWSERS_PATH")
+    if env_path and env_path.strip() and env_path.strip() != "0":
+        return Path(env_path.strip())
+    if sys.platform == "win32":
+        local_app_data = os.environ.get("LOCALAPPDATA") or str(Path.home() / "AppData" / "Local")
+        return Path(local_app_data) / "ms-playwright"
+    if sys.platform == "darwin":
+        return Path.home() / "Library" / "Caches" / "ms-playwright"
+    return Path.home() / ".cache" / "ms-playwright"
+
+
+def ensure_windows_browser_invoker_policy() -> list[str]:
+    """Ensure Chrome/Edge executables on Windows are not blocked by RUNASADMIN elevation flags."""
+    applied: list[str] = []
+    if sys.platform != "win32":
+        return applied
+    try:
+        import winreg
+        candidates = [
+            Path(os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)")) / r"Microsoft\Edge\Application\msedge.exe",
+            Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / r"Microsoft\Edge\Application\msedge.exe",
+            Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / r"Google\Chrome\Application\chrome.exe",
+            Path(os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)")) / r"Google\Chrome\Application\chrome.exe",
+        ]
+        reg_path = r"Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers"
+        with winreg.CreateKeyEx(winreg.HKEY_CURRENT_USER, reg_path, 0, winreg.KEY_SET_VALUE) as key:
+            for exe in candidates:
+                if exe.is_file():
+                    winreg.SetValueEx(key, str(exe), 0, winreg.REG_SZ, "~ RUNASINVOKER")
+                    applied.append(str(exe))
+    except Exception:
+        pass
+    return applied
+
+
+def check_environment(project_dir: Path | None = None) -> dict[str, Any]:
+    """Inspect installed Node.js, Python packages, and Playwright Chromium binaries."""
+    cwd = (project_dir or Path.cwd()).resolve()
+    py_ver = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
+
+    node_bin = shutil.which("node")
+    npx_bin = shutil.which("npx")
+    npm_bin = shutil.which("npm")
+    node_version = None
+    if node_bin:
+        try:
+            proc = subprocess.run([node_bin, "-v"], capture_output=True, text=True, timeout=5)
+            if proc.returncode == 0:
+                node_version = proc.stdout.strip()
+        except Exception:
+            pass
+
+    py_packages: dict[str, bool] = {}
+    for pkg, mod in [
+        ("playwright", "playwright"),
+        ("pytest", "pytest"),
+        ("pytest-playwright", "pytest_playwright"),
+        ("axe-playwright-python", "axe_playwright_python"),
+    ]:
+        try:
+            __import__(mod)
+            py_packages[pkg] = True
+        except ImportError:
+            py_packages[pkg] = False
+
+    browsers_dir = get_playwright_browsers_dir()
+    chromium_dirs: list[str] = []
+    headless_shell_dirs: list[str] = []
+    if browsers_dir.is_dir():
+        for child in sorted(browsers_dir.iterdir()):
+            if child.is_dir():
+                if child.name.startswith("chromium-"):
+                    chromium_dirs.append(child.name)
+                elif child.name.startswith("chromium_headless_shell-"):
+                    headless_shell_dirs.append(child.name)
+
+    has_package_json = (cwd / "package.json").is_file()
+    node_packages = {
+        "@playwright/test": (cwd / "node_modules" / "@playwright" / "test").is_dir(),
+        "@axe-core/playwright": (cwd / "node_modules" / "@axe-core" / "playwright").is_dir(),
+        "dotenv": (cwd / "node_modules" / "dotenv").is_dir(),
+    }
+
+    binaries_ready = bool(chromium_dirs and headless_shell_dirs)
+    python_ready = all(py_packages.values()) and binaries_ready
+    node_ready = bool(node_bin and npx_bin) and binaries_ready and (not has_package_json or all(node_packages.values()))
+
+    missing: list[str] = []
+    if not node_bin or not npx_bin:
+        missing.append("node/npx")
+    for pkg, ok in py_packages.items():
+        if not ok:
+            missing.append(f"python:{pkg}")
+    if has_package_json:
+        for pkg, ok in node_packages.items():
+            if not ok:
+                missing.append(f"npm:{pkg}")
+    if not binaries_ready:
+        missing.append("playwright-browsers:chromium")
+
+    return {
+        "status": "ready" if (python_ready and (not has_package_json or node_ready)) else "missing_dependencies",
+        "project_dir": str(cwd),
+        "python": {
+            "executable": sys.executable,
+            "version": py_ver,
+            "packages": py_packages,
+            "ready": python_ready,
+        },
+        "node": {
+            "found": bool(node_bin and npx_bin),
+            "node_path": node_bin,
+            "npx_path": npx_bin,
+            "npm_path": npm_bin,
+            "version": node_version,
+            "has_package_json": has_package_json,
+            "packages": node_packages,
+            "ready": node_ready,
+        },
+        "browsers": {
+            "cache_dir": str(browsers_dir),
+            "chromium": chromium_dirs,
+            "chromium_headless_shell": headless_shell_dirs,
+            "ready": binaries_ready,
+        },
+        "missing": missing,
+    }
+
+
+def install_dependencies(stack: str = "auto", project_dir: Path | None = None) -> dict[str, Any]:
+    """Automatically install missing Python/Node Playwright dependencies and Chromium binaries."""
+    cwd = (project_dir or Path.cwd()).resolve()
+    before = check_environment(cwd)
+    steps: list[dict[str, Any]] = []
+
+    def run_step(name: str, cmd: list[str], workdir: Path | None = None) -> dict[str, Any]:
+        try:
+            proc = subprocess.run(
+                cmd,
+                cwd=str(workdir or cwd),
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+            )
+            step_res = {
+                "step": name,
+                "command": " ".join(cmd),
+                "returncode": proc.returncode,
+                "stdout": (proc.stdout or "")[-600:].strip(),
+                "stderr": (proc.stderr or "")[-600:].strip(),
+            }
+        except Exception as exc:
+            step_res = {
+                "step": name,
+                "command": " ".join(cmd),
+                "returncode": 1,
+                "error": str(exc),
+            }
+        steps.append(step_res)
+        return step_res
+
+    has_pkg_json = before["node"]["has_package_json"]
+    install_py = stack in ("auto", "python", "both")
+    install_node = stack in ("node", "both") or (stack == "auto" and has_pkg_json)
+
+    # 1. Ensure Node.js on Windows if missing
+    if (not before["node"]["found"]) and sys.platform == "win32":
+        winget = shutil.which("winget")
+        if winget:
+            run_step(
+                "winget_install_node_lts",
+                [
+                    winget,
+                    "install",
+                    "OpenJS.NodeJS.LTS",
+                    "--accept-package-agreements",
+                    "--accept-source-agreements",
+                ],
+            )
+
+    # 2. Install missing Python packages
+    if install_py:
+        missing_py = [pkg for pkg, ok in before["python"]["packages"].items() if not ok]
+        if missing_py:
+            run_step(
+                "pip_install_playwright_packages",
+                [sys.executable, "-m", "pip", "install", *missing_py],
+            )
+
+    # 3. Install missing Node packages if package.json exists in target directory
+    if install_node and has_pkg_json:
+        npm_bin = shutil.which("npm")
+        missing_npm = [pkg for pkg, ok in before["node"]["packages"].items() if not ok]
+        if npm_bin and missing_npm:
+            run_step(
+                "npm_install_playwright_packages",
+                [npm_bin, "install", "-D", *missing_npm],
+                workdir=cwd,
+            )
+
+    # 4. Install Playwright Chromium browser binaries if missing
+    current_env = check_environment(cwd)
+    if not current_env["browsers"]["ready"]:
+        if current_env["python"]["packages"].get("playwright"):
+            run_step(
+                "python_playwright_install_chromium",
+                [sys.executable, "-m", "playwright", "install", "chromium"],
+            )
+        elif current_env["node"]["npx_path"]:
+            run_step(
+                "npx_playwright_install_chromium",
+                [current_env["node"]["npx_path"], "playwright", "install", "chromium"],
+                workdir=cwd,
+            )
+
+    # 5. Apply Windows RUNASINVOKER policy for smooth browser spawning
+    invoker_applied = ensure_windows_browser_invoker_policy()
+    after = check_environment(cwd)
+    return {
+        "status": after["status"],
+        "steps": steps,
+        "windows_invoker_applied": invoker_applied,
+        "environment": after,
+    }
 
 
 def validate_config(config_path: Path) -> dict[str, Any]:
@@ -154,6 +387,28 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="UI/UX Testing Helper CLI tool")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
+    # check-env
+    chk_parser = subparsers.add_parser(
+        "check-env",
+        help="Check installed Node.js, Python Playwright/Axe packages, and Chromium binaries",
+    )
+    chk_parser.add_argument("--project-dir", type=Path, default=Path.cwd(), help="Project directory to inspect")
+    chk_parser.add_argument("--json", action="store_true", help="Output machine-readable JSON")
+
+    # install-deps
+    inst_parser = subparsers.add_parser(
+        "install-deps",
+        help="Auto-install missing Playwright, pytest-playwright, Axe-core, and Chromium browser binaries",
+    )
+    inst_parser.add_argument(
+        "--stack",
+        choices=["auto", "python", "node", "both"],
+        default="auto",
+        help="Target stack to install dependencies for (default: auto)",
+    )
+    inst_parser.add_argument("--project-dir", type=Path, default=Path.cwd(), help="Project directory for npm install")
+    inst_parser.add_argument("--json", action="store_true", help="Output machine-readable JSON")
+
     # validate-config
     val_parser = subparsers.add_parser("validate-config", help="Validate Playwright configuration file")
     val_parser.add_argument("--config", required=True, type=Path, help="Path to playwright.config.ts/js")
@@ -166,6 +421,31 @@ def main() -> int:
     axe_parser.add_argument("--out", type=Path, help="Optional path to write formatted Markdown table")
 
     args = parser.parse_args()
+
+    if args.command == "check-env":
+        res = check_environment(args.project_dir)
+        if args.json:
+            print(json.dumps(res, indent=2))
+        else:
+            print(f"Environment Status: {res['status'].upper()}")
+            print(f"Python ({res['python']['version']}): {res['python']['packages']}")
+            print(f"Node.js ({res['node']['version'] or 'not found'}): found={res['node']['found']}")
+            print(f"Playwright Browsers ({res['browsers']['cache_dir']}): ready={res['browsers']['ready']}")
+            if res["missing"]:
+                print(f"Missing: {', '.join(res['missing'])}")
+        return 0
+
+    if args.command == "install-deps":
+        res = install_dependencies(stack=args.stack, project_dir=args.project_dir)
+        if args.json:
+            print(json.dumps(res, indent=2))
+        else:
+            print(f"Dependency Bootstrap Status: {res['status'].upper()}")
+            for step in res["steps"]:
+                print(f"  - [{step['step']}] exit={step['returncode']} ({step['command']})")
+            if res["environment"]["missing"]:
+                print(f"Still Missing: {', '.join(res['environment']['missing'])}")
+        return 0 if res["status"] == "ready" else 1
 
     if args.command == "validate-config":
         res = validate_config(args.config)

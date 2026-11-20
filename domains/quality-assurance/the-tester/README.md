@@ -28,6 +28,10 @@ the-tester/
 
 ## Changelog
 
+### 0.2.0 — 2026-11-20
+* Added mandatory Dependency & Runner Auto-Bootstrap workflow step and rule so missing test packages (`pytest`, `playwright`, `pytest-playwright`, `@playwright/test`, `jest`, `vitest`) and Playwright Chromium browser binaries (`playwright install chromium`) are automatically verified and installed before test execution.
+* Added automated dependency bootstrap commands by language and stack to `references/test-stack-detection.md`.
+
 ### 0.1.0 — 2026-09-16
 * Initial creation of `the-tester` skill.
 * Added `test-stack-detection.md` for language and stack discovery.

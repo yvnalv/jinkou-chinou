@@ -154,14 +154,20 @@ npx playwright show-trace test-results/failed-test/trace.zip
 
 ---
 
-## 6. Headless vs. Headed (Visible Browser) Execution Modes
+## 6. Headless vs. Headed (Visible Browser) Execution Modes & Dependency Auto-Bootstrap
+
+Before running any test suite, always verify and auto-install required dependencies and browser binaries:
+```bash
+python <skill-dir>/scripts/ui_test_helper.py check-env --json
+python <skill-dir>/scripts/ui_test_helper.py install-deps --json
+```
 
 Always ask the user which execution visibility mode they prefer before running the suite:
 
 | Mode | Command / Config | Best For | Trade-offs |
 | :--- | :--- | :--- | :--- |
-| **Headless (Background)** | `npx playwright test` (`HEADLESS=true`) | Fast full-suite runs, multi-viewport sweeps, deterministic `toHaveScreenshot()` baselines | Runs invisibly in background (relies on screenshots/video/trace on failure) |
-| **Headed (Watch Live)** | `npx playwright test --headed` (`HEADLESS=false`, `SLOW_MO=300`) | Watching real-time clicks/navigation, live demos, debugging interactive flows, manual SSO/MFA login steps | Slower execution; opens visible browser windows that take screen focus |
+| **(Recommended) Headless (100% Automated)** | `npx playwright test` (`HEADLESS=true`) | 100% automated agent execution (including Windows Antigravity `WinSta0\exebox-*` isolated desktops), fast full-suite runs, multi-viewport sweeps, deterministic `toHaveScreenshot()` baselines | Runs invisibly in background (captures screenshots/video/trace automatically) |
+| **Headed (Watch Live)** | `npx playwright test --headed` (`HEADLESS=false`, `SLOW_MO=300`) | Watching real-time clicks/navigation in an interactive user terminal (`Ctrl + ~`), live demos, debugging interactive flows | Slower execution; on Windows Antigravity, agent `run_command` executes in `WinSta0\exebox-*`, so run `--headed` in `Ctrl + ~` or attach over CDP (`chrome://inspect/#remote-debugging`) to see the window on `WinSta0\Default` |
 | **Interactive UI Mode** | `npx playwright test --ui` | Step-by-step time-travel debugging, inspecting DOM snapshots, and watching live locators | Interactive developer session rather than automated batch run |
 
 ### Slowing Down Headed Runs (`slowMo`)

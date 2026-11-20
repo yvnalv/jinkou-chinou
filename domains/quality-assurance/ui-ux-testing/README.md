@@ -48,6 +48,10 @@ ui-ux-testing/
 
 ## Changelog
 
+### 0.3.0 — 2026-11-20
+* Added mandatory pre-flight Dependency & Browser Binary Auto-Bootstrap Gate (Rule 9) and upgraded `scripts/ui_test_helper.py` with `check-env` and `install-deps` subcommands to automatically verify and install missing Node.js LTS, Python `playwright` / `pytest-playwright` / `axe-playwright-python`, npm `@playwright/test` / `@axe-core/playwright` / `dotenv`, and Playwright Chromium browser binaries (`playwright install chromium`).
+* Updated Rule 8 Browser Visibility Execution Gate to mark **Headless Mode** as `(Recommended)` for 100% automated agent execution across Windows Antigravity `WinSta0\exebox-*` environments.
+
 ### 0.2.0 — 2026-11-09
 * Added pre-flight Browser Visibility Gate (Headed Watch Mode, Headed Slow-Mo Debug, and Headless CI/Background options).
 

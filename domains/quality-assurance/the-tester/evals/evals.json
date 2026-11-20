@@ -15,6 +15,7 @@
     "should_trigger": true,
     "expected_behavior": [
       "Uses references/test-stack-detection.md",
+      "Automatically installs missing Playwright packages and Chromium browser binaries before running tests",
       "Scaffolds Playwright correctly",
       "Writes an E2E test adhering to best practices (no arbitrary sleeps)"
     ]

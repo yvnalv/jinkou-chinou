@@ -1,8 +1,8 @@
 ---
 name: ui-ux-testing
-description: Automated UI/UX testing persona for web applications. Plans, writes, and executes resilient end-to-end browser tests using Playwright (primary) and Selenium (secondary), covering critical user journeys, visual regression testing (pixel diffs, snapshot baselines, dynamic masking), automated WCAG 2.1/2.2 AA accessibility audits with axe-core, UX edge-case state matrices (empty, loading, error, form validation), and responsive multi-viewport testing (mobile, tablet, desktop). Use when the user wants to write or run automated UI/UX tests, set up visual regression or accessibility testing, test responsive web layouts across viewports, diagnose flaky browser tests, or audit interactive web states. Not for general backend unit testing without a browser, non-web native mobile apps, or static design mockups without code.
+description: Automated UI/UX testing persona for web applications. Automatically verifies and installs required testing dependencies (Playwright, pytest-playwright, axe-core, Node.js, and Chromium browser binaries), then plans, writes, and executes resilient end-to-end browser tests using Playwright (primary) and Selenium (secondary), covering critical user journeys, visual regression testing (pixel diffs, snapshot baselines, dynamic masking), automated WCAG 2.1/2.2 AA accessibility audits with axe-core, UX edge-case state matrices (empty, loading, error, form validation), and responsive multi-viewport testing (mobile, tablet, desktop). Use when the user wants to write or run automated UI/UX tests, set up visual regression or accessibility testing, test responsive web layouts across viewports, diagnose flaky browser tests, or audit interactive web states. Not for general backend unit testing without a browser, non-web native mobile apps, or static design mockups without code.
 metadata:
-  version: 0.2.0
+  version: 0.3.0
 ---
 
 # UI/UX Testing — Automated Browser, Visual & Accessibility QA
@@ -43,7 +43,7 @@ Paths are relative to this skill's base directory.
 | `references/chat-reporting-guide.md` | Formatting every test execution response in chat: standardized markdown tables, metrics breakdown, and verdict badges. |
 | `references/UI_UX_TEST_PLAN.template.md` | Mode A: Scoping and planning a test suite before writing code (`UI_UX_TEST_PLAN.md`). |
 | `references/UI_UX_TEST_REPORT.template.md` | Mode C & Mode E: Writing the dedicated persistent Markdown test results artifact (`UI_UX_TEST_REPORT.md`). |
-| `scripts/ui_test_helper.py` | Command-line helper: `python <skill-dir>/scripts/ui_test_helper.py validate-config --config <path>` (audits Playwright config against best practices) and `parse-axe --file <axe.json> [--out report.md]` (parses Axe-core JSON violations into clean Markdown tables). Standard library only. |
+| `scripts/ui_test_helper.py` | Command-line helper: `python <skill-dir>/scripts/ui_test_helper.py check-env [--project-dir <dir>] [--json]` (checks Node.js, Python Playwright/Axe packages, and Chromium binaries), `install-deps [--stack auto\|python\|node\|both] [--project-dir <dir>] [--json]` (auto-installs missing Playwright/Axe packages and Chromium binaries), `validate-config --config <path>`, and `parse-axe --file <axe.json> [--out report.md]`. Standard library only. |
 | `assets/playwright.config.starter.ts` | Starting a TypeScript Playwright setup: dotenv loading, multi-device projects, screenshot tolerances, animation freezing, and trace capture. |
 | `assets/playwright.config.starter.py` | Starting a Python pytest-playwright setup: viewport fixtures and global animation freeze hooks. |
 | `assets/env.test.example` | Starter template for `.env.test` holding credentials (`BASE_URL`, `TEST_USER_EMAIL`, `TEST_USER_PASSWORD`). |
@@ -72,38 +72,42 @@ Pick the lightest mode that covers the task safely. Escalate to Mode A whenever 
 5. **Draft Test Plan**: Write `UI_UX_TEST_PLAN.md` from `references/UI_UX_TEST_PLAN.template.md` and confirm alignment with the user before coding.
 
 ### Mode B — Suite Implementation & POM
-1. **Detect / Initialize Stack**: Detect TypeScript or Python ecosystem. If starting fresh, scaffold from `assets/playwright.config.starter.ts` (or `.py`). Validate configuration using `scripts/ui_test_helper.py validate-config`.
-2. **Ask Browser Visibility Option (Mandatory 3-Option Gate)**: Present the 3 Browser Execution Mode Options (**1. Headless**, **2. Headed / Visible Browser (Watch Live)**, **3. Interactive UI Mode (`--ui`)**) and wait for the user's choice before running tests.
-3. **Handle Authentication (If Protected)**:
+1. **Verify & Auto-Install Dependencies (Mandatory Pre-Flight)**: Run `python <skill-dir>/scripts/ui_test_helper.py check-env --json`. If any required runtime, package, or Chromium browser binary is missing (`status != "ready"`), immediately run `python <skill-dir>/scripts/ui_test_helper.py install-deps --json` to auto-install Playwright, `pytest-playwright`, `axe-playwright-python`, `@playwright/test`, `@axe-core/playwright`, and Chromium binaries (`playwright install chromium`).
+2. **Detect / Initialize Stack**: Detect TypeScript or Python ecosystem. If starting fresh, scaffold from `assets/playwright.config.starter.ts` (or `.py`). Validate configuration using `scripts/ui_test_helper.py validate-config`.
+3. **Ask Browser Visibility Option (Mandatory 3-Option Gate)**: Present the 3 Browser Execution Mode Options (**1. (Recommended) Headless**, **2. Headed / Visible Browser (Watch Live)**, **3. Interactive UI Mode (`--ui`)**) and wait for the user's choice before running tests.
+4. **Handle Authentication (If Protected)**:
    - Ask user for `.env` location (`.env.test`).
    - Verify `.env*` and `playwright/.auth/` are in `.gitignore`.
    - Scaffold one-time login setup (`assets/auth.setup.starter.ts`) and configure `storageState`.
-4. **Build Page Objects**: Encapsulate pages using Page Object Models (`assets/sample-pom.starter.ts`). Use Level 1 and 2 locators (`getByRole`, `getByLabel`).
-5. **Integrate Accessibility Fixture**: Bind `AxeBuilder` fixture (`assets/axe-fixture.starter.ts`) to audit WCAG compliance.
-6. **Implement User Flows**: Write test cases asserting functional correctness, form validation, and state transitions, then execute using the user's chosen visibility mode.
+5. **Build Page Objects**: Encapsulate pages using Page Object Models (`assets/sample-pom.starter.ts`). Use Level 1 and 2 locators (`getByRole`, `getByLabel`).
+6. **Integrate Accessibility Fixture**: Bind `AxeBuilder` fixture (`assets/axe-fixture.starter.ts`) to audit WCAG compliance.
+7. **Implement User Flows**: Write test cases asserting functional correctness, form validation, and state transitions, then execute using the user's chosen visibility mode.
 
 ### Mode C — Visual & Accessibility Audit
-1. **Ask Browser Visibility Option (Mandatory 3-Option Gate)**: Present the 3 Browser Execution Mode Options (**1. Headless**, **2. Headed / Visible Browser (Watch Live)**, **3. Interactive UI Mode (`--ui`)**) and wait for the user's selection before running the audit.
-2. **Freeze Motion**: Ensure global CSS disables animations (`prefers-reduced-motion: reduce`) to eliminate false visual diffs (`references/visual-regression.md`).
-3. **Execute Snapshot Comparisons**: Run visual regression checks with `expect(locator).toHaveScreenshot()` with dynamic masks on volatile timestamps or user avatars.
-4. **Scan Interactive DOM States**: Trigger user interactions (open modals, expand drawers, trigger validation errors) and execute Axe-core scans on the resulting DOM.
-5. **Deliver Report**:
+1. **Verify & Auto-Install Dependencies (Mandatory Pre-Flight)**: Run `python <skill-dir>/scripts/ui_test_helper.py check-env --json` and, if any dependency or Chromium binary is missing, run `python <skill-dir>/scripts/ui_test_helper.py install-deps --json` before launching tests.
+2. **Ask Browser Visibility Option (Mandatory 3-Option Gate)**: Present the 3 Browser Execution Mode Options (**1. (Recommended) Headless**, **2. Headed / Visible Browser (Watch Live)**, **3. Interactive UI Mode (`--ui`)**) and wait for the user's selection before running the audit.
+3. **Freeze Motion**: Ensure global CSS disables animations (`prefers-reduced-motion: reduce`) to eliminate false visual diffs (`references/visual-regression.md`).
+4. **Execute Snapshot Comparisons**: Run visual regression checks with `expect(locator).toHaveScreenshot()` with dynamic masks on volatile timestamps or user avatars.
+5. **Scan Interactive DOM States**: Trigger user interactions (open modals, expand drawers, trigger validation errors) and execute Axe-core scans on the resulting DOM.
+6. **Deliver Report**:
    - First, present the standardized summary table in chat (`references/chat-reporting-guide.md`).
    - Second, **ask the user where to save the dedicated `.md` report** before writing `UI_UX_TEST_REPORT.md` to disk.
 
 ### Mode D — Flakiness & Resilience Repair
-1. **Inspect Failure Artifacts**: Check Playwright trace files (`npx playwright show-trace`), failure screenshots, and console logs.
-2. **Eliminate Arbitrary Delays**: Remove all instances of `page.waitForTimeout()` or `time.sleep()`. Replace with web-first auto-waiting (`expect(locator).toBeVisible()`).
-3. **Climb Locator Ladder**: Replace brittle CSS class hashes (`.btn-3xz9`) or XPaths with accessible role/name locators (`page.getByRole('button', { name: 'Submit' })`).
-4. **Ask Browser Visibility Option & Run Verification Loop**: Present the 3 Browser Execution Mode Options (**1. Headless**, **2. Headed / Visible Browser (Watch Live)**, **3. Interactive UI Mode (`--ui`)**), then execute the repaired test 5 times consecutively to prove zero flakiness.
+1. **Verify & Auto-Install Dependencies (Mandatory Pre-Flight)**: Run `python <skill-dir>/scripts/ui_test_helper.py check-env --json` and auto-install any missing packages or Chromium binaries via `install-deps`.
+2. **Inspect Failure Artifacts**: Check Playwright trace files (`npx playwright show-trace`), failure screenshots, and console logs.
+3. **Eliminate Arbitrary Delays**: Remove all instances of `page.waitForTimeout()` or `time.sleep()`. Replace with web-first auto-waiting (`expect(locator).toBeVisible()`).
+4. **Climb Locator Ladder**: Replace brittle CSS class hashes (`.btn-3xz9`) or XPaths with accessible role/name locators (`page.getByRole('button', { name: 'Submit' })`).
+5. **Ask Browser Visibility Option & Run Verification Loop**: Present the 3 Browser Execution Mode Options (**1. (Recommended) Headless**, **2. Headed / Visible Browser (Watch Live)**, **3. Interactive UI Mode (`--ui`)**), then execute the repaired test 5 times consecutively to prove zero flakiness.
 
 ### Mode E — Quick Component / URL Sweep
-1. **Ask Browser Visibility Option (Mandatory 3-Option Gate)**: Present the 3 Browser Execution Mode Options (**1. Headless**, **2. Headed / Visible Browser (Watch Live)**, **3. Interactive UI Mode (`--ui`)**) and wait for the user's selection before launching the browser.
-2. Rapidly test a single rendered URL or component using the selected visibility mode.
-3. **Detect Auth Wall**: If initial try encounters a redirect to `/login` or HTTP 401/403, pause and prompt the user for credentials and `.env` setup.
-4. Evaluate responsive horizontal overflow (`scrollWidth <= innerWidth`) on mobile.
-5. Run a baseline snapshot and an Axe-core accessibility scan.
-6. Format results directly in chat using the standardized summary table.
+1. **Verify & Auto-Install Dependencies (Mandatory Pre-Flight)**: Run `python <skill-dir>/scripts/ui_test_helper.py check-env --json` and auto-install any missing Playwright/Axe packages or Chromium binaries via `python <skill-dir>/scripts/ui_test_helper.py install-deps --json`.
+2. **Ask Browser Visibility Option (Mandatory 3-Option Gate)**: Present the 3 Browser Execution Mode Options (**1. (Recommended) Headless**, **2. Headed / Visible Browser (Watch Live)**, **3. Interactive UI Mode (`--ui`)**) and wait for the user's selection before launching the browser.
+3. Rapidly test a single rendered URL or component using the selected visibility mode.
+4. **Detect Auth Wall**: If initial try encounters a redirect to `/login` or HTTP 401/403, pause and prompt the user for credentials and `.env` setup.
+5. Evaluate responsive horizontal overflow (`scrollWidth <= innerWidth`) on mobile.
+6. Run a baseline snapshot and an Axe-core accessibility scan.
+7. Format results directly in chat using the standardized summary table.
 
 ## Rules
 
@@ -155,12 +159,18 @@ Pick the lightest mode that covers the task safely. Escalate to Mode A whenever 
   > **Always ask the user to choose one of the 3 Browser Execution Modes BEFORE launching browser tests** (unless the user already explicitly stated their choice in the prompt). Use an interactive question tool (such as `ask_question` / `AskUserQuestion`) if available, or present the following 3 options clearly in chat and wait for their reply:
   >
   > **How would you like to run the browser tests?**
-  > 1. **Headless Mode (Invisible / Background)** — `HEADLESS=true` (`npx playwright test`). Fastest execution, zero screen interruption, and deterministic pixel rendering for `toHaveScreenshot()` visual baselines.
-  > 2. **Headed / Visible Browser (Watch Live on Screen)** — `HEADLESS=false` + `SLOW_MO=300` (`npx playwright test --headed`). Opens a real browser window on your screen with 300ms action pacing so you can watch every click, form fill, modal interaction, and navigation live.
+  > 1. **(Recommended) Headless Mode (100% Automated Agent Execution)** — `HEADLESS=true` (`npx playwright test`). Runs 100% automatically inside the agent terminal (including inside Windows Antigravity `WinSta0\exebox-*` isolated desktops) with zero manual `.bat` or terminal steps, zero screen interruption, and deterministic pixel rendering for `toHaveScreenshot()` visual baselines.
+  > 2. **Headed / Visible Browser (Watch Live on Screen)** — `HEADLESS=false` + `SLOW_MO=300` (`npx playwright test --headed`). Opens a real browser window with 300ms action pacing so you can watch every click, form fill, modal interaction, and navigation live. *(Note: On Windows Antigravity where agent `run_command` runs inside `WinSta0\exebox-*`, watch live either via the IDE's `Ctrl + ~` terminal or by connecting over CDP to Chrome with `chrome://inspect/#remote-debugging` enabled).*
   > 3. **Interactive UI Mode (Time-Travel Debugger)** — `npx playwright test --ui`. Opens Playwright's visual dashboard with live browser preview, step-by-step action timeline, DOM inspector, and network waterfall.
+
+### 9. Mandatory Dependency & Browser Binary Auto-Bootstrap
+* > [!IMPORTANT]
+  > **Never fail or ask the user to manually install Playwright packages or browser binaries.**
+  > Before running any test suite or quick sweep, always verify and automatically install all required automation testing dependencies using `python <skill-dir>/scripts/ui_test_helper.py check-env --json` followed by `python <skill-dir>/scripts/ui_test_helper.py install-deps --json` (which installs missing Node.js LTS via `winget` on Windows, Python `playwright`, `pytest`, `pytest-playwright`, `axe-playwright-python`, npm `@playwright/test`, `@axe-core/playwright`, `dotenv`, and downloads the Playwright Chromium & headless shell binaries into `ms-playwright`).
 
 ## Definition of Done
 
+* Required automation testing dependencies (Node.js/Python Playwright packages, Axe-core integrations, and Playwright Chromium browser binaries) have been verified and auto-installed if missing.
 * Browser execution visibility (Headless vs. Headed / Visible with optional `slowMo` or `--ui` mode) has been confirmed with the user.
 * Test suites are implemented using resilient, accessible locators with zero hardcoded sleeps.
 * Visual regression baselines are captured with animation freezing and dynamic token masking.
